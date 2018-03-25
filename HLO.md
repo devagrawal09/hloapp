@@ -41,6 +41,23 @@ hlo: {
         to: UserId,
         msg: String,
         sent: Date,
+    },
+    reviews: {
+        id,
+        for: UserId,
+        from: UserId,
+        stars: [1, 2, 3, 4, 5],
+        content
     }
 }
 ```
+
+##Routes
+
+* Landing page - `/`
+* Terms of Use - `/terms`
+* Privacy Policy - `/privacy`
+* Community Guidelines - `/community`
+* About Us - `/about`
+* Contact Us - `/contact`
+* Q&A with CEO - `/faq`
