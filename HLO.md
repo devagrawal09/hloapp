@@ -2,8 +2,6 @@ Healthy Loved Ones
 ===================
 ##Expected data schema
 
-
-
 ```javascript
 hlo: {
     users: {
@@ -56,6 +54,8 @@ hlo: {
 
 ##Routes
 
+###Public Routes
+
 * Landing page - `/`
 * Terms of Use - `/terms`
 * Privacy Policy - `/privacy`
@@ -63,3 +63,26 @@ hlo: {
 * About Us - `/about`
 * Contact Us - `/contact`
 * Q&A with CEO - `/faq`
+* Login - `/login`
+* Register - `/register`
+
+###Caregiver Routes
+
+* Dashboard - `/`
+* Search Jobs - `/jobs`
+* Job details - `/job/:id`
+* Public profile - `/profile`
+
+###Customer Routes
+
+* Dashboard - `/`
+* Search Caregivers - `/caregivers`
+* Caregiver profile - `/caregiver/:id`
+* Profile - `/profile`
+
+##Third Party service providers
+
+* Login Providers - Google, Facebook (using meteor's `accounts-facebook` and `accounts-google`)
+* SMTP Provider - Sendgrid (using meteor's `email`)
+* SMS Provider - Twilio (using npm's `twilio`)
+* Checkout Provider - Paypal (using express checkout)
