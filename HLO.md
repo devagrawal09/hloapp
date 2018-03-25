@@ -2,6 +2,8 @@ Healthy Loved Ones
 ===================
 ##Expected data schema
 
+
+
 ```javascript
 hlo: {
     users: {
