@@ -1,38 +1,91 @@
 Healthy Loved Ones
 ===================
-##Expected data schema
+##Data schema
 
 ```javascript
 hlo: {
     users: {
         id,
-        name,
         email,
+        phone,
+        password,
+        emailVerified: Boolean,
+        phoneVerified: Boolean,
+        emailNotify: Boolean,
+        smsNotify: Boolean,
+        firstName,
+        lastName,
+        gender,
+        address,
         type: ['customer', 'caregiver'],
-        bookmarks: Array<UserId>,
-        ...profile,
-        customerInfo: {
-            
-        },
-        caregiverInfo: {
-
-        }
+        bookmarks: Array<UserId>
+    },
+    caregiver: {
+        id,
+        user: UserId,
+        dob: Date,
+        description,
+        aboutText,
+        profileImg,
+        coverImg,
+        district,
+        country,
+        religion,
+        hobbies,
+        workLocation,
+        experience: Number,
+        hourlyRate: Number,
+        extraCharges: Number,
+        ownsCar: Boolean,
+        background: String,
+        education: String,
+        availableDays: Array<Days>,
+        availableTimeStart: Time,
+        availableTimeEnd: Time,
+        type: Array<CaregiverTypes>,
+        professionalServices: Array<ProfessionalServices>,
+        personalServices: Array<PersonalServices>,
+        medicalExpertise: Array<MedicalConditions>,
+        languages: Array<Languages>
+    },
+    experience: {
+        id,
+        user: UserId,
+        employer,
+        work,
+        from: Date,
+        to: Date
     },
     jobs: {
         id,
         postedBy: UserId,
         postedOn: Date,
         title,
-        location,
         medicalConditions,
-        type,
-        languages,
-        gender,
+        startDate: Date,
+        endDate: Date,
+        days: Array<Days>,
+        startTime: Time,
+        endTime: Time,
         jobStatus: ['open', 'closed'],
         hired: UserId,
-        services: {
-            profession: Array,
-            personal: Array
+        photos: Array<>,
+        type: Array<CaregiverTypes>,
+        professionalServices: Array<ProfessionalServices>,
+        personalServices: Array<PersonalServices>,
+        medicalConditions: Array<MedicalConditions>,
+        patient: {
+            gender,
+            dob,
+            hkid,
+            phone,
+            email,
+            address,
+            district,
+            country,
+            hobbies,
+            description,
+            languages: Array<Languages>
         }
     },
     messages: {
@@ -41,6 +94,7 @@ hlo: {
         to: UserId,
         msg: String,
         sent: Date,
+        status: Number
     },
     reviews: {
         id,
