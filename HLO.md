@@ -3,7 +3,7 @@ Healthy Loved Ones
 ##Data schema
 
 ```javascript
-hlo: {
+db: {
     users: {
         id,
         email,
@@ -103,6 +103,40 @@ hlo: {
         stars: [1, 2, 3, 4, 5],
         content
     }
+},
+dataTypes: {
+    Time: "HH:MM time format in 24hr clock",
+    CaregiverTypes: [ 
+        "Volunteer Caregivers", "Nursing Students", "Home Nurse",
+        "Eldercare", "Weekend Caregivers", "Special Needs",
+        "Specialist Caregivers", "Expert Caregivers",
+        "TLC Caregivers", "Licensed Nurse"
+    ],
+    ProfessionalServices: [
+        "Addiction Counselor", "Beautician", "Chinese Medicine Expert",
+        "Chiropractor", "Eldercare", "Hair Stylist", "Licensed Nurse",
+        "Occupational Therapist", "Massage Therapist", "Personal Trainer",
+        "Yoga Instructor", "Physiotherapist", "Midwife", "Reflexologist",
+        "Special Needs Therapist", "Speech Therapist",
+        "Spiritual/Body/Mind Expert", "Sports Therapist"
+    ],
+    PersonalServices: [
+        "Bathing", "Companionship", "Exercise", "Groceries and Shopping",
+        "Grooming", "Housekeeping", "Managing Medications",
+        "Meal Prep", "Transferring and Mobility", "Toileting",
+        "Transportation", "Travel Companion"
+    ],
+    MedicalConditions: [
+        "Allergy", "Alzheimer's Disease", "Anemia",
+        "Arthritis", "Asthma", "Blindness", "Breast Disease",
+        "Cancer", "Dementia", "Depression", "Diabetes",
+        "Foot Problem", "Hypertension", "Kidney Disease",
+        "Parkinson's Disease", "Stroke",
+    ],
+    Languages: [
+        "Cantonese", "English", "French", "German", "Italian",
+        "Japanese", "Korean", "Putonghua", "Spanish", "Tagalog"
+    ]
 }
 ```
 
