@@ -158,15 +158,21 @@ dataTypes: {
 
 * Dashboard - `/`
 * Search Jobs - `/jobs`
-* Job details - `/job/:id`
-* Public profile - `/profile`
+* Job Details - `/job/:id`
+* Messages - `/chat`
+* Edit Profile - `/profile`
+* Settings - `/settings`
+* View Profile - `/profile-view`
 
 ###Customer Routes
 
 * Dashboard - `/`
+* Posted Jobs - `/jobs`
+* Job Details - `/job/:id`
+* Messages - `/chat`
+* Edit Profile - `/profile`
 * Search Caregivers - `/caregivers`
 * Caregiver profile - `/caregiver/:id`
-* Profile - `/profile`
 
 ##Third Party service providers
 
