@@ -192,4 +192,4 @@ dataTypes: {
 * Login Providers - Google, Facebook (using meteor's `accounts-facebook` and `accounts-google`)
 * SMTP Provider - Sendgrid (using meteor's `email`)
 * SMS Provider - Twilio (using npm's `twilio`)
-* Checkout Provider - Paypal (using express checkout)
+* Checkout Provider - Paypal (express checkout)
