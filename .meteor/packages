@@ -23,5 +23,8 @@ accounts-ui
 accounts-password
 accounts-facebook
 accounts-google
+mdg:validated-method
 
 kadira:flow-router
+kadira:blaze-layout
+dburles:collection-helpers
