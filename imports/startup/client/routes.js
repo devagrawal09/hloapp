@@ -8,12 +8,21 @@
 //import layouts
     import '../../ui/layouts/app-layout';
 
-//import pages
-    import '../../ui/pages/landing';
-
+//public routes
     FlowRouter.route('/', {
         name: 'landing',
         action(){
-            BlazeLayout.render('AppLayout', { main: 'Landing' });
+            import('../../ui/pages/landing').then(function() {
+                BlazeLayout.render('AppLayout', { main: 'Landing' });
+            });
+        }
+    });
+
+    FlowRouter.route('/about', {
+        name: 'about',
+        action(){
+            import('../../ui/pages/misc/about').then(function(){
+                BlazeLayout.render('AppLayout', { main: 'About' });
+            });
         }
     });
