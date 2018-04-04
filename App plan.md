@@ -145,14 +145,22 @@ dataTypes: {
 ###Public Routes
 
 * Landing page - `/`
+* Search Caregivers* - `/caregivers`
+* Caregiver profile* - `/caregiver/:id`
+* Search Jobs** - `/jobs`
+* Job Details** - `/job/:id`
+* Account - `/account`
+* Login - `/login`
+* Register - `/register`
 * Terms of Use - `/terms`
 * Privacy Policy - `/privacy`
 * Community Guidelines - `/community`
 * About Us - `/about`
 * Contact Us - `/contact`
 * Q&A with CEO - `/faq`
-* Login - `/login`
-* Register - `/register`
+
+*: Hire option redirects to customer login <br>
+**: Apply option redirects to caregiver login
 
 ###Caregiver Routes
 
@@ -173,6 +181,11 @@ dataTypes: {
 * Edit Profile - `/profile`
 * Search Caregivers - `/caregivers`
 * Caregiver profile - `/caregiver/:id`
+
+###Forum Routes
+
+* Main Page - `/forum`
+* Thread - `/forum/:id`
 
 ##Third Party service providers
 
