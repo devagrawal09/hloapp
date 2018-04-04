@@ -1,0 +1,13 @@
+.green-bar {
+    background-color: $darkgreen;
+    padding: 10px 0px;
+    color: $purewhite;
+
+    .col-sm-8 {
+        text-align: right;
+    }
+
+    a {
+        color: $purewhite;
+    }
+}

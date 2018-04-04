@@ -1,0 +1,68 @@
+.pricings {
+    background: linear-gradient($green, $darkgreen); /* Standard syntax */
+    color: $purewhite;
+    text-align: center;
+    padding: 50px 0px;
+}
+
+.price-box { /* contains HK$ 0/mo */
+    display: inline-block;
+    text-align: left;
+    color: $darkred;
+    position: relative;
+}
+
+.dollar { /* the HK$ */
+    position: absolute; /* makes it float */
+    margin-top: 20px;
+    left: -15px;
+}
+
+.per-month { /* /mo */
+    position: absolute; /* float */
+    margin-top: 51px;
+    right: -15px;
+}
+
+.pricing-table {
+    margin: 0 auto;
+    margin-top: 40px;
+    color: $pureblack;
+    padding: 30px 0px;
+    width: 80%;
+
+    .free-plan, .partner-plan, .entrepreneur-plan {
+        background-color: $white;
+        border: 1px solid $lightgrey;
+        padding: 40px; /* padding of a plan */
+    }
+
+    .entrepreneur-plan { /* shift entrepreneur plan up */
+        margin-top: -25px;
+    }
+
+    @media (max-width: 768px) { /* when the plans collaspe */
+        .free-plan, .partner-plan, .entrepreneur-plan {
+            margin: 30px 0px;
+        }
+    }
+
+    .price-label {
+        font-size: 60px;
+        margin: 10px 10px 0px 10px;
+    }
+
+    .commissions {
+        color: $darkred;
+    }
+
+    .plan-features {
+        padding-top: 20px;
+        padding-bottom: 30px;
+    }
+}
+
+.insurance {
+    padding: 40px 120px 10px 120px; /* top right bottom left */
+    opacity: 0.75;
+}

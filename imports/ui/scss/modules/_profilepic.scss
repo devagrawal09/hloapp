@@ -1,0 +1,44 @@
+.profile-pic {
+    background-image: url('../images/profile/dp.png');
+    background-size: cover;
+    background-position: center center;
+    border-radius: 50%;
+    width: 220px;
+    height: 220px;
+    border: 8px solid $lightgrey;
+    display: inline-block; /* make prof pic div not larger than contents */
+    position: relative; /* allows absolute positioning of favorite button */
+}
+
+@media (min-width: 768px) {
+    .profile-pic { /* profile pic float right when not mobile */
+        float: right;
+    }
+}
+
+/* TODO: fixlater */
+.favorite {
+    background-color: $white;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+
+    .fa-plus { /* make icon centered */
+        color: $mediumgrey;
+        position: absolute;
+        font-size: 24px;
+        right: 10px;
+        top: 9px;
+    }
+
+    .fa-heart { /* make icon centered */
+        color: $red;
+        position: absolute;
+        font-size: 22px;
+        right: 9px;
+        top: 11px;
+    }
+}

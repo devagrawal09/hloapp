@@ -1,0 +1,58 @@
+.inbox { /* the entire table */
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* inbox */
+.inbox-message { /* the message row */
+    border-top: 1px solid $lightgrey;
+    border-bottom: 1px solid $lightgrey;
+
+    td {
+        padding: 8px;
+    }
+
+    @media (min-width: 768px){
+        td {
+            padding: 15px; /* padding for a message */
+        }
+    }
+}
+
+.tab-content { /* entire tab */
+    padding-top: 20px;
+}
+
+.message-pic { /* profile pic of message sender */
+    height: 70px;
+    border-radius: 50%;
+}
+
+.image-td { /* width of td for profile pic */
+    width: 70px;
+}
+
+.message-time { /* timestamp */
+    color: $grey;
+    font-size: 12px;
+}
+
+.message-title {
+    font-weight: bold;
+}
+
+.message-author, .message-title { 
+    font-size: 18px;
+}
+
+.message-author, .message-time, .message-title, .message-preview {
+    margin: 5px 0px;    
+}
+
+.fa-circle {
+    color: $green;
+}
+
+.read {
+    background-color: $whitegrey;
+}

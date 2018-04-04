@@ -1,0 +1,86 @@
+@include font-face(NotoSans, "../fonts/NotoSans/NotoSans-Regular");
+
+html, body {
+    font-family: $font-stack;
+    color: $pureblack;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+h3 {
+    font-size: 26px;
+}
+
+h4 {
+    font-size: 22px;
+}
+
+h5 {
+    font-size: 16px;
+}
+
+h6 {
+    font-size: 12px;
+}
+
+p {
+    font-size: 14px;
+}
+
+hr {
+    border-top: 1px solid $mediumgrey;
+    opacity: 0.4;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    opacity: 0.87;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* table custom styles */
+.table {
+    border-bottom: 1px solid #ddd;
+}
+
+.table-hover>tbody>tr:hover {
+    background-color: $whitegrey;
+}
+
+/* small container */
+.container-small {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 768px) {
+    .container-small {
+        width: 700px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container-small {
+        width: 700px;
+    }
+}
+@media (min-width: 1200px){
+    .container-small {
+        width: 700px;
+    }
+}
+
+/* form styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+textarea {
+    resize: none;
+}

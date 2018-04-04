@@ -1,0 +1,119 @@
+.job {
+    background-color: $lightpink;
+    border-radius: 10px;
+    border: 1px solid $mediumpink;
+    margin-top: 20px;
+
+    .job-right { /* status, expand button */
+        float: right;
+        margin: 20px 40px;        
+    }
+
+    .job-name {
+        display: inline-block;
+        margin: 20px 40px;        
+    }
+
+    .job-desc { /* expanded content of job */
+        background-color: $white;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        padding: 20px 40px;
+    }
+
+    @media (max-width: 767px) {
+        .job-right, .job-name { /* for mobile */
+            margin: 10px 20px;
+        }
+
+        .job-desc {
+            padding: 10px 20px;
+        }
+    }
+}
+
+.job-status { /* img */
+    height: 60px;
+    margin-top: -15px;
+}
+
+.expand-job {
+    font-size: 40px;
+    margin-left: 10px;
+    color: $black;
+    cursor: pointer;
+}
+
+/* table of caregiver applicants */
+.applicants {
+    cursor: pointer;
+
+    .applicant-name {
+        font-size: 18px;
+        margin-top: 5px;
+        margin-bottom: 0px;
+    }
+
+    .applicant-date {
+        margin: 0px;
+    }
+
+    .applicant-buttons { /* hire, message container */
+        text-align: right;
+    }
+
+    .applicant-link, .applicant-link:hover { /* the <a> wrapper */
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    td .btn { /* a hire/message button */
+        margin-top: 8px;
+    }
+
+    tbody>tr>td {
+        padding: 15px 30px;
+    }
+
+    @media (max-width: 767px) {
+        tbody>tr>td {
+            padding: 5px;
+        }
+    }
+}
+
+/* hired caregiver */
+.hired-caregiver {
+    margin-bottom: 30px;
+    text-align: center;
+
+    .hired-picture {
+        border-radius: 50%;
+        max-width: 200px;
+        padding: 10px 0px;
+    }
+
+    @media (min-width: 768px) {
+        .col-sm-9 { /* column with message, review */
+            margin-top: 100px;
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .hired-caregiver {
+        text-align: center;
+    }
+}
+
+/* review caregiver */
+.review-modal {
+    text-align: left;
+
+
+    .rating-stars i {
+        color: $yellow;
+        font-size: 24px;
+    }
+}
