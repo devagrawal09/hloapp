@@ -30,4 +30,5 @@ mdg:validated-method
 
 kadira:flow-router
 kadira:blaze-layout
+arillo:flow-router-helpers
 dburles:collection-helpers

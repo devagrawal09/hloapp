@@ -7,6 +7,7 @@
 
 //import layouts
     import '../../ui/layouts/app-layout';
+    import '../../ui/layouts/login-layout';
 
 //landing page
     FlowRouter.route('/', {
@@ -14,6 +15,32 @@
         action() {
             import('../../ui/pages/landing').then(function() {
                 BlazeLayout.render('AppLayout', { main: 'Landing' });
+            });
+        }
+    });
+
+//accounts pages
+    FlowRouter.route('/account', {
+        name: 'landing',
+        action() {
+            import ('../../ui/pages/account').then(function() {
+                BlazeLayout.render('Account');
+            });
+        }
+    });
+    FlowRouter.route('/login', {
+        name: 'login',
+        action() {
+            import ('../../ui/pages/account').then(function() {
+                BlazeLayout.render('LoginLayout', { main: 'Login' });
+            });
+        }
+    });
+    FlowRouter.route('/signup', {
+        name: 'signup',
+        action() {
+            import ('../../ui/pages/account').then(function() {
+                BlazeLayout.render('LoginLayout', { main: 'Signup' });
             });
         }
     });
