@@ -25,10 +25,13 @@ accounts-ui
 accounts-password
 accounts-facebook
 accounts-google
-useraccounts:unstyled
+useraccounts:bootstrap
+useraccounts:flow-routing
 mdg:validated-method
 
 kadira:flow-router
 kadira:blaze-layout
 arillo:flow-router-helpers
 dburles:collection-helpers
+
+msavin:mongol

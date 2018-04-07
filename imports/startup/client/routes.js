@@ -1,6 +1,7 @@
 //import libraries
     import { FlowRouter } from 'meteor/kadira:flow-router';
     import { BlazeLayout } from 'meteor/kadira:blaze-layout';
+    import { AccountsTemplates } from 'meteor/useraccounts:core';
 
 //import partials
     import '../../ui/partials';
@@ -8,6 +9,8 @@
 //import layouts
     import '../../ui/layouts/app-layout';
     import '../../ui/layouts/login-layout';
+
+//login and logout redirect
 
 //landing page
     FlowRouter.route('/', {
@@ -28,22 +31,43 @@
             });
         }
     });
-    FlowRouter.route('/login', {
+    /*    
+        FlowRouter.route('/login', {
+            name: 'login',
+            action() {
+                import ('../../ui/pages/account').then(function() {
+                    BlazeLayout.render('LoginLayout', { main: 'Login' });
+                });
+            }
+        });
+        FlowRouter.route('/signup', {
+            name: 'signup',
+            action() {
+                import ('../../ui/pages/account').then(function() {
+                    BlazeLayout.render('LoginLayout', { main: 'Signup' });
+                });
+            }
+        });
+    */
+
+    AccountsTemplates.configureRoute('signIn', {
         name: 'login',
-        action() {
-            import ('../../ui/pages/account').then(function() {
-                BlazeLayout.render('LoginLayout', { main: 'Login' });
-            });
-        }
+        path: '/login',
+        layoutTemplate: 'LoginLayout',
+        template: 'atForm',
+        contentRegion: 'main',
+        redirect: '/'
     });
-    FlowRouter.route('/signup', {
+    AccountsTemplates.configureRoute('signUp', {
         name: 'signup',
-        action() {
-            import ('../../ui/pages/account').then(function() {
-                BlazeLayout.render('LoginLayout', { main: 'Signup' });
-            });
-        }
-    });
+        path: '/signup',
+        layoutTemplate: 'LoginLayout',
+        template: 'atForm',
+        contentRegion: 'main',
+        redirect: '/'
+    }); 
+
+    
 
 //misc pages
     FlowRouter.route('/community', {

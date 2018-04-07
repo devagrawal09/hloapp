@@ -1,5 +1,5 @@
 .login-column {
-    padding-top: 100px;
+    padding-top: 50px;
 
     .login-logo {
         width: 70px;
@@ -7,10 +7,11 @@
         margin: 0 auto;
     }
 
-    .login {
-        max-width: 250px;
+    .login, .at-form {
+        max-width: 350px;
         margin: 0 auto;
         margin-top: 20px;
+        padding: 0;
     }
 
     button {
@@ -37,6 +38,8 @@
     color: $purewhite;
     text-align: center;
     padding-top: 150px;
+    position: fixed;
+    right: 0;
 
     .why-hlo-desc {
         max-width: 330px;
