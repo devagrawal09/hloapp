@@ -35,6 +35,7 @@ db: {
         experience: Number,
         hourlyRate: Number,
         extraCharges: Number,
+        currentlyAvailable: Boolean,
         ownsCar: Boolean,
         background: String,
         education: String,
@@ -67,6 +68,7 @@ db: {
         startTime: Time,
         endTime: Time,
         jobStatus: ['open', 'closed'],
+        applicants: Array<UserId>,
         hired: UserId,
         photos: Array<>,
         type: Array<CaregiverTypes>,
@@ -163,27 +165,29 @@ dataTypes: {
 
 ###Caregiver Routes
 
-* Dashboard - `/`
-* Search Jobs - `/jobs`
-* Job Details - `/job/:id`
+* Dashboard/Job history - `/`
 * Messages - `/chat`
 * Edit Profile - `/profile`
 * Settings - `/settings`
-* View Profile - `/profile-view`
+* Search Jobs* - `/jobs`
+* Job Details* - `/job/:id`
 
 ###Customer Routes
 
-* Dashboard - `/`
-* Posted Jobs - `/jobs`
-* Job Details - `/job/:id`
+* Dashboard/Posted jobs - `/`
 * Messages - `/chat`
 * Edit Profile - `/profile`
-* Search Caregivers - `/caregivers`
-* Caregiver profile - `/caregiver/:id`
+* Settings - `/settings`
+* Search Caregivers* - `/caregivers`
+* Caregiver profile* - `/caregiver/:id`
+
+*: These pages are implicitly accessible by both Caregivers and Customers
 
 ###Forum Routes
 
 * Main Page - `/forum`
+* Following - `/forum/following`
+* Category - `/forum/:category`
 * Thread - `/forum/:id`
 
 ##Third Party service providers

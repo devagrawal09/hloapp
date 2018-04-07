@@ -1,0 +1,41 @@
+<template name="DashboardLayout">
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h1>Dashboard</h1>
+                    <h5>Manage caregivers, job postings, and messages.</h5>
+                </div>
+                <div class="col-xs-6 header-image-col">
+                    <img src="img/infopage/pluses.png" class="header-image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-small dashbar">
+        <!-- dashboard tabs -->
+        <div class="row text-center">
+            <div class="col-xs-3">
+                <img src="img/dashboard/suitcase.png" class="dashboard-logo">
+                <p>Jobs</p>
+            </div>
+            <div class="col-xs-3">
+                <img src="img/dashboard/messages.png" class="dashboard-logo">
+                <p>Messages</p>
+            </div>
+            <div class="col-xs-3 active">
+                <img src="img/dashboard/profile.png" class="dashboard-logo">
+                <p>Profile</p>
+            </div>
+            <div class="col-xs-3">
+                <img src="img/dashboard/settings.png" class="dashboard-logo">
+                <p>Settings</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashbody">
+        {{> Template.dynamic template=content}}
+    </div>
+</template>

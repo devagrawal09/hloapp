@@ -9,6 +9,8 @@ export const jobSchema = new SimpleSchema({
     postedBy: Datatypes.Id,
     postedOn: Date,
     status: String,
+    applicants: Array,
+    'applicants.$': Datatypes.Id,
     hired: Datatypes.Id,
 //requirements
     startDate: Date,

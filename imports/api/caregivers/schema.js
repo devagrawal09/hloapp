@@ -43,6 +43,7 @@ export const imagesSchema = new SimpleSchema({
 export const servicesSchema = new SimpleSchema({
     _id: Datatypes.Id,
     user: Datatypes.Id,
+    currentlyAvailable: Boolean,
     hourlyRate: Number,
     extraCharges: Number,
     ownsCar: Boolean,
