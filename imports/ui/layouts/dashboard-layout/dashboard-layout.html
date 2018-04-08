@@ -16,22 +16,22 @@
     <div class="container-small dashbar">
         <!-- dashboard tabs -->
         <div class="row text-center">
-            <div class="col-xs-3">
+            <a class="col-xs-3 {{isActiveRoute 'dashboard'}}" href="{{pathFor 'dashboard'}}">
                 <img src="img/dashboard/suitcase.png" class="dashboard-logo">
                 <p>Jobs</p>
-            </div>
-            <div class="col-xs-3">
+            </a>
+            <a class="col-xs-3 {{isActiveRoute regex='chat|conversation'}}" href="{{pathFor 'chat'}}">
                 <img src="img/dashboard/messages.png" class="dashboard-logo">
                 <p>Messages</p>
-            </div>
-            <div class="col-xs-3 active">
+            </a>
+            <a class="col-xs-3 {{isActiveRoute 'profile.edit'}}" href="{{pathFor 'profile.edit'}}">
                 <img src="img/dashboard/profile.png" class="dashboard-logo">
                 <p>Profile</p>
-            </div>
-            <div class="col-xs-3">
+            </a>
+            <a class="col-xs-3 {{isActiveRoute 'settings'}}" href="{{pathFor 'settings'}}">
                 <img src="img/dashboard/settings.png" class="dashboard-logo">
                 <p>Settings</p>
-            </div>
+            </a>
         </div>
     </div>
 

@@ -169,8 +169,6 @@ dataTypes: {
 * Messages - `/chat`
 * Edit Profile - `/profile`
 * Settings - `/settings`
-* Search Jobs* - `/jobs`
-* Job Details* - `/job/:id`
 
 ###Customer Routes
 
@@ -178,10 +176,6 @@ dataTypes: {
 * Messages - `/chat`
 * Edit Profile - `/profile`
 * Settings - `/settings`
-* Search Caregivers* - `/caregivers`
-* Caregiver profile* - `/caregiver/:id`
-
-*: These pages are implicitly accessible by both Caregivers and Customers
 
 ###Forum Routes
 

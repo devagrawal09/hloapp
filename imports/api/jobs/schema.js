@@ -39,5 +39,5 @@ export const jobSchema = new SimpleSchema({
     hobbies: String,
     description: String,
     languages: Array,
-    'languages.$': Datatypes.Language
+    'languages.$': Datatypes.Languages
 });

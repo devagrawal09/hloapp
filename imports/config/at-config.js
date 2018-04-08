@@ -9,7 +9,7 @@ AccountsTemplates.configure({
     privacyUrl: '/privacy',
     termsUrl: '/terms',
     onLogoutHook() {
-        FlowRouter.go('/');
+        FlowRouter.go('logged-out');
     }
 });
 

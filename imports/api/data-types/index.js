@@ -55,7 +55,7 @@ export default {
             "Parkinson's Disease", 'Stroke'
         ]
     },
-    Language: {
+    Languages: {
         type: String,
         allowedValues: [
             'Cantonese', 'English', 'French', 'German', 'Italian',

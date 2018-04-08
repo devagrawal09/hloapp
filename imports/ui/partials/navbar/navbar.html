@@ -35,7 +35,11 @@
                         <a href="forum">Forum</a>
                     </li>
                     <li>
-                        <a href="account">Sign Up/Login</a>
+                        {{#if currentUser}}
+                            <a href="" class="logout">Logout</a>
+                        {{else}}
+                            <a href="account">Sign Up/Login</a>
+                        {{/if}}
                     </li>
                     <li>
                         <span class="navbar-divider">|</span>

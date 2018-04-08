@@ -8,6 +8,10 @@
 //import partials
     import '../../ui/partials';
 
+//import methods
+    import '../../api/users';
+    import { commonRoutesAction } from './boilerplates';
+
 //import layouts
     import '../../ui/layouts/app-layout';
     import '../../ui/layouts/login-layout';
@@ -33,6 +37,12 @@
         triggersEnter: [AccountsTemplates.ensureSignedIn]
     });
 
+    const PublicOnlyRouter = FlowRouter.group({
+        triggersEnter: [function( con, redirect ) {
+            if( Meteor.userId() ) redirect('/dashboard');
+        }]
+    });
+
     const CustomerRouter = PrivateRouter.group({
         triggersEnter: [function( con, redirect ) {
             if ( Meteor.user().type !== 'customer' ) {
@@ -50,13 +60,8 @@
     });
 
 //landing page
-    FlowRouter.route('/', {
+    PublicOnlyRouter.route('/', {
         name: 'landing',
-        triggersEnter: [function( con, redirect ) {
-            if ( Meteor.userId() ) {
-                redirect('/dashboard');
-            }
-        }],
         action() {
             import('../../ui/pages/landing').then(function() {
                 BlazeLayout.render('AppLayout', { main: 'Landing' });
@@ -65,8 +70,8 @@
     });
 
 //accounts pages
-    FlowRouter.route('/account', {
-        name: 'landing',
+    PublicOnlyRouter.route('/account', {
+        name: 'account',
         action() {
             import ('../../ui/pages/account').then(function() {
                 BlazeLayout.render('Account');
@@ -107,16 +112,35 @@
         template: 'atForm',
         contentRegion: 'main',
         redirect: '/'
-    }); 
+    });
+
+    PublicOnlyRouter.route('/logged-out', {
+        name: 'logged-out',
+        action() {
+            //logout page render
+            import('../../ui/pages/logged-out').then(()=> {
+                BlazeLayout.render('LoginLayout', { main: 'LoggedOut' });
+            });
+        }
+    });
 
 //dashboard
     PrivateRouter.route('/dashboard', {
         name: 'dashboard',
         action() {
-            BlazeLayout.render('AppLayout', {
-                main: 'DashboardLayout',
-                    
-            });
+            commonRoutesAction({ caregiver: {
+                import() { return import('../../ui/pages/caregiver/dashboard') },
+                render: {
+                    main: 'DashboardLayout',
+                    content: 'JobHistory'
+                }
+            }, customer: {
+                import() { return import('../../ui/pages/customer/dashboard') },
+                render: {
+                    main: 'DashboardLayout',
+                    content: 'PostedJobs'
+                }
+            }});
         }
     });
 
@@ -141,6 +165,26 @@
         }
     });
 
+//profile edit page
+    PrivateRouter.route('/profile', {
+        name: 'profile.edit',
+        action() {
+            commonRoutesAction({ caregiver: {
+                import() { return import('../../ui/pages/caregiver/edit-profile') },
+                render: {
+                    main: 'DashboardLayout',
+                    content: 'EditProfileCaregiver'
+                }
+            }, customer: {
+                import() { return import('../../ui/pages/customer/edit-profile') },
+                render: {
+                    main: 'DashboardLayout',
+                    content: 'EditProfileCustomer'
+                }
+            }});
+        }
+    });
+
 //settings page
     PrivateRouter.route('/settings', {
         name: 'settings',
@@ -153,9 +197,7 @@
     });
 
 //caregiver routes
-
 //customer routes
-
 //misc pages
     FlowRouter.route('/community', {
         name: 'community',

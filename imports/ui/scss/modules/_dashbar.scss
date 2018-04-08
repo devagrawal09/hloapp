@@ -6,6 +6,15 @@
         opacity: 0.4;
     }
 
+    a {
+        display: block;
+        border: none;
+        background: none;
+        color: $pureblack;
+        
+        p { font-size: 15px }
+    }
+
     .active {
         opacity: 1;
     }
