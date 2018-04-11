@@ -2,23 +2,45 @@ import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
 
 const Experience = new SimpleSchema({
-    employer: String,
-    desc: String,
+    employer: {
+        type: String,
+        label: 'Name of Employer'
+    },
+    desc: {
+        type: String,
+        label: 'Job Description'
+    },
     from: Date,
     to: Date
 });
-
 export const profileSchema = new SimpleSchema({
     _id: Datatypes.Id,
     user: Datatypes.Id,
     firstName: String,
     lastName: String,
-    gender: String,
+    gender: {
+        type: String,
+        allowedValues: ['Male', 'Female']
+    },
     dob: Date,
     aboutText: String,
     address: String,
-    district: String,
-    country: String,
+    district: {
+        type: String,
+        allowedValues: [
+            'Central', 'Sai Wan Ho', 'Aberdeen', 'Wan Chai',
+            'Kwun Tong', 'Sham Shui Po', 'San Ko Pong',
+            'Mongkok', 'Sha Tin', 'Tsuen Wan', 'Yuen Long',
+            'Kowloon', 'Other'
+        ]
+    },
+    country: {
+        type: String,
+        allowedValues: [
+            'Hong Kong', 'China', 'Singapore',
+            'Malaysia', 'India'
+        ]
+    },
     religion: String,
     hobbies: String,
     workLocation: String,
@@ -28,11 +50,26 @@ export const profileSchema = new SimpleSchema({
 export const experienceSchema = new SimpleSchema({
     _id: Datatypes.Id,
     user: Datatypes.Id,
-    years: SimpleSchema.Integer,
-    experiences: Array,
-    'experiences.$': Experience,
-    background: String,
-    education: String
+    years: {
+        type: SimpleSchema.Integer,
+        label: 'Years of experience'
+    },
+    experiences: {
+        type: Array,
+        optional: true
+    },
+    'experiences.$': {
+        type: Experience,
+        label: 'Experience'
+    },
+    background: {
+        type: String,
+        label: 'Licenses and Credentials'
+    },
+    education: {
+        type: String,
+        label: 'Education History'
+    }
 });
 export const imagesSchema = new SimpleSchema({
     _id: Datatypes.Id,
@@ -46,12 +83,18 @@ export const servicesSchema = new SimpleSchema({
     currentlyAvailable: Boolean,
     hourlyRate: Number,
     extraCharges: Number,
-    ownsCar: Boolean,
+    ownsCar: {
+        type: Boolean,
+        label: 'Do you own a car?'
+    },
     availableDays: Array,
     'availableDays.$': Datatypes.Day,
     availableTimeStart: Datatypes.Time,
     availableTimeEnd: Datatypes.Time,
-    caregiverType: Array,
+    caregiverType: {
+        type: Array,
+        label: 'Type of Caregiver'
+    },
     'caregiverType.$': Datatypes.CaregiverType,
     professionalServices: Array,
     'professionalServices.$': Datatypes.ProfessionalService,
@@ -59,4 +102,10 @@ export const servicesSchema = new SimpleSchema({
     'personalServices.$': Datatypes.PersonalService,
     medicalExpertise: Array,
     'medicalExpertise.$': Datatypes.MedicalCondition
+});
+export const pricingSchema = new SimpleSchema({
+    plan: {
+        type: String,
+        allowedValues: [ 'Free', 'Entrepreneur', 'Partner' ]
+    }
 });

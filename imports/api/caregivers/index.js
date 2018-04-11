@@ -1,18 +1,9 @@
 import { Mongo } from 'meteor/mongo';
-import { Accounts } from 'meteor/accounts-base';
-import { ValidatedMethod } from 'mdg:validated-method';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import { profileSchema, experienceSchema, servicesSchema, imagesSchema } from './schema.js';
 
 export const Caregivers = new Mongo.Collection('caregivers');
-
-Accounts.onCreateUser(function(options, user){          //create new caregivers
-    if( user.profile.type === 'caregiver') {
-        Caregivers.insert({
-            user: user._id
-        });
-    }
-});
 
 export const updateProfile = new ValidatedMethod({      //update profile
     name: 'caregiver.update.profile',
@@ -94,9 +85,10 @@ export const updateServices = new ValidatedMethod({     //update services
 
     }
 });
+/*
+    export const updateProfilePic = new ValidatedMethod({   //update profile image
+    });
 
-export const updateProfilePic = new ValidatedMethod({   //update profile image
-});
-
-export const updateCoverPic = new ValidatedMethod({     //update cover image
-});
+    export const updateCoverPic = new ValidatedMethod({     //update cover image
+    });
+*/

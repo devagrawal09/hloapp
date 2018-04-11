@@ -1,0 +1,88 @@
+<template name="experienceForm">
+    <div>
+        <!--
+            <form name="experienceForm">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="yearexp">Years of experience</label>
+                            <input type="number" class="form-control" id="yearexp">
+                        </div>
+                        <div class="form-group">
+                            <label for="workexp">Work experience</label>
+                            <input type="text" class="form-control" id="workexp" placeholder="Nurse at elderly home...">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="license">Licenses and Credentials</label>
+                            <input type="text" class="form-control" id="license">
+                        </div>
+                        <div class="form-group">
+                            <label for="edu">Education History</label>
+                            <input type="text" class="form-control" id="edu">
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <h4>Experiences</h4>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-primary addXp pull-right">Add experience</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="employer">Employer</label>
+                            <input type="text" class="form-control" id="employer" placeholder="Employer">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="from">From</label>
+                                    <input type="date" class="form-control" id="from" placeholder="From">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="to">To</label>
+                                    <input type="date" class="form-control" id="to">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="desc">Description</label>
+                            <textarea id="desc" rows="3" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#" class="btn btn-default back">Back</a>
+                <a href="#" class="btn btn-primary next">Next</a>
+            </form>
+        -->
+        {{#autoForm
+            id="experienceForm"
+            type="method"
+            schema=experienceSchema
+            doc=experienceDoc
+            meteormethod="caregiver.update.experiences"
+        }}
+            {{> afQuickField name="_id" type="hidden"}}
+            {{> afQuickField name="user" type="hidden"}}
+            <div class="row">
+                <div class="col-sm-6">
+                    {{> afQuickField name="years"}}
+                    {{> afQuickField name="background"}}
+                </div>
+                <div class="col-sm-6">
+                    {{> afQuickField name="education"}}
+                </div>
+            </div>
+
+            <div class="submit-buttons">
+                <a href="#form-title" class="btn btn-default back pull-left">Back</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="#form-title" class="btn btn-primary next">Next</a>
+            </div>
+        {{/autoForm}}
+    </div>
+</template>

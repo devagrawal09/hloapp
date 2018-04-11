@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import { Caregivers } from '..';
+import { Caregivers } from '../index.js';
 
 Meteor.publish('caregiverById', function( id ) {
     return Caregivers.find( id );
@@ -8,12 +8,13 @@ Meteor.publish('caregiverById', function( id ) {
 
 Meteor.publish('caregiverByUser', function( user ) {
     return Caregivers.find({ user });
-})
+});
 
 Meteor.publish('caregiver.profile', function(){
     return Caregivers.find({
         user: this.userId
     }, { fields: {
+        user: 1,
         firstName: 1,
         lastName: 1,
         gender: 1,
