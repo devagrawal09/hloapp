@@ -1,6 +1,7 @@
 Healthy Loved Ones
 ===================
-##Data schema
+Data schema
+------------------
 
 ```javascript
 db: {
@@ -141,7 +142,8 @@ dataTypes: {
 }
 ```
 
-##Routes
+Routes
+--------------
 
 ###Public Routes
 
@@ -184,9 +186,24 @@ dataTypes: {
 * Category - `/forum/:category`
 * Thread - `/forum/:id`
 
-##Third Party service providers
+Third Party service providers
+---------------------------------
 
 * Login Providers - Google, Facebook (using meteor's `accounts-facebook` and `accounts-google`)
 * SMTP Provider - Sendgrid (using meteor's `email`)
 * SMS Provider - Twilio (using npm's `twilio`)
 * Checkout Provider - Paypal (express checkout)
+
+Questions for next meeting
+-------------------------------
+
+* What is the composition of photos for a job post? Does it consist a cover photo and a display photo (like the caregiver profile)? Or is it just a few display photos (like a small gallery)?
+* Can a customer edit job details after it's been posted? And after a caregiver has been hired?
+* Can a caregiver withdraw his application for a job while it's still open?
+* Can a customer mark a job as complete without hiring anyone?
+* How is the cost of the job determined? Do the customer/caregiver need to inform HLO about the final negotiated price before the job starts or after completion?
+* Can only a customer mark a job as complete? Do we require no such consent from the caregiver?
+* After a customer hires a caregiver, will all the other applications of the caregiver be removed?
+* Can a customer edit his review to a caregiver?
+* If a customer hires a caregiver he has hired before for a new job, will he give another review? Will it replace the old review?
+* After the completion of a job, when the customer sends his payment, should it automatically transfer to the caregiver's paypal (after deducting commission)?
