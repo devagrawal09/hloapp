@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
-import { profileSchema, experienceSchema, servicesSchema, imagesSchema } from './schema.js';
+import { profileSchema, experienceSchema, servicesSchema, imagesSchema, pricingSchema } from './schema.js';
 
 export const Caregivers = new Mongo.Collection('caregivers');
 
@@ -64,6 +64,8 @@ export const updateServices = new ValidatedMethod({     //update services
     validate: servicesSchema.validator(),
     run( services ) {
 
+        console.log( 'am i visible' );
+
         if ( services.user !== this.userId ) {
            //if current user doesn't match received document
            throw new Meteor.Error('caregiver.update.services.unauthorized',
@@ -83,6 +85,31 @@ export const updateServices = new ValidatedMethod({     //update services
            'Invalid input, please try again');
         }
 
+    }
+});
+
+export const updatePlan = new ValidatedMethod({
+    name: 'caregiver.update.plan',
+    validate: pricingSchema.validator(),
+    run( plan ) {
+        if ( plan.user !== this.userId ) {
+            //if current user doesn't match received document
+            throw new Meteor.Error('caregiver.update.plan.unauthorized',
+             'Invalid input, please try again');            
+        };
+        
+        let result = Caregivers.update({
+            _id: plan._id,
+            user: plan.user
+        }, {
+            $set: plan
+        });
+
+        if ( !result ) {
+            //input ids don't match
+           throw new Meteor.Error('caregiver.update.plan.unauthorized',
+           'Invalid input, please try again');
+        }
     }
 });
 /*

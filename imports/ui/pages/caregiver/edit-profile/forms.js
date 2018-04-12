@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating';
 
+import { AutoForm } from 'meteor/aldeed:autoform';
+
 import { profileSchema, experienceSchema, servicesSchema, imagesSchema, pricingSchema } from '../../../../api/caregivers/schema.js';
 import { Caregivers, updateProfile, updateExperiences, updateServices } from '../../../../api/caregivers';
 
@@ -8,8 +10,6 @@ import './experience-form.html';
 import './services-form.html';
 import './photos-form.html';
 import './pricing-form.html';
-
-console.log( Caregivers );
 
 //details form
     Template.detailsForm.onCreated(function() {
@@ -57,7 +57,7 @@ console.log( Caregivers );
             return experienceSchema;
         },
         experienceDoc() {
-            return Caregivers.find({
+            return Caregivers.findOne({
                 user: Meteor.userId()
             }, { fields: {
                 user: 1,
@@ -82,9 +82,10 @@ console.log( Caregivers );
             return servicesSchema;
         },
         servicesDoc() {
-            return Caregivers.find({
+            return Caregivers.findOne({
                 user: Meteor.userId()
             }, { fields: {
+                user: 1,
                 hourlyRate: 1,
                 extraCharges: 1,
                 ownsCar: 1,
@@ -100,21 +101,37 @@ console.log( Caregivers );
     });
 
 //photos form
-Template.photosForm.helpers({
-    photosSchema() {
-        return imagesSchema;
-    }
-});
-
-Template.pricingForm.helpers({
-    pricingSchema() {
-        return pricingSchema;
-    },
-    options() {
-        return {
-            Free: 'Free plan - $0/mo',
-            Entrepreneur: 'Entrepreneur Plan - 88$/mo',
-            Partner: 'Partner Plan - 888$/mo'
+    Template.photosForm.helpers({
+        photosSchema() {
+            return imagesSchema;
         }
-    }
-})
+    });
+
+//pricing form
+    Template.pricingForm.onCreated(function() {
+        let t = this;
+        t.autorun(()=> {
+            t.subscribe('caregiver.plan');
+        });
+    });
+
+    Template.pricingForm.helpers({
+        pricingSchema() {
+            return pricingSchema;
+        },
+        pricingDoc() {
+            return Caregivers.findOne({
+                user: Meteor.userId()
+            }, { fields: {
+                user: 1,
+                plan: 1,
+            }});
+        },
+        options() {
+            return {
+                Free: 'Free plan - $0/mo',
+                Entrepreneur: 'Entrepreneur Plan - 88$/mo',
+                Partner: 'Partner Plan - 888$/mo'
+            }
+        }
+    });

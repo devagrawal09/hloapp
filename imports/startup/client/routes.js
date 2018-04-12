@@ -259,3 +259,5 @@
             alert('This page is under maintainence. Please try later.');
         }
     }
+
+    AutoForm.debug();

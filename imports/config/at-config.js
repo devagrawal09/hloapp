@@ -10,6 +10,9 @@ AccountsTemplates.configure({
     termsUrl: '/terms',
     onLogoutHook() {
         FlowRouter.go('logged-out');
+    },
+    postSignUpHook( userId, info ) {
+        console.log( info )
     }
 });
 

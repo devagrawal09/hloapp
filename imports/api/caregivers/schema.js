@@ -80,7 +80,6 @@ export const imagesSchema = new SimpleSchema({
 export const servicesSchema = new SimpleSchema({
     _id: Datatypes.Id,
     user: Datatypes.Id,
-    currentlyAvailable: Boolean,
     hourlyRate: Number,
     extraCharges: Number,
     ownsCar: {
@@ -104,8 +103,17 @@ export const servicesSchema = new SimpleSchema({
     'medicalExpertise.$': Datatypes.MedicalCondition
 });
 export const pricingSchema = new SimpleSchema({
+    _id: Datatypes.Id,
+    user: Datatypes.Id,
     plan: {
         type: String,
         allowedValues: [ 'Free', 'Entrepreneur', 'Partner' ]
     }
+});
+export const employmentSchema = new SimpleSchema({  //for reference
+    currentJob: Datatypes.Id,
+    appliedJobs: Array,                 //jobs applied in chronological order
+    'appliedJobs.$': Datatypes.Id,
+    jobHistory: Array,                  //job history in chronological order
+    'jobHistory.$': Datatypes.Id
 });

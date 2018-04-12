@@ -33,7 +33,8 @@ Meteor.publish('caregiver.profile', function(){
 Meteor.publish('caregiver.experiences', function(){
     return Caregivers.find({
         user: this.userId
-    }, { fields: {        
+    }, { fields: {
+        user: 1,
         years: 1,
         experiences: 1,
         background: 1,
@@ -45,6 +46,7 @@ Meteor.publish('caregiver.services', function(){
     return Caregivers.find({
         user: this.userId
     }, { fields: {
+        user: 1,
         hourlyRate: 1,
         extraCharges: 1,
         ownsCar: 1,
@@ -58,6 +60,15 @@ Meteor.publish('caregiver.services', function(){
     }});
 });
 
+Meteor.publish('caregiver.plan', function(){
+    return Caregivers.find({
+        user: this.userId
+    }, { fields: {
+        user: 1,
+        plan: 1,
+    }});
+});
+
 Meteor.publish('caregiver.profileImage', function(){
     return Caregivers.find({
         user: this.userId
@@ -68,4 +79,15 @@ Meteor.publish('caregiver.coverImage', function(){
     return Caregivers.find({
         user: this.userId
     }, { fields: { coverImg: 1 }});
+});
+
+Meteor.publish('caregiver.employment', function(){
+    return Caregivers.find({
+        user: this.userId
+    }, { fields: {
+        user: 1,
+        currentJob: 1,
+        appliedJobs: 1,
+        jobHistory: 1,
+    }});
 });

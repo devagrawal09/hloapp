@@ -1,6 +1,14 @@
 <template name="pricingForm">
     <div>
-        {{#autoForm id="pricingForm" schema=pricingSchema}}
+        {{#autoForm
+            id="pricingForm"
+            type="method"
+            meteormethod="caregiver.update.plan"
+            schema=pricingSchema
+            doc=pricingDoc
+        }}
+            {{> afQuickField name="_id" type="hidden"}}
+            {{> afQuickField name="user" type="hidden"}}
             {{> afQuickField name="plan" options=options noselect=true}}
             <div class="submit-buttons">
                 <a href="#form-title" class="btn btn-default back pull-left">Back</a>
