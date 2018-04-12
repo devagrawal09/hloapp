@@ -2,32 +2,27 @@ import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
 
 export const jobSchema = new SimpleSchema({
-//details
     _id: Datatypes.Id,
-    title: String,
-    duration: String,
     postedBy: Datatypes.Id,
     postedOn: Date,
-    status: String,
+    status: {
+        type: String,
+        allowedValues: ['open', 'hired', 'completed']
+    },
     applicants: Array,
     'applicants.$': Datatypes.Id,
-    hired: Datatypes.Id,
-//requirements
-    startDate: Date,
-    endDate: Date,
-    days: Array,
-    'days.$': Datatypes.Day,
-    startTime: Datatypes.Time,
-    endTime: Datatypes.Time,
-    caregiverType: Array,
-    'caregiverType.$': Datatypes.CaregiverType,
-    professionalServices: Array,
-    'professionalServices.$': Datatypes.ProfessionalService,
-    personalServices: Array,
-    'personalServices.$': Datatypes.PersonalService,
-    medicalConditions: Array,
-    'medicalConditions.$': Datatypes.MedicalCondition,
-//patient
+    hired: Datatypes.Id
+});
+
+export const detailsSchema = new SimpleSchema({
+//job details
+    _id: Datatypes.Id,
+    postedBy: Datatypes.Id,
+    title: String,
+    duration: {
+        type: String,
+        allowedValues: ['Short term','Long term']
+    },
     gender: String,
     dob: Date,
     hkid: String,
@@ -37,7 +32,23 @@ export const jobSchema = new SimpleSchema({
     district: String,
     country: String,
     hobbies: String,
-    description: String,
     languages: Array,
-    'languages.$': Datatypes.Languages
+    'languages.$': Datatypes.Languages,
+    desciption: String,
+//requirements
+    caregiverType: Array,
+    'caregiverType.$': Datatypes.CaregiverType,
+    professionalServices: Array,
+    'professionalServices.$': Datatypes.ProfessionalService,
+    personalServices: Array,
+    'personalServices.$': Datatypes.PersonalService,
+    medicalConditions: Array,
+    'medicalConditions.$': Datatypes.MedicalCondition,
+    startDate: Date,
+    endDate: Date,
+    days: Array,
+    'days.$': Datatypes.Day,
+    startTime: Datatypes.Time,
+    endTime: Datatypes.Time,
+    jobDescription: String
 });
