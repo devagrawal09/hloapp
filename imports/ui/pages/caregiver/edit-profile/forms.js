@@ -12,14 +12,14 @@ import './photos-form.html';
 import './pricing-form.html';
 
 //details form
-    Template.detailsForm.onCreated(function() {
+    Template.caregiverDetailsForm.onCreated(function() {
         let t = this;
         t.autorun(()=> {
             t.subscribe( 'caregiver.profile' );
         });
     });
 
-    Template.detailsForm.helpers({
+    Template.caregiverDetailsForm.helpers({
         profileSchema() {
             return profileSchema;
         },
@@ -45,14 +45,14 @@ import './pricing-form.html';
     });
 
 //experience form
-    Template.experienceForm.onCreated(function() {
+    Template.caregiverExperienceForm.onCreated(function() {
         let t = this;
         t.autorun(()=> {
             t.subscribe( 'caregiver.experiences' );
         });
     });
 
-    Template.experienceForm.helpers({
+    Template.caregiverExperienceForm.helpers({
         experienceSchema() {
             return experienceSchema;
         },
@@ -70,14 +70,14 @@ import './pricing-form.html';
     });
 
 //services form
-    Template.servicesForm.onCreated(function() {
+    Template.caregiverServicesForm.onCreated(function() {
         let t = this;
         t.autorun(()=> {
             t.subscribe( 'caregiver.services' );
         });
     });
 
-    Template.servicesForm.helpers({
+    Template.caregiverServicesForm.helpers({
         servicesSchema() {
             return servicesSchema;
         },
@@ -101,21 +101,21 @@ import './pricing-form.html';
     });
 
 //photos form
-    Template.photosForm.helpers({
+    Template.caregiverPhotosForm.helpers({
         photosSchema() {
             return imagesSchema;
         }
     });
 
 //pricing form
-    Template.pricingForm.onCreated(function() {
+    Template.caregiverPricingForm.onCreated(function() {
         let t = this;
         t.autorun(()=> {
             t.subscribe('caregiver.plan');
         });
     });
 
-    Template.pricingForm.helpers({
+    Template.caregiverPricingForm.helpers({
         pricingSchema() {
             return pricingSchema;
         },

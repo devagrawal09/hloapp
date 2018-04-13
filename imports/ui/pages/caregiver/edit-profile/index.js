@@ -10,8 +10,8 @@ Template.EditProfileCaregiver.onCreated(function() {
     let t = this;
     t.state = new ReactiveVar(0);
     t.templates = [
-        'detailsForm', 'experienceForm', 'servicesForm',
-        'photosForm', 'pricingForm', 'profileReview'
+        'DetailsForm', 'ExperienceForm', 'ServicesForm',
+        'PhotosForm', 'PricingForm', 'ProfileReview'
     ];
     t.next = ()=> {
         let currentState = t.state.get();
@@ -28,7 +28,8 @@ Template.EditProfileCaregiver.onCreated(function() {
 Template.EditProfileCaregiver.helpers({
     display() {
         let t = Template.instance();
-        return t.templates[ t.state.get() ];
+        let template = t.templates[ t.state.get() ];
+        return `caregiver${template}`;
     }
 });
 
