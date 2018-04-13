@@ -1,0 +1,83 @@
+<template name="jobPostReview">
+    <div id="review" class="tab-pane fade">
+        <h2>Job Title</h2>
+        <div class="row reviewpic-row">
+            <div class="col-sm-6">
+                <h5>Profile Picture</h5>
+                <img src="/img/profpic.png" class="review-photo">
+            </div>
+            <div class="col-sm-6">
+                <h5>Cover Photo</h5>
+                <img src="/img/placeholder.png">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Name</h5>
+                <p>{{afFieldValue name="name"}} </p>
+                <br/>
+                <h5>Gender</h5>
+                <p>{{afFieldValue name="gender"}}</p>
+                <br/>
+                <h5>Date of Birth</h5>
+                <p>{{afFieldValue name="dob"}} </p>
+                <br />
+                <h5>Languages</h5>
+                <p>
+                    <ul>
+                        {{#each language in afFieldValue name="languages"}}
+                            <li>{{language}}</li>
+                        {{/each}}
+                    </ul>
+                </p>
+            </div>
+            <div class="col-sm-6">
+                <h5>Address</h5>
+                <p>{{afFieldValue name="address"}}</p>
+                <br />
+                <h5>District</h5>
+                <p>{{afFieldValue name="district"}} </p>
+                <br />
+                <h5>Country</h5>
+                <p>{{afFieldValue name="country"}} </p>
+            </div>
+        </div>
+        <br/>
+        <h5>Job Description</h5>
+        <p>{{afFieldValue name="jobDescription"}} </p>
+        <br/>
+        <h5>Special Medical Conditions</h5>
+        <p>
+            <ul>
+                {{#each condition in afFieldValue name="medicalConditions"}}
+                    <li>{{condition}}</li>
+                {{/each}}
+            </ul>
+        </p>
+        <br/>
+        {{#if afFieldValue name="description"}}
+            <h5>Describe your Loved Ones</h5>
+            <p>{{afFieldValue name="description"}} </p>
+        {{/if}}
+        <br/>
+        <h5>Work Times</h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Day of Week</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each day in afFieldValue name="days"}}
+                    <tr>
+                        <td>{{day}}</td>
+                        <td>{{afFieldValue name="startTime"}} - {{afFieldValue name="endTime"}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <a href="#form-title" class="btn btn-default back">Back</a>
+        <button type="submit" class="btn btn-primary pull-right">Submit</button>
+    </div>
+</template>

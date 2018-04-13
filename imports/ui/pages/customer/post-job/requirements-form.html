@@ -1,0 +1,22 @@
+<template name="jobRequirementsForms">
+    <div id="requirements" class="tab-pane fade">
+        {{> afQuickField name="caregiverType" options="allowed" type="select-checkbox-inline"}}
+        {{> afQuickField name="professionalServices" options="allowed" type="select-checkbox-inline"}}
+        {{> afQuickField name="personalServices" options="allowed" type="select-checkbox-inline"}}
+        {{> afQuickField name="medicalConditions" options="allowed" type="select-checkbox-inline"}}
+        {{> afQuickField name="days" options="allowed" type="select-checkbox-inline"}}
+        <div class="row">
+            <div class="col-sm-6">
+                {{> afQuickField name="startDate"}}
+                {{> afQuickField name="endDate"}}
+            </div>
+            <div class="col-sm-6">
+                {{> afQuickField name="startTime" type="time"}}
+                {{> afQuickField name="endTime" type="time"}}
+            </div>
+        </div>
+        {{> afQuickField name="jobDescription" type="textarea" rows=4 placeholder="Looking after elderly."}}
+        <a href="#form-title" class="btn btn-default back">Back</a>
+        <a href="#form-title" class="btn btn-primary next pull-right">Next</a>
+    </div>
+</template>

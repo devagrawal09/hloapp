@@ -1,0 +1,34 @@
+<template name="PostJob">
+    <div class="container-small">
+        <h3 id="form-title">Post a Job</h3>
+
+        <ul class="nav nav-pills nav-justified postjob-steps">
+            <li class="active">
+                <a data-toggle="pill" href="#details">Details</a>
+            </li>
+            <li>
+                <a data-toggle="pill" href="#requirements">Requirements</a>
+            </li>
+            <li>
+                <a data-toggle="pill" href="#photos">Photos</a>
+            </li>
+            <li>
+                <a data-toggle="pill" href="#review">Review</a>
+            </li>
+        </ul>
+
+        {{#autoForm 
+            id="postJob"
+            type="method"
+            meteormethod="jobs.new"
+            schema=jobSchema
+        }}
+            <div class="tab-content">
+                {{> jobDetailsForm}}
+                {{> jobRequirementsForms}}
+                {{> jobPhotosForm}}
+                {{> jobPostReview}}
+            </div>
+        {{/autoForm}}
+    </div>
+</template>

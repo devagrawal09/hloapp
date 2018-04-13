@@ -18,14 +18,25 @@ export const detailsSchema = new SimpleSchema({
 //job details
     _id: Datatypes.Id,
     postedBy: Datatypes.Id,
-    title: String,
+    title: {
+        type: String,
+        label: 'Job Title'
+    },
     duration: {
         type: String,
+        label: 'Job Duration',
         allowedValues: ['Short term','Long term']
     },
-    gender: String,
+    name: String,
+    gender: {
+        type: String,
+        allowedValues: ['Male', 'Female']
+    },
     dob: Date,
-    hkid: String,
+    hkid: {
+        type: String,
+        label: 'HKID or Passport number'
+    },
     phone: String,
     email: SimpleSchema.RegEx.EmailWithTLD,
     address: String,
@@ -34,7 +45,11 @@ export const detailsSchema = new SimpleSchema({
     hobbies: String,
     languages: Array,
     'languages.$': Datatypes.Languages,
-    desciption: String,
+    description: {
+        type: String,
+        label: 'Describe your loved one (optional)',
+        optional: true
+    },
 //requirements
     caregiverType: Array,
     'caregiverType.$': Datatypes.CaregiverType,

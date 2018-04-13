@@ -45,7 +45,8 @@
 
     const CustomerRouter = PrivateRouter.group({
         triggersEnter: [function( con, redirect ) {
-            if ( Meteor.user().type !== 'customer' ) {
+            if ( Meteor.user().profile.type !== 'customer' ) {
+                console.log( 'You are not a customer' );
                 redirect('/dashboard');
             }
         }]
@@ -53,7 +54,7 @@
 
     const CaregiverRouter = PrivateRouter.group({
         triggersEnter: [function( con, redirect ) {
-            if ( Meteor.user().type !== 'caregiver' ) {
+            if ( Meteor.user().profile.type !== 'caregiver' ) {
                 redirect('/dashboard');
             }
         }]
@@ -78,24 +79,6 @@
             });
         }
     });
-    /*    
-        FlowRouter.route('/login', {
-            name: 'login',
-            action() {
-                import ('../../ui/pages/account').then(function() {
-                    BlazeLayout.render('LoginLayout', { main: 'Login' });
-                });
-            }
-        });
-        FlowRouter.route('/signup', {
-            name: 'signup',
-            action() {
-                import ('../../ui/pages/account').then(function() {
-                    BlazeLayout.render('LoginLayout', { main: 'Signup' });
-                });
-            }
-        });
-    */
 
     AccountsTemplates.configureRoute('signIn', {
         name: 'login',
@@ -198,6 +181,17 @@
 
 //caregiver routes
 //customer routes
+    CustomerRouter.route('/jobs/new', {
+        name: 'jobs.new',
+        action() {
+            import('../../ui/pages/customer/post-job').then(()=> {
+                BlazeLayout.render( 'AppLayout', {
+                    main: 'DashboardLayout',
+                    content: 'PostJob'
+                });
+            });
+        }
+    });
 //misc pages
     FlowRouter.route('/community', {
         name: 'community',
