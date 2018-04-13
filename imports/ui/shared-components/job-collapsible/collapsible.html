@@ -1,110 +1,65 @@
 <template name="jobCollapsible">
     <div class="job">
         <div class="job-name">
-            <h4>Jane Doe</h4>
-            <h6>June 6, 2017</h6>
+            <h4>{{title}}</h4>
+            <h6>{{getDate postedOn}}</h6>
         </div>
         <div class="job-right">
-            <img src="images/dashboard/confirmedjob.png" class="job-status">
-            <a class="expand-job" data-toggle="collapse" data-target="#job2">
+            <img src="{{rightImageSrc status}}" class="job-status">
+            <a class="expand-job" data-toggle="collapse" data-target="#{{_id}}">
                 <i class="fa fa-angle-down expand-job" aria-hidden="true"></i>
             </a>
         </div>
 
-        <div id="job2" class="collapse job-desc">
-            <div class="hired-caregiver">
-                <h4>Hired Caregiver</h4>
-                <img src="images/msg.png" class="hired-picture">
-                <h4>Sonia Tam</h4>
-                <h5>$120 HKD per hour</h5>
-                <button class="btn btn-primary">Message</button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Review</button>
+        <div id="{{_id}}" class="collapse job-desc">
+            {{#if isHired status}}
+                <div class="hired-caregiver">
+                    <h4>Hired Caregiver</h4>
+                    <img src="/img/msg.png" class="hired-picture">
+                    <h4>Sonia Tam</h4>
+                    <h5>$120 HKD per hour</h5>
+                    <button class="btn btn-primary">Message</button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Review</button>
 
-                <!-- Modal -->
-                <div id="myModal" class="modal fade review-modal" role="dialog">
-                    <div class="modal-dialog">
+                    <!-- Modal -->
+                    <div id="myModal" class="modal fade review-modal" role="dialog">
+                        <div class="modal-dialog">
 
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Review Caregiver</h4>
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Review Caregiver</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group rating-stars">
+                                            <label>Star Rating</label>
+                                            <br>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="comment">Comments</label>
+                                            <textarea class="form-control" rows="5" id="comment" placeholder="Describe your experience!"></textarea>
+                                        </div>
+                                        <div class="submit-buttons">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div class="form-group rating-stars">
-                                        <label>Star Rating</label>
-                                        <br>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="comment">Comments</label>
-                                        <textarea class="form-control" rows="5" id="comment" placeholder="Describe your experience!"></textarea>
-                                    </div>
-                                    <div class="submit-buttons">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
+
                         </div>
-
                     </div>
+
                 </div>
-
-            </div>
-            <h4>Work Times</h4>
-            <h6>From November 6, 2017 - December 10, 2017</h6>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Day of Week</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Sunday</td>
-                        <td>10:00 AM - 3:00 PM</td>
-                    </tr>
-                    <tr>
-                        <td>Monday</td>
-                        <td>10:00 AM - 3:00 PM</td>
-                    </tr>
-                    <tr>
-                        <td>Wednesday</td>
-                        <td>10:00 AM - 3:00 PM</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="job">
-        <div class="job-name">
-            <h4>Jane Doe</h4>
-            <h6>June 6, 2017</h6>
-        </div>
-        <div class="job-right">
-            <img src="images/dashboard/pendingjob.png" class="job-status">
-            <a class="expand-job" data-toggle="collapse" data-target="#job1">
-                <i class="fa fa-angle-down expand-job" aria-hidden="true"></i>
-            </a>
-        </div>
-
-        <div id="job1" class="collapse job-desc">
+            {{/if}}
             <h4>Job Description</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla egestas sapien id nisi pharetra dapibus. Quisque
-                nec dictum nunc. Proin sem diam, venenatis et elit id, blandit gravida neque. Curabitur sed eros cursus
-                dui molestie ornare ac dictum nibh. Morbi aliquet congue massa vestibulum venenatis. Pellentesque facilisis
-                tempus sem, at vestibulum erat volutpat ac. Vestibulum ac orci fringilla, euismod velit non, rutrum quam.
-                Integer pharetra sagittis mi et viverra. Sed porta odio viverra, vulputate mauris eu, fringilla enim.
-                Etiam rutrum congue placerat. Sed vitae tincidunt urna. Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Aliquam iaculis libero a mi facilisis efficitur. Phasellus nibh velit, pretium et faucibus a, tempus
-                id purus.</p>
+            <p>{{jobDescription}}</p>
             <br/>
             <h4>Work Times</h4>
             <table class="table">
@@ -115,48 +70,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Sunday</td>
-                        <td>10:00 AM - 3:00 PM</td>
-                    </tr>
-                    <tr>
-                        <td>Monday</td>
-                        <td>10:00 AM - 3:00 PM</td>
-                    </tr>
-                    <tr>
-                        <td>Wednesday</td>
-                        <td>10:00 AM - 3:00 PM</td>
-                    </tr>
+                    {{#each day in days}}
+                        <tr>
+                            <td>{{day}}</td>
+                            <td>{{startTime}} - {{endTime}} </td>
+                        </tr>
+                    {{/each}}
                 </tbody>
             </table>
             <br/>
-            <h4>Caregiver Applicants</h4>
-            <table class="table table-hover applicants">
-                <tr>
-                    <td>
-                        <a href="profile.html" class="applicant-link">
-                            <h5 class="applicant-name">James Drake</h5>
-                            <p class="applicant-date">Nov 4, 2017</p>
-                        </a>
-                    </td>
-                    <td class="applicant-buttons">
-                        <a href="#" class="btn btn-default">Hire</a>
-                        <button href="#" class="btn btn-default">Message</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="profile.html" class="applicant-link">
-                            <h5 class="applicant-name">James Drake</h5>
-                            <p class="applicant-date">Nov 4, 2017</p>
-                        </a>
-                    </td>
-                    <td class="applicant-buttons">
-                        <a href="#" class="btn btn-default">Hire</a>
-                        <button class="btn btn-default">Message</button>
-                    </td>
-                </tr>
-            </table>
+            {{#unless isHired status}}
+                <h4>Caregiver Applicants</h4>
+                <table class="table table-hover applicants">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="profile.html" class="applicant-link">
+                                    <h5 class="applicant-name">James Drake</h5>
+                                    <p class="applicant-date">Nov 4, 2017</p>
+                                </a>
+                            </td>
+                            <td class="applicant-buttons">
+                                <a class="btn btn-default">Hire</a>
+                                <button class="btn btn-default">Message</button>
+                            </td>
+                        </tr>                
+                    </tbody>
+                </table>
+            {{/unless}}
         </div>
     </div>
 </template>

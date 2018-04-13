@@ -16,7 +16,7 @@
     <div class="container-small dashbar">
         <!-- dashboard tabs -->
         <div class="row text-center">
-            <a class="col-xs-3 {{isActiveRoute 'dashboard'}}" href="{{pathFor 'dashboard'}}">
+            <a class="col-xs-3 {{isActiveRoute regex='dashboard|jobs.new'}}" href="{{pathFor 'dashboard'}}">
                 <img src="img/dashboard/suitcase.png" class="dashboard-logo">
                 <p>Jobs</p>
             </a>

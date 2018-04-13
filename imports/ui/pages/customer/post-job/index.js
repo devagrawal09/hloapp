@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { AutoForm } from 'meteor/aldeed:autoform';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { detailsSchema } from '../../../../api/jobs/schema';
 import { newJob } from '../../../../api/jobs';
@@ -25,3 +27,14 @@ Template.PostJob.events({
     }
 });
 
+AutoForm.hooks({
+    postJob: {
+        after: { method( err, result ) {
+            if( err ) {
+                console.log( err );
+            } else {
+                FlowRouter.go('dashboard');
+            }
+        }}
+    }
+});
