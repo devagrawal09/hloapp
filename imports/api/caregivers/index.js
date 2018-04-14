@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
@@ -10,7 +11,7 @@ export const updateProfile = new ValidatedMethod({      //update profile
     validate: profileSchema.validator(),
     run( profile ) {
 
-        if ( profile.user !== this.userId ) {
+        if ( !this.userId || profile.user !== this.userId ) {
            //if current user doesn't match received profile user
            throw new Meteor.Error('caregiver.update.profile.unauthorized',
             'Invalid input, please try again');            
@@ -29,6 +30,11 @@ export const updateProfile = new ValidatedMethod({      //update profile
            'Invalid input, please try again');
         }
 
+        Meteor.users.update( this.userId, { $set: {
+            firstName: profile.firstName,
+            lastName: profile.lastName
+        }});
+
     }
 });
 
@@ -37,7 +43,7 @@ export const updateExperiences = new ValidatedMethod({  //update experiences
     validate: experienceSchema.validator(),
     run( experiences ) {
 
-        if ( experiences.user !== this.userId ) {
+        if ( !this.userId || experiences.user !== this.userId ) {
            //if current user doesn't match received document
            throw new Meteor.Error('caregiver.update.experiences.unauthorized',
             'Invalid input, please try again');            
@@ -66,7 +72,7 @@ export const updateServices = new ValidatedMethod({     //update services
 
         console.log( 'am i visible' );
 
-        if ( services.user !== this.userId ) {
+        if ( !this.userId || services.user !== this.userId ) {
            //if current user doesn't match received document
            throw new Meteor.Error('caregiver.update.services.unauthorized',
             'Invalid input, please try again');            
@@ -92,7 +98,7 @@ export const updatePlan = new ValidatedMethod({
     name: 'caregiver.update.plan',
     validate: pricingSchema.validator(),
     run( plan ) {
-        if ( plan.user !== this.userId ) {
+        if ( !this.userId || plan.user !== this.userId ) {
             //if current user doesn't match received document
             throw new Meteor.Error('caregiver.update.plan.unauthorized',
              'Invalid input, please try again');            

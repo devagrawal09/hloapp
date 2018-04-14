@@ -28,10 +28,7 @@ export const detailsSchema = new SimpleSchema({
         allowedValues: ['Short term','Long term']
     },
     name: String,
-    gender: {
-        type: String,
-        allowedValues: ['Male', 'Female']
-    },
+    gender: Datatypes.Gender,
     dob: Date,
     hkid: {
         type: String,

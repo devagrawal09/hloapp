@@ -34,13 +34,35 @@
                     <li>
                         <a href="forum">Forum</a>
                     </li>
-                    <li>
-                        {{#if currentUser}}
-                            <a href="" class="logout">Logout</a>
-                        {{else}}
+                    {{#if currentUser}}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                {{currentUser.firstName}} {{currentUser.lastName}}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{pathFor 'dashboard'}}">Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="{{pathFor 'chat'}}">Messages</a>
+                                </li>
+                                <li>
+                                    <a href="{{pathFor 'profile.edit'}}">Edit Profile</a>
+                                </li>
+                                <li>
+                                    <a href="{{pathFor 'settings'}}">Account settings</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="logout">Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                    {{else}}
+                        <li>
                             <a href="account">Sign Up/Login</a>
-                        {{/if}}
-                    </li>
+                        </li>
+                    {{/if}}
                     <li>
                         <span class="navbar-divider">|</span>
                     </li>

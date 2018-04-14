@@ -1,4 +1,5 @@
 import '../../api/users';
+import '../../api/users/server/publications.js';
 
 import '../../api/caregivers';
 import '../../api/caregivers/server/publications.js';

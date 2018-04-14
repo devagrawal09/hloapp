@@ -4,7 +4,10 @@ import { Jobs } from '../../../../api/jobs';
 
 import '../../../shared-components/job-collapsible';
 import './posted-jobs.html';
-Package['msavin:mongol'].Mongol.showCollection('jobs');
+
+if( Meteor.settings.public.env === 'development' ) {
+    Package['msavin:mongol'].Mongol.showCollection('jobs');
+}
 
 Template.PostedJobs.onCreated(function() {
     let t = this;

@@ -1,0 +1,27 @@
+<template name="EditProfileCustomer">
+    <div class="container-small">
+        {{#autoForm
+            id="editUserProfile"
+            type="method"
+            meteormethod="user.updateProfile"
+            schema=profileSchema
+            doc=profileDoc
+        }}
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="form-title">Personal Information</h3>
+                </div>
+                <div class="col-sm-6 form-column">
+                    {{> afQuickField name="firstName"}}
+                    {{> afQuickField name="lastName"}}
+                </div>
+                <div class="col-sm-6 form-column">
+                    {{> afQuickField name="gender" options="allowed" type="select-radio-inline"}}
+                </div>
+            </div>
+            <div class="submit-buttons">
+                <button type="submit" class="btn btn-primary form-btn">Save</button>
+            </div>
+        {{/autoForm}}
+    </div>
+</template>

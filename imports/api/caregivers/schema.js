@@ -18,10 +18,7 @@ export const profileSchema = new SimpleSchema({
     user: Datatypes.Id,
     firstName: String,
     lastName: String,
-    gender: {
-        type: String,
-        allowedValues: ['Male', 'Female']
-    },
+    gender: Datatypes.Gender,
     dob: Date,
     aboutText: String,
     address: String,

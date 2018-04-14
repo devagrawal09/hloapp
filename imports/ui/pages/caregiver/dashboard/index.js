@@ -2,9 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 import { Caregivers } from '../../../../api/caregivers';
-Package['msavin:mongol'].Mongol.showCollection('caregivers');
 
 import './job-history.html';
+
+if( Meteor.settings.public.env === 'development' ) {
+    Package['msavin:mongol'].Mongol.showCollection('caregivers');
+}
 
 Template.JobHistory.onCreated(function() {
     let t = this;

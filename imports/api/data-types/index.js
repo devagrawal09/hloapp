@@ -5,6 +5,10 @@ export default {
         type: String,
         regEx: SimpleSchema.RegEx.Id    //Meteor id format
     },
+    Gender: {
+        type: String,
+        allowedValues: ['Male', 'Female']   //Gender values
+    },
     Time: {
         type: String,
         regEx: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/  // H:MM/HH:MM format

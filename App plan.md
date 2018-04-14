@@ -197,6 +197,8 @@ Third Party service providers
 Questions for next meeting
 -------------------------------
 
+* We need service configuration details to integrate the above 3rd party service providers.
+
 * What is the composition of photos for a job post? Does it consist a cover photo and a display photo (like the caregiver profile)? Or is it just a few display photos (like a small gallery)?
 * Can a customer edit job details after it's been posted? And after a caregiver has been hired?
 * Can a caregiver withdraw his application for a job while it's still open?
@@ -207,3 +209,6 @@ Questions for next meeting
 * Can a customer edit his review to a caregiver?
 * If a customer hires a caregiver he has hired before for a new job, will he give another review? Will it replace the old review?
 * After the completion of a job, when the customer sends his payment, should it automatically transfer to the caregiver's paypal (after deducting commission)?
+
+* The Forum section is not included in the quotation, but we did get Forum home and topic screenshots. Do you want us to make it?
+* We are only developing the webapp in English. However the sample front-end supplied to us has an option for Chinese too. Do you want us to make a Chinese version too?

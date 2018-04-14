@@ -16,20 +16,19 @@
     import '../../ui/layouts/app-layout';
     import '../../ui/layouts/login-layout';
 
-//import dashboard layout on login
+//login and logout hooks
+
+    let handle;
+
     Accounts.onLogin(()=> {     //on successful login attempt
+        handle = Meteor.subscribe( 'user.profile' );
         import('../../ui/layouts/dashboard-layout').then(function(){
             FlowRouter.go('dashboard');
         });
     });
 
-    Meteor.startup(()=> {       //if user is already logged in
-        if ( Meteor.userId() ) {
-            import('../../ui/layouts/dashboard-layout').then(function(){
-                let currentPath = FlowRouter.current().path;    //reload current page
-                FlowRouter.go(currentPath);
-            });
-        }
+    Accounts.onLogout(()=> {    //on successful logout attempt
+        handle.stop()
     });
 
 //route groups
