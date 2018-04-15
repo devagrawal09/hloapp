@@ -1,0 +1,42 @@
+<template name="Search">
+    <div class="container-fluid">
+        <div class="row equal">
+            <div class="col-sm-3 search-filters">
+                {{#autoForm
+                    id="searchFilter"
+                    schema=filterSchema
+                    doc=filterDoc
+                }}
+
+                    {{> afQuickField name="name" type="search-box"}}
+                    {{> afQuickField name="gender" options="allowed" type="select-radio-inline"}}
+                
+                    {{#each field in afFieldNames omitFields="name,gender" }}
+                        <div class="filter">
+                            <h5 data-toggle="collapse" data-target="#{{field.name}}">
+                                {{humanize field.name}}
+                                <span class="caret"></span>
+                            </h5>
+                            <div id="{{field.name}}" class="collapse">
+                                {{> afQuickField
+                                    name=field.name
+                                    options="allowed"
+                                    type="filter-checkbox"
+                                }}
+                            </div>
+                        </div>
+                    {{/each}}
+
+                    <button class="btn btn-warning" type="reset">Clear</button>
+                    <button class="btn btn-primary" type="submit">Apply</button>
+
+                {{/autoForm}}
+            </div>
+            <div class="col-sm-9 search-body">
+                {{#each doc in docs}}
+                    {{doc.title}} {{doc.fullName}} <br>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</template>

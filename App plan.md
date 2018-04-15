@@ -199,6 +199,8 @@ Questions for next meeting
 
 * We need service configuration details to integrate the above 3rd party service providers.
 
+* What do you want the Search option in the Search filters sidebar to do?
+
 * What is the composition of photos for a job post? Does it consist a cover photo and a display photo (like the caregiver profile)? Or is it just a few display photos (like a small gallery)?
 * Can a customer edit job details after it's been posted? And after a caregiver has been hired?
 * Can a caregiver withdraw his application for a job while it's still open?

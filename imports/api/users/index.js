@@ -7,6 +7,15 @@ import Datatypes from '../data-types';
 export const userProfileSchema = new SimpleSchema({
     firstName: String,
     lastName: String,
+    fullName: {
+        type: String,
+        optional: true,
+        autoValue() {
+            let firstName = this.field( 'firstName' ).value;
+            let lastName = this.field( 'lastName' ).value;
+            return `${firstName} ${lastName}`;
+        }
+    },
     gender: Datatypes.Gender
 });
 
@@ -15,8 +24,10 @@ export const updateUserProfile = new ValidatedMethod({
     validate: userProfileSchema.validator(),
     run( profile ) {
         
+        let cleanProfile = userProfileSchema.clean( profile );
+
         let result = Meteor.users.update( this.userId, {
-            $set: profile
+            $set: cleanProfile
         });
 
         if( !result ) {

@@ -17,11 +17,13 @@ export const updateProfile = new ValidatedMethod({      //update profile
             'Invalid input, please try again');            
         }
 
+        let cleanProfile = profileSchema.clean( profile );
+
         let result = Caregivers.update({
-            _id: profile._id,
-            user: profile.user
+            _id: cleanProfile._id,
+            user: cleanProfile.user
         }, {
-            $set: profile
+            $set: cleanProfile
         });
 
         if ( !result ) {
@@ -31,8 +33,9 @@ export const updateProfile = new ValidatedMethod({      //update profile
         }
 
         Meteor.users.update( this.userId, { $set: {
-            firstName: profile.firstName,
-            lastName: profile.lastName
+            firstName: cleanProfile.firstName,
+            lastName: cleanProfile.lastName,
+            fullName: cleanProfile.fullName
         }});
 
     }

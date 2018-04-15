@@ -5,6 +5,7 @@ Meteor.publish( 'user.profile', function() {
         fields: {
             firstName: 1,
             lastName: 1,
+            fullName: 1,
             gender: 1
         }
     });

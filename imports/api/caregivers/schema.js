@@ -18,6 +18,15 @@ export const profileSchema = new SimpleSchema({
     user: Datatypes.Id,
     firstName: String,
     lastName: String,
+    fullName: {
+        type: String,
+        optional: true,
+        autoValue() {
+            let firstName = this.field( 'firstName' ).value;
+            let lastName = this.field( 'lastName' ).value;
+            return `${firstName} ${lastName}`;
+        }
+    },
     gender: Datatypes.Gender,
     dob: Date,
     aboutText: String,

@@ -65,5 +65,13 @@ export default {
             'Cantonese', 'English', 'French', 'German', 'Italian',
             'Japanese', 'Korean', 'Putonghua', 'Spanish', 'Tagalog'
         ]
+    },
+    Location: {
+        type: String,
+        allowedValues: [
+            'Central', 'Sai Wan Ho', 'Aberdeen', 'Wan Chai',
+            'Kwun Tong', 'Sham Shui Po', 'San Ko Pong', 'Mongkok',
+            'Sha Tin', 'Tsuen Wan', 'Yuen Long', 'Kowloon'
+        ]
     }
 }

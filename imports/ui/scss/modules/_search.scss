@@ -3,12 +3,13 @@
     background-color: $red;
     position: relative;
     padding: 30px;
+    color: $white;
 
     /* search box styling */
     .fa-search {
         position: absolute;
         color: $grey;
-        top: 40px;
+        top: 65px;
         left: 40px;
     }
 
@@ -17,24 +18,19 @@
     }
 }
 
-.location-filter, .technical-filter, .languages-filter { /* filter categories */
+.filter { /* filter categories */
     cursor: pointer;
     color: $purewhite;
     margin-top: 30px;
 
-    ul { /* list of specific filters */
-        list-style-type: none;
-        padding-left: 8px; /* indent */
+    .control-label { display: none; }
 
-        li { /* spacing for a filter */
-            padding: 10px 15px;
-            margin: 5px;
+    .btn {
+        text-align: left;
+        &.active{
+            background-color: $darkred;
+            border-radius: 5px;
         }
-    }
-
-    .filter-selected { /* a filter */
-        background-color: $darkred;
-        border-radius: 5px;
     }
 }
 

@@ -2,6 +2,10 @@ import { Meteor } from 'meteor/meteor';
 
 import { Caregivers } from '../index.js';
 
+Meteor.publish('caregivers', function() {
+    return Caregivers.find({});
+});
+
 Meteor.publish('caregiverById', function( id ) {
     return Caregivers.find( id );
 });

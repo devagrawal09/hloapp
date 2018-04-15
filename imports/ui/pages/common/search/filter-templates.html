@@ -1,0 +1,17 @@
+<template name="searchBox">
+    <div class="form-group search-bar">
+        <span class="fa fa-search"></span>
+        <input type="text" class="form-control" placeholder="Search" value="{{this.value}}" {{this.atts}}>
+    </div>
+</template>
+
+<template name="filterCheckbox">
+    <div class="af-checkbox-group btn-group-toggle" data-toggle="buttons" {{dsk}}>
+        {{#each this.items}}
+            <label class="btn btn-secondary btn-block">
+                <input type="checkbox" value="{{this.value}}" {{atts}} />
+                {{this.label}}
+            </label>
+        {{/each}}
+    </div>
+</template>

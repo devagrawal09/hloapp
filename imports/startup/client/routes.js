@@ -178,6 +178,16 @@
         }
     });
 
+//search routes
+    FlowRouter.route('/caregivers', {
+        name: 'caregivers.search',
+        action() {
+            import('../../ui/pages/common/search').then(()=> {
+                BlazeLayout.render('AppLayout', { main: 'Search', search: 'caregivers' });
+            });
+        }
+    });
+
 //caregiver routes
 //customer routes
     CustomerRouter.route('/jobs/new', {
