@@ -4,10 +4,12 @@
     // padding: 20px 0px 30px 0px;
 
     .header-image-col {
-        text-align: right;
+        text-align: left;
     }
 
     .header-image {
-        width: 50%;
+        width: 130%;
+        position: absolute;
+        top: 15px;
     }
 }

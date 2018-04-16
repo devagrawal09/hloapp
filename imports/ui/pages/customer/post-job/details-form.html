@@ -12,8 +12,11 @@
             </div>
             <div class="col-sm-6">
                 {{> afQuickField name="address" type="textarea" rows=4 placeholder="14A Evergreen Villa"}}
-                {{> afQuickField name="district"}}
-                {{> afQuickField name="country"}}
+                {{> afQuickField name="district" options="allowed"}}
+                {{#if afFieldValueIs name="district" value="Other"}}
+                    {{> afQuickField name="otherDistrict" placeholder="Please specify"}}
+                {{/if}}
+                {{> afQuickField name="country" options="allowed"}}
                 {{> afQuickField name="email" placeholder="john.doe@example.com"}}
                 {{> afQuickField name="hobbies" type="textarea" rows="3" placeholder="Biking, running..."}}
             </div>

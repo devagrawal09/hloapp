@@ -16,7 +16,16 @@ export const userProfileSchema = new SimpleSchema({
             return `${firstName} ${lastName}`;
         }
     },
-    gender: Datatypes.Gender
+    gender: Datatypes.Gender,
+    phone: String,
+    address: String,
+    district: Datatypes.Location,
+    otherDistrict: {
+        type: String,
+        optional: true,
+        label: 'Please specify district'
+    },
+    country: Datatypes.Country
 });
 
 export const updateUserProfile = new ValidatedMethod({

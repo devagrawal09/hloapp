@@ -36,7 +36,13 @@
                 <p>{{afFieldValue name="address"}}</p>
                 <br />
                 <h5>District</h5>
-                <p>{{afFieldValue name="district"}} </p>
+                <p>
+                    {{#if afFieldValueIs name="district" value="Other"}}
+                        {{afFieldValue name="otherDistrict"}}
+                    {{else}}
+                        {{afFieldValue name="district"}}
+                    {{/if}}
+                </p>
                 <br />
                 <h5>Country</h5>
                 <p>{{afFieldValue name="country"}} </p>

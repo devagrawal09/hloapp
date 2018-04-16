@@ -17,7 +17,10 @@ const filterSchema = new SimpleSchema({
         label: 'Search from name'
     },
     gender: Datatypes.Gender,
-    location: Array,
+    location: {
+        type: Array,
+        defaultValue: []
+    },
     'location.$': Datatypes.Location,
     caregiverType: Array,
     'caregiverType.$': Datatypes.CaregiverType,
@@ -32,13 +35,15 @@ const filterSchema = new SimpleSchema({
 }, { requiredByDefault: false });
 
 const Filter = new ReactiveVar({});
+const displayType = new ReactiveVar('grid');
 
 Template.Search.onCreated(function() {
     let t = this;
     t.autorun(()=> {
-        if( t.data.search === 'caregivers' ) {
+        let search = Template.currentData().search();
+        if( search === 'caregivers' ) {
             t.subscribe( 'caregivers' );
-        } else if( t.data.search === 'jobs' ) {
+        } else if( search === 'jobs' ) {
             t.subscribe( 'jobs' );
         }
     });
@@ -52,43 +57,55 @@ Template.Search.helpers({
         return Filter.get();
     },
     docs() {
-        let t = Template.instance();
+        let search = Template.currentData().search();
         let filter = Filter.get();
-        let query = {
-            fullName: {
-                $regex: filter.name,
-                $options: 'i'
-            },
-            gender: filter.gender,
-            district: { $all: location },
-            caregiverType: { $all: caregiverType },
-            professionalServices: { $all: professionalServices },
-            personalServices: { $all: personalServices },
-            languages: { $all: languages },
-            medicalExpertise: { $all: medicalConditions }
-        };
-        if( t.data.search === 'caregivers' ) {
-            return Caregivers.find( query );
+
+        let Query = Object.keys( filter ).reduce(( query, key )=> {     //create query
+            if( key === 'name' ) {
+                query.fullName = { $regex: filter[key], $options: 'i' };
+                return query;
+            }
+            if( key === 'gender' ) {
+                query.gender = filter[key];
+                return query;
+            }
+            if( key === 'location' ) {
+                query.district = { $all: filter[key] };
+                return query;
+            }
+            query[key] = { $all: filter[key] };
+            return query;
+        }, {});
+
+        console.log(Query);
+        if( search === 'caregivers' ) {
+            return Caregivers.find( Query );
         }
-        if( t.data.search === 'jobs' ) {
-            return Jobs.find( query );
+        if( search === 'jobs' ) {
+            return Jobs.find( Query );
         }
     },
-    template() {
-        let t = Template.instance();
-        if( t.data.search === 'caregivers' ) {
-            return 'caregiverCard';
-        }
-        if( t.data.search === 'jobs' ) {
-            return 'jobAd';
-        }
+    display() {
+        let display = {};
+        display.type = displayType.get();
+        display.search = Template.currentData().search();
+        return display;
+    }
+});
+
+Template.Search.events({ 
+    'click .display-grid'() { 
+        displayType.set( 'grid' );
+    },
+    'click .display-list'() {
+        displayType.set( 'list' );
     }
 });
 
 AutoForm.hooks({
     searchFilter: {
         onSubmit( doc ) {
-            console.log( doc );
+            let cleanDoc = filterSchema.clean( doc );
             Filter.set( doc );
             this.done();
             return false;

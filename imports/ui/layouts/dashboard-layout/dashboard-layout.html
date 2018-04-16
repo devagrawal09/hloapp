@@ -2,36 +2,36 @@
     <div class="header">
         <div class="container">
             <div class="row">
-                <div class="col-xs-6">
-                    <h1>Dashboard</h1>
-                    <h5>Manage caregivers, job postings, and messages.</h5>
+                <div class="col-xs-10">
+                    <h1>Welcome, {{currentUser.fullName}}</h1>
+                    <h4>Manage caregivers, job postings, and messages.</h4>
                 </div>
-                <div class="col-xs-6 header-image-col">
-                    <img src="img/infopage/pluses.png" class="header-image">
+                <div class="col-xs-2 header-image-col">
+                    <img src="img/infopage/plus.png" class="header-image">
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="container-small dashbar">
-        <!-- dashboard tabs -->
-        <div class="row text-center">
-            <a class="col-xs-3 {{isActiveRoute regex='dashboard|jobs.new'}}" href="{{pathFor 'dashboard'}}">
-                <img src="img/dashboard/suitcase.png" class="dashboard-logo">
-                <p>Jobs</p>
-            </a>
-            <a class="col-xs-3 {{isActiveRoute regex='chat|conversation'}}" href="{{pathFor 'chat'}}">
-                <img src="img/dashboard/messages.png" class="dashboard-logo">
-                <p>Messages</p>
-            </a>
-            <a class="col-xs-3 {{isActiveRoute 'profile.edit'}}" href="{{pathFor 'profile.edit'}}">
-                <img src="img/dashboard/profile.png" class="dashboard-logo">
-                <p>Profile</p>
-            </a>
-            <a class="col-xs-3 {{isActiveRoute 'settings'}}" href="{{pathFor 'settings'}}">
-                <img src="img/dashboard/settings.png" class="dashboard-logo">
-                <p>Settings</p>
-            </a>
+        <div class="container-small dashbar">
+            <!-- dashboard tabs -->
+            <div class="row text-center">
+                <a class="col-xs-3 {{isActiveRoute regex='dashboard|jobs.new'}}" href="{{pathFor 'dashboard'}}">
+                    <i class="fa fa-briefcase dashboard-logo"></i>
+                    <p>Jobs</p>
+                </a>
+                <a class="col-xs-3 {{isActiveRoute regex='chat|conversation'}}" href="{{pathFor 'chat'}}">
+                        <i class="fa fa-envelope dashboard-logo"></i>
+                    <p>Messages</p>
+                </a>
+                <a class="col-xs-3 {{isActiveRoute 'profile.edit'}}" href="{{pathFor 'profile.edit'}}">
+                        <i class="fa fa-user dashboard-logo"></i>
+                    <p>Profile</p>
+                </a>
+                <a class="col-xs-3 {{isActiveRoute 'settings'}}" href="{{pathFor 'settings'}}">
+                        <i class="fa fa-cog dashboard-logo"></i>
+                    <p>Settings</p>
+                </a>
+            </div>
         </div>
     </div>
 

@@ -17,6 +17,14 @@ AccountsTemplates.configure({
 });
 
 AccountsTemplates.addField({
+    _id: 'fullName',
+    type: 'text',
+    required: true,
+    displayName: 'Full name',
+    placeholder: 'Full name'
+});
+
+AccountsTemplates.addField({
     _id: 'type',
     type: 'select',
     select: [{

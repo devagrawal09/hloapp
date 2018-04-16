@@ -71,7 +71,14 @@ export default {
         allowedValues: [
             'Central', 'Sai Wan Ho', 'Aberdeen', 'Wan Chai',
             'Kwun Tong', 'Sham Shui Po', 'San Ko Pong', 'Mongkok',
-            'Sha Tin', 'Tsuen Wan', 'Yuen Long', 'Kowloon'
+            'Sha Tin', 'Tsuen Wan', 'Yuen Long', 'Kowloon', 'Other'
+        ]
+    },
+    Country: {
+        type: String,
+        allowedValues: [
+            'Hong Kong', 'China', 'Singapore',
+            'Malaysia', 'India'
         ]
     }
 }

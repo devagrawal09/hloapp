@@ -10,9 +10,9 @@
         display: block;
         border: none;
         background: none;
-        color: $pureblack;
+        color: white;
         
-        p { font-size: 15px }
+        p { font-size: 18px }
     }
 
     .active {
@@ -21,6 +21,6 @@
 }
 
 .dashboard-logo {
-    height: 40px;
+    font-size: 40px;
     padding: 5px;
 }

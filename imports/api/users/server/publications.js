@@ -6,7 +6,12 @@ Meteor.publish( 'user.profile', function() {
             firstName: 1,
             lastName: 1,
             fullName: 1,
-            gender: 1
+            gender: 1,
+            phone: 1,
+            address: 1,
+            district: 1,
+            otherDistrict: 1,
+            country: 1
         }
     });
 });

@@ -31,22 +31,13 @@ export const profileSchema = new SimpleSchema({
     dob: Date,
     aboutText: String,
     address: String,
-    district: {
+    district: Datatypes.Location,
+    otherDistrict: {
         type: String,
-        allowedValues: [
-            'Central', 'Sai Wan Ho', 'Aberdeen', 'Wan Chai',
-            'Kwun Tong', 'Sham Shui Po', 'San Ko Pong',
-            'Mongkok', 'Sha Tin', 'Tsuen Wan', 'Yuen Long',
-            'Kowloon', 'Other'
-        ]
+        optional: true,
+        label: 'Please specify district'
     },
-    country: {
-        type: String,
-        allowedValues: [
-            'Hong Kong', 'China', 'Singapore',
-            'Malaysia', 'India'
-        ]
-    },
+    country: Datatypes.Country,
     religion: String,
     hobbies: String,
     workLocation: String,
@@ -105,8 +96,11 @@ export const servicesSchema = new SimpleSchema({
     'professionalServices.$': Datatypes.ProfessionalService,
     personalServices: Array,
     'personalServices.$': Datatypes.PersonalService,
-    medicalExpertise: Array,
-    'medicalExpertise.$': Datatypes.MedicalCondition
+    medicalConditions: {
+        type: Array,
+        label: 'Medical Expertise'
+    },
+    'medicalConditions.$': Datatypes.MedicalCondition
 });
 export const pricingSchema = new SimpleSchema({
     _id: Datatypes.Id,

@@ -37,8 +37,13 @@ export const detailsSchema = new SimpleSchema({
     phone: String,
     email: SimpleSchema.RegEx.EmailWithTLD,
     address: String,
-    district: String,
-    country: String,
+    district: Datatypes.Location,
+    otherDistrict: {
+        type: String,
+        optional: true,
+        label: 'Please specify district'
+    },
+    country: Datatypes.Country,
     hobbies: String,
     languages: Array,
     'languages.$': Datatypes.Languages,

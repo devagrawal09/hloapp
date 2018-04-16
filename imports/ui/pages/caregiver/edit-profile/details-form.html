@@ -20,6 +20,9 @@
                 <div class="col-sm-6 form-column">
                     {{> afQuickField name="address"}}
                     {{> afQuickField name="district" options="allowed"}}
+                    {{#if afFieldValueIs name="district" value="Other"}}
+                        {{> afQuickField name="otherDistrict"}}
+                    {{/if}}
                     {{> afQuickField name="country" options="allowed"}}
                     {{> afQuickField name="religion"}}
                     {{> afQuickField name="workLocation"}}
