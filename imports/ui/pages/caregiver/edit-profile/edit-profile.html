@@ -2,31 +2,44 @@
     <div class="container-small">
         <ul class="nav nav-pills nav-justified postjob-steps">
             <li class="active">
-                <a href="#0">Details</a>
+                <a data-toggle="pill" href="#details">Details</a>
             </li>
             <li>
-                <a href="#1">Experience</a>
+                <a data-toggle="pill" href="#experience">Experience</a>
             </li>
             <li>
-                <a href="#2">Services</a>
+                <a data-toggle="pill" href="#services">Services</a>
             </li>
             <li>
-                <a href="#3">Photos</a>
+                <a data-toggle="pill" href="#photos">Photos</a>
             </li>
             <li>
-                <a href="#4">Pricing</a>
+                <a data-toggle="pill" href="#pricing">Pricing</a>
             </li>
             <li>
-                <a href="#5">Review</a>
+                <a data-toggle="pill" href="#review">Review</a>
             </li>
         </ul>
         
         <h3 id="form-title">Become a Caregiver</h3>
 
-        <div class="tab-content">
-                
-            {{> Template.dynamic template=display}}
-            
-        </div>
+        {{#autoForm
+            id="editCaregiver"
+            type="method"
+            meteormethod="caregiver.update"
+            schema=caregiverSchema
+            doc=caregiverDoc
+        }}
+            {{> afQuickField name="_id" type="hidden"}}
+            {{> afQuickField name="user" type="hidden"}}
+            <div class="tab-content">
+                {{> caregiverDetailsForm}}
+                {{> caregiverExperienceForm}}
+                {{> caregiverServicesForm}}
+                {{> caregiverPhotosForm}}
+                {{> caregiverPricingForm}}
+                {{> caregiverProfileReview}}
+            </div>
+        {{/autoForm}}
     </div>
 </template>

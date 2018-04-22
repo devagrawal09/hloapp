@@ -17,10 +17,7 @@ const filterSchema = new SimpleSchema({
         label: 'Search from name'
     },
     gender: Datatypes.Gender,
-    location: {
-        type: Array,
-        defaultValue: []
-    },
+    location: Array,
     'location.$': Datatypes.Location,
     caregiverType: Array,
     'caregiverType.$': Datatypes.CaregiverType,
@@ -67,10 +64,6 @@ Template.Search.helpers({
             }
             if( key === 'gender' ) {
                 query.gender = filter[key];
-                return query;
-            }
-            if( key === 'location' ) {
-                query.district = { $all: filter[key] };
                 return query;
             }
             query[key] = { $all: filter[key] };

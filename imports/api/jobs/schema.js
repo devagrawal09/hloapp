@@ -29,7 +29,7 @@ export const detailsSchema = new SimpleSchema({
     },
     name: String,
     gender: Datatypes.Gender,
-    dob: Date,
+    dob: Datatypes.Date,
     hkid: {
         type: String,
         label: 'HKID or Passport number'
@@ -37,7 +37,7 @@ export const detailsSchema = new SimpleSchema({
     phone: String,
     email: SimpleSchema.RegEx.EmailWithTLD,
     address: String,
-    district: Datatypes.Location,
+    location: Datatypes.Location,
     otherDistrict: {
         type: String,
         optional: true,
@@ -61,11 +61,9 @@ export const detailsSchema = new SimpleSchema({
     'personalServices.$': Datatypes.PersonalService,
     medicalConditions: Array,
     'medicalConditions.$': Datatypes.MedicalCondition,
-    startDate: Date,
-    endDate: Date,
+    startDate: Datatypes.Date,
+    endDate: Datatypes.Date,
     days: Array,
-    'days.$': Datatypes.Day,
-    startTime: Datatypes.Time,
-    endTime: Datatypes.Time,
+    'days.$': Datatypes.WorkTime,
     jobDescription: String
 });

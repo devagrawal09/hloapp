@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema';
 
-export default {
+export default Datatypes = {
     Id: {
         type: String,
         regEx: SimpleSchema.RegEx.Id    //Meteor id format
@@ -11,14 +11,21 @@ export default {
     },
     Time: {
         type: String,
-        regEx: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/  // H:MM/HH:MM format
+        regEx: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,  // H:MM/HH:MM format
+        autoform: {
+            type: 'time'
+        }
     },
     Day: {
-        type:String,
+        type: String,
         allowedValues: [
             'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
             'Saturday', 'Sunday'
         ]
+    },
+    Date: {
+        type: String,
+        autoform: { type: 'date' }
     },
     CaregiverType: {
         type: String,
@@ -68,6 +75,7 @@ export default {
     },
     Location: {
         type: String,
+        label: 'District',
         allowedValues: [
             'Central', 'Sai Wan Ho', 'Aberdeen', 'Wan Chai',
             'Kwun Tong', 'Sham Shui Po', 'San Ko Pong', 'Mongkok',
@@ -82,3 +90,9 @@ export default {
         ]
     }
 }
+
+Datatypes.WorkTime = new SimpleSchema({
+    day: Datatypes.Day,
+    start: Datatypes.Time,
+    end: Datatypes.Time
+});

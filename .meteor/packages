@@ -25,7 +25,7 @@ dynamic-import
 accounts-ui
 accounts-password
 accounts-facebook
-accounts-google
+pauli:accounts-linkedin
 useraccounts:bootstrap
 useraccounts:flow-routing
 mdg:validated-method
@@ -34,7 +34,7 @@ kadira:flow-router
 kadira:blaze-layout
 arillo:flow-router-helpers
 dburles:collection-helpers
+aldeed:autoform
+ostrio:files
 
 msavin:mongol
-aldeed:autoform
-pauli:accounts-linkedin

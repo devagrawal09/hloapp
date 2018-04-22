@@ -1,39 +1,46 @@
 <template name="caregiverDetailsForm">
-    <div>
-        {{#autoForm 
-            id="detailsForm"
-            type="method"
-            schema=profileSchema 
-            doc=profileDoc
-            meteormethod="caregiver.update.profile"
+    <div id="details" class="tab-pane fade in active">
+        
+        <div class="row">
+            <div class="col-sm-6 form-column">
+                {{> afQuickField name="firstName"}}
+                {{> afQuickField name="lastName"}}
+                {{> afQuickField name="gender" 
+                    options="allowed" 
+                    type="select-radio-inline"
+                }}
+                {{> afQuickField name="dob"}}
+                {{> afQuickField name="languages" 
+                    options="allowed" 
+                    type="select-checkbox-inline"
+                }}
+            </div>
+            <div class="col-sm-6 form-column">
+                {{> afQuickField name="address"}}
+                {{> afQuickField name="location" options="allowed"}}
+
+                {{#if afFieldValueIs name="district" value="Other"}} 
+                    {{> afQuickField name="otherDistrict"}}
+                {{/if}}
+
+                {{> afQuickField name="country" options="allowed"}}
+                {{> afQuickField name="religion"}}
+                {{> afQuickField name="workLocation"}}
+            </div>
+        </div>
+        {{> afQuickField 
+            name="hobbies" 
+            type="textarea" 
+            rows=3 placeholder="Biking, painting..."
         }}
-            {{> afQuickField name="_id" type="hidden"}}
-            {{> afQuickField name="user" type="hidden"}}
-            <div class="row">
-                <div class="col-sm-6 form-column">
-                    {{> afQuickField name="firstName"}}
-                    {{> afQuickField name="lastName"}}
-                    {{> afQuickField name="gender" options="allowed" type="select-radio-inline"}}
-                    {{> afQuickField name="dob"}}
-                    {{> afQuickField name="languages" options="allowed" type="select-checkbox-inline"}}
-                </div>
-                <div class="col-sm-6 form-column">
-                    {{> afQuickField name="address"}}
-                    {{> afQuickField name="district" options="allowed"}}
-                    {{#if afFieldValueIs name="district" value="Other"}}
-                        {{> afQuickField name="otherDistrict"}}
-                    {{/if}}
-                    {{> afQuickField name="country" options="allowed"}}
-                    {{> afQuickField name="religion"}}
-                    {{> afQuickField name="workLocation"}}
-                </div>
-            </div>
-            {{> afQuickField name="hobbies" type="textarea" rows=3 placeholder="Biking, painting..."}}
-            {{> afQuickField name="aboutText" type="textarea" rows=5 placeholder="I am a 30 year old nursing student..."}}
-            <div class="submit-buttons">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a href="#form-title" class="btn btn-primary next">Next</a>
-            </div>
-        {{/autoForm}}
+        {{> afQuickField 
+            name="aboutText" 
+            type="textarea" 
+            rows=5 
+            placeholder="I am a 30 year old nursing student..."
+        }}
+        <div class="submit-buttons">
+            <a href="#form-title" class="btn btn-primary next">Next</a>
+        </div>
     </div>
 </template>

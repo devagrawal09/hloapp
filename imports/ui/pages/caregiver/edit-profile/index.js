@@ -1,62 +1,51 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import './forms.js';
-import './review.js';
+import { caregiverSchema } from '../../../../api/caregivers/schema.js';
+import { Caregivers } from '../../../../api/caregivers';
+
+import './details-form.html';
+import './experience-form.html';
+import './services-form.html';
+import './photos-form.html';
+import './pricing-form.html';
+import './review.html';
 
 import './edit-profile.html';
 
 Template.EditProfileCaregiver.onCreated(function() {
     let t = this;
-    t.state = new ReactiveVar(0);
-    t.templates = [
-        'DetailsForm', 'ExperienceForm', 'ServicesForm',
-        'PhotosForm', 'PricingForm', 'ProfileReview'
-    ];
-    t.next = ()=> {
-        let currentState = t.state.get();
-        if ( currentState === 5 ) return ;
-        t.state.set( currentState + 1 );
-    }
-    t.prev = ()=> {
-        let currentState = t.state.get();
-        if ( currentState === 0 ) return;
-        t.state.set( currentState - 1 );
-    }
+    t.autorun(()=> {
+        t.subscribe( 'caregiver.current' );
+    });
 });
 
 Template.EditProfileCaregiver.helpers({
-    display() {
-        let t = Template.instance();
-        let template = t.templates[ t.state.get() ];
-        return `caregiver${template}`;
+    caregiverSchema() {
+        return caregiverSchema;
+    },
+    caregiverDoc() {
+        return Caregivers.findOne({
+            user: Meteor.userId()
+        });
     }
 });
 
 Template.EditProfileCaregiver.events({
-    'click .nav a'( e, t ) {
-        t.$( 'li.active' ).removeClass( 'active' );
-        let $target = $( e.target );
-        let newState = parseInt( $target.attr( 'href' ).substr( 1 ) );
-        t.state.set( newState )
-        $target.parent().addClass( 'active' );
-    },
     'click .next'( e, t ) {
-        t.$( 'li.active' ).removeClass( 'active' );
-        t.next();
-        let newState = t.state.get();
-        let selector = `.nav a[href="#${newState}"]`;
-        console.log(selector);
-        let $target = $( selector );
-        $target.parent().addClass( 'active' );
+        t.$( '.nav li.active' ).next( 'li' ).children( 'a' ).tab( 'show' );
     },
     'click .back'( e, t ) {
-        t.$( 'li.active' ).removeClass( 'active' );
-        t.prev();
-        let newState = t.state.get();
-        let selector = `.nav a[href="#${newState}"]`;
-        console.log(selector);
-        let $target = $( selector );
-        $target.parent().addClass( 'active' );
+        t.$( '.nav li.active' ).prev( 'li' ).children( 'a' ).tab( 'show' );
+    }
+});
+
+Template.caregiverPricingForm.helpers({
+    options() {
+        return {
+            Free: 'Free plan - $0/mo, 10% commission',
+            Entrepreneur: 'Entrepreneur Plan - 88$/mo, 5% commission',
+            Partner: 'Partner Plan - 888$/mo, 10% commission'
+        }
     }
 });

@@ -10,10 +10,12 @@ const Experience = new SimpleSchema({
         type: String,
         label: 'Job Description'
     },
-    from: Date,
-    to: Date
+    from: Datatypes.Date,
+    to: Datatypes.Date
 });
-export const profileSchema = new SimpleSchema({
+
+export const caregiverSchema = new SimpleSchema({
+//details
     _id: Datatypes.Id,
     user: Datatypes.Id,
     firstName: String,
@@ -28,10 +30,10 @@ export const profileSchema = new SimpleSchema({
         }
     },
     gender: Datatypes.Gender,
-    dob: Date,
+    dob: Datatypes.Date,
     aboutText: String,
     address: String,
-    district: Datatypes.Location,
+    location: Datatypes.Location,
     otherDistrict: {
         type: String,
         optional: true,
@@ -42,11 +44,8 @@ export const profileSchema = new SimpleSchema({
     hobbies: String,
     workLocation: String,
     languages: Array,
-    'languages.$': Datatypes.Languages
-});
-export const experienceSchema = new SimpleSchema({
-    _id: Datatypes.Id,
-    user: Datatypes.Id,
+    'languages.$': Datatypes.Languages,
+//experience
     years: {
         type: SimpleSchema.Integer,
         label: 'Years of experience'
@@ -66,27 +65,20 @@ export const experienceSchema = new SimpleSchema({
     education: {
         type: String,
         label: 'Education History'
-    }
-});
-export const imagesSchema = new SimpleSchema({
-    _id: Datatypes.Id,
-    user: Datatypes.Id,
+    },
+//photos
     profileImg: String,
-    coverImg: String
-});
-export const servicesSchema = new SimpleSchema({
-    _id: Datatypes.Id,
-    user: Datatypes.Id,
+    coverImg: String,
+    photos: [String],
+//services
     hourlyRate: Number,
     extraCharges: Number,
     ownsCar: {
         type: Boolean,
         label: 'Do you own a car?'
     },
-    availableDays: Array,
-    'availableDays.$': Datatypes.Day,
-    availableTimeStart: Datatypes.Time,
-    availableTimeEnd: Datatypes.Time,
+    availability: Array,
+    'availability.$': Datatypes.WorkTime,
     caregiverType: {
         type: Array,
         label: 'Type of Caregiver'
@@ -100,20 +92,10 @@ export const servicesSchema = new SimpleSchema({
         type: Array,
         label: 'Medical Expertise'
     },
-    'medicalConditions.$': Datatypes.MedicalCondition
-});
-export const pricingSchema = new SimpleSchema({
-    _id: Datatypes.Id,
-    user: Datatypes.Id,
+    'medicalConditions.$': Datatypes.MedicalCondition,
+//plan
     plan: {
         type: String,
         allowedValues: [ 'Free', 'Entrepreneur', 'Partner' ]
     }
-});
-export const employmentSchema = new SimpleSchema({  //for reference
-    currentJob: Datatypes.Id,
-    appliedJobs: Array,                 //jobs applied in chronological order
-    'appliedJobs.$': Datatypes.Id,
-    jobHistory: Array,                  //job history in chronological order
-    'jobHistory.$': Datatypes.Id
 });

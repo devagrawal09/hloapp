@@ -1,5 +1,5 @@
 <template name="caregiverProfileReview">
-    <div>
+    <div id="review" class="tab-pane fade">
         <div class="row reviewpic-row">
             <div class="col-sm-6">
                 <h5>Profile Picture</h5>
@@ -13,40 +13,43 @@
         <div class="row">
             <div class="col-sm-6">
                 <h5>Name</h5>
-                <p>Input here</p>
+                <p>{{afFieldValue name="name"}}</p>
                 <br/>
                 <h5>Gender</h5>
-                <p>Input here</p>
+                <p>{{afFieldValue name="gender"}}</p>
                 <br/>
                 <h5>Date of Birth</h5>
-                <p>Input here</p>
+                <p>{{afFieldValue name="dob" }}</p>
                 <br />
                 <h5>Languages</h5>
-                <p>Input here</p>
+                <p>{{afFieldValue name="languages"}}</p>
                 <br/>
                 <h5>Religion</h5>
-                <p>Input here</p>
+                <p>{{afFieldValue name="religion"}}</p>
             </div>
             <div class="col-sm-6">
                 <h5>Address</h5>
-                <p>Input here</p>
+                <p>{{afFieldValue name="address"}}</p>
                 <br />
                 <h5>District</h5>
-                <p>Input here</p>
+                <p>{{afFieldValue name="location"}}</p>
                 <br />
                 <h5>Country</h5>
-                <p>Input here</p>
+                <p>{{afFieldValue name="country"}}</p>
             </div>
         </div>
         <br/>
-        <h5>About</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel velit viverra lectus dapibus lacinia.
-            Quisque dui magna, ultricies volutpat ultrices eget, tempor non eros. Mauris fringilla vehicula lectus
-            non tempus. Ut in faucibus elit, eget egestas ligula. Aliquam nulla turpis, luctus sit amet leo nec,
-            porta imperdiet neque. </p>
+        {{#if afFieldValue name="aboutText"}}
+            <h5>About</h5>
+            <p>{{afFieldValue name="aboutText"}}</p>
+        {{/if}}
         <br/>
         <h5>Special Medical Conditions</h5>
-        <p>Input here</p>
+        <ul class="row">
+            {{#each condition in afFieldValue name="medicalConditions"}}
+                <li class="col-sm-4">{{condition}}</li>
+            {{/each}}
+        </ul>
         <br/>
         <h5>Work Times</h5>
         <table class="table">
@@ -57,18 +60,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Sunday</td>
-                    <td>10:00 AM - 3:00 PM</td>
-                </tr>
-                <tr>
-                    <td>Monday</td>
-                    <td>10:00 AM - 3:00 PM</td>
-                </tr>
-                <tr>
-                    <td>Wednesday</td>
-                    <td>10:00 AM - 3:00 PM</td>
-                </tr>
+                {{#each day in afFieldValue name="availability"}}
+                    <tr>
+                        <td>{{day.day}} </td>
+                        <td>{{day.start}} - {{day.end}}</td>
+                    </tr>
+                {{/each}}
             </tbody>
         </table>
         <div class="submit-buttons">
