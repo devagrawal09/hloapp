@@ -3,25 +3,21 @@ import { AutoForm } from 'meteor/aldeed:autoform';
 
 import './checkbox-columns.html';
 
-AutoForm.addInputType( 'select-checkbox-columns', {
+AutoForm.addInputType('select-checkbox-columns', {
     template: 'selectCheckboxColumns',
     valueIsArray: true,
     valueOut() {
         var val = [];
         this.find('input[type=checkbox]').each(function () {
             if ($(this).is(":checked")) {
-                val.push( $(this).val() );
+                val.push($(this).val());
             }
         });
         return val;
     },
     contextAdjust(context) {
         var itemAtts = _.omit(context.atts);
-
-        // build items list
         context.items = [];
-
-        // Add all defined options
         _.each(context.selectOptions, function (opt) {
             context.items.push({
                 name: context.name,
@@ -32,7 +28,6 @@ AutoForm.addInputType( 'select-checkbox-columns', {
                 atts: itemAtts
             });
         });
-
         return context;
     }
 });
