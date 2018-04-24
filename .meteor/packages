@@ -35,6 +35,7 @@ kadira:blaze-layout
 arillo:flow-router-helpers
 dburles:collection-helpers
 aldeed:autoform
+aldeed:template-extension
 ostrio:files
 
 msavin:mongol

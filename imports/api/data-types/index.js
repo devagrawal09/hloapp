@@ -3,7 +3,8 @@ import SimpleSchema from 'simpl-schema';
 export default Datatypes = {
     Id: {
         type: String,
-        regEx: SimpleSchema.RegEx.Id    //Meteor id format
+        regEx: SimpleSchema.RegEx.Id,   //Meteor id format
+        autoform: { omit: true }
     },
     Gender: {
         type: String,
@@ -88,6 +89,14 @@ export default Datatypes = {
             'Hong Kong', 'China', 'Singapore',
             'Malaysia', 'India'
         ]
+    },
+    OtherField: {
+        type: String,
+        optional: true,
+        max: 50,
+        autoform: {
+            label: false
+        }
     }
 }
 

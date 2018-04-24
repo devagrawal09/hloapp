@@ -40,9 +40,14 @@ export const caregiverSchema = new SimpleSchema({
         label: 'Please specify district'
     },
     country: Datatypes.Country,
-    religion: String,
+    religion: {
+        type: String,
+        allowedValues: [
+            'Buddhist', 'Taoist', 'Hindu', 'Christian',  'Muslim'
+        ]
+    },
     hobbies: String,
-    workLocation: String,
+    workLocation: Datatypes.Location,
     languages: Array,
     'languages.$': Datatypes.Languages,
 //experience
@@ -73,6 +78,10 @@ export const caregiverSchema = new SimpleSchema({
 //services
     hourlyRate: Number,
     extraCharges: Number,
+    liveInService: {
+        type: Boolean,
+        label: 'Do you prefer live-in service?'
+    },
     ownsCar: {
         type: Boolean,
         label: 'Do you own a car?'
@@ -86,13 +95,16 @@ export const caregiverSchema = new SimpleSchema({
     'caregiverType.$': Datatypes.CaregiverType,
     professionalServices: Array,
     'professionalServices.$': Datatypes.ProfessionalService,
+    otherProfessionalService: Datatypes.OtherField,
     personalServices: Array,
     'personalServices.$': Datatypes.PersonalService,
+    otherPersonalService: Datatypes.OtherField,
     medicalConditions: {
         type: Array,
         label: 'Medical Expertise'
     },
     'medicalConditions.$': Datatypes.MedicalCondition,
+    otherMedicalCondition: Datatypes.OtherField,
 //plan
     plan: {
         type: String,

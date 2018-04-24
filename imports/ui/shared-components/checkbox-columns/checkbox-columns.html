@@ -1,0 +1,16 @@
+<template name="selectCheckboxColumns">
+    <div class="af-checkbox-group" {{dsk}}>
+        <div class="row">
+        {{#each this.items}}
+            <div class="col-sm-4">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="{{this.value}}" {{atts}} />
+                        {{this.label}}
+                    </label>
+                </div>
+            </div>
+        {{/each}}
+        </div>
+    </div>
+</template>

@@ -3,20 +3,39 @@
 
         <div class="row">
             <div class="col-sm-6">
-                {{> afQuickField name="hourlyRate" placeholder="80"}} {{> afQuickField name="caregiverType" options="allowed" noselect=true}}
-                {{> afQuickField name="personalServices" options="allowed" noselect=true}}
+                {{> afQuickField name="hourlyRate" placeholder="80"}}
+                {{> afQuickField name="liveInService"}}
             </div>
             <div class="col-sm-6">
-                {{> afQuickField name="extraCharges" placeholder="0"}} {{> afQuickField name="ownsCar"}} {{> afQuickField name="professionalServices"
-                options="allowed" noselect=true}}
+                {{> afQuickField name="extraCharges" placeholder="0"}}
+                {{> afQuickField name="ownsCar"}}
             </div>
         </div>
 
-        {{> afQuickField name="medicalConditions"
-            options="allowed"
-            type="select-checkbox-inline"
+        <h4>Type of CAREGIVER</h4>
+        {{> afQuickField name="caregiverType"
+            options="allowed" type="select-checkbox-columns" label=false
         }}
-        {{> afQuickField name="availability"}}
+
+        <h4>Professional SERVICES</h4>
+        {{> afQuickField name="professionalServices"
+            options="allowed" type="select-checkbox-columns" label=false
+        }}
+        {{> afQuickField name="otherProfessionalService" placeholder="Other"}}
+
+        <h4>Personal SERVICES</h4>
+        {{> afQuickField name="personalServices"
+            options="allowed" type="select-checkbox-columns" label=false
+        }}
+        {{> afQuickField name="otherPersonalService" placeholder="Other"}}
+
+        <h4>Medical Conditions</h4>
+        {{> afQuickField name="medicalConditions"
+            options="allowed" type="select-checkbox-columns" label=false
+        }}
+        {{> afQuickField name="otherMedicalCondition" placeholder="Other"}}
+
+        {{> afQuickField name="availability" template="bootstrap3-horizontal"}}
 
         <div class="submit-buttons">
             <a href="#form-title" class="btn btn-default back pull-left">Back</a>

@@ -4,6 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { caregiverSchema } from '../../../../api/caregivers/schema.js';
 import { Caregivers } from '../../../../api/caregivers';
 
+import '../../../shared-components/checkbox-columns';
 import './details-form.html';
 import './experience-form.html';
 import './services-form.html';

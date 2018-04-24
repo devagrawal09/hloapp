@@ -12,20 +12,20 @@
                 {{> afQuickField name="dob"}}
                 {{> afQuickField name="languages" 
                     options="allowed" 
-                    type="select-checkbox-inline"
+                    type="select-checkbox-columns"
                 }}
             </div>
             <div class="col-sm-6 form-column">
                 {{> afQuickField name="address"}}
                 {{> afQuickField name="location" options="allowed"}}
 
-                {{#if afFieldValueIs name="district" value="Other"}} 
+                {{#if afFieldValueIs name="location" value="Other"}} 
                     {{> afQuickField name="otherDistrict"}}
                 {{/if}}
 
                 {{> afQuickField name="country" options="allowed"}}
-                {{> afQuickField name="religion"}}
-                {{> afQuickField name="workLocation"}}
+                {{> afQuickField name="religion" options="allowed"}}
+                {{> afQuickField name="workLocation" options="allowed" label="Work Location"}}
             </div>
         </div>
         {{> afQuickField 
