@@ -34,7 +34,7 @@ export default Datatypes = {
             'Volunteer Caregivers', 'Nursing Students', 'Home Nurse',
             'Eldercare', 'Weekend Caregivers', 'Special Needs',
             'Specialist Caregivers', 'Expert Caregivers',
-            'TLC Caregivers', 'Licensed Nurse'
+            'TLC Caregivers', 'Licensed Nurse', 'Sports Buddies'
         ]
     },
     ProfessionalService: {

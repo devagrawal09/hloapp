@@ -11,12 +11,14 @@
         border: none;
         background: none;
         color: white;
+        text-decoration: none;
         
         p { font-size: 18px }
     }
 
     .active {
         opacity: 1;
+        font-weight: bold;
     }
 }
 

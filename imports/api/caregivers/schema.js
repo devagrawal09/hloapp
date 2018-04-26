@@ -34,7 +34,7 @@ export const caregiverSchema = new SimpleSchema({
     religion: {
         type: String,
         allowedValues: [
-            'Buddhist', 'Taoist', 'Hindu', 'Christian',  'Muslim'
+            'Christian', 'Catholic', 'Buddhist', 'Muslim', 'Taoist', 'Hindu', 'Other'
         ]
     },
     hobbies: String,
@@ -69,9 +69,13 @@ export const caregiverSchema = new SimpleSchema({
 //services
     hourlyRate: Number,
     extraCharges: Number,
-    liveInService: {
-        type: Boolean,
-        label: 'Do you prefer live-in service?'
+    serviceType: {
+        type: Array,
+        label: 'Preferred type of service'
+    },
+    'serviceType.$': {
+        type: String,
+        allowedValues: ['Live-in', 'Live-out']
     },
     ownsCar: {
         type: Boolean,

@@ -10,7 +10,7 @@
 
 //import methods
     import '../../api/users';
-    import { commonRoutesAction } from './boilerplates';
+    import { commonRoutesAction, showLoader } from './boilerplates';
 
 //import layouts
     import '../../ui/layouts/app-layout';
@@ -22,9 +22,7 @@
 
     Accounts.onLogin(()=> {     //on successful login attempt
         handle = Meteor.subscribe( 'user.profile' );
-        import('../../ui/layouts/dashboard-layout').then(function(){
-            FlowRouter.go('dashboard');
-        });
+        import('../../ui/layouts/dashboard-layout');
     });
 
     Accounts.onLogout(()=> {    //on successful logout attempt
@@ -111,6 +109,7 @@
     PrivateRouter.route('/dashboard', {
         name: 'dashboard',
         action() {
+            showLoader();
             commonRoutesAction({ caregiver: {
                 import() { return import('../../ui/pages/caregiver/dashboard') },
                 render: {
@@ -131,10 +130,11 @@
     PrivateRouter.route('/chat', {
         name: 'chat',
         action() {
-            BlazeLayout.render('AppLayout', {
-                main: 'DashboardLayout',
+            showLoader();
+            // BlazeLayout.render('AppLayout', {
+            //     main: 'DashboardLayout',
                     
-            });
+            // });
         }
     });
     
@@ -152,6 +152,7 @@
     PrivateRouter.route('/profile', {
         name: 'profile.edit',
         action() {
+            showLoader('DashboardLayout');
             commonRoutesAction({ caregiver: {
                 import() { return import('../../ui/pages/caregiver/edit-profile') },
                 render: {
