@@ -17,11 +17,18 @@ AccountsTemplates.configure({
 });
 
 AccountsTemplates.addField({
-    _id: 'fullName',
+    _id: 'firstName',
     type: 'text',
     required: true,
-    displayName: 'Full name',
-    placeholder: 'Full name'
+    displayName: 'First name',
+    placeholder: 'First name'
+});
+AccountsTemplates.addField({
+    _id: 'lastName',
+    type: 'text',
+    required: true,
+    displayName: 'Last name',
+    placeholder: 'Last name'
 });
 
 AccountsTemplates.addField({

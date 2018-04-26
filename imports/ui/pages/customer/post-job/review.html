@@ -37,10 +37,10 @@
                 <br />
                 <h5>District</h5>
                 <p>
-                    {{#if afFieldValueIs name="district" value="Other"}}
+                    {{#if afFieldValueIs name="location" value="Other"}}
                         {{afFieldValue name="otherDistrict"}}
                     {{else}}
-                        {{afFieldValue name="district"}}
+                        {{afFieldValue name="location"}}
                     {{/if}}
                 </p>
                 <br />
@@ -54,11 +54,14 @@
         <br/>
         <h5>Special Medical Conditions</h5>
         <p>
+            <!--
             <ul>
                 {{#each condition in afFieldValue name="medicalConditions"}}
                     <li>{{condition}}</li>
                 {{/each}}
             </ul>
+            -->
+            {{afFieldValue name="medicalConditions"}}
         </p>
         <br/>
         {{#if afFieldValue name="description"}}
@@ -77,8 +80,8 @@
             <tbody>
                 {{#each day in afFieldValue name="days"}}
                     <tr>
-                        <td>{{day}}</td>
-                        <td>{{afFieldValue name="startTime"}} - {{afFieldValue name="endTime"}}</td>
+                        <td>{{day.day}}</td>
+                        <td>{{day.start}} - {{day.end}}</td>
                     </tr>
                 {{/each}}
             </tbody>

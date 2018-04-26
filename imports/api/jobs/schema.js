@@ -67,6 +67,10 @@ export const detailsSchema = new SimpleSchema({
     startDate: Datatypes.Date,
     endDate: Datatypes.Date,
     days: Array,
-    'days.$': Datatypes.WorkTime,
+    'days.$': {
+        type: Datatypes.WorkTime,
+        label: null,
+        autoform: { label: false }
+    },
     jobDescription: String
 });

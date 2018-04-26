@@ -9,15 +9,15 @@ export const Caregivers = new Mongo.Collection('caregivers');
 export const updateCaregiverProfile = new ValidatedMethod({ //update caregiver profile
     name: 'caregiver.update',
     validate: caregiverSchema.validator(),
-    run( caregiver ) {
+    run( doc ) {
         
-        if ( !this.userId || profile.user !== this.userId ) {
+        if ( !this.userId || doc.user !== this.userId ) {
             //if current user doesn't match received profile user
             throw new Meteor.Error('caregiver.update.profile.unauthorized',
-            'Invalid input, please try again');            
+            'Invalid input, please try again');
         }
 
-        let doc = caregiverSchema.clean( caregiver );
+        doc.isProfileComplete = true;
 
         let result = Caregivers.update({
             _id: doc._id,

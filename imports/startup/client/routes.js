@@ -54,6 +54,7 @@
     const CaregiverRouter = PrivateRouter.group({
         triggersEnter: [function( con, redirect ) {
             if ( Meteor.user().profile.type !== 'caregiver' ) {
+                console.log( 'You are not a caregiver' );
                 redirect('/dashboard');
             }
         }]

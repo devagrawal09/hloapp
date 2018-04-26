@@ -1,7 +1,9 @@
 <template name="LoginLayout">
     <div class="row">
         <div class="col-sm-7 login-column">
-            <img src="img/logo2.png" class="login-logo" />
+            <a href="{{pathFor 'landing'}}">
+                <img src="img/logo2.png" class="login-logo" />
+            </a>
             {{> Template.dynamic template=main}}
         </div>
         <div class="col-sm-5 why-hlo">

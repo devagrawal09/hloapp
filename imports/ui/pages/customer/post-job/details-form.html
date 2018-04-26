@@ -12,8 +12,8 @@
             </div>
             <div class="col-sm-6">
                 {{> afQuickField name="address" type="textarea" rows=4 placeholder="14A Evergreen Villa"}}
-                {{> afQuickField name="district" options="allowed"}}
-                {{#if afFieldValueIs name="district" value="Other"}}
+                {{> afQuickField name="location" options="allowed"}}
+                {{#if afFieldValueIs name="location" value="Other"}}
                     {{> afQuickField name="otherDistrict" placeholder="Please specify"}}
                 {{/if}}
                 {{> afQuickField name="country" options="allowed"}}
@@ -21,7 +21,7 @@
                 {{> afQuickField name="hobbies" type="textarea" rows="3" placeholder="Biking, running..."}}
             </div>
         </div>
-        {{> afQuickField name="languages" options="allowed" type="select-checkbox-inline"}}
+        {{> afQuickField name="languages" options="allowed" type="select-checkbox-columns"}}
         {{> afQuickField name="description" type="textarea" rows=5 placeholder="An elderly cheerful woman with a good taste in music."}}
         <a href="#form-title" class="btn btn-primary next pull-right">Next</a><br>
     </div>

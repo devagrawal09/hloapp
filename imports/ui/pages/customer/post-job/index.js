@@ -6,6 +6,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { detailsSchema } from '../../../../api/jobs/schema';
 import { newJob } from '../../../../api/jobs';
 
+import '../../../shared-components/checkbox-columns';
 import './details-form.html';
 import './requirements-form.html';
 import './photos-form.html';
