@@ -4,7 +4,7 @@ export default Datatypes = {
     Id: {
         type: String,
         regEx: SimpleSchema.RegEx.Id,   //Meteor id format
-        autoform: { omit: true }
+        autoform: { type: 'hidden' }
     },
     Gender: {
         type: String,

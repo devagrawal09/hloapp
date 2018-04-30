@@ -11,7 +11,7 @@
                 }}
                 {{> afQuickField name="dob"}}
                 {{> afQuickField name="languages" 
-                    options="allowed" 
+                    options="allowed"
                     type="select-checkbox-columns"
                 }}
             </div>
@@ -39,8 +39,6 @@
             rows=5 
             placeholder="I am a 30 year old nursing student..."
         }}
-        <div class="submit-buttons">
-            <a href="#form-title" class="btn btn-primary next">Next</a>
-        </div>
+        {{> submitButtons skipBack=true}}
     </div>
 </template>

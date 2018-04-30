@@ -10,6 +10,7 @@ import './experience-form.html';
 import './services-form.html';
 import './photos-form.html';
 import './pricing-form.html';
+import './submit-buttons.html';
 import './review.html';
 
 import './edit-profile.html';

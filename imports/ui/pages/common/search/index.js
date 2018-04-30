@@ -9,7 +9,12 @@ import { Jobs } from '../../../../api/jobs';
 
 import '../../../helpers';
 import './filter-templates.js';
+import '../../../shared-components/caregiver-card';
 import './search.html';
+
+if( Meteor.settings.public.env === 'development' ) {
+    Package['msavin:mongol'].Mongol.showCollection('caregivers');
+}
 
 const filterSchema = new SimpleSchema({
     name: {

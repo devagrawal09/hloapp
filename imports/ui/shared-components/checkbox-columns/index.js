@@ -8,7 +8,7 @@ AutoForm.addInputType('select-checkbox-columns', {
     valueIsArray: true,
     valueOut() {
         var val = [];
-        this.find('input[type=checkbox]').each(function () {
+        this.find('.checkbox input[type=checkbox]').each(function () {
             if ($(this).is(":checked")) {
                 val.push($(this).val());
             }
@@ -32,4 +32,18 @@ AutoForm.addInputType('select-checkbox-columns', {
     }
 });
 
-Template.selectCheckboxColumns.inheritsHelpersFrom('select-checkbox');
+Template.selectCheckboxColumns.helpers({
+    atts: function selectedAttsAdjust() {
+        var atts = _.clone(this.atts);
+        if (this.selected) {
+            atts.checked = "";
+        }
+        delete atts["data-schema-key"];
+        return atts;
+    },
+    dsk: function dsk() {
+        return {
+            "data-schema-key": this.atts["data-schema-key"]
+        }
+    }
+});

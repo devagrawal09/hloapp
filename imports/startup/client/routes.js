@@ -26,7 +26,7 @@
     });
 
     Accounts.onLogout(()=> {    //on successful logout attempt
-        handle.stop()
+        handle.stop();
     });
 
 //route groups
@@ -59,7 +59,7 @@
     });
 
 //landing page
-    PublicOnlyRouter.route('/', {
+    FlowRouter.route('/', {
         name: 'landing',
         action() {
             import('../../ui/pages/landing').then(function() {

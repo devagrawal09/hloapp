@@ -63,9 +63,15 @@ export const caregiverSchema = new SimpleSchema({
         label: 'Education History'
     },
 //photos
-    profileImg: String,
-    coverImg: String,
-    photos: [String],
+    profileImg: {
+        type: String,
+        optional: true
+    },
+    coverImg: {
+        type: String,
+        optional: true
+    },
+    // photos: [String],
 //services
     hourlyRate: Number,
     extraCharges: Number,

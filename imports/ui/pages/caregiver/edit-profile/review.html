@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <h5>Name</h5>
-                <p>{{afFieldValue name="name"}}</p>
+                <p>{{afFieldValue name="firstName"}} {{afFieldValue name="lastName"}}</p>
                 <br/>
                 <h5>Gender</h5>
                 <p>{{afFieldValue name="gender"}}</p>
@@ -22,7 +22,11 @@
                 <p>{{afFieldValue name="dob" }}</p>
                 <br />
                 <h5>Languages</h5>
-                <p>{{afFieldValue name="languages"}}</p>
+                <ul class="row">
+                    {{#each language in afFieldValue name="languages"}}
+                        <li class="col-sm-6">{{language}}</li>
+                    {{/each}}
+                </ul>
                 <br/>
                 <h5>Religion</h5>
                 <p>{{afFieldValue name="religion"}}</p>
@@ -47,7 +51,7 @@
         <h5>Special Medical Conditions</h5>
         <ul class="row">
             {{#each condition in afFieldValue name="medicalConditions"}}
-                <li class="col-sm-4">{{condition}}</li>
+                <li class="col-sm-3">{{condition}}</li>
             {{/each}}
         </ul>
         <br/>

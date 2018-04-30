@@ -1,23 +1,47 @@
 <template name="EditProfileCaregiver">
     <div class="container-small">
-        <ul class="nav nav-pills nav-justified postjob-steps">
+        <ul class="nav nav-justified postjob-steps">
             <li class="active">
-                <a data-toggle="pill" href="#details">Details</a>
+                <a data-toggle="pill" href="#details">
+                    <div class="heart-bg">
+                        <i class="fa fa-heart"></i>
+                    </div>Details
+                </a>
             </li>
             <li>
-                <a data-toggle="pill" href="#experience">Experience</a>
+                <a data-toggle="pill" href="#experience">
+                    <div class="heart-bg">
+                        <i class="fa fa-heart"></i>
+                    </div>Experience
+                </a>
             </li>
             <li>
-                <a data-toggle="pill" href="#services">Services</a>
+                <a data-toggle="pill" href="#services">
+                    <div class="heart-bg">
+                        <i class="fa fa-heart"></i>
+                    </div>Services
+                </a>
             </li>
             <li>
-                <a data-toggle="pill" href="#photos">Photos</a>
+                <a data-toggle="pill" href="#photos">
+                    <div class="heart-bg">
+                        <i class="fa fa-heart"></i>
+                    </div>Photos
+                </a>
             </li>
             <li>
-                <a data-toggle="pill" href="#pricing">Pricing</a>
+                <a data-toggle="pill" href="#pricing">
+                    <div class="heart-bg">
+                        <i class="fa fa-heart"></i>
+                    </div>Pricing
+                </a>
             </li>
             <li>
-                <a data-toggle="pill" href="#review">Review</a>
+                <a data-toggle="pill" href="#review">
+                    <div class="heart-bg">
+                        <i class="fa fa-heart"></i>
+                    </div>Review
+                </a>
             </li>
         </ul>
         
@@ -30,6 +54,8 @@
             schema=caregiverSchema
             doc=caregiverDoc
         }}
+            {{> afQuickField name="_id"}}
+            {{> afQuickField name="user"}}
             <div class="tab-content">
                 {{> caregiverDetailsForm}}
                 {{> caregiverExperienceForm}}

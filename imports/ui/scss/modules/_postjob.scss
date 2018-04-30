@@ -1,10 +1,26 @@
 .postjob-steps { /* pill color change */
-    li.active a, li.active a:hover, li.active a:focus {
-        background-color: $green;
-    } 
 
-    li a {
-        color: $pureblack;
+    li {
+
+        a {
+            color: $pureblack;
+            opacity: 0.5;
+            &:hover, &:focus {
+                background-color: #fff;
+            }
+        }
+        &.active {
+            a {
+                opacity: 1;
+            }
+        }
+    }
+    li .heart-bg {
+        background-color: pink;
+        color: red;
+        border-radius: 50%;
+        padding: 10px 20px;
+        font-size: 40px;
     }
 }
 

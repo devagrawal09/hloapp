@@ -18,5 +18,5 @@ export const commonRoutesAction = ({ caregiver, customer })=> {
 }
 
 export const showLoader = ()=> {
-    BlazeLayout.render( 'AppLayout', { main: 'DashboardLayout', content: 'loading' });
+    // BlazeLayout.render( 'AppLayout', { main: 'DashboardLayout', content: 'loading' });
 }
