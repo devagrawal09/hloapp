@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
 
 import Datatypes from '../data-types';
+import { Caregivers } from '../caregivers';
 
 export const userProfileSchema = new SimpleSchema({
     firstName: String,
@@ -25,7 +26,13 @@ export const userProfileSchema = new SimpleSchema({
         optional: true,
         label: 'Please specify district'
     },
-    country: Datatypes.Country
+    country: Datatypes.Country,
+    bookmarks: {
+        type: Array,
+        optional: true,
+        defaultValue: []
+    },
+    'bookmarks.$': Datatypes.Id
 });
 
 export const updateUserProfile = new ValidatedMethod({
@@ -43,6 +50,60 @@ export const updateUserProfile = new ValidatedMethod({
             throw new Meteor.Error('user.updateProfile',
             'You are not registered with us!');
         }
+    }
+});
+
+export const bookmarkCaregiver = new ValidatedMethod({       //toggle caregiver bookmark
+    name: 'user.bookmark',
+    validate: new SimpleSchema({
+        id: Datatypes.Id
+    }).validator(),
+    run({ id }) {
+
+        //must be logged in
+        if( !this.userId ) {
+            throw new Meteor.Error('user.bookmark.unauthorized',
+            'You are not logged in!');
+        }
+
+        //check that the input caregiver exists
+        let caregiver = Caregivers.findOne( id );
+
+        //caregiver doesn't exist
+        if( !caregiver ) {
+            throw new Meteor.Error('user.bookmark.invalid', 
+            'Invalid input! Please try again');
+        }
+
+        //can't bookmark self
+        if( caregiver.user === this.userId ) {
+            throw new Meteor.Error('user.bookmark.invalid', 
+            'You cannot bookmark yourself!');
+        }
+
+        let currentUser = Meteor.users.findOne( this.userId );
+
+        //check if current user has already bookmarked this caregiver
+        if( _.indexOf( currentUser.bookmarks, id ) === -1 ) {
+
+            //add bookmark
+            Meteor.users.update({
+                _id: this.userId
+            }, {
+                $push: { bookmarks: id }
+            });
+            return true;
+            
+        }
+
+        //remove existing bookmark
+        Meteor.users.update({
+            _id: this.userId
+        }, {
+            $pull: { bookmarks: id }
+        });
+
+        return true;
     }
 });
 

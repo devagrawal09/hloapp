@@ -1,0 +1,158 @@
+<template name="CaregiverProfile">
+    <div class="container-fluid profile-cover" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/profile/cov.jpg')">
+    </div>
+    <div class="row profile-head">
+        <div class="col-sm-3">
+            <div class="profile-pic" style="background-image: url('/img/profile/dp.png')">
+                <div class="favorite">
+                    <a href="" class="{{isBookmarked}}">
+                        <i class="fa {{#if isBookmarked}}fa-heart{{else}}fa-plus{{/if}}" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 name">
+            <h1>{{caregiver.firstName}} {{caregiver.lastName}}</h1>
+            <div class="rating">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                <a href="#reviews">(7)</a>
+            </div>
+            <h4><span class="label label-success">${{caregiver.hourlyRate}} HKD per hour</span></h4>
+        </div>
+        <div class="col-sm-3 profile-buttons">
+            <a class="btn btn-primary" href="#" role="button">Hire</a>
+            <a class="btn btn-default-clear" href="#" role="button">Message</a>
+        </div>
+    </div>
+
+    <!-- profile desc -->
+    <div class="row profile-main">
+        <div class="col-sm-9 profile-body">
+            <div class="profile-section">
+                <h2>About</h2>
+                <p>{{caregiver.aboutText}}</p>
+            </div>
+            <div class="profile-section">
+                <h2>Type of CAREGIVER</h2>
+                <ul class="row list-group">
+                    {{#each type in caregiver.caregiverType}}
+                        <li class="col-sm-3 list-group-item">
+                            {{type}}
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="profile-section">
+                <h2>Professional SERVICES</h2>
+                <ul class="row list-group">
+                    {{#each service in caregiver.professionalServices}}
+                        <li class="col-sm-3 list-group-item">
+                            {{service}}
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="profile-section">
+                <h2>Personal SERVICES</h2>
+                <ul class="row list-group">
+                    {{#each service in caregiver.personalServices}}
+                        <li class="col-sm-3 list-group-item">
+                            {{service}}
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="profile-section">
+                <h2>Medical Expertise</h2>
+                <ul class="row list-group">
+                    {{#each condition in caregiver.medicalConditions}}
+                        <li class="col-sm-3 list-group-item">
+                            {{condition}}
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="profile-section">
+                <h2>Availibility</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Day of Week</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each day in caregiver.availability}}
+                            <tr>
+                                <td>{{day.day}} </td>
+                                <td>{{day.start}} - {{day.end}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="profile-section" id="reviews">
+                <h2>Reviews</h2>
+                <h5 class="average-rating">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                    (7 total)
+                </h5>
+                    <div class="row reviewer-info">
+                        <div class="col-xs-6">
+                            <img src="/img/profile/review.png" class="review-pic">
+                            <h4 class="review-name">John Smith</h4>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-xs-6 review-date">
+                            <p>June 17, 2017</p>
+                        </div>
+                    </div>
+                    <div class="review-desc">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                    </div>
+            </div>
+        </div>
+        <div class="col-sm-3 profile-sidebar">
+            <div class="location-bar">
+                <p>
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    {{#if caregiver.otherDistrict}}
+                        {{caregiver.otherDistrict}}
+                    {{else}}
+                        {{caregiver.location}}
+                    {{/if}}
+                </p>
+            </div>
+            <div class="sidebar-section checks">
+                <h5 class="{{caregiver.ownsCar}}">
+                    <i class="fa {{#if caregiver.ownsCar}}fa-check{{else}}fa-times{{/if}}" aria-hidden="true"></i>
+                    Car
+                </h5>
+                <h5 class="{{caregiverBackgroundCheck}}">
+                    <i class="fa {{#if caregiverBackgroundCheck}}fa-check{{else}}fa-times{{/if}}" aria-hidden="true"></i>
+                    Background Check
+                </h5>
+            </div>
+            <div class="sidebar-section">
+                <h5>Education</h5>
+                <p>{{caregiver.education}}</p>
+                <h5>Experience</h5>
+                <p>{{caregiver.years}} years</p>
+                <h5>Languages</h5>
+                <p>{{caregiver.languages}}</p>
+            </div>
+        </div>
+    </div>
+</template>

@@ -5,7 +5,7 @@ import './filter-templates.html';
 AutoForm.addInputType("filter-checkbox", {
     template: "filterCheckbox",
     valueIsArray: true,
-    valueOut: function () {
+    valueOut() {
         var val = [];
         this.find('input[type=checkbox]').each(function () {
             if ($(this).is(":checked")) {
@@ -14,21 +14,14 @@ AutoForm.addInputType("filter-checkbox", {
         });
         return val;
     },
-    contextAdjust: function (context) {
+    contextAdjust(context) {
         var itemAtts = _.omit(context.atts);
-
-        // build items list
         context.items = [];
-
-        // Add all defined options
         _.each(context.selectOptions, function (opt) {
             context.items.push({
                 name: context.name,
                 label: opt.label,
                 value: opt.value,
-                // _id must be included because it is a special property that
-                // #each uses to track unique list items when adding and removing them
-                // See https://github.com/meteor/meteor/issues/2174
                 _id: opt.value,
                 selected: (_.contains(context.value, opt.value)),
                 atts: itemAtts

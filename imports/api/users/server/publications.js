@@ -11,7 +11,8 @@ Meteor.publish( 'user.profile', function() {
             address: 1,
             district: 1,
             otherDistrict: 1,
-            country: 1
+            country: 1,
+            bookmarks: 1
         }
     });
 });

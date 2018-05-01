@@ -25,5 +25,8 @@
 }
 
 .checks {
-    color: $green;
+    color: $red;
+    .true {
+        color: $green;
+    }
 }

@@ -15,6 +15,7 @@
 //import layouts
     import '../../ui/layouts/app-layout';
     import '../../ui/layouts/login-layout';
+import { Blaze } from 'meteor/blaze';
 
 //login and logout hooks
 
@@ -186,6 +187,18 @@
         action() {
             import('../../ui/pages/common/search').then(()=> {
                 BlazeLayout.render('AppLayout', { main: 'Search', search: 'caregivers' });
+            });
+        }
+    });
+
+    FlowRouter.route('/caregiver/:id', {
+        name: 'caregiver.profile',
+        action( params ) {
+            import('../../ui/pages/common/caregiver-profile').then(()=> {
+                BlazeLayout.render('AppLayout', {
+                    main: 'CaregiverProfile',
+                    id: params.id
+                });
             });
         }
     });

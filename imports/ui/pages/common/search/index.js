@@ -103,10 +103,12 @@ Template.Search.events({
 AutoForm.hooks({
     searchFilter: {
         onSubmit( doc ) {
+            this.done( null, doc );
+            return false;
+        },
+        onSuccess( formType, doc ) {
             let cleanDoc = filterSchema.clean( doc );
             Filter.set( doc );
-            this.done();
-            return false;
         }
     }
 });
