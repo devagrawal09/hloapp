@@ -10,6 +10,9 @@
 @import 'base/_base.scss';
 
 /* MODULES - jumbotron, buttons, pricings... */
+/* global */
+@import 'modules/_global.scss';
+
 /* home */
 @import 'modules/_jumbotron.scss';
 @import 'modules/_homebar.scss';
