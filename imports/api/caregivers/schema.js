@@ -22,7 +22,10 @@ export const caregiverSchema = new SimpleSchema({
     lastName: String,
     gender: Datatypes.Gender,
     dob: Datatypes.Date,
-    aboutText: String,
+    aboutText: {
+        type: String,
+        optional: true
+    },
     address: String,
     location: Datatypes.Location,
     otherDistrict: {
@@ -37,14 +40,18 @@ export const caregiverSchema = new SimpleSchema({
             'Christian', 'Catholic', 'Buddhist', 'Muslim', 'Taoist', 'Hindu', 'Other'
         ]
     },
-    hobbies: String,
+    hobbies: {
+        type: String,
+        optional: true
+    },
     workLocation: Datatypes.Location,
     languages: Array,
     'languages.$': Datatypes.Languages,
 //experience
     years: {
         type: SimpleSchema.Integer,
-        label: 'Years of experience'
+        label: 'Years of experience',
+        optional: true
     },
     experiences: {
         type: Array,
@@ -56,11 +63,13 @@ export const caregiverSchema = new SimpleSchema({
     },
     background: {
         type: String,
-        label: 'Licenses and Credentials'
+        label: 'Licenses and Credentials',
+        optional: true
     },
     education: {
         type: String,
-        label: 'Education History'
+        label: 'Education History',
+        optional: true
     },
 //photos
     profileImg: {
@@ -74,10 +83,14 @@ export const caregiverSchema = new SimpleSchema({
     // photos: [String],
 //services
     hourlyRate: Number,
-    extraCharges: Number,
+    extraCharges: {
+        type: Number,
+        optional: true
+    },
     serviceType: {
         type: Array,
-        label: 'Preferred type of service'
+        label: 'Preferred type of service',
+        optional: true
     },
     'serviceType.$': {
         type: String,
@@ -91,18 +104,26 @@ export const caregiverSchema = new SimpleSchema({
     'availability.$': Datatypes.WorkTime,
     caregiverType: {
         type: Array,
-        label: 'Type of Caregiver'
+        label: 'Type of Caregiver',
+        optional: true
     },
     'caregiverType.$': Datatypes.CaregiverType,
-    professionalServices: Array,
+    professionalServices: {
+        type: Array,
+        optional: true
+    },
     'professionalServices.$': Datatypes.ProfessionalService,
     otherProfessionalService: Datatypes.OtherField,
-    personalServices: Array,
+    personalServices: {
+        type: Array,
+        optional: true
+    },
     'personalServices.$': Datatypes.PersonalService,
     otherPersonalService: Datatypes.OtherField,
     medicalConditions: {
         type: Array,
-        label: 'Medical Expertise'
+        label: 'Medical Expertise',
+        optional: true
     },
     'medicalConditions.$': Datatypes.MedicalCondition,
     otherMedicalCondition: Datatypes.OtherField,
