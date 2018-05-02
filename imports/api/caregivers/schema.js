@@ -8,7 +8,7 @@ const Experience = new SimpleSchema({
     },
     desc: {
         type: String,
-        label: 'Job Description'
+        label: 'Job Description*'
     },
     from: Datatypes.Date,
     to: Datatypes.Date
@@ -50,7 +50,7 @@ export const caregiverSchema = new SimpleSchema({
 //experience
     years: {
         type: SimpleSchema.Integer,
-        label: 'Years of experience',
+        label: 'Years of experience*',
         optional: true
     },
     experiences: {
@@ -100,8 +100,14 @@ export const caregiverSchema = new SimpleSchema({
         type: Boolean,
         label: 'Do you own a car?'
     },
-    availability: Array,
-    'availability.$': Datatypes.WorkTime,
+    availability: {
+        type: Array,
+        label: "Work Availability*"
+    },
+    'availability.$': {
+        type: Datatypes.WorkTime,
+        label: null
+    },
     caregiverType: {
         type: Array,
         label: 'Type of Caregiver',

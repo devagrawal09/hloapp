@@ -101,7 +101,16 @@ export default Datatypes = {
 }
 
 Datatypes.WorkTime = new SimpleSchema({
-    day: Datatypes.Day,
-    start: Datatypes.Time,
-    end: Datatypes.Time
+    day: {
+        type: Datatypes.Day,
+        label: 'Day*'
+    },
+    start: {
+        type: Datatypes.Time,
+        label: 'Start*'
+    },
+    end: {
+        type: Datatypes.Time,
+        label: 'End*'
+    }
 });

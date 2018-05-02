@@ -1,9 +1,9 @@
 <template name="caregiverServicesForm">
     <div id="services" class="tab-pane fade">
-
+        <p>* - Required field</p>
         <div class="row">
             <div class="col-sm-6">
-                {{> afQuickField name="hourlyRate" placeholder="80"}}
+                {{> afQuickField name="hourlyRate" placeholder="80" label="Hourly Rate*"}}
                 {{> afQuickField name="serviceType"
                     options="allowed" type="select-checkbox-inline"
                 }}
@@ -37,7 +37,9 @@
         }}
         {{> afQuickField name="otherMedicalCondition" placeholder="Other"}}
 
-        {{> afQuickField name="availability" template="bootstrap3-horizontal"}}
+        {{> afQuickField name="availability"
+            template="bootstrap3-horizontal"
+        }}
 
         {{> submitButtons}}
 
