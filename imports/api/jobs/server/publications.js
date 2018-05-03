@@ -9,3 +9,9 @@ Meteor.publish('jobById', function( id ) {
 Meteor.publish('jobs', function() {
     return Jobs.find();
 });
+
+Meteor.publish('myJobs', function() {
+    return Jobs.find({
+        postedBy: this.userId
+    });
+});

@@ -1,40 +1,40 @@
 <template name="jobDetailsForm">
     <div id="details" class="tab-pane fade in active">
-        <p>* - Required field</p>
+        {{> afQuickField name="duration"
+            options="allowed" label="Duration*"
+        }}
+        <h4>Patient Details</h4>
         <div class="row">
             <div class="col-sm-6">
-                {{> afQuickField name="duration"
-                    options="allowed" label="Duration*"
-                }}
                 {{> afQuickField name="title"
                     placeholder="Day-time Home Nurse" label="Job Title*"
                 }}
                 {{> afQuickField name="name"
-                    placeholder="John Doe" label="Name of your Loved One*"
+                    placeholder="John Doe" label="Name*"
                 }}
                 {{> afQuickField name="gender"
                     options="allowed" type="select-radio-inline" label="Gender*"
                 }}
                 {{> afQuickField name="dob" label="Date of Birth*"}}
-                {{> afQuickField name="hkid" label="HKID/Passport number*"}}
-                {{> afQuickField name="phone" placeholder="123-456789" label="Phone*"}}
+                {{> afQuickField name="hkid"}}
+                {{> afQuickField name="phone" placeholder="123-456789"}}
+                {{> afQuickField name="email"
+                    placeholder="john.doe@example.com"
+                }}
             </div>
             <div class="col-sm-6">
                 {{> afQuickField name="address"
                     type="textarea" rows=4
-                    placeholder="14A Evergreen Villa" label="Address*"
+                    placeholder="14A Evergreen Villa"
                 }}
                 {{> afQuickField name="location"
-                    options="allowed" label="District*"
+                    options="allowed"
                 }}
                 {{#if afFieldValueIs name="location" value="Other"}}
                     {{> afQuickField name="otherDistrict" placeholder="Please specify"}}
                 {{/if}}
                 {{> afQuickField name="country"
-                    options="allowed" label="Country*"
-                }}
-                {{> afQuickField name="email"
-                    placeholder="john.doe@example.com" label="Email*"
+                    options="allowed"
                 }}
                 {{> afQuickField name="hobbies"
                     type="textarea" rows="3" placeholder="Biking, running..."
@@ -42,7 +42,8 @@
             </div>
         </div>
         {{> afQuickField name="languages"
-            options="allowed" type="select-checkbox-columns" label="Languages*"
+            options="allowed"
+            type="select-checkbox-columns"
         }}
         {{> afQuickField name="description"
             type="textarea" rows=5

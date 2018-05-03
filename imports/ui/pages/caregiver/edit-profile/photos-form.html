@@ -1,15 +1,42 @@
 <template name="caregiverPhotosForm">
     <div id="photos" class="tab-pane fade">
-        <h4>Profile Picture</h4>
-        <div class="form-group">
-            <input type="file" name="file" id="file" class="inputfile" />
-            <label for="file" class="btn btn-default">Upload Profile Picture</label>
-        </div>
-        <br/>
-        <h4>Cover Photo</h4>
-        <div class="form-group">
-            <input type="file" name="file" id="file" class="inputfile" />
-            <label for="file" class="btn btn-default">Upload Cover Photo</label>
+        <div class="row">
+            <div class="col-md-3 form-group">
+                Profile picture
+                {{#with photoUpload}}
+                    Uploading <b>{{file.name}}</b>:
+                    <span id="progress">{{progress.get}}%</span>
+                {{else}}
+                    <input type="file" class="inputfile" name="photo" id="photo">
+                    <label for="photo">
+                        <div class="photo-input">
+                            <span class="upload"><i class="fa fa-upload"></i></span>
+                            <i class="fa fa-user"></i>
+                        </div>
+                    </label>
+                {{/with}}
+            </div>
+            <div class="col-md-9">
+                Personal pictures
+                <div class="photos">
+                    <img src="/img/profile/dp.png" class="selected">
+                    <img src="/img/profile/review.png" class="profile">
+                    <img src="/img/profile/dp.png">
+                    <img src="/img/profile/review.png">
+                        <img src="{{photo.link}}" alt="{{photo.name}}">
+                </div>
+                <button class="btn btn-primary save-as-dp" disabled>Save as Profile picture</button>
+            </div>
+            <div class="col-md-12">
+                Cover picture
+                <input type="file" class="inputfile" name="cover" id="cover">
+                <label for="cover">
+                    <div class="photo-input">
+                        <span class="upload"><i class="fa fa-upload"></i></span>
+                        <i class="fa fa-camera"></i>
+                    </div>
+                </label>
+            </div>
         </div>
         {{> submitButtons}}
     </div>    

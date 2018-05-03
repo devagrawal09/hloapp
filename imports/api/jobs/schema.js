@@ -32,11 +32,21 @@ export const detailsSchema = new SimpleSchema({
     dob: Datatypes.Date,
     hkid: {
         type: String,
-        label: 'HKID or Passport number'
+        label: 'HKID or Passport number',
+        optional: true
     },
-    phone: String,
-    email: SimpleSchema.RegEx.EmailWithTLD,
-    address: String,
+    phone: {
+        type: String,
+        optional: true
+    },
+    email: {
+        type: SimpleSchema.RegEx.EmailWithTLD,
+        optional: true
+    },
+    address: {
+        type: String,
+        optional: true
+    },
     location: Datatypes.Location,
     otherDistrict: {
         type: String,
@@ -48,12 +58,14 @@ export const detailsSchema = new SimpleSchema({
         type: String,
         optional: true
     },
-    languages: Array,
+    languages: {
+        type: Array,
+        optional: true
+    },
     'languages.$': Datatypes.Languages,
     description: {
         type: String,
-        label: 'Describe your loved one',
-        optional: true
+        label: 'Describe your loved one'
     },
 //requirements
     caregiverType: {
@@ -87,8 +99,7 @@ export const detailsSchema = new SimpleSchema({
     },
     'days.$': {
         type: Datatypes.WorkTime,
-        label: null,
-        autoform: { label: false }
+        label: null
     },
     jobDescription: String
 });

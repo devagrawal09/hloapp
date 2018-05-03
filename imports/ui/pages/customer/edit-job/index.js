@@ -3,19 +3,30 @@ import { AutoForm } from 'meteor/aldeed:autoform';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { detailsSchema } from '../../../../api/jobs/schema';
-import { newJob } from '../../../../api/jobs';
+import { Jobs, updateJob } from '../../../../api/jobs';
 
 import '../job-form';
-import './post-job.html';
+import './edit-job.html';
 
-Template.PostJob.helpers({
+Template.EditJob.onCreated(function() {
+    this.autorun(()=> {
+        let id = Template.currentData().id();
+        this.subscribe( 'jobById', id );
+    });
+});
+
+Template.EditJob.helpers({
     schema() {
-        return detailsSchema.omit( '_id', 'postedBy' );
+        return detailsSchema;
+    },
+    doc() {
+        let id = Template.currentData().id();
+        return Jobs.findOne();
     }
 });
 
 AutoForm.hooks({
-    postJob: {
+    editJob: {
         after: { method( err, result ) {
             if( err ) {
                 console.log( err );

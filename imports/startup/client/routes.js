@@ -42,7 +42,7 @@
 
     const CustomerRouter = PrivateRouter.group({
         triggersEnter: [function( con, redirect ) {
-            if ( Meteor.users.findOne( Meteor.userId() ).profile.type !== 'customer' ) {
+            if ( Meteor.user().profile.type !== 'customer' ) {
                 console.log( 'You are not a customer' );
                 redirect('/dashboard');
             }
@@ -215,6 +215,20 @@
             });
         }
     });
+
+    CustomerRouter.route('/edit/:id', {
+        name: 'job.edit',
+        action( params ) {
+            import('../../ui/pages/customer/edit-job').then(()=> {
+                BlazeLayout.render( 'AppLayout', {
+                    main: 'DashboardLayout',
+                    content: 'EditJob',
+                    id: params.id
+                });
+            });
+        }
+    });
+
 //misc pages
     FlowRouter.route('/community', {
         name: 'community',

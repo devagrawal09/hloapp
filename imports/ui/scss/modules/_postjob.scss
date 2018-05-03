@@ -1,4 +1,4 @@
-.postjob-steps { /* pill color change */
+.form-steps {
 
     li {
 
@@ -25,7 +25,7 @@
 }
 
 @media (min-width: 768px) {
-    .postjob-steps {
+    .form-steps {
         margin: 20px 0px;
     }
 }
@@ -50,12 +50,63 @@
 
 .inputfile + label {
     font-size: 16px;
-    display: inline-block;
+    display: block;
     cursor: pointer; /* "hand" cursor */
+    color: $lightgrey;
+    &:hover {
+        color: $purewhite
+    }
 }
 
 .inputfile + label * { /* touch screen */
 	pointer-events: none;
+}
+
+
+.photo-input {
+    display: block;
+    font-size: 70px;
+    padding: 20px 10px;
+    background-color: $mediumgrey;
+    text-align: center;
+    .upload {
+        font-size: 20px;
+        background-color: rgba($color: $black, $alpha: 0.6);
+        padding: 10px 15px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 10px;
+        left: 25px;
+    }
+}
+
+.photos {
+    padding: 10px;
+    border: 2px solid $lightgrey;
+    border-radius: 5px;
+    max-height: 160px;
+    overflow-x: scroll;
+    white-space: nowrap;
+    img {
+        width: 110px;
+        height: 110px;
+        margin: 0 10px;
+        border: 7px solid transparent;
+        border-radius: 5px;
+        padding: 2px;
+        cursor: pointer;
+        &.selected {
+            border-color: lightblue;
+        }
+        &.profile {
+            border-color: lightgreen;
+        }
+    }
+}
+
+.save-as-dp {
+    float: right;
+    margin-top: 10px;
 }
 
 .checkbox-collection {

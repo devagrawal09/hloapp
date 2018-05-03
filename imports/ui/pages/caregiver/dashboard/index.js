@@ -7,6 +7,7 @@ import './job-history.html';
 
 if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('caregivers');
+    Package['msavin:mongol'].Mongol.showCollection('images');
 }
 
 Template.JobHistory.onCreated(function() {

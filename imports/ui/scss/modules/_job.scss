@@ -32,6 +32,13 @@
     }
 }
 
+.edit-btn {
+    color: $black;
+    font-size: 30px;
+    border-radius: 50%;
+    margin-top: -10px;
+}
+
 .job-status { /* img */
     height: 60px;
     margin-top: -15px;
@@ -39,7 +46,6 @@
 
 .expand-job {
     font-size: 40px;
-    margin-left: 10px;
     color: $black;
     cursor: pointer;
 }

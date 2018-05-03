@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import { Caregivers } from '../index.js';
+import { Caregivers, CaregiverImages } from '../index.js';
 
 Meteor.publish('caregivers', function() {
     return Caregivers.find({
@@ -29,4 +29,8 @@ Meteor.publish('caregiver.employment', function(){
         appliedJobs: 1,
         jobHistory: 1,
     }});
+});
+
+Meteor.publish('caregiver.images', function() {
+    return CaregiverImages.find().cursor;
 });

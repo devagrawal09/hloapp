@@ -6,6 +6,9 @@
         </div>
         <div class="job-right">
             <img src="{{rightImageSrc status}}" class="job-status">
+            <a href="{{pathFor 'job.edit' id=_id}}" class="btn edit-btn">
+                <i class="fa fa-pencil"></i>
+            </a>
             <a class="expand-job" data-toggle="collapse" data-target="#{{_id}}">
                 <i class="fa fa-angle-down expand-job" aria-hidden="true"></i>
             </a>

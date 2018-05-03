@@ -46,7 +46,7 @@ export const updateJob = new ValidatedMethod({      //update job details (custom
         if( job.postedBy !== this.userId ) {
             //recieved document doesn't belong to current user
             throw new Meteor.Error('jobs.update.unauthorized',
-            'Invalid Input. Please try again');
+            'Invalid Input or this job was not poste by you. Please try again');
         }
 
         let result = Jobs.update({

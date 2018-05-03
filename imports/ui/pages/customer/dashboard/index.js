@@ -12,7 +12,7 @@ if( Meteor.settings.public.env === 'development' ) {
 Template.PostedJobs.onCreated(function() {
     let t = this;
     t.autorun(()=> {
-        t.subscribe( 'jobs' );
+        t.subscribe( 'myJobs' );
     });
 });
 
