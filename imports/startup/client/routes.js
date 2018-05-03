@@ -15,7 +15,6 @@
 //import layouts
     import '../../ui/layouts/app-layout';
     import '../../ui/layouts/login-layout';
-import { Blaze } from 'meteor/blaze';
 
 //login and logout hooks
 
@@ -43,7 +42,7 @@ import { Blaze } from 'meteor/blaze';
 
     const CustomerRouter = PrivateRouter.group({
         triggersEnter: [function( con, redirect ) {
-            if ( Meteor.user().profile.type !== 'customer' ) {
+            if ( Meteor.users.findOne( Meteor.userId() ).profile.type !== 'customer' ) {
                 console.log( 'You are not a customer' );
                 redirect('/dashboard');
             }

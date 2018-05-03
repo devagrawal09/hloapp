@@ -26,14 +26,19 @@
 
         <div class="row">
             <div class="col-sm-6">
-                {{> afQuickField name="startDate"}}
+                {{> afQuickField name="startDate" label="Start Date*"}}
             </div>
             <div class="col-sm-6">
-                {{> afQuickField name="endDate"}}
+                {{> afQuickField name="endDate" label="End Date*"}}
             </div>
         </div>
-        {{> afQuickField name="days" template="bootstrap3-horizontal"}}
-        {{> afQuickField name="jobDescription" type="textarea" rows=4 placeholder="Looking after elderly."}}
+        {{> afQuickField name="days"
+            template="bootstrap3-horizontal"
+        }}
+        {{> afQuickField name="jobDescription"
+            type="textarea" rows=4
+            placeholder="Looking after elderly." label="Job Description*"
+        }}
         <a href="#form-title" class="btn btn-default back">Back</a>
         <a href="#form-title" class="btn btn-primary next pull-right">Next</a>
     </div>
