@@ -11,7 +11,6 @@ import { caregiverSchema, photoSchema } from './schema.js';
 export const Caregivers = new Mongo.Collection('caregivers');
 
 export const CaregiverImages = new FilesCollection({
-    debug: true,
     collectionName: 'caregiver-images',
     allowClientCode: false,
     onBeforeUpload(file) {

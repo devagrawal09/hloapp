@@ -22,15 +22,11 @@ export const caregiverSchema = new SimpleSchema({
     lastName: String,
     gender: Datatypes.Gender,
     dob: Datatypes.Date,
-    aboutText: {
-        type: String,
-        optional: true
-    },
+    aboutText: String,
     address: String,
     location: Datatypes.Location,
     otherDistrict: {
         type: String,
-        optional: true,
         label: 'Please specify district'
     },
     country: Datatypes.Country,
@@ -44,9 +40,12 @@ export const caregiverSchema = new SimpleSchema({
         type: String,
         optional: true
     },
-    workLocation: Datatypes.Location,
+    workLocation: Array,
+    'workLocation.$': Datatypes.Location,
+    otherWorkLocations: Datatypes.OtherField,
     languages: Array,
     'languages.$': Datatypes.Languages,
+    otherLanguages: Datatypes.OtherField,
 //experience
     years: {
         type: SimpleSchema.Integer,

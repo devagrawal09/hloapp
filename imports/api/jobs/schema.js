@@ -35,18 +35,12 @@ export const detailsSchema = new SimpleSchema({
         label: 'HKID or Passport number',
         optional: true
     },
-    phone: {
-        type: String,
-        optional: true
-    },
+    phone: String,
     email: {
         type: SimpleSchema.RegEx.EmailWithTLD,
         optional: true
     },
-    address: {
-        type: String,
-        optional: true
-    },
+    address: String,
     location: Datatypes.Location,
     otherDistrict: {
         type: String,
@@ -64,8 +58,7 @@ export const detailsSchema = new SimpleSchema({
     },
     'languages.$': Datatypes.Languages,
     description: {
-        type: String,
-        label: 'Describe your loved one'
+        type: String
     },
 //requirements
     caregiverType: {

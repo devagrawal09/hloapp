@@ -1,5 +1,6 @@
 <template name="caregiverDetailsForm">
     <div id="details" class="tab-pane fade in active">
+        <p>All fields are required</p>
         
         <div class="row">
             <div class="col-sm-6 form-column">
@@ -14,6 +15,9 @@
                     options="allowed"
                     type="select-checkbox-columns"
                 }}
+                {{> afQuickField name="otherLanguages"
+                    placeholder="Others, please specify"
+                }}
             </div>
             <div class="col-sm-6 form-column">
                 {{> afQuickField name="address"}}
@@ -25,21 +29,26 @@
 
                 {{> afQuickField name="country" options="allowed"}}
                 {{> afQuickField name="religion" options="allowed"}}
-                {{> afQuickField name="workLocation" options="allowed" label="Work Location"}}
+                {{> afQuickField name="workLocation"
+                    options="allowed" type="select-multiple"
+                    label="Work Location (Ctrl-click to select multiple)"
+                }}
+                {{> afQuickField name="otherLanguages"
+                    placeholder="Others, please specify"
+                }}
             </div>
         </div>
         {{> afQuickField 
             name="hobbies" 
             type="textarea" 
             rows=3
-            label="Hobbies (optional)"
             placeholder="Biking, painting..."
         }}
         {{> afQuickField 
             name="aboutText" 
             type="textarea" 
             rows=5
-            label="About You (optional)"
+            label="About You"
             placeholder="I am a 30 year old nursing student..."
         }}
         {{> submitButtons skipBack=true}}

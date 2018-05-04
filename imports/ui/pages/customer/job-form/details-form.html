@@ -17,7 +17,9 @@
                 }}
                 {{> afQuickField name="dob" label="Date of Birth*"}}
                 {{> afQuickField name="hkid"}}
-                {{> afQuickField name="phone" placeholder="123-456789"}}
+                {{> afQuickField name="phone"
+                    placeholder="123-456789" label="Phone*"
+                }}
                 {{> afQuickField name="email"
                     placeholder="john.doe@example.com"
                 }}
@@ -25,16 +27,16 @@
             <div class="col-sm-6">
                 {{> afQuickField name="address"
                     type="textarea" rows=4
-                    placeholder="14A Evergreen Villa"
+                    placeholder="14A Evergreen Villa" label="Address*"
                 }}
                 {{> afQuickField name="location"
-                    options="allowed"
+                    options="allowed" label="District*"
                 }}
                 {{#if afFieldValueIs name="location" value="Other"}}
                     {{> afQuickField name="otherDistrict" placeholder="Please specify"}}
                 {{/if}}
                 {{> afQuickField name="country"
-                    options="allowed"
+                    options="allowed" label="Country*"
                 }}
                 {{> afQuickField name="hobbies"
                     type="textarea" rows="3" placeholder="Biking, running..."
@@ -46,7 +48,7 @@
             type="select-checkbox-columns"
         }}
         {{> afQuickField name="description"
-            type="textarea" rows=5
+            type="textarea" rows=5 label="Describe your loved one*"
             placeholder="An elderly cheerful woman with a good taste in music."
         }}
         <a href="#form-title" class="btn btn-primary next pull-right">Next</a><br>
