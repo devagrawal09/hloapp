@@ -15,11 +15,6 @@ Template.CaregiverProfile.onCreated(function() {
     });
 });
 
-Template.CaregiverProfile.onRendered(function() {
-    this.$( '.carousel .item:first' ).addClass( 'active' );
-    this.$( '.carousel-indicators li:first' ).addClass( 'active' );
-});
-
 Template.CaregiverProfile.helpers({
     caregiver() {
         return Template.instance().doc;
@@ -33,6 +28,9 @@ Template.CaregiverProfile.helpers({
     },
     photos() {
         return CaregiverImages.find({ meta: { user: Meteor.userId() } });
+    },
+    activeClass( index ) {
+        if( index === 0 ) return 'active';
     },
     notCurrentCaregiver() {
         return Template.instance().doc.user !== Meteor.userId();

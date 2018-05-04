@@ -4,13 +4,13 @@
 
             <ol class="carousel-indicators">
                 {{#each photo in photos.each}}
-                    <li data-target="#profile-cover" data-slide-to="{{@index}}"></li>
+                    <li class="{{activeClass @index}}" data-target="#profile-cover" data-slide-to="{{@index}}"></li>
                 {{/each}}
             </ol>
 
             <div class="carousel-inner" role="listBox">
                 {{#each photo in photos.each}}
-                    <div class="item">
+                    <div class="item {{activeClass @index}}">
                         <img src="{{photo.link}}" alt="{{photo.name}}">
                     </div>
                 {{/each}}
