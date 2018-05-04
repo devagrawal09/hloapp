@@ -14,6 +14,13 @@ AccountsTemplates.configure({
     },
     postSignUpHook( userId, info ) {
         console.log( info )
+    },
+    onSubmitHook(error, state) {
+        if( !error ) {
+            if( state === 'signIn' ) {
+                FlowRouter.go('dashboard');
+            }
+        }
     }
 });
 
