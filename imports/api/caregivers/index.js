@@ -3,12 +3,16 @@ import { Mongo } from 'meteor/mongo';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { FilesCollection } from 'meteor/ostrio:files';
 
-import { caregiverSchema, profileSchema, experienceSchema, servicesSchema, imagesSchema, pricingSchema } from './schema.js';
+import SimpleSchema from 'simpl-schema';
+import Datatypes from '../data-types';
+
+import { caregiverSchema, photoSchema } from './schema.js';
 
 export const Caregivers = new Mongo.Collection('caregivers');
 
 export const CaregiverImages = new FilesCollection({
-    collectionName: 'images',
+    debug: true,
+    collectionName: 'caregiver-images',
     allowClientCode: false,
     onBeforeUpload(file) {
         // Allow upload files under 10MB, and only in png/jpg/jpeg formats
@@ -52,10 +56,56 @@ export const updateCaregiverProfile = new ValidatedMethod({ //update caregiver p
         }});
     }
 });
-/*
-    export const updateProfilePic = new ValidatedMethod({   //update profile image
-    });
 
+export const updateProfilePhoto = new ValidatedMethod({     //update profile image
+    name: 'caregiver.images.set.profile',
+    validate: photoSchema.validator(),
+    run({ _id }) {
+
+        if( !this.userId ) {
+            throw new Meteor.Error('caregiver.images.set.profile.unauthorized', 
+            'You are not logged in!');
+        }
+
+        let photo = CaregiverImages.findOne({ _id });
+
+        if( !photo || photo.meta.user !== this.userId ) {
+            throw new Meteor.Error('caregiver.images.set.profile.invalid', 
+            'Invalid input! Please try again');
+        }
+
+        Caregivers.update({ user: this.userId }, { $set: {
+            profilePhoto: _id
+        }});
+
+        return true;
+    }
+});
+
+export const deletePhoto = new ValidatedMethod({            //remove photo from array
+    name: 'caregiver.images.remove',
+    validate: photoSchema.validator(),
+    run( q ) {
+
+        if( !this.userId ) {
+            throw new Meteor.Error('caregiver.images.remove.unauthorized', 
+            'You are not logged in!');
+        }
+
+        let photo = CaregiverImages.findOne( q );
+
+        if( !photo || photo.meta.user !== this.userId ) {
+            throw new Meteor.Error('caregiver.images.remove.invalid', 
+            'Invalid input! Please try again');
+        }
+
+        photo.remove(( err )=> {
+            console.error( err );
+        });
+    }
+});
+
+/*
     export const updateCoverPic = new ValidatedMethod({     //update cover image
     });
 */

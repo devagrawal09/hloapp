@@ -139,3 +139,7 @@ export const caregiverSchema = new SimpleSchema({
         allowedValues: [ 'Free', 'Entrepreneur', 'Partner' ]
     }
 });
+
+export const photoSchema = new SimpleSchema({
+    _id: Datatypes.Id
+});

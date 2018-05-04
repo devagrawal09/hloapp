@@ -19,13 +19,12 @@
             <div class="col-md-9">
                 Personal pictures
                 <div class="photos">
-                    <img src="/img/profile/dp.png" class="selected">
-                    <img src="/img/profile/review.png" class="profile">
-                    <img src="/img/profile/dp.png">
-                    <img src="/img/profile/review.png">
-                        <img src="{{photo.link}}" alt="{{photo.name}}">
+                    {{#each photo in photos}}
+                        <img src="{{photo.link}}" alt="{{photo.name}}" id="{{photo._id}}">
+                    {{/each}}
                 </div>
-                <button class="btn btn-primary save-as-dp" disabled>Save as Profile picture</button>
+                <a class="btn btn-danger delete disabled">Delete</a>
+                <a class="btn btn-primary save-as-dp disabled">Save as Profile picture</a>
             </div>
             <div class="col-md-12">
                 Cover picture

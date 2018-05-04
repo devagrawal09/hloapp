@@ -32,5 +32,11 @@ Meteor.publish('caregiver.employment', function(){
 });
 
 Meteor.publish('caregiver.images', function() {
-    return CaregiverImages.find().cursor;
+    return CaregiverImages.find({
+        meta: { user: this.userId }
+    }).cursor;
+});
+
+Meteor.publish('caregiver.image', function( _id ) {
+    return CaregiverImages.find({ _id }).cursor;
 });

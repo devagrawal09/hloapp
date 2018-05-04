@@ -4,9 +4,10 @@
             <a href="{{pathFor 'caregiver.profile' id=_id}}">
                 <span class="link-spanner"></span>
             </a>
-            <img src="/img/search/dp.jpg" class="card-dp">
+            <img src="{{dp.link}}" alt="{{dp.name}}" class="card-dp">
             <div class="price">${{hourlyRate}} HKD/hr</div>
             <div class="card-desc">
+
                 <h4>{{firstName}} {{lastName}}</h4>
                 <p>
                     <i class="fa fa-star" aria-hidden="true"></i>
