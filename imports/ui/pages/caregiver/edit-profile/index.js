@@ -20,7 +20,7 @@ import { Caregivers, CaregiverImages, updateProfilePhoto, deletePhoto } from '..
         let t = this;
         t.autorun(()=> {
             t.subscribe( 'caregiver.current' );
-            t.subscribe( 'caregiver.images' );
+            t.subscribe( 'caregiver.images', Meteor.userId() );
         });
     });
 

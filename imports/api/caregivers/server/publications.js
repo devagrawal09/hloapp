@@ -31,9 +31,9 @@ Meteor.publish('caregiver.employment', function(){
     }});
 });
 
-Meteor.publish('caregiver.images', function() {
+Meteor.publish('caregiver.images', function( user ) {
     return CaregiverImages.find({
-        meta: { user: this.userId }
+        meta: { user }
     }).cursor;
 });
 

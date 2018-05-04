@@ -24,19 +24,15 @@
                     {{/each}}
                 </div>
                 <a class="btn btn-danger delete disabled">Delete</a>
-                <a class="btn btn-primary save-as-dp disabled">Save as Profile picture</a>
-            </div>
-            <div class="col-md-12">
-                Cover picture
-                <input type="file" class="inputfile" name="cover" id="cover">
-                <label for="cover">
-                    <div class="photo-input">
-                        <span class="upload"><i class="fa fa-upload"></i></span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                </label>
+                <a class="btn btn-primary save-as-dp disabled">
+                    Set Profile picture
+                </a>
             </div>
         </div>
+        <br>
+        <p>
+            All uploaded photos will be displayed as cover photos on your public profile.
+        </p>
         {{> submitButtons}}
     </div>    
 </template>

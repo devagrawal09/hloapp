@@ -8,38 +8,42 @@ import './caregiver-profile.html';
 
 Template.CaregiverProfile.onCreated(function() {
     let id = Template.currentData().id();
-    let dpId = Caregivers.findOne( id ).profilePhoto;
-    this.dpId = new ReactiveVar( dpId );
+    this.doc = Caregivers.findOne( id );
     this.autorun(()=> {
         this.subscribe( 'caregiverById', id );
-        this.subscribe( 'caregiver.image', dpId );
+        this.subscribe( 'caregiver.images', Meteor.userId() );
     });
+});
+
+Template.CaregiverProfile.onRendered(function() {
+    this.$( '.carousel .item:first' ).addClass( 'active' );
+    this.$( '.carousel-indicators li:first' ).addClass( 'active' );
 });
 
 Template.CaregiverProfile.helpers({
     caregiver() {
-        let id = Template.currentData().id();
-        return Caregivers.findOne( id );
+        return Template.instance().doc;
     },
     profilePhoto() {
-        let id = Template.currentData().id();
-        let dpId = Template.instance().dpId.get();
+        let dpId = Template.instance().doc.profilePhoto;
         return CaregiverImages.findOne( dpId ) || {
             link: '/img/search/dp.jpg',
             name: ''
         };
     },
+    photos() {
+        return CaregiverImages.find({ meta: { user: Meteor.userId() } });
+    },
     notCurrentCaregiver() {
-        let id = Template.currentData().id();
-        return Caregivers.findOne( id ).user !== Meteor.userId();
+        return Template.instance().doc.user !== Meteor.userId();
     },
     caregiverBackgroundCheck() {
-        let id = Template.currentData().id();
-        return !!Caregivers.findOne( id ).background;
+        return !!Template.instance().doc.background;
     },
     isBookmarked() {
         let id = Template.currentData().id();
-        return _.indexOf( Meteor.user().bookmarks, id ) !== -1;
+        let bookmarks = Meteor.user().bookmarks;
+        return _.indexOf( bookmarks, id ) !== -1;
     }
 });
 

@@ -1,6 +1,13 @@
 .profile-cover {
     position: relative;
-    background-size: cover;
-    background-position: center center;
+    background-color: $grey;
     height: 300px;
+    padding: 0;
+    .carousel .item {
+        text-align: center;
+        img {
+            height: 300px;
+            margin: auto;
+        }
+    }
 }
