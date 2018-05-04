@@ -13,7 +13,10 @@ Template.caregiverCard.onCreated(function() {
 
 Template.caregiverCard.helpers({
     dp() {
-        let id = Template.instance().data.profilePhoto;
-        return CaregiverImages.findOne( id );
+        let _id = Template.instance().data.profilePhoto;
+        return CaregiverImages.findOne({ _id }) || {
+            link: '/img/search/dp.jpg',
+            name: ''
+        };
     }
 });

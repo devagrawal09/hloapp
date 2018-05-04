@@ -24,7 +24,10 @@ Template.CaregiverProfile.helpers({
     profilePhoto() {
         let id = Template.currentData().id();
         let dpId = Template.instance().dpId.get();
-        return CaregiverImages.findOne( dpId );
+        return CaregiverImages.findOne( dpId ) || {
+            link: '/img/search/dp.jpg',
+            name: ''
+        };
     },
     caregiverBackgroundCheck() {
         let id = Template.currentData().id();
