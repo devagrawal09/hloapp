@@ -11,7 +11,7 @@ Template.CaregiverProfile.onCreated(function() {
     this.doc = Caregivers.findOne( id );
     this.autorun(()=> {
         this.subscribe( 'caregiverById', id );
-        this.subscribe( 'caregiver.images', Meteor.userId() );
+        this.subscribe( 'caregiver.images', this.doc.user );
     });
 });
 
@@ -27,7 +27,7 @@ Template.CaregiverProfile.helpers({
         };
     },
     photos() {
-        return CaregiverImages.find({ meta: { user: Meteor.userId() } });
+        return CaregiverImages.find({ meta: { user: Template.instance().doc.user } });
     },
     activeClass( index ) {
         if( index === 0 ) return 'active';
