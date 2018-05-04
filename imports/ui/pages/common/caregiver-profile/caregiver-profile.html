@@ -4,16 +4,17 @@
     <div class="row profile-head">
         <div class="col-sm-3">
             <div class="profile-pic" style="background-image: url({{profilePhoto.link}})">
-                <div class="favorite">
-                    <a href="" class="{{isBookmarked}}">
-                        <i class="fa {{#if isBookmarked}}fa-heart{{else}}fa-plus{{/if}}" aria-hidden="true"></i>
-                    </a>
-                </div>
+                {{#if notCurrentCaregiver}}
+                    <div class="favorite">
+                        <a href="" class="{{isBookmarked}}">
+                            <i class="fa {{#if isBookmarked}}fa-heart{{else}}fa-plus{{/if}}" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                {{/if}}
             </div>
         </div>
         <div class="col-sm-6 name">
             <h1>{{caregiver.firstName}} {{caregiver.lastName}}</h1>
-            {{profilePhoto.name}}
             <div class="rating">
                 <i class="fa fa-star" aria-hidden="true"></i>
                 <i class="fa fa-star" aria-hidden="true"></i>

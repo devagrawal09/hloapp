@@ -19,7 +19,7 @@
             <div class="col-md-9">
                 Personal pictures
                 <div class="photos">
-                    {{#each photo in photos}}
+                    {{#each photo in photos.each}}
                         <img src="{{photo.link}}" alt="{{photo.name}}" id="{{photo._id}}">
                     {{/each}}
                 </div>

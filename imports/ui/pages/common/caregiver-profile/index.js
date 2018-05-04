@@ -29,6 +29,10 @@ Template.CaregiverProfile.helpers({
             name: ''
         };
     },
+    notCurrentCaregiver() {
+        let id = Template.currentData().id();
+        return Caregivers.findOne( id ).user !== Meteor.userId();
+    },
     caregiverBackgroundCheck() {
         let id = Template.currentData().id();
         return !!Caregivers.findOne( id ).background;

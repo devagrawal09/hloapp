@@ -15,33 +15,34 @@ import { Caregivers, CaregiverImages, updateProfilePhoto, deletePhoto } from '..
     import './submit-buttons.html';
     import './edit-profile.html';
 
-Template.EditProfileCaregiver.onCreated(function() {
-    let t = this;
-    t.autorun(()=> {
-        t.subscribe( 'caregiver.current' );
-        t.subscribe( 'caregiver.images' );
-    });
-});
-
-Template.EditProfileCaregiver.helpers({
-    caregiverSchema() {
-        return caregiverSchema;
-    },
-    caregiverDoc() {
-        return Caregivers.findOne({
-            user: Meteor.userId()
+//edit form
+    Template.EditProfileCaregiver.onCreated(function() {
+        let t = this;
+        t.autorun(()=> {
+            t.subscribe( 'caregiver.current' );
+            t.subscribe( 'caregiver.images' );
         });
-    }
-});
+    });
 
-Template.EditProfileCaregiver.events({
-    'click .next'( e, t ) {
-        t.$( '.nav li.active' ).next( 'li' ).children( 'a' ).tab( 'show' );
-    },
-    'click .back'( e, t ) {
-        t.$( '.nav li.active' ).prev( 'li' ).children( 'a' ).tab( 'show' );
-    }
-});
+    Template.EditProfileCaregiver.helpers({
+        caregiverSchema() {
+            return caregiverSchema;
+        },
+        caregiverDoc() {
+            return Caregivers.findOne({
+                user: Meteor.userId()
+            });
+        }
+    });
+
+    Template.EditProfileCaregiver.events({
+        'click .next'( e, t ) {
+            t.$( '.nav li.active' ).next( 'li' ).children( 'a' ).tab( 'show' );
+        },
+        'click .back'( e, t ) {
+            t.$( '.nav li.active' ).prev( 'li' ).children( 'a' ).tab( 'show' );
+        }
+    });
 
 //photos form
     Template.caregiverPhotosForm.onCreated(function() {
@@ -61,7 +62,9 @@ Template.EditProfileCaregiver.events({
             return Template.instance().photoUpload.get();
         },
         photos() {
-            return CaregiverImages.find();
+            return CaregiverImages.find({
+                meta: { user: Meteor.userId() }
+            });
         }
     });
 
@@ -85,9 +88,9 @@ Template.EditProfileCaregiver.events({
 
                 upload.on('end', function(error, fileObj) {
                     if (error) {
-                        alert('Error during upload: ' + error);
+                        console.error('Error during upload: ' + error);
                     } else {
-                        alert('File "' + fileObj.name + '" successfully uploaded');
+                        console.log('File "' + fileObj.name + '" successfully uploaded');
                     }
                     t.photoUpload.set(false);
                 });
@@ -116,7 +119,7 @@ Template.EditProfileCaregiver.events({
         },
         'click .delete'( e, t ) {
 
-            if( !e.target.hasClass('disabled') ) {
+            if( !t.$( e.target ).hasClass('disabled') ) {
 
                 let $selected = t.$( '.photos img.selected' );
                 let _id = $selected.attr( 'id' );
@@ -161,6 +164,8 @@ Template.EditProfileCaregiver.events({
             let dpId = Caregivers.findOne({
                 user: Meteor.userId()
             }).profilePhoto;
-            return CaregiverImages.findOne( dpId );
+            return CaregiverImages.findOne({
+                _id: dpId
+            });
         }
     });
