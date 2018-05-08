@@ -1,0 +1,29 @@
+<template name="jobAd">
+    <div class="col-md-4 col-sm-6">
+        <div class="search-card job-ad">
+            <a href="">
+                <span class="link-spanner"></span>
+            </a>
+            <div class="row">
+                <div class="col col-xs-5 ad-dp text-center">
+                    <img src="/img/search/job-ad.png" class="card-dp">
+                </div>
+                <div class="col col-xs-7 job-header">
+                    <h4>{{title}}</h4>
+                    <h6>Posted by {{username}}</h6>
+                    <span class="label label-success">{{location}}</span>
+                </div>
+            </div>
+            
+            <div class="card-desc">
+                <p class="card-about">
+                    <p class="job-period">{{startDate}} - {{endDate}}</p>
+                    <h5> Job Description </h5>
+                    <p>{{jobDescription}}</p>
+                    <h5> Patient Description </h5>
+                    <p>{{description}}</p>
+                </p>
+            </div>
+        </div>
+    </div>
+</template>

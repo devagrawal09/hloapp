@@ -3,13 +3,13 @@
         <div class="carousel slide" id="profile-cover" data-ride="carousel">
 
             <ol class="carousel-indicators">
-                {{#each photo in photos.each}}
+                {{#each photo in caregiver.photos.each}}
                     <li class="{{activeClass @index}}" data-target="#profile-cover" data-slide-to="{{@index}}"></li>
                 {{/each}}
             </ol>
 
             <div class="carousel-inner" role="listBox">
-                {{#each photo in photos.each}}
+                {{#each photo in caregiver.photos.each}}
                     <div class="item {{activeClass @index}}">
                         <img src="{{photo.link}}" alt="{{photo.name}}">
                     </div>
@@ -29,7 +29,7 @@
     </div>
     <div class="row profile-head">
         <div class="col-sm-3">
-            <div class="profile-pic" style="background-image: url({{profilePhoto.link}})">
+            <div class="profile-pic" style="background-image: url({{caregiver.dp.link}})">
                 {{#if notCurrentCaregiver}}
                     <div class="favorite">
                         <a href="" class="{{isBookmarked}}">

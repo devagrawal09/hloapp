@@ -4,16 +4,14 @@ import SimpleSchema from 'simpl-schema';
 import { ReactiveVar } from 'meteor/reactive-var'
 
 import Datatypes from '../../../../api/data-types';
-import { Caregivers } from '../../../../api/caregivers';
-import { Jobs } from '../../../../api/jobs';
 
 import '../../../helpers';
 import './filter-templates.js';
-import '../../../shared-components/caregiver-card';
 import './search.html';
 
 if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('caregivers');
+    Package['msavin:mongol'].Mongol.showCollection('jobs');
 }
 
 const filterSchema = new SimpleSchema({
@@ -37,17 +35,16 @@ const filterSchema = new SimpleSchema({
 }, { requiredByDefault: false });
 
 const Filter = new ReactiveVar({});
-const displayType = new ReactiveVar('grid');
+const gridDisplay = new ReactiveVar( true );
+export const subscription = new ReactiveVar( '' );
+export const displayTemplate = new ReactiveVar( '' );
+export const collection = new ReactiveVar();
 
 Template.Search.onCreated(function() {
-    let t = this;
-    t.autorun(()=> {
-        let search = Template.currentData().search();
-        if( search === 'caregivers' ) {
-            t.subscribe( 'caregivers' );
-        } else if( search === 'jobs' ) {
-            t.subscribe( 'jobs' );
-        }
+    this.autorun(()=> {
+        let subs = subscription.get();
+        console.log( subs );
+        this.subscribe( subs );
     });
 });
 
@@ -59,10 +56,11 @@ Template.Search.helpers({
         return Filter.get();
     },
     docs() {
-        let search = Template.currentData().search();
         let filter = Filter.get();
+        let coll = collection.get();
+        console.log( coll );
 
-        let Query = Object.keys( filter ).reduce(( query, key )=> {     //create query
+        let Query = Object.keys( filter ).reduce(( query, key )=> { //create query
             if( key === 'name' ) {
                 query.fullName = { $regex: filter[key], $options: 'i' };
                 return query;
@@ -75,28 +73,24 @@ Template.Search.helpers({
             return query;
         }, {});
 
-        console.log(Query);
-        if( search === 'caregivers' ) {
-            return Caregivers.find( Query );
-        }
-        if( search === 'jobs' ) {
-            return Jobs.find( Query );
-        }
+        console.log( Query );
+        console.log( this );
+        return coll.find( Query );
     },
-    display() {
-        let display = {};
-        display.type = displayType.get();
-        display.search = Template.currentData().search();
-        return display;
+    displayTemplate() {
+        return displayTemplate.get();
+    },
+    isGrid() {
+        return gridDisplay.get();
     }
 });
 
 Template.Search.events({ 
     'click .display-grid'() { 
-        displayType.set( 'grid' );
+        gridDisplay.set( true );
     },
     'click .display-list'() {
-        displayType.set( 'list' );
+        gridDisplay.set( false );
     }
 });
 

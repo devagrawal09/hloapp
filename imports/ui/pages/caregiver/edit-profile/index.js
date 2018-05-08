@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { AutoForm } from 'meteor/aldeed:autoform';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { caregiverSchema } from '../../../../api/caregivers/schema.js';
 import { Caregivers, CaregiverImages, updateProfilePhoto, deletePhoto } from '../../../../api/caregivers';
@@ -43,6 +45,16 @@ import { Caregivers, CaregiverImages, updateProfilePhoto, deletePhoto } from '..
             t.$( '.nav li.active' ).prev( 'li' ).children( 'a' ).tab( 'show' );
         }
     });
+
+    AutoForm.hooks({ editCaregiver: {
+        after: { method( err, res ) {
+            if( err ) {
+                console.error( err );
+            } else {
+                FlowRouter.go('dashboard');
+            }
+        }}
+    }});
 
 //photos form
     Template.caregiverPhotosForm.onCreated(function() {

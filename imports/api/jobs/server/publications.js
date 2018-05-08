@@ -7,7 +7,7 @@ Meteor.publish('jobById', function( id ) {
 });
 
 Meteor.publish('jobs', function() {
-    return Jobs.find();
+    return Jobs.find({});
 });
 
 Meteor.publish('myJobs', function() {

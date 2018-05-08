@@ -184,8 +184,9 @@
     FlowRouter.route('/caregivers', {
         name: 'caregivers.search',
         action() {
-            import('../../ui/pages/common/search').then(()=> {
-                BlazeLayout.render('AppLayout', { main: 'Search', search: 'caregivers' });
+            import('../../ui/pages/common/search/caregivers.js').then(( imports )=> {
+                BlazeLayout.render('AppLayout', { main: 'Search' });
+                imports.searchForCaregivers();
             });
         }
     });
@@ -198,6 +199,16 @@
                     main: 'CaregiverProfile',
                     id: params.id
                 });
+            });
+        }
+    });
+
+    FlowRouter.route('/jobs', {
+        name: 'jobs.search',
+        action() {
+            import('../../ui/pages/common/search/jobs.js').then(( imports )=> {
+                BlazeLayout.render('AppLayout', { main: 'Search' });
+                imports.searchForJobs();
             });
         }
     });

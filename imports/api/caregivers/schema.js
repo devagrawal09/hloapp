@@ -27,6 +27,7 @@ export const caregiverSchema = new SimpleSchema({
     location: Datatypes.Location,
     otherDistrict: {
         type: String,
+        optional: true,
         label: 'Please specify district'
     },
     country: Datatypes.Country,

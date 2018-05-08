@@ -19,16 +19,6 @@ Template.CaregiverProfile.helpers({
     caregiver() {
         return Template.instance().doc;
     },
-    profilePhoto() {
-        let dpId = Template.instance().doc.profilePhoto;
-        return CaregiverImages.findOne( dpId ) || {
-            link: '/img/search/dp.jpg',
-            name: ''
-        };
-    },
-    photos() {
-        return CaregiverImages.find({ meta: { user: Template.instance().doc.user } });
-    },
     activeClass( index ) {
         if( index === 0 ) return 'active';
     },

@@ -33,9 +33,15 @@
                 {{/autoForm}}
             </div>
             <div class="col-sm-9 search-body">
-                {{#each doc in docs}}
-                    {{> caregiverCard doc}}
-                {{/each}}
+                {{#if isGrid}}
+                    <div class="row">
+                        {{#each doc in docs}}
+                            {{> Template.dynamic template=displayTemplate data=doc}}
+                        {{/each}}
+                    </div>
+                {{else}}
+                    List display here
+                {{/if}}
             </div>
         </div>
     </div>

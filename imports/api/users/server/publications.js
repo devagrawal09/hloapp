@@ -16,3 +16,9 @@ Meteor.publish( 'user.profile', function() {
         }
     });
 });
+
+Meteor.publish( 'user.name', function( user ) {
+    return Meteor.users.find( user, {
+        fields: { fullName: 1 }
+    });
+});

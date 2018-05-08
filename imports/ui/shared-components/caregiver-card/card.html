@@ -18,14 +18,12 @@
                     (10)
                 </p>
                 <p>
-                    <span class="label label-success">
-                        {{#if otherDistrict}}
-                            {{otherDistrict}}
-                        {{else}}
-                            {{location}}
-                        {{/if}}
-                    </span>
-                    <span class="label label-success">{{workLocation}}</span>
+                    {{#each loc in workLocation}}
+                        <span class="label label-success">{{loc}}</span>
+                    {{/each}}
+                    {{#if otherWorkLocations}}
+                        <span class="label label-success">{{otherWorkLocations}}</span>
+                    {{/if}}
                 </p>
                 <p class="card-about">{{aboutText}}</p>
             </div>

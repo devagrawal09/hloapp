@@ -6,7 +6,6 @@ Meteor.users.deny({
 });
 
 AccountsTemplates.configure({
-    homeRoutePath: '/dashboard',
     privacyUrl: '/privacy',
     termsUrl: '/terms',
     onLogoutHook() {
