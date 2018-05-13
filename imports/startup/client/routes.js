@@ -10,7 +10,7 @@
 
 //import methods
     import '../../api/users';
-    import { commonRoutesAction, showLoader } from './boilerplates';
+    import UI from './ui';
 
 //import layouts
     import '../../ui/layouts/app-layout';
@@ -109,8 +109,8 @@
     PrivateRouter.route('/dashboard', {
         name: 'dashboard',
         action() {
-            showLoader();
-            commonRoutesAction({ caregiver: {
+            UI.showLoader();
+            UI.commonRoutesAction({ caregiver: {
                 import() { return import('../../ui/pages/caregiver/dashboard') },
                 render: {
                     main: 'DashboardLayout',
@@ -130,7 +130,7 @@
     PrivateRouter.route('/chat', {
         name: 'chat',
         action() {
-            showLoader();
+            UI.showLoader();
             // BlazeLayout.render('AppLayout', {
             //     main: 'DashboardLayout',
                     
@@ -152,8 +152,8 @@
     PrivateRouter.route('/profile', {
         name: 'profile.edit',
         action() {
-            showLoader('DashboardLayout');
-            commonRoutesAction({ caregiver: {
+            UI.showLoader('DashboardLayout');
+            UI.commonRoutesAction({ caregiver: {
                 import() { return import('../../ui/pages/caregiver/edit-profile') },
                 render: {
                     main: 'DashboardLayout',

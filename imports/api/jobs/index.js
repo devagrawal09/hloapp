@@ -1,14 +1,26 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { FilesCollection } from 'meteor/ostrio:files';
 
 import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
 
 import { Caregivers } from '../caregivers';
-import { detailsSchema } from './schema.js';
+import { detailsSchema, photoSchema } from './schema.js';
 
 export const Jobs = new Mongo.Collection('jobs');
+export const JobImages = new FilesCollection({
+    collectionName: 'job-images',
+    allowClientCode: false,
+    onBeforeUpload(file) {
+        // Allow upload files under 10MB, and only in png/jpg/jpeg formats
+        if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
+          return true;
+        }
+        return 'Please upload image, with size equal or less than 10MB';
+    }
+});
 
 //methods
 
@@ -28,9 +40,79 @@ export const Jobs = new Mongo.Collection('jobs');
             job.status = 'open';            //jobs open by default
             job.applicants = [];            //no applicants by default
 
-            Jobs.insert( job );             //post the job
+            const id = Jobs.insert( job );  //post the job
+
+            JobImages.update({              //set uploaded photos to new job
+                meta: {
+                    user: this.userId,
+                    job: 'new'
+                }
+            }, {
+                $set: { job: id }
+            }, {
+                multi: true
+            });
 
             return true;
+        }
+    });
+
+    export const setDp = new ValidatedMethod({          //update profile image (customer)
+        name: 'jobs.images.set.profile',
+        validate: photoSchema.validator(),
+        run({ _id, job }) {
+
+            if( !this.userId ) {
+                throw new Meteor.Error('jobs.images.set.profile.unauthorized', 
+                'You are not logged in!');
+            }
+
+            JobImages.update({
+                meta: { job },
+                profile: true
+            }, {
+                $set: { profile: false }
+            });
+
+            const photo = JobImages.update({ 
+                _id,
+                meta: { job }
+            }, {
+                $set: { profile: true }
+            });
+
+            if( !photo ) {
+                throw new Meteor.Error('jobs.images.set.profile.invalid', 
+                'Invalid input! Please try again');
+            }
+
+            return true;
+        }
+    });
+
+    export const deletePhoto = new ValidatedMethod({    //delete photo (customer)
+        name: 'jobs.images.remove',
+        validate: photoSchema.validator(),
+        run({ _id, job }) {
+
+            if( !this.userId ) {
+                throw new Meteor.Error('jobs.images.remove.unauthorized', 
+                'You are not logged in!');
+            }
+
+            let photo = JobImages.findOne({
+                _id,
+                meta: { job }
+            });
+
+            if( !photo ) {
+                throw new Meteor.Error('jobs.images.remove.invalid', 
+                'Invalid input! Please try again');
+            }
+
+            photo.remove(( err )=> {
+                console.error( err );
+            });
         }
     });
 

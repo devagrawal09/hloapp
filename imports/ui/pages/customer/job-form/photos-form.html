@@ -1,17 +1,40 @@
 <template name="jobPhotosForm">
     <div id="photos" class="tab-pane fade">
-        <h4>Profile Picture</h4>
-        <div class="form-group">
-            <input type="file" name="file" id="file" class="inputfile" />
-            <label for="file" class="btn btn-default">Upload Profile Picture</label>
+        <div class="row">
+            <div class="col-md-3 form-group">
+                Upload photo {{#with photoUpload}} Uploading
+                <b>{{file.name}}</b>:
+                <span id="progress">{{progress.get}}%</span>
+                {{else}}
+                <input type="file" class="inputfile" name="photo" id="photo">
+                <label for="photo">
+                    <div class="photo-input">
+                        <span class="upload">
+                            <i class="fa fa-upload"></i>
+                        </span>
+                        <i class="fa fa-user"></i>
+                    </div>
+                </label>
+                {{/with}}
+            </div>
+            <div class="col-md-9">
+                Uploaded pictures
+                <div class="photos">
+                    {{#each photo in photos.each}}
+                    <img src="{{photo.link}}" class="{{#if photo.profile}}profile{{/if}}" alt="{{photo.name}}" id="{{photo._id}}">
+                    {{/each}}
+                </div>
+                <a class="btn btn-danger delete disabled">Delete</a>
+                <a class="btn btn-primary save-as-dp disabled">
+                    Set Profile picture
+                </a>
+            </div>
         </div>
-        <br/>
-        <h4>Cover Photo</h4>
-        <div class="form-group">
-            <input type="file" name="file" id="file" class="inputfile" />
-            <label for="file" class="btn btn-default">Upload Cover Photo</label>
-        </div>
+        <br>
+        <p>
+            All uploaded photos will be displayed as cover photos on the job details page.
+        </p>
         <a href="#" class="btn btn-default back">Back</a>
-        <a href="#" class="btn btn-primary next">Next</a>
+        <a href="#" class="btn btn-primary next pull-right">Next</a>
     </div>
 </template>

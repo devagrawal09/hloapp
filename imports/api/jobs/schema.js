@@ -96,3 +96,8 @@ export const detailsSchema = new SimpleSchema({
     },
     jobDescription: String
 });
+
+export const photoSchema = new SimpleSchema({
+    _id: Datatypes.Id,
+    job: String
+});

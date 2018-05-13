@@ -5,6 +5,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { caregiverSchema } from '../../../../api/caregivers/schema.js';
 import { Caregivers, CaregiverImages, updateProfilePhoto, deletePhoto } from '../../../../api/caregivers';
+import showAlert from '../../../shared-components/alert';
 
 //import templates
     import '../../../shared-components/checkbox-columns';
@@ -51,7 +52,8 @@ import { Caregivers, CaregiverImages, updateProfilePhoto, deletePhoto } from '..
             if( err ) {
                 console.error( err );
             } else {
-                FlowRouter.go('dashboard');
+                FlowRouter.go( 'dashboard' );
+                showAlert( 'Profile updated successfully!' );
             }
         }}
     }});
