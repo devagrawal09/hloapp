@@ -6,6 +6,7 @@ import { FilesCollection } from 'meteor/ostrio:files';
 import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
 
+import { Jobs } from '../jobs';
 import { caregiverSchema, photoSchema } from './schema.js';
 
 export const Caregivers = new Mongo.Collection('caregivers');
@@ -104,6 +105,60 @@ export const CaregiverImages = new FilesCollection({
                 console.error( err );
             });
         }
+    });
+
+//job methods
+
+    export const applyForJob = new ValidatedMethod({    //apply for job
+        name: 'jobs.apply',
+        validate: caregiverSchema.pick( '_id' ).validator(),
+        run({ _id }) {
+
+            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type !== 'caregiver' ) {
+                //current user is not a caregiver
+                throw new Meteor.Error('jobs.apply.unauthorized',
+                'You are not a registered caregiver!');
+            }
+
+            //get current user's caregiver profile
+            let caregiver = Caregivers.findOne({
+                user: this.userId
+            });
+
+            if( caregiver.currentJob ) {
+                //current user already employed
+                throw new Meteor.Error('jobs.apply.unauthorized',
+                'You are already employed on a job!');
+            }
+
+            //update the job document with the new applicant
+            let result = Jobs.update({
+                _id,
+                status: 'open'
+            }, {
+                $push: { applicants: caregiver._id } 
+            });
+
+            if( !result ) {
+                //invalid input
+                throw new Meteor.Error('jobs.apply.error',
+                'The job you are trying to apply to is closed or does not exist!');
+            }
+
+            //update caregiver profile with applied job
+            Caregivers.update({
+                user: this.userId
+            }, { $push: {
+                appliedJobs: _id
+            }});
+        }
+    });
+
+    //incomplete
+    export const acceptOffer = new ValidatedMethod({    //accept offered job
+        name: 'jobs.accept',
+        validate() {},
+        run() {},
     });
 
 Caregivers.helpers({

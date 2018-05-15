@@ -16,7 +16,7 @@ export const JobImages = new FilesCollection({
     onBeforeUpload(file) {
         // Allow upload files under 10MB, and only in png/jpg/jpeg formats
         if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
-          return true;
+            return true;
         }
         return 'Please upload image, with size equal or less than 10MB';
     }
@@ -145,47 +145,64 @@ export const JobImages = new FilesCollection({
         }
     });
 
-    export const applyForJob = new ValidatedMethod({    //apply for job (caregiver)
-        name: 'jobs.apply',
-        validate: detailsSchema.pick( '_id' ).validator(),
-        run({ _id }) {
+    export const offerJob = new ValidatedMethod({       //offer job to caregiver (customer)
+        name: 'jobs.offer',
+        validate: new SimpleSchema({
+            job: Datatypes.Id,
+            caregiver: Datatypes.Id
+        }).validator(),
+        run({ job, caregiverId }) {
 
-            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type !== 'caregiver' ) {
-                //current user is not a caregiver
-                throw new Meteor.Error('jobs.apply.unauthorized',
-                'You are not a registered caregiver!');
+            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
+                //current user is not a customer
+                throw new Meteor.Error('jobs.offer.unauthorized',
+                'You are not registered customer!');
             }
 
-            //get current user's caregiver profile
-            let caregiver = Caregivers.findOne({
-                user: this.userId
-            });
+            let caregiver = Caregivers.findOne( caregiverId );
+
+            if( !caregiver ) {
+                //input id recieved is not a caregiver
+                throw new Meteor.Error('jobs.offer.error',
+                'Invalid Input, please try again!');
+            }
 
             if( caregiver.currentJob ) {
-                //current user already employed
-                throw new Meteor.Error('jobs.apply.unauthorized',
-                'You are already employed on a job!');
+                //caregiver is already employed
+                throw new Meteor.Error('jobs.offer.error',
+                'Caregiver is already employed!');
             }
 
-            //update the job document with the new applicant
+            if( _.indexOf( caregiver.offers, job ) !== -1 ) {
+                //job has already been offered to the caregiver
+                throw new Meteor.Error('jobs.offer.error',
+                'You have already offered this job to the caregiver!');
+            }
+
+            if( _.indexOf( caregiver.appliedJobs, job ) !== -1 ) {
+                //caregiver has applied for this job
+                throw new Meteor.Error('jobs.offer.error',
+                'This caregiver has applied for this job!');
+            }
+
+            //update job with offer 
             let result = Jobs.update({
-                _id,
+                job,
+                postedBy: this.userId,
                 status: 'open'
-            }, {
-                $push: { applicants: this.userId } 
-            });
+            }, { $push: {
+                offers: caregiverId
+            }});
 
             if( !result ) {
                 //invalid input
-                throw new Meteor.Error('jobs.apply.error',
-                'The job you are trying to apply to is closed or does not exist!');
+                throw new Meteor.Error('jobs.offer.error',
+                'This Job is not open, is not posted by you, or does not exist!');
             }
 
-            //update caregiver profile with applied job
-            Caregivers.update({
-                user: this.userId
-            }, { $push: {
-                appliedJobs: _id
+            //update caregiver's profile with job id
+            Caregivers.update( caregiverId, { $push: {
+                offers: job
             }});
         }
     });
@@ -196,7 +213,9 @@ export const JobImages = new FilesCollection({
             job: Datatypes.Id,
             applicant: Datatypes.Id
         }).validator(),
-        run({ _id, applicant }) {
+        run({ job, applicant }) {
+
+            console.log( job, applicant );
 
             if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
                 //current user is not a customer
@@ -209,7 +228,7 @@ export const JobImages = new FilesCollection({
             if( !caregiver ) {
                 //applicant id recieved is not a caregiver
                 throw new Meteor.Error('jobs.hire.error',
-                'Invalid Input, please try again!');
+                'This applicant does not exist!');
             }
 
             if( caregiver.currentJob ) {
@@ -220,13 +239,15 @@ export const JobImages = new FilesCollection({
 
             //update job with hired status and id
             let result = Jobs.update({
-                _id,
+                _id: job,
                 postedBy: this.userId,
                 status: 'open',
                 applicants: applicant
             }, { $set: {
                 status: 'hired',
-                hired: applicant
+                hired: applicant,
+                applicants: [],
+                offers: []
             }});
 
             if( !result ) {
@@ -236,9 +257,10 @@ export const JobImages = new FilesCollection({
             }
 
             //update caregiver's profile with job id
-            Caregivers.update( applicant, { $set: {
-                currentJob: _id
-            }});
+            Caregivers.update( applicant, { 
+                $set: { currentJob: job },
+                $pull: { appliedJobs: job }
+            });
         }
     });
 
@@ -275,5 +297,19 @@ export const JobImages = new FilesCollection({
     Jobs.helpers({
         username() {
             return Meteor.users.findOne( this.postedBy ).fullName;
+        },
+        dp() {
+            return JobImages.findOne({ meta: { job: this._id }, profile: true });
+        },
+        photos() {
+            return JobImages.find({ meta: { job: this._id }});
+        },
+        appliedCaregivers() {
+            return Caregivers.find({
+                _id: { $in: this.applicants }
+            });
+        },
+        hiredCaregiver() {
+            return Caregivers.findOne( this.hired );
         }
     });

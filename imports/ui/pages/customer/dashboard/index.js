@@ -19,12 +19,12 @@ Template.PostedJobs.onCreated(function() {
 
 Template.PostedJobs.helpers({
     jobs() {
-        return Jobs.find({ status: 'open' }).fetch();
+        return Jobs.find({ status: 'open' });
     },
     ongoingJobs() {
-        return Jobs.find({ status: 'hired' }).fetch();
+        return Jobs.find({ status: 'hired' });
     },
     completedJobs() {
-        return Jobs.find({  status: 'completed' }).fetch();
+        return Jobs.find({ status: 'completed' });
     }
 });

@@ -5,7 +5,7 @@
             <h6>{{getDate postedOn}}</h6>
         </div>
         <div class="job-right">
-            <img src="{{rightImageSrc status}}" class="job-status">
+            <img src="{{rightImageSrc}}" class="job-status">
             <a href="{{pathFor 'job.edit' id=_id}}" class="btn edit-btn">
                 <i class="fa fa-pencil"></i>
             </a>
@@ -18,9 +18,9 @@
             {{#if isHired status}}
                 <div class="hired-caregiver">
                     <h4>Hired Caregiver</h4>
-                    <img src="/img/msg.png" class="hired-picture">
-                    <h4>Sonia Tam</h4>
-                    <h5>$120 HKD per hour</h5>
+                    <img src="{{hiredCaregiver.dp.link}}" class="hired-picture">
+                    <h4>{{hiredCaregiver.firstName}} {{hiredCaregiver.lastName}}</h4>
+                    <h5>${{hiredCaregiver.hourlyRate}} HKD per hour</h5>
                     <button class="btn btn-primary">Message</button>
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Review</button>
 
@@ -62,7 +62,10 @@
                 </div>
             {{/if}}
             <h4>Job Description</h4>
-            <p>{{jobDescription}}</p>
+            <p>
+                {{jobDescription}} <br>
+                <a href="{{pathFor 'job.details' id=_id}}">Details page</a>
+            </p>
             <br/>
             <h4>Work Times</h4>
             <table class="table">
@@ -75,8 +78,8 @@
                 <tbody>
                     {{#each day in days}}
                         <tr>
-                            <td>{{day}}</td>
-                            <td>{{startTime}} - {{endTime}} </td>
+                            <td>{{day.day}}</td>
+                            <td>{{day.start}} - {{day.end}} </td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -86,18 +89,19 @@
                 <h4>Caregiver Applicants</h4>
                 <table class="table table-hover applicants">
                     <tbody>
-                        <tr>
-                            <td>
-                                <a href="profile.html" class="applicant-link">
-                                    <h5 class="applicant-name">James Drake</h5>
-                                    <p class="applicant-date">Nov 4, 2017</p>
-                                </a>
-                            </td>
-                            <td class="applicant-buttons">
-                                <a class="btn btn-default">Hire</a>
-                                <button class="btn btn-default">Message</button>
-                            </td>
-                        </tr>                
+                        {{#each caregiver in appliedCaregivers}}
+                            <tr>
+                                <td>
+                                    <a href="" class="applicant-link">
+                                        <h5 class="applicant-name">{{caregiver.firstName}} {{caregiver.lastName}}</h5>
+                                    </a>
+                                </td>
+                                <td class="applicant-buttons">
+                                    <a class="btn btn-default hire" id="{{caregiver._id}}">Hire</a>
+                                    <button class="btn btn-default">Message</button>
+                                </td>
+                            </tr>
+                        {{/each}}
                     </tbody>
                 </table>
             {{/unless}}

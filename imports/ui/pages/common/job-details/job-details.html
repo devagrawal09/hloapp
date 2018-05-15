@@ -1,0 +1,182 @@
+<template name="JobDetails">
+    <div class="container-fluid profile-cover">
+        <div class="carousel slide" id="profile-cover" data-ride="carousel">
+
+            <ol class="carousel-indicators">
+                {{#each photo in job.photos.each}}
+                    <li class="{{activeClass @index}}" data-target="#profile-cover" data-slide-to="{{@index}}"></li>
+                {{/each}}
+            </ol>
+
+            <div class="carousel-inner" role="listBox">
+                {{#each photo in job.photos.each}}
+                    <div class="item {{activeClass @index}}">
+                        <img src="{{photo.link}}" alt="{{photo.name}}">
+                    </div>
+                {{/each}}
+            </div>
+
+            <a class="left carousel-control" href="#profile-cover" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#profile-cover" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+
+        </div>
+    </div>
+    <div class="row profile-head">
+        <div class="col-sm-3">
+            <div class="profile-pic" style="background-image: url({{job.dp.link}})">
+                <!-- {{#if notCurrentjob}}
+                    <div class="favorite">
+                        <a href="" class="{{isBookmarked}}">
+                            <i class="fa {{#if isBookmarked}}fa-heart{{else}}fa-plus{{/if}}" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                {{/if}} -->
+            </div>
+        </div>
+        <div class="col-sm-6 name">
+            <h1>{{job.title}}</h1>
+        </div>
+        {{#if isCaregiver}}
+            <div class="col-sm-3 profile-buttons">
+                {{#if isOffered}}
+                    <a class="btn btn-primary accept" href="" role="button">Accept Job Offer</a>
+                {{else}}
+                    {{#if isApplied}}
+                        <a class="btn btn-default disabled" href="" role="button">Applied</a>
+                    {{else}}
+                        <a class="btn btn-primary apply" href="" role="button">Apply</a>
+                    {{/if}}
+                {{/if}}
+                <a class="btn btn-default-clear msg" href="" role="button">Message Customer</a>
+            </div>
+        {{/if}}
+    </div>
+
+    <!-- profile desc -->
+    <div class="row profile-main">
+        <div class="col-sm-9 profile-body">
+            <div class="profile-section">
+                <h1>Job Description</h1>
+                <p class="h4">{{job.jobDescription}}</p>
+            </div>
+            <h1>Job Requirements</h1>
+            <div class="profile-section">
+                <h3>Type of Caregiver</h3>
+                <ul class="row list-group">
+                    {{#each type in job.caregiverType}}
+                        <li class="col-sm-3 list-group-item">
+                            {{type}}
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="profile-section">
+                <h3>Professional Services</h3>
+                <ul class="row list-group">
+                    {{#each service in job.professionalServices}}
+                        <li class="col-sm-3 list-group-item">
+                            {{service}}
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="profile-section">
+                <h3>Personal Services</h3>
+                <ul class="row list-group">
+                    {{#each service in job.personalServices}}
+                        <li class="col-sm-3 list-group-item">
+                            {{service}}
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="profile-section">
+                <h3>Medical Conditions</h3>
+                <ul class="row list-group">
+                    {{#each condition in job.medicalConditions}}
+                        <li class="col-sm-3 list-group-item">
+                            {{condition}}
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="profile-section">
+                <h3>Work days</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Day of Week</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each day in job.days}}
+                            <tr>
+                                <td>{{day.day}} </td>
+                                <td>{{day.start}} - {{day.end}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-3 profile-sidebar">
+            <div class="location-bar">
+                <p>
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    {{#if job.otherDistrict}}
+                        {{job.otherDistrict}}
+                    {{else}}
+                        {{job.location}}
+                    {{/if}}
+                </p>
+            </div>
+            <div class="sidebar-section">
+                <h3>Patient Details</h3>
+                <br>
+                <h5>Name</h5>
+                <p>{{job.name}}</p>
+                <h5>Gender</h5>
+                <p>{{job.gender}} years</p>
+                <h5>Date of Birth</h5>
+                <p>{{job.dob}}</p>
+                {{#if job.hkid}}
+                    <h5>HKID/Passport</h5>
+                    <p>{{job.hkid}}</p>
+                {{/if}}
+                <h5>Address</h5>
+                <p>{{job.address}}</p>
+                <h5>District</h5>
+                <p>
+                    {{#if job.otherDistrict}}
+                        {{job.otherDistrict}}
+                    {{else}}
+                        {{job.location}}
+                    {{/if}}
+                </p>
+                <h5>Country</h5>
+                <p>{{job.country}}</p>
+                <h5>Phone</h5>
+                <p>{{job.phone}}</p>
+                {{#if job.email}}
+                    <h5>Email ID</h5>
+                    <p>{{job.email}}</p>
+                {{/if}}
+                {{#if job.languages}}
+                    <h5>Languages</h5>
+                    <p>{{job.languages}}</p>
+                {{/if}}
+                {{#if job.description}}
+                    <h5>Description</h5>
+                    <p>{{job.description}}</p>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</template>

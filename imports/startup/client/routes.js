@@ -213,6 +213,18 @@
         }
     });
 
+    FlowRouter.route('/job/:id', {
+        name: 'job.details',
+        action( params ) {
+            import('../../ui/pages/common/job-details').then(()=> {
+                BlazeLayout.render('AppLayout', {
+                    main: 'JobDetails',
+                    id: params.id
+                });
+            });
+        }
+    });
+
 //caregiver routes
 //customer routes
     CustomerRouter.route('/jobs/new', {

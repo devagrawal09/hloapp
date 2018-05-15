@@ -112,3 +112,11 @@ Meteor.methods({
         if( !this.isSimulation ) return Meteor.users.findOne( this.userId ).profile.type;
     }
 });
+
+Meteor.users.helpers({
+    getCaregiver() {
+        return Caregivers.findOne({
+            user: this._id
+        });
+    }
+});

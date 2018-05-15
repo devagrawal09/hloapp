@@ -20,7 +20,7 @@
             No jobs currently listed.
         {{/if}}
 
-        {{#if ongoingJobs}}
+        {{#if ongoingJobs.fetch}}
 
             <h3>Ongoing Jobs</h3>
 
@@ -30,7 +30,7 @@
 
         {{/if}}
 
-        {{#if completedJobs}}
+        {{#if completedJobs.fetch}}
 
             <h3>Completed Jobs</h3>
 

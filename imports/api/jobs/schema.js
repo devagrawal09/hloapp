@@ -11,6 +11,8 @@ export const jobSchema = new SimpleSchema({
     },
     applicants: Array,
     'applicants.$': Datatypes.Id,
+    offers: Array,
+    'offers.$': Datatypes.Id,
     hired: Datatypes.Id
 });
 

@@ -12,7 +12,7 @@ import './job-form.html';
 Template.jobForm.onCreated(function() {
     
     let job = 'new';
-    let doc = this.data.doc
+    let doc = this.data.doc;
     if( doc ) job = doc._id;
     this.autorun(()=> {
         this.subscribe( 'jobs.images', job );
