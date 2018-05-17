@@ -1,7 +1,9 @@
 import { Template } from 'meteor/templating';
 
 import { Caregivers } from '../../../api/caregivers';
-import { hireApplicant } from '../../../api/jobs';
+import { hireApplicant, completeJob } from '../../../api/jobs';
+
+import showAlert from '../alert';
 
 import '../../helpers';
 import './collapsible.html';
@@ -19,11 +21,17 @@ Template.jobCollapsible.onCreated(function() {
 });
 
 Template.jobCollapsible.helpers({
-    isHired( status ) {
-        return status !== 'open';
+    isOpen() {
+        return this.status === 'open';
     },
-    isCompleted( status ) {
-        return status === 'completed';
+    isHired() {
+        return this.status === 'hired' || this.status === 'completed';
+    },
+    isCompleted() {
+        return this.status === 'completed' || this.status === 'expired';
+    },
+    isOwnedByCurrentUser() {
+        return this.postedBy === Meteor.userId();
     },
     rightImageSrc() {
         return this.dp().link();
@@ -42,6 +50,21 @@ Template.jobCollapsible.events({
         hireApplicant.call({
             job: t.data._id,
             applicant: t.$(e.target).attr('id')
+        }, ( err, res )=> {
+            if( err ) {
+                console.error( err );
+            } else {
+                showAlert('Sucessfully hired this caregiver!');
+            }
         });
-    } 
+    },
+    'click .complete'( e, t ) {
+        completeJob.call({ _id: t.data._id }, ( err, res )=> {
+            if( err ) {
+                console.error( err );
+            } else {
+                showAlert(`Sucessfully ${res} this job!`);
+            }
+        });
+    }
 });

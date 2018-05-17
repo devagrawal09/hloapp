@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { Caregivers, CaregiverImages } from '../index.js';
+import { Jobs } from '../../jobs';
 
 Meteor.publish('caregivers', function() {
     return Caregivers.find({
@@ -53,4 +54,28 @@ Meteor.publish('caregiverById.images', function( _id ) {
 
 Meteor.publish('caregiver.image', function( _id ) {
     return CaregiverImages.find({ _id }).cursor;
+});
+
+Meteor.publish('caregiver.currentJob', function() {
+    let caregiver = Caregivers.findOne({ user: this.userId });
+    return Jobs.find({
+        _id: caregiver.currentJob,
+        hired: caregiver._id
+    });
+});
+
+Meteor.publish('caregiver.appliedJobs', function() {
+    let caregiver = Caregivers.findOne({ user: this.userId });
+    return Jobs.find({
+        _id: { $in: caregiver.appliedJobs },
+        applicants: caregiver._id
+    });
+});
+
+Meteor.publish('caregiver.jobHistory', function() {
+    let caregiver = Caregivers.findOne({ user: this.userId });
+    return Jobs.find({
+        _id: { $in: caregiver.jobHistory },
+        hired: caregiver._id
+    });
 });

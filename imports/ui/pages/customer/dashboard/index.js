@@ -26,5 +26,8 @@ Template.PostedJobs.helpers({
     },
     completedJobs() {
         return Jobs.find({ status: 'completed' });
+    },
+    expiredJobs() {
+        return Jobs.find({ status: 'expired' });
     }
 });

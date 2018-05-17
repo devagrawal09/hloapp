@@ -40,6 +40,15 @@
             
         {{/if}}
 
+        {{#if expiredJobs.fetch}}
+
+            <h3>Expired Jobs</h3>
+
+            {{#each job in expiredJobs}}
+                {{> jobCollapsible (job)}}
+            {{/each}}
+        {{/if}}
+
     </div>
     
 </template>

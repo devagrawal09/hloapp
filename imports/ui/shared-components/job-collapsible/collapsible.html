@@ -6,60 +6,62 @@
         </div>
         <div class="job-right">
             <img src="{{rightImageSrc}}" class="job-status">
-            <a href="{{pathFor 'job.edit' id=_id}}" class="btn edit-btn">
-                <i class="fa fa-pencil"></i>
-            </a>
+            {{#if isOwnedByCurrentUser}}
+                <a href="{{pathFor 'job.edit' id=_id}}" class="btn edit-btn">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            {{/if}}
             <a class="expand-job" data-toggle="collapse" data-target="#{{_id}}">
                 <i class="fa fa-angle-down expand-job" aria-hidden="true"></i>
             </a>
         </div>
 
         <div id="{{_id}}" class="collapse job-desc">
-            {{#if isHired status}}
-                <div class="hired-caregiver">
-                    <h4>Hired Caregiver</h4>
-                    <img src="{{hiredCaregiver.dp.link}}" class="hired-picture">
-                    <h4>{{hiredCaregiver.firstName}} {{hiredCaregiver.lastName}}</h4>
-                    <h5>${{hiredCaregiver.hourlyRate}} HKD per hour</h5>
-                    <button class="btn btn-primary">Message</button>
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Review</button>
+            {{#if isOwnedByCurrentUser}}
+                {{#if isHired}}
+                    <div class="hired-caregiver">
+                        <h4>Hired Caregiver</h4>
+                        <img src="{{hiredCaregiver.dp.link}}" class="hired-picture">
+                        <h4>{{hiredCaregiver.firstName}} {{hiredCaregiver.lastName}}</h4>
+                        <h5>${{hiredCaregiver.hourlyRate}} HKD per hour</h5>
+                        <button class="btn btn-primary">Message</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#review-modal">Review</button>
 
-                    <!-- Modal -->
-                    <div id="myModal" class="modal fade review-modal" role="dialog">
-                        <div class="modal-dialog">
+                        <div id="review-modal" class="modal fade review-modal" role="dialog">
+                            <div class="modal-dialog">
 
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Review Caregiver</h4>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Review Caregiver</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group rating-stars">
+                                                <label>Star Rating</label>
+                                                <br>
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="comment">Comments</label>
+                                                <textarea class="form-control" rows="5" id="comment" placeholder="Describe your experience!"></textarea>
+                                            </div>
+                                            <div class="submit-buttons">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="form-group rating-stars">
-                                            <label>Star Rating</label>
-                                            <br>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="comment">Comments</label>
-                                            <textarea class="form-control" rows="5" id="comment" placeholder="Describe your experience!"></textarea>
-                                        </div>
-                                        <div class="submit-buttons">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
+
                             </div>
-
                         </div>
-                    </div>
 
-                </div>
+                    </div>
+                {{/if}}
             {{/if}}
             <h4>Job Description</h4>
             <p>
@@ -85,26 +87,33 @@
                 </tbody>
             </table>
             <br/>
-            {{#unless isHired status}}
-                <h4>Caregiver Applicants</h4>
-                <table class="table table-hover applicants">
-                    <tbody>
-                        {{#each caregiver in appliedCaregivers}}
-                            <tr>
-                                <td>
-                                    <a href="" class="applicant-link">
-                                        <h5 class="applicant-name">{{caregiver.firstName}} {{caregiver.lastName}}</h5>
-                                    </a>
-                                </td>
-                                <td class="applicant-buttons">
-                                    <a class="btn btn-default hire" id="{{caregiver._id}}">Hire</a>
-                                    <button class="btn btn-default">Message</button>
-                                </td>
-                            </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            {{/unless}}
+            {{#if isOwnedByCurrentUser}}
+                {{#if isOpen}}
+                    <h4>Caregiver Applicants</h4>
+                    <table class="table table-hover applicants">
+                        <tbody>
+                            {{#each caregiver in appliedCaregivers}}
+                                <tr>
+                                    <td>
+                                        <a href="" class="applicant-link">
+                                            <h5 class="applicant-name">{{caregiver.firstName}} {{caregiver.lastName}}</h5>
+                                        </a>
+                                    </td>
+                                    <td class="applicant-buttons">
+                                        <a class="btn btn-default hire" id="{{caregiver._id}}">Hire</a>
+                                        <button class="btn btn-default">Message</button>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    <button class="btn btn-danger btn-block complete">Expire Job</button>
+                {{else}}
+                {{#unless isCompleted}}
+                    <button class="btn btn-primary btn-block complete">Complete Job</button>
+                {{/unless}}
+                {{/if}}
+            {{/if}}
         </div>
     </div>
 </template>

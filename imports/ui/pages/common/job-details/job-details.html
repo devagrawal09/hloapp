@@ -46,12 +46,14 @@
             <div class="col-sm-3 profile-buttons">
                 {{#if isOffered}}
                     <a class="btn btn-primary accept" href="" role="button">Accept Job Offer</a>
+                {{else}} {{#if isApplied}}
+                    <a class="btn btn-default disabled" href="" role="button">Applied</a>
+                {{else}} {{#if isOngoing}}
+                    <a class="btn btn-default disabled" href="" role="button">Ongoing</a>
                 {{else}}
-                    {{#if isApplied}}
-                        <a class="btn btn-default disabled" href="" role="button">Applied</a>
-                    {{else}}
-                        <a class="btn btn-primary apply" href="" role="button">Apply</a>
-                    {{/if}}
+                    <a class="btn btn-primary apply" href="" role="button">Apply</a>
+                {{/if}}
+                {{/if}}
                 {{/if}}
                 <a class="btn btn-default-clear msg" href="" role="button">Message Customer</a>
             </div>

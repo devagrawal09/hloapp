@@ -4,6 +4,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Jobs } from '../../../../api/jobs';
 import { applyForJob } from '../../../../api/caregivers';
 
+import showAlert from '../../../shared-components/alert';
+
 import './job-details.html';
 
 if( Meteor.settings.public.env === 'development' ) {
@@ -44,6 +46,13 @@ Template.JobDetails.helpers({
         let a = _.indexOf( caregiver.appliedJobs, job._id ) !== -1;
         let b = _.indexOf( job.applicants, caregiver._id ) !== -1;
         return a && b;
+    },
+    isOngoing() {
+        let caregiver = Meteor.user().getCaregiver();
+        let job = Jobs.findOne( this.id() );
+        let a = caregiver.currentJob === job._id;
+        let b = job.hired === caregiver._id;
+        return a && b;
     }
 });
 
@@ -51,6 +60,12 @@ Template.JobDetails.events({
     'click .apply'( e, t ) {
         applyForJob.call({
             _id: t.data.id()
+        }, ( err, res )=> {
+            if( err ){
+                console.error( err );
+            } else {
+                showAlert('Successfully applied for this job!');
+            }
         });
     },
     'click .accept'() {},

@@ -263,9 +263,8 @@ export const JobImages = new FilesCollection({
             });
         }
     });
-
-    //incomplete
-    export const completeJob = new ValidatedMethod({    //mark a job complete (customer)
+    
+    export const completeJob = new ValidatedMethod({    //mark a job complete/expired (customer)
         name: 'jobs.complete',
         validate: detailsSchema.pick( '_id' ).validator(),
         run({ _id }) {
@@ -276,19 +275,41 @@ export const JobImages = new FilesCollection({
                 'You are not registered customer!');
             }
 
-            let result = Jobs.update({
+            //fetch job details
+            let job = Jobs.findOne({
                 _id,
                 postedBy: this.userId,
                 status: { $in: ['open', 'hired'] }
-            }, { $set: {
-                status: 'completed'
-            }});
+            });
 
-            if( !result ) {
+            if( !job ) {
                 //invalid input
                 throw new Meteor.Error('jobs.complete.error',
                 'Invalid Input, please try again!');
             }
+
+            if( job.status === 'open' ) {
+                //expire job
+                Jobs.update( _id, {
+                    $set: { status: 'expired' }
+                });
+
+                return 'expired';
+            }
+            
+            //complete job
+            Jobs.update( _id, {
+                $set: { status: 'completed' }
+            });
+
+            //update caregiver's profile with job id
+            Caregivers.update( job.hired, { 
+                $set: { currentJob: '' },
+                $push: { jobHistory: _id }
+            });
+
+            return 'completed';
+
         }
     });
 
