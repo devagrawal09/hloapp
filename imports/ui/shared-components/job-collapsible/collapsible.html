@@ -19,14 +19,15 @@
         <div id="{{_id}}" class="collapse job-desc">
             {{#if isOwnedByCurrentUser}}
                 {{#if isHired}}
+                {{#with hc=this.hiredCaregiver}}
                     <div class="hired-caregiver">
                         <h4>Hired Caregiver</h4>
-                        <img src="{{hiredCaregiver.dp.link}}" class="hired-picture">
-                        <h4>{{hiredCaregiver.firstName}} {{hiredCaregiver.lastName}}</h4>
-                        <h5>${{hiredCaregiver.hourlyRate}} HKD per hour</h5>
+                        <img src="{{hc.dp.link}}" class="hired-picture">
+                        <h4>{{hc.firstName}} {{hc.lastName}}</h4>
+                        <h5>${{hc.hourlyRate}} HKD per hour</h5>
                         <button class="btn btn-primary">Message</button>
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#review-modal">Review</button>
-
+                        
                         <div id="review-modal" class="modal fade review-modal" role="dialog">
                             <div class="modal-dialog">
 
@@ -59,8 +60,8 @@
 
                             </div>
                         </div>
-
                     </div>
+                {{/with}}
                 {{/if}}
             {{/if}}
             <h4>Job Description</h4>
@@ -92,7 +93,7 @@
                     <h4>Caregiver Applicants</h4>
                     <table class="table table-hover applicants">
                         <tbody>
-                            {{#each caregiver in appliedCaregivers}}
+                            {{#each caregiver in this.appliedCaregivers}}
                                 <tr>
                                     <td>
                                         <a href="" class="applicant-link">
@@ -107,12 +108,32 @@
                             {{/each}}
                         </tbody>
                     </table>
+                    <h4>Offered Applicants</h4>
+                    <table class="table table-hover applicants">
+                        <tbody>
+                            {{#each caregiver in this.offeredCaregivers}}
+                                <tr>
+                                    <td>
+                                        <a href="" class="applicant-link">
+                                            <h5 class="applicant-name">{{caregiver.firstName}} {{caregiver.lastName}}</h5>
+                                        </a>
+                                    </td>
+                                    <td class="applicant-buttons">
+                                        <button class="btn btn-default">Message</button>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
                     <button class="btn btn-danger btn-block complete">Expire Job</button>
                 {{else}}
                 {{#unless isCompleted}}
                     <button class="btn btn-primary btn-block complete">Complete Job</button>
                 {{/unless}}
                 {{/if}}
+            {{/if}}
+            {{#if isOfferedToCurrentUser}}
+            <button class="btn btn-primary btn-block accept">Accept Job Offer</button>
             {{/if}}
         </div>
     </div>

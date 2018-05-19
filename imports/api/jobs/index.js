@@ -24,7 +24,7 @@ export const JobImages = new FilesCollection({
 
 //methods
 
-    export const newJob = new ValidatedMethod({         //post a new job (customer)
+    export const newJob = new ValidatedMethod({         //post a new job 
         name: 'jobs.new',
         validate: detailsSchema.omit('_id', 'postedBy').validator(),
         run( job ) {
@@ -57,7 +57,7 @@ export const JobImages = new FilesCollection({
         }
     });
 
-    export const setDp = new ValidatedMethod({          //update profile image (customer)
+    export const setDp = new ValidatedMethod({          //update profile image 
         name: 'jobs.images.set.profile',
         validate: photoSchema.validator(),
         run({ _id, job }) {
@@ -90,7 +90,7 @@ export const JobImages = new FilesCollection({
         }
     });
 
-    export const deletePhoto = new ValidatedMethod({    //delete photo (customer)
+    export const deletePhoto = new ValidatedMethod({    //delete photo 
         name: 'jobs.images.remove',
         validate: photoSchema.validator(),
         run({ _id, job }) {
@@ -116,7 +116,7 @@ export const JobImages = new FilesCollection({
         }
     });
 
-    export const updateJob = new ValidatedMethod({      //update job details (customer)
+    export const updateJob = new ValidatedMethod({      //update job details 
         name: 'jobs.update',
         validate: detailsSchema.validator(),
         run( job ) {
@@ -145,13 +145,15 @@ export const JobImages = new FilesCollection({
         }
     });
 
-    export const offerJob = new ValidatedMethod({       //offer job to caregiver (customer)
+    export const offerJob = new ValidatedMethod({       //offer job to caregiver 
         name: 'jobs.offer',
         validate: new SimpleSchema({
             job: Datatypes.Id,
-            caregiver: Datatypes.Id
+            caregiverId: Datatypes.Id
         }).validator(),
         run({ job, caregiverId }) {
+
+            console.log( job, caregiverId );
 
             if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
                 //current user is not a customer
@@ -187,7 +189,7 @@ export const JobImages = new FilesCollection({
 
             //update job with offer 
             let result = Jobs.update({
-                job,
+                _id: job,
                 postedBy: this.userId,
                 status: 'open'
             }, { $push: {
@@ -207,7 +209,7 @@ export const JobImages = new FilesCollection({
         }
     });
 
-    export const hireApplicant = new ValidatedMethod({  //hire an applicant (customer)
+    export const hireApplicant = new ValidatedMethod({  //hire an applicant 
         name: 'jobs.hire',
         validate: new SimpleSchema({
             job: Datatypes.Id,
@@ -264,7 +266,7 @@ export const JobImages = new FilesCollection({
         }
     });
     
-    export const completeJob = new ValidatedMethod({    //mark a job complete/expired (customer)
+    export const completeJob = new ValidatedMethod({    //mark a job complete/expired 
         name: 'jobs.complete',
         validate: detailsSchema.pick( '_id' ).validator(),
         run({ _id }) {
@@ -327,10 +329,23 @@ export const JobImages = new FilesCollection({
         },
         appliedCaregivers() {
             return Caregivers.find({
-                _id: { $in: this.applicants }
+                _id: { $in: this.applicants },
+                appliedJobs: this._id
+            });
+        },
+        offeredCaregivers() {
+            return Caregivers.find({
+                _id: { $in: this.offers },
+                offers: this._id
             });
         },
         hiredCaregiver() {
-            return Caregivers.findOne( this.hired );
+            return Caregivers.findOne({
+                _id: this.hired,
+                $or: [
+                    { currentJob: this._id },
+                    { jobHistory: this._id }
+                ]
+            });
         }
     });

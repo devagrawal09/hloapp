@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 
-import { Caregivers } from '../../../api/caregivers';
+import { Caregivers, acceptOffer } from '../../../api/caregivers';
 import { hireApplicant, completeJob } from '../../../api/jobs';
 
 import showAlert from '../alert';
@@ -13,6 +13,7 @@ Template.jobCollapsible.onCreated(function() {
         let data = Template.currentData();
         this.subscribe( 'jobs.images', data._id );
         if( data.applicants ) this.subscribe( 'caregiversById', data.applicants );
+        if( data.offers ) this.subscribe( 'caregiversById', data.offers );
         if( data.hired ) {
             this.subscribe( 'caregiverById', data.hired );
             this.subscribe( 'caregiverById.images', data.hired );
@@ -36,12 +37,12 @@ Template.jobCollapsible.helpers({
     rightImageSrc() {
         return this.dp().link();
     },
-    appliedCaregivers() {
-        return this.appliedCaregivers();
-    },
-    hiredCaregiver() {
-        console.log(this);
-        return this.hiredCaregiver();
+    isOfferedToCurrentUser() {
+        let caregiver = Caregivers.findOne({ user: Meteor.userId() });
+        let job = this;
+        let a = _.indexOf( caregiver.offers, job._id ) !== -1;
+        let b = _.indexOf( job.offers, caregiver._id ) !== -1;
+        return a && b;
     }
 });
 
@@ -66,5 +67,14 @@ Template.jobCollapsible.events({
                 showAlert(`Sucessfully ${res} this job!`);
             }
         });
+    },
+    'click .accept'( e, t ) {
+        acceptOffer.call({ _id: t.data._id }, ( err, res )=> {
+            if( err ) {
+                console.error( err );
+            } else {
+                showAlert('Sucessfully accepted offer for this job!');
+            }
+        })
     }
 });

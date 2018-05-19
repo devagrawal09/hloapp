@@ -157,8 +157,61 @@ export const CaregiverImages = new FilesCollection({
     //incomplete
     export const acceptOffer = new ValidatedMethod({    //accept offered job
         name: 'jobs.accept',
-        validate() {},
-        run() {},
+        validate: caregiverSchema.pick( '_id' ).validator(),
+        run({ _id }) {
+
+            let job = _id;
+
+            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type !== 'caregiver' ) {
+                //current user is not a caregiver
+                throw new Meteor.Error('jobs.accept.unauthorized',
+                'You are not a registered caregiver!');
+            }
+
+            //get current user's caregiver profile
+            let caregiver = Caregivers.findOne({
+                user: this.userId,
+                offers: job
+            });
+
+            if( !caregiver ) {
+                //caregiver hasn't been offered job
+                throw new Meteor.Error('jobs.accept.unauthorized',
+                'You have not been offered this job!');
+            }
+
+            if( caregiver.currentJob ) {
+                //current user already employed
+                throw new Meteor.Error('jobs.accept.unauthorized',
+                'You are already employed on a job!');
+            }
+
+            //update the job document with the new applicant
+            let result = Jobs.update({
+                _id,
+                status: 'open',
+                offers: caregiver._id
+            }, { $set: {
+                status: 'hired',
+                hired: caregiver._id,
+                applicants: [],
+                offers: []
+            }});
+
+            if( !result ) {
+                //invalid input
+                throw new Meteor.Error('jobs.accept.error',
+                'This job is either no longer open or does not exist!');
+            }
+
+            //update caregiver profile with applied job
+            Caregivers.update( caregiver._id, { 
+                $set: { currentJob: job },
+                $pull: { offers: job }
+            });
+
+            return true;
+        }
     });
 
 Caregivers.helpers({
