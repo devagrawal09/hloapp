@@ -84,7 +84,6 @@ Template.hireCaregiverModal.helpers({
         return a && b;
     }
 });
-
 Template.hireCaregiverModal.events({ 
     'click .accept'( e, t ) { 
         hireApplicant.call({
