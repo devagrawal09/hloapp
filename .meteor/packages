@@ -37,5 +37,6 @@ dburles:collection-helpers
 aldeed:autoform
 aldeed:template-extension
 ostrio:files
+reywood:publish-composite
 
 msavin:mongol

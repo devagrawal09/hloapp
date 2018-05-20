@@ -19,48 +19,48 @@
         <div id="{{_id}}" class="collapse job-desc">
             {{#if isOwnedByCurrentUser}}
                 {{#if isHired}}
+                {{#with _id=_id status=status review=review payment=payment hc=this.hiredCaregiver}}
                     <div class="hired-caregiver">
                         <h4>Hired Caregiver</h4>
-                        <img src="{{hiredCaregiver.dp.link}}" class="hired-picture">
-                        <h4>{{hiredCaregiver.firstName}} {{hiredCaregiver.lastName}}</h4>
-                        <h5>${{hiredCaregiver.hourlyRate}} HKD per hour</h5>
-                        <button class="btn btn-primary">Message</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#review-modal">Review</button>
-
-                        <div id="review-modal" class="modal fade review-modal" role="dialog">
-                            <div class="modal-dialog">
-
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Review Caregiver</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form>
-                                            <div class="form-group rating-stars">
-                                                <label>Star Rating</label>
-                                                <br>
-                                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="comment">Comments</label>
-                                                <textarea class="form-control" rows="5" id="comment" placeholder="Describe your experience!"></textarea>
-                                            </div>
-                                            <div class="submit-buttons">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
+                        <img src="{{hc.dp.link}}" class="hired-picture">
+                        <h4>{{hc.firstName}} {{hc.lastName}}</h4>
+                        <h5>${{hc.hourlyRate}} HKD per hour</h5>
+                        <button class="btn btn-default">Message</button>
+                        {{#if isCompleted}}
+                            {{#if review}}
+                                {{#if payment}}
+                                    {{#if isPaid}}
+                                        <button class="btn btn-success disabled">Payment Completed</button>
+                                    {{else}}
+                                        <button class="btn btn-danger disabled">Payment Declined</button>
+                                    {{/if}}
+                                {{else}}
+                                    <button class="btn btn-primary pay">Pay</button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        data-toggle="modal"
+                                        data-target="#decline-payment"
+                                    >
+                                        Decline Payment
+                                    </button>
+                                    {{> declinePaymentModal}}
+                                {{/if}}
+                            {{else}}
+                                <button
+                                    type="button" 
+                                    class="btn btn-primary" 
+                                    data-toggle="modal" 
+                                    data-target="#review-modal"
+                                >
+                                    Review
+                                </button>
+                                {{> reviewModal}}
+                            {{/if}}
+                        {{else}}
+                        {{/if}}
                     </div>
+                {{/with}}
                 {{/if}}
             {{/if}}
             <h4>Job Description</h4>
@@ -92,7 +92,7 @@
                     <h4>Caregiver Applicants</h4>
                     <table class="table table-hover applicants">
                         <tbody>
-                            {{#each caregiver in appliedCaregivers}}
+                            {{#each caregiver in this.appliedCaregivers}}
                                 <tr>
                                     <td>
                                         <a href="" class="applicant-link">
@@ -107,12 +107,36 @@
                             {{/each}}
                         </tbody>
                     </table>
+                    <h4>Offered Applicants</h4>
+                    <table class="table table-hover applicants">
+                        <tbody>
+                            {{#each caregiver in this.offeredCaregivers}}
+                                <tr>
+                                    <td>
+                                        <a href="" class="applicant-link">
+                                            <h5 class="applicant-name">{{caregiver.firstName}} {{caregiver.lastName}}</h5>
+                                        </a>
+                                    </td>
+                                    <td class="applicant-buttons">
+                                        <button class="btn btn-default">Message</button>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
                     <button class="btn btn-danger btn-block complete">Expire Job</button>
                 {{else}}
                 {{#unless isCompleted}}
                     <button class="btn btn-primary btn-block complete">Complete Job</button>
                 {{/unless}}
                 {{/if}}
+            {{/if}}
+            {{#if isOfferedToCurrentUser}}
+            <button class="btn btn-primary btn-block accept">Accept Job Offer</button>
+            {{/if}}
+            {{#if review}}
+                <h4>Review</h4>
+                {{> review (this.getReview)}}
             {{/if}}
         </div>
     </div>

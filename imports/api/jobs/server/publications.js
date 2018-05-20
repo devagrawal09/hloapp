@@ -21,3 +21,19 @@ Meteor.publish('jobs.images', function( job ) {
         meta: { job }
     }).cursor;
 });
+
+Meteor.publish('jobs.applicants', function( job ) {
+    return Jobs.findOne( job ).appliedCaregivers();
+});
+
+Meteor.publish('jobs.offers', function( job ) {
+    return Jobs.findOne( job ).offeredCaregivers();
+});
+
+Meteor.publish('jobs.hired', function( job ) {
+    return Jobs.findOne( job ).hiredCaregiver();
+});
+
+Meteor.publish('jobs.hired.dp', function( job ) {
+    return Jobs.findOne( job ).hiredCaregiver().fetch()[0].dp().cursor;
+});

@@ -7,9 +7,10 @@ import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
 
 import { Caregivers } from '../caregivers';
-import { detailsSchema, photoSchema } from './schema.js';
+import { detailsSchema, photoSchema, reviewSchema } from './schema.js';
 
 export const Jobs = new Mongo.Collection('jobs');
+export const Reviews = new Mongo.Collection('reviews');
 export const JobImages = new FilesCollection({
     collectionName: 'job-images',
     allowClientCode: false,
@@ -24,7 +25,7 @@ export const JobImages = new FilesCollection({
 
 //methods
 
-    export const newJob = new ValidatedMethod({         //post a new job (customer)
+    export const newJob = new ValidatedMethod({         //post a new job 
         name: 'jobs.new',
         validate: detailsSchema.omit('_id', 'postedBy').validator(),
         run( job ) {
@@ -57,7 +58,7 @@ export const JobImages = new FilesCollection({
         }
     });
 
-    export const setDp = new ValidatedMethod({          //update profile image (customer)
+    export const setDp = new ValidatedMethod({          //update profile image 
         name: 'jobs.images.set.profile',
         validate: photoSchema.validator(),
         run({ _id, job }) {
@@ -90,7 +91,7 @@ export const JobImages = new FilesCollection({
         }
     });
 
-    export const deletePhoto = new ValidatedMethod({    //delete photo (customer)
+    export const deletePhoto = new ValidatedMethod({    //delete photo 
         name: 'jobs.images.remove',
         validate: photoSchema.validator(),
         run({ _id, job }) {
@@ -116,7 +117,7 @@ export const JobImages = new FilesCollection({
         }
     });
 
-    export const updateJob = new ValidatedMethod({      //update job details (customer)
+    export const updateJob = new ValidatedMethod({      //update job details 
         name: 'jobs.update',
         validate: detailsSchema.validator(),
         run( job ) {
@@ -145,13 +146,15 @@ export const JobImages = new FilesCollection({
         }
     });
 
-    export const offerJob = new ValidatedMethod({       //offer job to caregiver (customer)
+    export const offerJob = new ValidatedMethod({       //offer job to caregiver 
         name: 'jobs.offer',
         validate: new SimpleSchema({
             job: Datatypes.Id,
-            caregiver: Datatypes.Id
+            caregiverId: Datatypes.Id
         }).validator(),
         run({ job, caregiverId }) {
+
+            console.log( job, caregiverId );
 
             if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
                 //current user is not a customer
@@ -187,7 +190,7 @@ export const JobImages = new FilesCollection({
 
             //update job with offer 
             let result = Jobs.update({
-                job,
+                _id: job,
                 postedBy: this.userId,
                 status: 'open'
             }, { $push: {
@@ -207,7 +210,7 @@ export const JobImages = new FilesCollection({
         }
     });
 
-    export const hireApplicant = new ValidatedMethod({  //hire an applicant (customer)
+    export const hireApplicant = new ValidatedMethod({  //hire an applicant 
         name: 'jobs.hire',
         validate: new SimpleSchema({
             job: Datatypes.Id,
@@ -264,7 +267,7 @@ export const JobImages = new FilesCollection({
         }
     });
     
-    export const completeJob = new ValidatedMethod({    //mark a job complete/expired (customer)
+    export const completeJob = new ValidatedMethod({    //mark a job complete/expired 
         name: 'jobs.complete',
         validate: detailsSchema.pick( '_id' ).validator(),
         run({ _id }) {
@@ -313,6 +316,104 @@ export const JobImages = new FilesCollection({
         }
     });
 
+    export const review = new ValidatedMethod({         //review a job
+        name: 'jobs.review',
+        validate: reviewSchema.omit( '_id', 'date' ).validator(),
+        run( review ) {
+
+            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
+                //current user is not a customer
+                throw new Meteor.Error('jobs.review.unauthorized',
+                'You are not registered customer!');
+            }
+
+            //fetch job details
+            let job = Jobs.findOne({
+                _id: review.job,
+                postedBy: this.userId,
+                status: 'completed'
+            });
+
+            if( !job ) {
+                //invalid input
+                throw new Meteor.Error('jobs.review.error',
+                'Invalid Input, please try again!');
+            }
+
+            //set review date
+            review.date = new Date();
+
+            //insert into database
+            let reviewId = Reviews.insert( review );
+
+            //update job
+            Jobs.update( job._id, {
+                $set: { review: reviewId }
+            });
+
+            return true;
+        }
+    });
+
+    export const declinePayment = new ValidatedMethod({ //decline payment
+        name: 'jobs.payment.decline',
+        validate: new SimpleSchema({
+            _id: Datatypes.Id,
+            reason: String
+        }).validator(),
+        run({ _id, reason }) {
+
+            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
+                //current user is not a customer
+                throw new Meteor.Error('jobs.payment.unauthorized',
+                'You are not registered customer!');
+            }
+
+            //update job 
+            let job = Jobs.update({
+                _id,
+                postedBy: this.userId,
+                status: 'completed',
+                review: { $exists: true }
+            }, { $set: {
+                payment: 'declined',
+                reason
+            }});
+
+            if( !job ) {
+                //invalid input
+                throw new Meteor.Error('jobs.payment.error',
+                'Invalid Input, please try again!');
+            }
+        }
+    });
+
+    //to be revisited
+    export const pay= new ValidatedMethod({             //complete payment (simulate)
+        name: 'jobs.payment.complete',
+        validate: detailsSchema.pick( '_id' ).validator(),
+        run({ _id }) {
+
+            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
+                //current user is not a customer
+                throw new Meteor.Error('jobs.payment.unauthorized',
+                'You are not registered customer!');
+            }
+
+            //update job 
+            let job = Jobs.update({
+                _id,
+                postedBy: this.userId,
+                status: 'completed',
+                review: { $exists: true }
+            }, { 
+                $set: { payment: 'completed' }
+            });
+
+            return true;
+        }
+    });
+
 //helpers
 
     Jobs.helpers({
@@ -327,10 +428,26 @@ export const JobImages = new FilesCollection({
         },
         appliedCaregivers() {
             return Caregivers.find({
-                _id: { $in: this.applicants }
+                _id: { $in: this.applicants },
+                appliedJobs: this._id
+            });
+        },
+        offeredCaregivers() {
+            return Caregivers.find({
+                _id: { $in: this.offers },
+                offers: this._id
             });
         },
         hiredCaregiver() {
-            return Caregivers.findOne( this.hired );
+            return Caregivers.findOne({
+                _id: this.hired,
+                $or: [
+                    { currentJob: this._id },
+                    { jobHistory: this._id }
+                ]
+            });
+        },
+        getReview() {
+            return Reviews.findOne({ job: this._id });
         }
     });

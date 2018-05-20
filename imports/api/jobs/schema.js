@@ -103,3 +103,14 @@ export const photoSchema = new SimpleSchema({
     _id: Datatypes.Id,
     job: String
 });
+
+export const reviewSchema = new SimpleSchema({
+    _id: Datatypes.Id,
+    job: Datatypes.Id,
+    stars: SimpleSchema.Integer,
+    content: {
+        type: String,
+        optional: true
+    },
+    date: Date
+});

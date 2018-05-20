@@ -194,23 +194,7 @@ Third Party service providers
 * SMS Provider - Twilio (using npm's `twilio`)
 * Checkout Provider - Paypal (express checkout)
 
-Questions for next meeting
--------------------------------
+Process after Job completion
+---
 
-* We need service configuration details to integrate the above 3rd party service providers.
-
-* What do you want the Search option in the Search filters sidebar to do?
-
-* What is the composition of photos for a job post? Does it consist a cover photo and a display photo (like the caregiver profile)? Or is it just a few display photos (like a small gallery)?
-* Can a customer edit job details after it's been posted? And after a caregiver has been hired?
-* Can a caregiver withdraw his application for a job while it's still open?
-* Can a customer mark a job as complete without hiring anyone?
-* How is the cost of the job determined? Do the customer/caregiver need to inform HLO about the final negotiated price before the job starts or after completion?
-* Can only a customer mark a job as complete? Do we require no such consent from the caregiver?
-* After a customer hires a caregiver, will all the other applications of the caregiver be removed?
-* Can a customer edit his review to a caregiver?
-* If a customer hires a caregiver he has hired before for a new job, will he give another review? Will it replace the old review?
-* After the completion of a job, when the customer sends his payment, should it automatically transfer to the caregiver's paypal (after deducting commission)?
-
-* The Forum section is not included in the quotation, but we did get Forum home and topic screenshots. Do you want us to make it?
-* We are only developing the webapp in English. However the sample front-end supplied to us has an option for Chinese too. Do you want us to make a Chinese version too?
+After job completion, a 'Review' button should appear on the job panel. This will open a modal with a form with a 5 star input and a textarea. The customer will write and submit a review, which will set the `review` field of the job. After succesful submission, the review button should disappear, and a 'Pay' button should appear, along with a 'Decline Payment'. The 'Decline Payment' will ask for confirmation and reasons, and set `payment` to `declined` with the `reason` field. 'Pay' button will go to the Paypal chekout page.

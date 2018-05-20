@@ -1,11 +1,16 @@
 import { Template } from 'meteor/templating';
 
-import { Caregivers } from '../../../api/caregivers';
-import { hireApplicant, completeJob } from '../../../api/jobs';
+import SimpleSchema from 'simpl-schema';
+
+import { Caregivers, acceptOffer } from '../../../api/caregivers';
+import { hireApplicant, completeJob, review, pay, declinePayment } from '../../../api/jobs';
 
 import showAlert from '../alert';
 
 import '../../helpers';
+import '../review';
+import './review-modal.html';
+import './decline-modal.html';
 import './collapsible.html';
 
 Template.jobCollapsible.onCreated(function() {
@@ -13,6 +18,7 @@ Template.jobCollapsible.onCreated(function() {
         let data = Template.currentData();
         this.subscribe( 'jobs.images', data._id );
         if( data.applicants ) this.subscribe( 'caregiversById', data.applicants );
+        if( data.offers ) this.subscribe( 'caregiversById', data.offers );
         if( data.hired ) {
             this.subscribe( 'caregiverById', data.hired );
             this.subscribe( 'caregiverById.images', data.hired );
@@ -36,12 +42,15 @@ Template.jobCollapsible.helpers({
     rightImageSrc() {
         return this.dp().link();
     },
-    appliedCaregivers() {
-        return this.appliedCaregivers();
+    isOfferedToCurrentUser() {
+        let caregiver = Caregivers.findOne({ user: Meteor.userId() });
+        let job = this;
+        let a = _.indexOf( caregiver.offers, job._id ) !== -1;
+        let b = _.indexOf( job.offers, caregiver._id ) !== -1;
+        return a && b;
     },
-    hiredCaregiver() {
-        console.log(this);
-        return this.hiredCaregiver();
+    isPaid() {
+        return this.payment === 'completed';
     }
 });
 
@@ -66,5 +75,33 @@ Template.jobCollapsible.events({
                 showAlert(`Sucessfully ${res} this job!`);
             }
         });
+    },
+    'click .accept'( e, t ) {
+        acceptOffer.call({ _id: t.data._id }, ( err, res )=> {
+            if( err ) {
+                console.error( err );
+            } else {
+                showAlert('Sucessfully accepted offer for this job!');
+            }
+        })
+    },
+    'click .pay'( e, t ) {
+        //pay caregiver
+        pay.call({ _id: t.data._id });
     }
+});
+
+Template.reviewModal.events({
+    'submit #reviewForm'( e, t ) {
+        //call review method here with data from form
+    }
+});
+
+Template.declinePaymentModal.helpers({
+    schema: new SimpleSchema({
+        _id: Datatypes.Id,
+        reason: {
+            type: String, optional: true
+        }
+    })
 });

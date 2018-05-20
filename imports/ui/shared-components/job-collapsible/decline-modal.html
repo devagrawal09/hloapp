@@ -1,0 +1,30 @@
+<template name="declinePaymentModal">
+    <div id="decline-payment" class="modal fade decline-payment" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure you want to decline payment?</h4>
+                </div>
+                <div class="modal-body">
+                    {{#autoForm
+                        id="declinePayment" 
+                        type="method" 
+                        schema=schema 
+                        meteormethod="jobs.payment.decline"
+                    }}
+                        {{> afQuickField name="_id" type="hidden" value=_id}}
+                        {{> afQuickField name="reason"
+                            type="textarea" rows=4
+                            placeholder="Please tell us why you didn't like the service"
+                            label="Reason for decline of payment"
+                        }}
+                        <div class="submit-buttons">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    {{/autoForm}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
