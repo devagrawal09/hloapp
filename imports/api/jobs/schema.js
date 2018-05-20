@@ -107,7 +107,7 @@ export const photoSchema = new SimpleSchema({
 export const reviewSchema = new SimpleSchema({
     _id: Datatypes.Id,
     job: Datatypes.Id,
-    stars: SimpleSchema.Integer,
+    rating: SimpleSchema.Integer,
     content: {
         type: String,
         optional: true

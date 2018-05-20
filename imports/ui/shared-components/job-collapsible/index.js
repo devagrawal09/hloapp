@@ -92,8 +92,27 @@ Template.jobCollapsible.events({
 });
 
 Template.reviewModal.events({
+    'click button'( e, t ) {
+        t.$( '#review-modal' ).modal('hide');
+    },
     'submit #reviewForm'( e, t ) {
-        //call review method here with data from form
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        options = {
+            job: t.data._id,
+            rating: parseInt( e.target.rating.value ),
+            content: e.target.content.value
+        };
+        review.call( options, ( err, res )=> {
+            if( err ) {
+                console.error( err );
+            } else {
+                showAlert('Review successfully posted!');
+                t.$( '#review-modal' ).modal('hide');
+            }
+        });
     }
 });
 

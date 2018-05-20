@@ -2,13 +2,17 @@ import { Template } from 'meteor/templating';
 
 import './review.html';
 
+const fullFlag = '', emptyFlag = '-o', halfFlag = '-half-o';
+
 Template.review.helpers({
     stars() {
-        const fullFlag = '', emptyFlag = '-o', halfFlag = '-half-o';
         let stars = [];
-        let fullStars = 3;
-        let halfStars = 1;
-        let emptyStars = 1;
+        let rating = this.rating || 10;
+
+        let fullStars = Math.floor( rating/2 );
+        let halfStars = rating % 2;
+        let emptyStars = Math.floor( (10-rating)/2 );
+
         for( let i=0; i<fullStars; i++ ) {
             stars.push(fullFlag);
         }
@@ -18,7 +22,7 @@ Template.review.helpers({
         for( let i=0; i<emptyStars; i++ ) {
             stars.push(emptyFlag);
         }
-        //mutate result according to data here
+        
         return stars;
     }
 });

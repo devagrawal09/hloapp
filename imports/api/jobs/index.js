@@ -321,7 +321,9 @@ export const JobImages = new FilesCollection({
         validate: reviewSchema.omit( '_id', 'date' ).validator(),
         run( review ) {
 
-            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
+            const user = Meteor.users.findOne( this.userId );
+
+            if( !this.userId || user.profile.type === 'caregiver' ) {
                 //current user is not a customer
                 throw new Meteor.Error('jobs.review.unauthorized',
                 'You are not registered customer!');
@@ -340,7 +342,7 @@ export const JobImages = new FilesCollection({
                 'Invalid Input, please try again!');
             }
 
-            //set review date
+            //set review date and by
             review.date = new Date();
 
             //insert into database
@@ -359,7 +361,9 @@ export const JobImages = new FilesCollection({
         name: 'jobs.payment.decline',
         validate: new SimpleSchema({
             _id: Datatypes.Id,
-            reason: String
+            reason: {
+                type: String, optional: true
+            }
         }).validator(),
         run({ _id, reason }) {
 
@@ -449,5 +453,11 @@ export const JobImages = new FilesCollection({
         },
         getReview() {
             return Reviews.findOne({ job: this._id });
+        }
+    });
+
+    Reviews.helpers({
+        by() {
+            return Jobs.findOne( this.job ).username();
         }
     });
