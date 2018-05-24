@@ -44,9 +44,9 @@ Template.jobPhotosForm.helpers({
     },
     photos() {
         let doc = this.doc;
-        let id = doc ? doc._id : 'new';
+        let job = doc ? doc._id : 'new';
         return JobImages.find({
-            meta: { job: id }
+            meta: { job }
         });
     }
 });
@@ -65,7 +65,7 @@ Template.jobPhotosForm.events({
                 file: e.currentTarget.files[0],
                 streams: 'dynamic',
                 chunkSize: 'dynamic',
-                meta: { job }
+                meta: { user: Meteor.userId(), job }
             }, false);
 
             upload.on('start', function() {

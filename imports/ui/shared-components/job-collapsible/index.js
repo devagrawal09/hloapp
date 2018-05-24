@@ -92,7 +92,7 @@ Template.jobCollapsible.events({
 });
 
 Template.reviewModal.events({
-    'click button'( e, t ) {
+    'click .cancel'( e, t ) {
         t.$( '#review-modal' ).modal('hide');
     },
     'submit #reviewForm'( e, t ) {
@@ -105,12 +105,12 @@ Template.reviewModal.events({
             rating: parseInt( e.target.rating.value ),
             content: e.target.content.value
         };
+
         review.call( options, ( err, res )=> {
             if( err ) {
                 console.error( err );
             } else {
                 showAlert('Review successfully posted!');
-                t.$( '#review-modal' ).modal('hide');
             }
         });
     }

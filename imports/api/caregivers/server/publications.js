@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { Caregivers, CaregiverImages } from '../index.js';
-import { Jobs } from '../../jobs';
+import { Jobs, Reviews } from '../../jobs';
 
 Meteor.publish('caregivers', function() {
     return Caregivers.find({
@@ -64,6 +64,15 @@ Meteor.publishComposite('caregiver.employment', {
                 { _id: { $in: caregiver.appliedJobs }, applicants: caregiver._id },
                 { _id: { $in: caregiver.jobHistory }, hired: caregiver._id }
             ]});
-        }
+        },
+        children: [{
+            find( job ) {
+                return Reviews.find({ job: job._id });
+            }
+        }, {
+            find( job ) {
+                return Meteor.users.find( job.postedBy );
+            }
+        }]
     }]
 });

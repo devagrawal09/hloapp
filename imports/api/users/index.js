@@ -1,8 +1,10 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import SimpleSchema from 'simpl-schema';
 
+import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
+
 import { Caregivers } from '../caregivers';
 
 export const userProfileSchema = new SimpleSchema({
@@ -53,7 +55,7 @@ export const updateUserProfile = new ValidatedMethod({
     }
 });
 
-export const bookmarkCaregiver = new ValidatedMethod({       //toggle caregiver bookmark
+export const bookmarkCaregiver = new ValidatedMethod({          //toggle caregiver bookmark
     name: 'user.bookmark',
     validate: new SimpleSchema({
         id: Datatypes.Id
@@ -102,6 +104,69 @@ export const bookmarkCaregiver = new ValidatedMethod({       //toggle caregiver 
         }, {
             $pull: { bookmarks: id }
         });
+
+        return true;
+    }
+});
+
+export const modifyEmail = new ValidatedMethod({                //add or remove email
+    name: 'user.email',
+    validate: new SimpleSchema({
+        email: SimpleSchema.RegEx.EmailWithTLD,
+        action: {
+            type: String,
+            allowedValues: ['add', 'remove']
+        }
+    }).validator(),
+    run({ email, action }) {
+
+        //must be logged in
+        if( !this.userId ) {
+            throw new Meteor.Error('user.email.unauthorized',
+            'You are not logged in!');
+        }
+
+        if( !this.isSimulation ) {          //only continue if method is running on server
+
+            if( action === 'add' ) {        //add email
+                Accounts.addEmail( this.userId, email );
+                Accounts.sendVerificationEmail( this.userId, email );
+            } else
+            if( action === 'remove' ) {     //remove email
+
+                let user = Meteor.users.findOne( this.userId );
+                let verifiedEmails = user.emails.filter( obj => obj.verified );
+
+                //if email is the only verified email
+                if( (verifiedEmails.length === 1) && (verifiedEmails[0].address === email) ) {
+                    throw new Meteor.Error('user.email.error', 
+                    'You must have at least one verified email!');
+                }
+
+                Accounts.removeEmail( this.userId, email );
+            }
+        }
+
+        return true;
+    }
+});
+
+export const sendVerificationEmail = new ValidatedMethod({      //send verification mail
+    name: 'user.email.sendVerification',
+    validate: new SimpleSchema({
+        email: SimpleSchema.RegEx.EmailWithTLD
+    }).validator(),
+    run({ email }) {
+        
+        //must be logged in
+        if( !this.userId ) {
+            throw new Meteor.Error('user.email.unauthorized',
+            'You are not logged in!');
+        }
+
+        if( !this.isSimulation ) {  //run on server
+            Accounts.sendVerificationEmail( this.userId, email );
+        }
 
         return true;
     }

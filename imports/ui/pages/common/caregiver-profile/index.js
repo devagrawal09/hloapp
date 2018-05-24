@@ -65,20 +65,20 @@ Template.hireCaregiverModal.helpers({
             status: { $in: ['open', 'hired'] }
         });
     },
-    isApplicant( job ) {
-        let caregiver = this;
+    isApplicant() {
+        let caregiver = this.caregiver, job = this.job;
         let a = _.indexOf( caregiver.appliedJobs, job._id ) !== -1;
         let b = _.indexOf( job.applicants, caregiver._id ) !== -1;
         return a && b;
     },
-    isOffered( job ) {
-        let caregiver = this;
+    isOffered() {
+        let caregiver = this.caregiver, job = this.job;
         let a = _.indexOf( caregiver.offers, job._id ) !== -1;
         let b = _.indexOf( job.offers, caregiver._id ) !== -1;
         return a && b;
     },
-    isHired( job ) {
-        let caregiver = this;
+    isHired() {
+        let caregiver = this.caregiver, job = this.job;
         let a = caregiver.currentJob === job._id;
         let b = job.hired === caregiver._id;
         return a && b;

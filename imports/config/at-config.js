@@ -5,21 +5,32 @@ Meteor.users.deny({
     update() { return true; }
 });
 
+const pwd = AccountsTemplates.removeField('password');
+AccountsTemplates.removeField('email');
+AccountsTemplates.addFields([
+  {
+      _id: 'email',
+      type: 'email',
+      required: true,
+      displayName: 'email',
+      re: /.+@(.+){2,}\.(.+){2,}/,
+      errStr: 'Invalid email',
+  },
+  {
+      _id: 'username',
+      type: 'text',
+      displayName: 'username',
+      required: true,
+      minLength: 5,
+  },
+  pwd
+]);
+
 AccountsTemplates.configure({
     privacyUrl: '/privacy',
     termsUrl: '/terms',
     onLogoutHook() {
         FlowRouter.go('logged-out');
-    },
-    postSignUpHook( userId, info ) {
-        console.log( info )
-    },
-    onSubmitHook(error, state) {
-        if( !error ) {
-            if( state === 'signIn' ) {
-                FlowRouter.go('dashboard');
-            }
-        }
     }
 });
 

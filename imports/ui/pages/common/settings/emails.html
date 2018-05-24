@@ -1,0 +1,59 @@
+<template name="emailSettings">
+    <div class="container-small">
+        <h1>Manage your emails</h1>
+        <table class="table table-hover">
+            <thead><tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Verification</th>
+                <th>Actions</th>
+            </tr></thead>
+            <tbody>
+                {{#each email in currentUser.emails}}
+                <tr>
+                    <td>{{plusOne @index}}</td>
+                    <td>{{email.address}}</td>
+                    <td>
+                        {{#if email.verified}}
+                            <span class="text-success">Verified</span>
+                        {{else}}
+                            <span class="text-danger">Not Verified</span>
+                        {{/if}}
+                    </td>
+                    <td>
+                        {{#unless email.verified}}
+                            <button class="btn btn-primary verify" data-email="{{email.address}}">Verify</button>
+                        {{/unless}}
+                        <button class="btn btn-danger remove" data-email="{{email.address}}">Remove</button>
+                    </td>
+                </tr>
+                {{/each}}
+                {{#if newEmail}}
+                <tr>
+                    <td>{{newEmail}}</td>
+                    <td colspan="2">
+                        <form id="newEmail">
+                            <input
+                                type="text"
+                                name="newEmail"
+                                id="new-email-input"
+                                class="form-control"
+                                placeholder="john.doe@example.com"
+                            >
+                        </form>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-success submit">Submit</button>
+                        <button type="reset" class="btn btn-danger cancel">Cancel</button>
+                    </td>
+                </tr>
+                {{/if}}
+            </tbody>
+        </table>
+        {{#unless newEmail}}
+        <button class="btn btn-primary new-email">
+            Add new Email
+        </button>
+        {{/unless}}
+    </div>
+</template>

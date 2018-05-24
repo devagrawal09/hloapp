@@ -19,17 +19,18 @@
                         </thead>
                         <tbody>
                             {{#each job in jobs}}
+                            {{#with job=job caregiver=this}}
                                 <tr>
                                     <td>{{job.title}}</td>
                                     <td>{{getDate job.postedOn}}</td>
                                     <td>
-                                        {{#if isApplicant job}}
+                                        {{#if isApplicant}}
                                         <button class="btn btn-primary accept" id="{{job._id}}">Accept Application</button>
                                         {{else}}
-                                        {{#if isOffered job}}
+                                        {{#if isOffered}}
                                         <button class="btn btn-default disabled">Offered</button>
                                         {{else}}
-                                        {{#if isHired job}}
+                                        {{#if isHired}}
                                         <button class="btn btn-default disabled">Hired</button>
                                         {{else}}
                                         <button class="btn btn-primary offer" id="{{job._id}}">Offer Job</button>
@@ -38,6 +39,7 @@
                                         {{/if}}
                                     </td>
                                 </tr>
+                            {{/with}}
                             {{/each}}
                         </tbody>
                     </table>

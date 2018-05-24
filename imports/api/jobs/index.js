@@ -39,7 +39,8 @@ export const JobImages = new FilesCollection({
             job.postedBy = this.userId;     //posted by the current user
             job.postedOn = new Date();      //posted right now
             job.status = 'open';            //jobs open by default
-            job.applicants = [];            //no applicants by default
+            job.offers = [];                //initialize offers array
+            job.applicants = [];            //and applicants array
 
             const id = Jobs.insert( job );  //post the job
 
@@ -48,11 +49,7 @@ export const JobImages = new FilesCollection({
                     user: this.userId,
                     job: 'new'
                 }
-            }, {
-                $set: { job: id }
-            }, {
-                multi: true
-            });
+            }, { $set: { meta: { job: id } } }, { multi: true });
 
             return true;
         }
@@ -68,16 +65,13 @@ export const JobImages = new FilesCollection({
                 'You are not logged in!');
             }
 
-            JobImages.update({
-                meta: { job },
-                profile: true
-            }, {
-                $set: { profile: false }
-            });
-
             const photo = JobImages.update({ 
                 _id,
-                meta: { job }
+                $or: [{
+                    meta: { job }
+                }, {
+                    meta: { user: this.userId, job }
+                }]
             }, {
                 $set: { profile: true }
             });
@@ -459,5 +453,8 @@ export const JobImages = new FilesCollection({
     Reviews.helpers({
         by() {
             return Jobs.findOne( this.job ).username();
+        },
+        getJob() {
+            return Jobs.findOne( this.job );
         }
     });

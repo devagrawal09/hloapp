@@ -62,7 +62,7 @@
     FlowRouter.route('/', {
         name: 'landing',
         action() {
-            import('../../ui/pages/landing').then(function() {
+            import('../../ui/pages/landing').then(()=> {
                 BlazeLayout.render('AppLayout', { main: 'Landing' });
             });
         }
@@ -84,7 +84,7 @@
         layoutTemplate: 'LoginLayout',
         template: 'atForm',
         contentRegion: 'main',
-        redirect: '/'
+        redirect: '/dashboard'
     });
     AccountsTemplates.configureRoute('signUp', {
         name: 'signup',
@@ -92,7 +92,7 @@
         layoutTemplate: 'LoginLayout',
         template: 'atForm',
         contentRegion: 'main',
-        redirect: '/'
+        redirect: '/dashboards'
     });
 
     PublicOnlyRouter.route('/logged-out', {
@@ -169,13 +169,67 @@
         }
     });
 
-//settings page
+//settings pages
     PrivateRouter.route('/settings', {
         name: 'settings',
         action() {
-            BlazeLayout.render('AppLayout', {
-                main: 'DashboardLayout',
-                
+            import('../../ui/pages/common/settings').then(()=> {
+                BlazeLayout.render( 'AppLayout', {
+                    main: 'DashboardLayout',
+                    content: 'Settings'
+                });
+            });
+        }
+    });
+
+    PrivateRouter.route('/settings/username', {
+        name: 'settings.username',
+        action() {
+            import('../../ui/pages/common/settings').then(()=> {
+                BlazeLayout.render( 'AppLayout', {
+                    main: 'DashboardLayout',
+                    content: 'Settings',
+                    settings: 'usernameSettings'
+                });
+            });
+        }
+    });
+
+    PrivateRouter.route('/settings/emails', {
+        name: 'settings.emails',
+        action() {
+            import('../../ui/pages/common/settings').then(()=> {
+                BlazeLayout.render( 'AppLayout', {
+                    main: 'DashboardLayout',
+                    content: 'Settings',
+                    settings: 'emailSettings'
+                });
+            });
+        }
+    });
+
+    PrivateRouter.route('/settings/passwords', {
+        name: 'settings.passwords',
+        action() {
+            import('../../ui/pages/common/settings').then(()=> {
+                BlazeLayout.render( 'AppLayout', {
+                    main: 'DashboardLayout',
+                    content: 'Settings',
+                    settings: 'passwordSettings'
+                });
+            });
+        }
+    });
+
+    PrivateRouter.route('/settings/payment', {
+        name: 'settings.payment',
+        action() {
+            import('../../ui/pages/common/settings').then(()=> {
+                BlazeLayout.render( 'AppLayout', {
+                    main: 'DashboardLayout',
+                    content: 'Settings',
+                    settings: 'paymentSettings'
+                });
             });
         }
     });

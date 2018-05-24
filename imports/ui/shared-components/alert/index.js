@@ -6,10 +6,12 @@ import './alert.html';
 
 const show = new ReactiveVar( false );
 const alert = new ReactiveVar('');
+const alertClass = new ReactiveVar('');
 
-export default ( msg )=> {
+export default ( msg, contextClass )=> {
     show.set( true );
     alert.set( msg );
+    alertClass.set( contextClass ? contextClass : 'success' );
     Meteor.setTimeout(()=> { show.set( false ) }, 5000 );
 }
 
@@ -19,6 +21,9 @@ Template.alert.helpers({
     },
     alert() {
         return alert.get();
+    },
+    alertClass() {
+        return alertClass.get();
     }
 });
 
