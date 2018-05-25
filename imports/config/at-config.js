@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
+import { ServiceConfiguration } from 'meteor/service-configuration';
+import { Accounts } from 'meteor/accounts-base';
 
 Meteor.users.deny({
     update() { return true; }
@@ -27,6 +29,8 @@ AccountsTemplates.addFields([
 ]);
 
 AccountsTemplates.configure({
+    sendVerificationEmail: true,
+
     privacyUrl: '/privacy',
     termsUrl: '/terms',
     onLogoutHook() {
@@ -60,3 +64,18 @@ AccountsTemplates.addField({
         value: 'caregiver'
     }]
 });
+
+if( Meteor.isServer ) {
+
+    Accounts.emailTemplates.from = 'no-reply@hloapp.herokuapp.com';
+    Accounts.emailTemplates.siteName = 'HealthyLovedOnes';
+
+    ServiceConfiguration.configurations.upsert({
+        service: 'facebook'
+    }, { $set: {
+            appId: Meteor.settings.facebook.appId,
+            loginStyle: 'popup',
+            secret: Meteor.settings.facebook.secret
+        }
+    });
+}

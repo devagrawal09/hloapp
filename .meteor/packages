@@ -25,6 +25,7 @@ dynamic-import
 accounts-ui
 accounts-password
 accounts-facebook
+service-configuration
 pauli:accounts-linkedin
 useraccounts:bootstrap
 useraccounts:flow-routing
