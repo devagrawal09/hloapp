@@ -48,6 +48,13 @@ Template.Search.onCreated(function() {
     });
 });
 
+Template.Search.onRendered(function() {
+    this.$('#slider').slider({
+        min: 0,
+        max: 500
+    });
+});
+
 Template.Search.helpers({
     filterSchema() {
         return filterSchema;
@@ -82,10 +89,22 @@ Template.Search.helpers({
     },
     isGrid() {
         return gridDisplay.get();
+    },
+    placeholder() {
+        let search = subscription.get();
+        if( search === 'jobs' ) {
+            return 'What job are you looking for?'
+        }
+        return 'Who are you looking for?';
     }
 });
 
-Template.Search.events({ 
+Template.Search.events({
+    'click .dropdown-menu a'( e, t ) {
+        e.preventDefault();
+        e.stopPropagation();
+        t.$( e.target ).toggleClass( 'active' );
+    },
     'click .display-grid'() { 
         gridDisplay.set( true );
     },

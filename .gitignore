@@ -1,2 +1,6 @@
 node_modules/
 ngrok.exe
+
+prod.json
+
+dev.json

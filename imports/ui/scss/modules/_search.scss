@@ -1,20 +1,65 @@
 /* search filters */
-.search-filters { /* entire column, master div */
+.search-text { /* entire column, master div */
     background-color: $red;
-    position: relative;
-    padding: 30px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     color: $white;
 
-    /* search box styling */
-    .fa-search {
-        position: absolute;
-        color: $grey;
-        top: 65px;
-        left: 40px;
+    .input-group input {
+        height: 45px;
     }
 
-    input {
-        text-indent: 18px;
+    .nav-pills {
+        margin-top: 10px;
+
+        li {
+            a {
+                display: block;
+                &:focus {
+                    background-color: $white;
+                    color: $black;
+                }
+                &:hover {
+                    background-color: $red;
+                } 
+            }
+        }
+
+        .dropdown-menu {
+            width: max-content;
+            
+            li {
+                list-style-type: none;
+
+                &.col-sm-6 {
+                    padding: 0 5px;
+                }
+
+                a {
+                    text-decoration: none;
+
+                    &.active {
+                        background-color: $darkred;
+                        color: $white;
+                    }
+                }
+            } 
+
+            ul {
+                padding: 0;
+                min-width: 80px;
+            }
+            a {
+                color: $black;
+                &:hover {
+                    color: $white;
+                }
+            }
+        }
+    }
+
+    .nav li a {
+        color: $white;
     }
 }
 
@@ -41,12 +86,17 @@
 
 .search-card { /* a search profile */
     background-color: $white;
+    border: 1px solid $grey;
     margin: 20px 5px 0px 5px; /* top right bottom left */
     cursor: pointer;
     position: relative; /* so the link spanner spans to the card */
 
     .card-dp {
         width: 100%;
+        background-color: $lightgrey;
+        padding: 5px 15px 5px 15px;
+
+        img { width: 100%; }
     }
 
     .price {
@@ -114,5 +164,9 @@
    .row.equal { /* make both cols equally long */
      display: flex;
      flex-wrap: wrap;
+   }
+
+   .search-text .nav-pills .dropdown-menu {
+       width: 500px;
    }
  }

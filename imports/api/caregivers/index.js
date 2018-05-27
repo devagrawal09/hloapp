@@ -215,7 +215,9 @@ export const CaregiverImages = new FilesCollection({
 
 Caregivers.helpers({
     dp() {
-        return CaregiverImages.findOne( this.profilePhoto );
+        return this.profilePhoto ? CaregiverImages.findOne( this.profilePhoto ) : {
+            link: `/img/avatar-${this.gender}.png`
+        };
     },
     photos() {
         return CaregiverImages.find({ meta: { user: this.user }});

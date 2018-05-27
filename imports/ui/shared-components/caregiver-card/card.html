@@ -1,10 +1,12 @@
 <template name="caregiverCard">
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-3 col-sm-6">
         <div class="search-card">
             <a href="{{pathFor 'caregiver.profile' id=_id}}">
                 <span class="link-spanner"></span>
             </a>
-            <img src="{{dp.link}}" alt="{{dp.name}}" class="card-dp">
+            <div class="card-dp">
+                <img src="{{dp.link}}" alt="{{dp.name}}">
+            </div>
             <div class="price">${{hourlyRate}} HKD/hr</div>
             <div class="card-desc">
 
