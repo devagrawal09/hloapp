@@ -53,7 +53,7 @@ export const CaregiverImages = new FilesCollection({
             Meteor.users.update( this.userId, { $set: {
                 firstName: doc.firstName,
                 lastName: doc.lastName,
-                fullName: doc.fullName
+                name: `${doc.firstName} ${doc.lastName}`
             }});
         }
     });

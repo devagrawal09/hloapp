@@ -74,6 +74,12 @@ export default Datatypes = {
             'Japanese', 'Korean', 'Putonghua', 'Spanish', 'Tagalog'
         ]
     },
+    Religion: {
+        type: String,
+        allowedValues: [
+            'Christian', 'Catholic', 'Buddhist', 'Muslim', 'Taoist', 'Hindu', 'Other'
+        ]
+    },
     Location: {
         type: String,
         label: 'District',

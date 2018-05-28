@@ -31,12 +31,7 @@ export const caregiverSchema = new SimpleSchema({
         label: 'Please specify district'
     },
     country: Datatypes.Country,
-    religion: {
-        type: String,
-        allowedValues: [
-            'Christian', 'Catholic', 'Buddhist', 'Muslim', 'Taoist', 'Hindu', 'Other'
-        ]
-    },
+    religion: Datatypes.Religion,
     hobbies: {
         type: String,
         optional: true

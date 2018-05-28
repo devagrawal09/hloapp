@@ -14,31 +14,25 @@ if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('jobs');
 }
 
-const filterSchema = new SimpleSchema({
-    name: {
-        type: String,
-        label: 'Search from name'
-    },
-    gender: Datatypes.Gender,
-    location: Array,
-    'location.$': Datatypes.Location,
-    caregiverType: Array,
-    'caregiverType.$': Datatypes.CaregiverType,
-    medicalConditions: Array,
-    'medicalConditions.$': Datatypes.MedicalCondition,
-    professionalServices: Array,
-    'professionalServices.$': Datatypes.ProfessionalService,
-    personalServices: Array,
-    'personalServices.$': Datatypes.PersonalService,
-    languages: Array,
-    'languages.$': Datatypes.Languages
-}, { requiredByDefault: false });
+const filterData = {
+    locations: Datatypes.Location.allowedValues,
+    religions: Datatypes.Religion.allowedValues,
+    languages: Datatypes.Languages.allowedValues,
+    professional: Datatypes.ProfessionalService.allowedValues,
+    personal: Datatypes.PersonalService.allowedValues,
+    medical: Datatypes.MedicalCondition.allowedValues
+};
 
 const Filter = new ReactiveVar({});
 const gridDisplay = new ReactiveVar( true );
 export const subscription = new ReactiveVar( '' );
 export const displayTemplate = new ReactiveVar( '' );
 export const collection = new ReactiveVar();
+export const resetFilters = ()=> {
+    Filter.set({});
+    $('.nav-pills ul li a.active').removeClass('active');
+    $('#nameSearch').val('');
+}
 
 Template.Search.onCreated(function() {
     this.autorun(()=> {
@@ -56,32 +50,28 @@ Template.Search.onRendered(function() {
 });
 
 Template.Search.helpers({
-    filterSchema() {
-        return filterSchema;
-    },
-    filterDoc() {
-        return Filter.get();
-    },
     docs() {
         let filter = Filter.get();
         let coll = collection.get();
-        console.log( coll );
 
         let Query = Object.keys( filter ).reduce(( query, key )=> { //create query
-            if( key === 'name' ) {
-                query.fullName = { $regex: filter[key], $options: 'i' };
-                return query;
+            
+            const val = filter[key];
+            if( val.length )
+            if( typeof val === 'string' ) {
+                if( key === 'hourlyRate' ) {
+                    query[key] = { $lte: parseInt(val) }
+                } else {
+                    query[key] = { $regex: val, $options: 'i' };
             }
-            if( key === 'gender' ) {
-                query.gender = filter[key];
-                return query;
+            } else if( typeof val === 'object' ) {
+                query[key] = { $in: filter[key] };
             }
-            query[key] = { $all: filter[key] };
             return query;
+
         }, {});
 
         console.log( Query );
-        console.log( this );
         return coll.find( Query );
     },
     displayTemplate() {
@@ -96,7 +86,23 @@ Template.Search.helpers({
             return 'What job are you looking for?'
         }
         return 'Who are you looking for?';
-    }
+    },
+    isJobSearch() {
+        let search = subscription.get();
+        return search === 'jobs';
+    },
+    isOtherField( field ) {
+        return field === 'Other';
+    },
+    initiateSlider() {
+        $('#slider').slider({
+            min: 0,
+            max: 500
+        });
+        console.log('initiateSlider');
+        return '';
+    },
+    filterData
 });
 
 Template.Search.events({
@@ -110,18 +116,111 @@ Template.Search.events({
     },
     'click .display-list'() {
         gridDisplay.set( false );
-    }
-});
+    },
+    'keypress #nameSearch'( e, t ) {
+        if( e.which === 13 ) {
 
-AutoForm.hooks({
-    searchFilter: {
-        onSubmit( doc ) {
-            this.done( null, doc );
-            return false;
-        },
-        onSuccess( formType, doc ) {
-            let cleanDoc = filterSchema.clean( doc );
-            Filter.set( doc );
+            let newFilter = Filter.get();
+            if( subscription.get() === 'jobs' ) {
+                newFilter.title = e.target.value;
+            } else {
+                newFilter.name = e.target.value;
+            }
+
+            Filter.set(newFilter);
+            console.log(newFilter);
+    }
+    },
+    'click #location-filter .btn'( e, t ) {
+
+        let newFilter = Filter.get();
+
+        if( t.$( e.target ).hasClass('pull-left') ) {
+            //reset button
+            newFilter.location = '';
+            t.$('#location-filter li a.active').removeClass('active');
+            return Filter.set(newFilter);
         }
+        
+        newFilter.location = t.$('#location-filter li a.active').get().map( el=> el.innerText );
+        newFilter.otherLocation = t.$('#location-filter input').val();
+
+        Filter.set(newFilter);
+        console.log(newFilter);
+        
+    },
+    'click #personal-filter .btn'( e, t ) {
+
+        let newFilter = Filter.get();
+
+        if( t.$( e.target ).hasClass('pull-left') ) {
+            //reset button
+            newFilter.gender = newFilter.religion = newFilter.language = '';
+            t.$('#location-filter li a.active').removeClass('active');
+            return Filter.set(newFilter);
+        }
+
+        newFilter.gender = t.$('#personal-filter li a.active.gender').get().map( el=> el.innerText );
+        newFilter.religion = t.$('#personal-filter li a.active.religion').get().map( el=> el.innerText );
+        newFilter.language = t.$('#personal-filter li a.active.language').get().map( el=> el.innerText );        
+        newFilter.otherReligion = t.$('#personal-filter #otherReligion').val();
+        newFilter.otherLanguage = t.$('#personal-filter #otherLanguage').val();
+        
+        Filter.set(newFilter);
+        console.log(newFilter);
+    },
+    'click #technical-filter .btn'( e, t ) {
+
+        let newFilter = Filter.get();
+
+        if( t.$( e.target ).hasClass('pull-left') ) {
+            //reset button
+            newFilter.professionalServices = 
+            newFilter.personalServices = 
+            newFilter.medicalConditions = '';
+            t.$('#location-filter li a.active').removeClass('active');
+            return Filter.set(newFilter);
+        }
+        
+        newFilter.professionalServices = t.$('#technical-filter li a.active.professional').get().map( el=> el.innerText );
+        newFilter.personalServices = t.$('#technical-filter li a.active.personal').get().map( el=> el.innerText );
+        newFilter.medicalConditions = t.$('#technical-filter li a.active.medical').get().map( el=> el.innerText );        
+        newFilter.otherProfessionalService = t.$('#technical-filter #otherProfessional').val();        
+        newFilter.otherPersonalService = t.$('#technical-filter #otherPersonal').val();
+        newFilter.otherMedicalCondition = t.$('#technical-filter #otherMedical').val();
+        
+        Filter.set(newFilter);
+        console.log(newFilter);
+    },
+    'click #time-filter .btn'( e, t ) {
+
+        let newFilter = Filter.get();
+
+        if( t.$( e.target ).hasClass('pull-left') ) {
+            //reset button
+            newFilter.duration = '';
+            t.$('#location-filter li a.active').removeClass('active');
+            return Filter.set(newFilter);
+        }
+
+        newFilter.duration = t.$('#time-filter li a.active').get().map( el=> el.dataset.value );
+
+        Filter.set(newFilter);
+        console.log(newFilter);
+        },
+    'click #price-filter .btn'( e, t ) {
+
+        let newFilter = Filter.get();
+
+        if( t.$( e.target ).hasClass('pull-left') ) {
+            //reset button
+            newFilter.hourlyRate = '';
+            return Filter.set(newFilter);
+        }
+
+        newFilter.hourlyRate = t.$('#price-filter #slider').val();
+        
+        Filter.set(newFilter);
+        console.log(newFilter);
     }
 });

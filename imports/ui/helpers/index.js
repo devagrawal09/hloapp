@@ -10,3 +10,7 @@ Template.registerHelper( 'getDate', ( date )=> {
 Template.registerHelper( 'humanize', ( string )=> {
     return humanize( string );
 });
+
+Template.registerHelper( 'hundChars', ( text )=> {
+    return text.substr(0, 99);
+});

@@ -1,16 +1,11 @@
 /* search filters */
 .search-text { /* entire column, master div */
     background-color: $red;
-    padding-top: 20px;
+    padding-top: 15px;
     padding-bottom: 10px;
     color: $white;
 
-    .input-group input {
-        height: 45px;
-    }
-
     .nav-pills {
-        margin-top: 10px;
 
         li {
             a {
@@ -22,6 +17,14 @@
                 &:hover {
                     background-color: $red;
                 } 
+            }
+        }
+
+        > li {
+
+            &.open > a, > a:hover, > a:active {
+                background-color: $white;
+                color: $red;
             }
         }
 
