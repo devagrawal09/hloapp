@@ -131,19 +131,24 @@
         name: 'chat',
         action() {
             UI.showLoader();
-            // BlazeLayout.render('AppLayout', {
-            //     main: 'DashboardLayout',
-                    
-            // });
+            import('../../ui/pages/common/chat/chat').then(()=> {
+                BlazeLayout.render('AppLayout', {
+                    main: 'DashboardLayout',
+                    content: 'Chat'
+                });
+            });
         }
     });
     
     PrivateRouter.route('/chat/:id', {
         name: 'conversation',
         action( params ) {
-            BlazeLayout.render('AppLayout', {
-                main: 'DashboardLayout',
-                conversation: params.id
+            import('../../ui/pages/common/chat/conversation').then(()=> {
+                BlazeLayout.render('AppLayout', {
+                    main: 'DashboardLayout',
+                    content: 'Conversation',
+                    conversation: params.id
+                });
             });
         }
     });

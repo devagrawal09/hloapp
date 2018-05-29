@@ -1,0 +1,72 @@
+<template name="Chat">
+    <div class="container">
+
+        <a class="btn btn-primary" data-toggle="modal" data-target="#compose" role="button">Compose</a>
+        <!-- Modal -->
+        <div class="modal fade" id="compose" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Compose Message</h4>
+                    </div>
+                    <div class="modal-body">
+                        {{#autoForm
+                            id="newConversation"
+                            schema=composeSchema
+                            type="method"
+                            meteormethod="msg.new"
+                        }}
+
+                            {{> afQuickField name="recipient" 
+                                label="Recipient Username or Email"
+                                placeholder="Recipient"
+                            }}
+                            {{> afQuickField name="subject"
+                                placeholder="Subject"
+                            }}
+                            {{> afQuickField name="msg" 
+                                type="textarea" rows=5
+                                placeholder="Write your message here..."
+                            }}
+                            <div class="submit-buttons">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            </div>
+                        {{/autoForm}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="inbox">
+            {{#each conversation in conversations}}
+                <tr class="inbox-message {{#unless conversation.isRead}} read {{/unless}}">
+                    <td class="image-td">
+                        <img src="/img/msg.png" class="message-pic" />
+                    </td>
+                    <td>
+                        <a href="{{pathFor 'conversation' id=conversation._id}}">
+                            <p class="message-author">{{conversation.otherParticipant.fullName}}</p>
+                            <p class="message-time">{{msgDate conversation.lastMsg.sent}}</p>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{pathFor 'conversation' id=conversation._id}}">
+                            <p class="message-title">{{conversation.subject}}</p>
+                            <p class="message-preview">{{conversation.lastMsg.msg}}</p>
+                        </a>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            {{else}}
+                <tr><td colspan="4">
+                    <h3 class="text-center">No conversations. <a href="" data-toggle="modal" data-target="#compose">Start one!</a></h3>
+                </td></tr>
+            {{/each}}
+        </table>
+    </div>
+</template>

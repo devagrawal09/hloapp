@@ -8,3 +8,6 @@ import '../../api/caregivers/server/hooks.js';
 
 import '../../api/jobs';
 import '../../api/jobs/server/publications.js';
+
+import '../../api/messages';
+import '../../api/messages/server/publications.js';

@@ -1,42 +1,83 @@
 import { Mongo } from 'meteor/mongo';
-import { ValidatedMethod } from 'mdg:validated-method';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import { messageSchema } from './schema.js';
 
 export const Messages = new Mongo.Collection('msg');
 export const Conversations = new Mongo.Collection('conversations');
 
-export const newMsg = new ValidatedMethod({ //send a new message
+export const newConversation = new ValidatedMethod({ //send a new message
     name: 'msg.new',
-    validate: messageSchema.pick('to', 'msg').validator(),
+    validate: messageSchema.pick('recipient', 'msg', 'subject').validator(),
     run( msg ) {
 
-        msg.from = this.userId;
-        msg.sent = new Date();              //set message sent date
-        msg.read = false;                   //all messages are unread by default
+        if ( !this.isSimulation ) {             //happens on the server
 
-        let result = Conversations.findOne({//fetch conversation
-            $and: [{ participants: msg.from }, { participants: msg.to }]
+            //search for recipient
+            const recipient = Meteor.users.findOne({
+                $or: [{
+                    _id: msg.recipient
+                }, {
+                    username: msg.recipient
+                }, {
+                    emails: { address: msg.recipient, verified: true }
+                }]
+            });
+
+            if ( !recipient ) {
+                throw new Meteor.Error('msg.new.error',
+                'This recipient does not exist!');
+            }
+
+            if( recipient._id === this.userId ) {
+                throw new Meteor.Error('msg.new.error', 
+                'You cannot message yourself!');
+            }
+
+            msg.to = recipient._id;
+            msg.from = this.userId;
+            msg.sent = new Date();          //set message sent date
+            msg.read = false;               //all messages are unread by default
+
+            const id = Conversations.insert({
+                participants: [msg.from, msg.to],
+                subject: msg.subject
+            });
+
+            msg.conversation = id;          //set conversation id
+            Messages.insert(msg);           //send message
+
+            return true;
+        }
+    }
+});
+
+export const reply = new ValidatedMethod({
+    name: 'msg.reply',
+    validate: messageSchema.pick('msg', 'conversation').validator(),
+    run( msg ) {
+
+        let conversation = Conversations.findOne({    //fetch conversation
+            _id: msg.conversation,
+            participants: this.userId
         });
 
-        if ( !result ) {            //this conversation doesn't exist, create one
-            Conversations.insert({
-                participants: [ msg.from, msg.to ],
-                last: msg
-            }, function(err, id) {
-                msg.conversation = id;  //set conversation id
-                Messages.insert(msg);   //send message
-            });
-            return ;
+        if( !conversation ) {
+            throw new Meteor.Error('msg.reply.error', 
+            'This conversation does not exist!');
         }
 
-        Conversations.update( result._id, { //this conversation exists
-            $set: { last: msg }
-        });
+        const fromIndex = _.indexOf( conversation.participants, this.userId );
+        const toIndex = fromIndex? 0 : 1;
 
-        msg.conversation = result._id;  //set conversation id
-        Messages.insert(msg);           //send message
-        return ;
+        msg.to = conversation.participants[toIndex];
+        msg.from = this.userId;
+        msg.sent = new Date();                  //set message sent date
+        msg.read = false;                       //all messages are unread by default
+        msg.conversation = conversation._id;    //set conversation id
+
+        Messages.insert( msg );                 //send message
+        return true;
     }
 });
 
@@ -54,5 +95,30 @@ export const readMsg = new ValidatedMethod({    //set messages as read of a conv
         }, {
             multi: true         //modify all matching docs
         });
+    }
+});
+
+Conversations.helpers({
+    otherParticipant() {
+        const fromIndex = _.indexOf( this.participants, Meteor.userId() );
+        const toIndex = fromIndex? 0 : 1;
+        return Meteor.users.findOne( this.participants[toIndex] );
+    },
+    lastMsg() {
+        return Messages.findOne({
+            conversation: this._id
+        }, {
+            sort: { sent: -1 }
+        });
+    },
+    isRead() {
+        let last = this.lastMsg();
+        return ( last.from === Meteor.userId() ) || last.read ;
+    },
+});
+
+Messages.helpers({
+    fromUser() {
+        return Meteor.users.findOne( this.from );
     }
 });

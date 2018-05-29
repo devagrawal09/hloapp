@@ -1,0 +1,23 @@
+<template name="Conversation">
+    <div class="container">
+        <h3>{{conversation.subject}}</h3>
+
+        <div class="all-messages">
+            {{#each msg in messages}}
+                <div class="message-body">
+                    <img src="/img/msg.png" />
+                    <h4>{{msg.fromUser.fullName}}</h4>
+                    <h6>{{msgDate msg.sent}}</h6>
+                    <p>{{msg.msg}}</p>
+                </div>
+            {{/each}}
+        </div>
+
+        <form id="reply">
+            <div class="form-group">
+                <textarea name="msg" class="form-control" rows="5" placeholder="Enter your reply here..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Reply</button>
+        </form>
+    </div>
+</template>
