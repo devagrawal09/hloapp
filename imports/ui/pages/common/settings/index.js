@@ -14,6 +14,36 @@ import './password.html';
 import './payment.html';
 import './settings.html';
 
+//username form
+
+    const editMode = new ReactiveVar(false);
+
+    Template.usernameSettings.helpers({
+        schema: new SimpleSchema({ username: String }),
+        editMode() {
+            return editMode.get();
+        }
+    });
+
+    Template.usernameSettings.events({ 
+        'click .edit-mode'( e, t ) { 
+            editMode.set(true);
+        } 
+    });
+
+    AutoForm.hooks({
+        usernameForm: {
+            after: { method( err, res ) {
+                if( err ) {
+                    showAlert( err.reason, 'danger');
+                } else {
+                    showAlert( 'Username changed successfully!' );
+                    editMode.set(false);
+                }
+            }}
+        }
+    });
+
 //emails form
     Template.emailSettings.onCreated(function() {
         this.newEmail = new ReactiveVar(0);

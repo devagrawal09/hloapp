@@ -1,5 +1,25 @@
 <template name="usernameSettings">
     <div class="container-small">
-        <h1>Username change can be done here</h1>
+        <h1>Username</h1>
+
+        {{#if editMode}}
+            {{#autoForm
+                id="usernameForm"
+                schema=schema
+                doc=currentUser
+                type="method"
+                meteormethod="user.username"
+            }}
+                {{> afQuickField name="username" label="Enter new Username"}}
+                <button class="btn btn-block">Save</button>
+            {{/autoForm}}
+        {{else}}
+            <p>
+                {{currentUser.username}}
+                <button class="btn btn-default pull-right">
+                    <i class="fa fa-pencil edit-mode"></i>
+                </button>
+            </p>
+        {{/if}}
     </div>
 </template>

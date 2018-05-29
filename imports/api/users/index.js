@@ -109,6 +109,23 @@ export const bookmarkCaregiver = new ValidatedMethod({          //toggle caregiv
     }
 });
 
+export const changeUsername = new ValidatedMethod({             //change username
+    name: 'user.username',
+    validate: new SimpleSchema({ username: String }).validator(),
+    run({ username }) {
+
+        //must be logged in
+        if( !this.userId ) {
+            throw new Meteor.Error('user.email.unauthorized',
+            'You are not logged in!');
+        }
+
+        if( !this.isSimulation ) Accounts.setUsername( this.userId, username );
+
+        return true;
+    }
+});
+
 export const modifyEmail = new ValidatedMethod({                //add or remove email
     name: 'user.email',
     validate: new SimpleSchema({
