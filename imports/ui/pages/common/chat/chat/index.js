@@ -6,7 +6,7 @@ import { Conversations, newMsg } from '../../../../../api/messages';
 import { messageSchema } from '../../../../../api/messages/schema.js';
 
 import showAlert from '../../../../shared-components/alert';
-
+import '../../../../shared-components/compose-modal';
 import './chat.html';
 
 if( Meteor.settings.public.env === 'development' ) {
@@ -27,18 +27,5 @@ Template.Chat.helpers({
         if( date.toDateString() === now.toDateString() ) 
         return date.toTimeString().substr(0,5);
         return date.toDateString();
-    },
-    composeSchema: messageSchema.pick('recipient', 'subject', 'msg')
-});
-
-AutoForm.hooks({
-    newConversation: {
-        after: { method( err, res ) {
-            if( err ) {
-                showAlert( err.reason, 'danger');
-            } else {
-                showAlert('Message sent successfully!');
-            }
-        }}
     }
 });

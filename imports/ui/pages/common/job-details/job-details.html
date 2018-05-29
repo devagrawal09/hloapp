@@ -42,8 +42,8 @@
         <div class="col-sm-6 name">
             <h1>{{job.title}}</h1>
         </div>
-        {{#if isCaregiver}}
-            <div class="col-sm-3 profile-buttons">
+        <div class="col-sm-3 profile-buttons">
+            {{#if isCaregiver}}
                 {{#if isOffered}}
                     <a class="btn btn-primary accept" href="" role="button">Accept Job Offer</a>
                 {{else}} {{#if isApplied}}
@@ -55,9 +55,10 @@
                 {{/if}}
                 {{/if}}
                 {{/if}}
-                <a class="btn btn-default-clear msg" href="" role="button">Message Customer</a>
-            </div>
-        {{/if}}
+            {{/if}}
+            <button class="btn btn-default-clear" data-toggle="modal" data-target="#compose">Message Customer</button>
+            {{> composeMsg doc=msgDoc}}
+        </div>
     </div>
 
     <!-- profile desc -->

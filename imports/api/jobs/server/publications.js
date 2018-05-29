@@ -2,8 +2,19 @@ import { Meteor } from 'meteor/meteor';
 
 import { Jobs, JobImages, Reviews } from '..';
 
-Meteor.publish('jobById', function( id ) {
-    return Jobs.find( id );
+Meteor.publishComposite('jobById', function( id ) {
+    return {
+        find() {
+            return Jobs.find( id );
+        },
+        children: [{
+            find( job ) {
+                return Meteor.users.find( job.postedBy, {
+                    fields: { fullName: 1, username: 1 }
+                });
+            }
+        }]
+    }
 });
 
 Meteor.publish('jobs', function() {

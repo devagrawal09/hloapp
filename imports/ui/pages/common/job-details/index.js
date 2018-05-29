@@ -5,7 +5,7 @@ import { Jobs } from '../../../../api/jobs';
 import { applyForJob } from '../../../../api/caregivers';
 
 import showAlert from '../../../shared-components/alert';
-
+import '../../../shared-components/compose-modal';
 import './job-details.html';
 
 if( Meteor.settings.public.env === 'development' ) {
@@ -53,6 +53,11 @@ Template.JobDetails.helpers({
         let a = caregiver.currentJob === job._id;
         let b = job.hired === caregiver._id;
         return a && b;
+    },
+    msgDoc() {
+        const job = Jobs.findOne( this.id() );
+        const recipient = Meteor.users.findOne( job.postedBy ).username;
+        return { recipient };
     }
 });
 

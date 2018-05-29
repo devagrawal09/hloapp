@@ -1,0 +1,40 @@
+<template name="composeMsg">
+    <div class="modal fade" id="compose" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-left">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Compose Message</h4>
+                </div>
+                <div class="modal-body">
+                    {{#autoForm
+                        id="newConversation"
+                        schema=composeSchema
+                        doc=doc
+                        type="method"
+                        meteormethod="msg.new"
+                    }}
+
+                        {{> afQuickField name="recipient" 
+                            label="Recipient Username or Email"
+                            placeholder="Recipient"
+                        }}
+                        {{> afQuickField name="subject"
+                            placeholder="Subject"
+                        }}
+                        {{> afQuickField name="msg" 
+                            type="textarea" rows=5
+                            placeholder="Write your message here..."
+                        }}
+                        <div class="submit-buttons">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                    {{/autoForm}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

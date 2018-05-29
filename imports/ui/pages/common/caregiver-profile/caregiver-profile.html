@@ -56,7 +56,8 @@
             {{#if isCustomer}}
             <button class="btn btn-primary" data-toggle="modal" data-target="#hireCaregiver">Hire</button>
             {{/if}}
-            <a class="btn btn-default-clear" href="#" role="button">Message</a>
+            <button class="btn btn-default-clear" data-toggle="modal" data-target="#compose">Message</button>
+            {{> composeMsg doc=msgDoc}}
         </div>
     </div>
 

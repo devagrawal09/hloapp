@@ -7,7 +7,7 @@ import { bookmarkCaregiver } from '../../../../api/users';
 
 import showAlert from '../../../shared-components/alert';
 import '../../../helpers';
-
+import '../../../shared-components/compose-modal';
 import './hire-caregiver.html';
 import './caregiver-profile.html';
 
@@ -42,6 +42,11 @@ Template.CaregiverProfile.helpers({
     },
     isCustomer() {
         return Meteor.user().profile.type === 'customer';
+    },
+    msgDoc() {
+        const t = Template.instance().doc;
+        const recipient = Meteor.users.findOne( t.user ).username;
+        return { recipient };
     }
 });
 

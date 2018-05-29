@@ -9,8 +9,19 @@ Meteor.publish('caregivers', function() {
     });
 });
 
-Meteor.publish('caregiverById', function( id ) {
-    return Caregivers.find( id );
+Meteor.publishComposite('caregiverById', function( id ) {
+    return {
+        find() {
+            return Caregivers.find( id );
+        },
+        children: [{
+            find( caregiver ) {
+                return Meteor.users.find( caregiver.user, {
+                    fields: { username: 1 }
+                });
+            }
+        }]
+    }
 });
 
 Meteor.publish('caregiversById', function( ids ) {
@@ -71,7 +82,9 @@ Meteor.publishComposite('caregiver.employment', {
             }
         }, {
             find( job ) {
-                return Meteor.users.find( job.postedBy );
+                return Meteor.users.find( job.postedBy, {
+                    fields: { fullName: 1, username: 1 }
+                });
             }
         }]
     }]
