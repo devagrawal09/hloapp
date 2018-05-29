@@ -1,18 +1,28 @@
 <template name="caregiverExperienceForm">
     <div id="experience" class="tab-pane fade">
-        <p>* - Required field</p>
-        <div class="row">
-            <div class="col-sm-6">
-                {{> afQuickField name="years"}}
-                {{> afQuickField name="background"}}
+        {{#autoForm
+            id="editExperiences"
+            type="method"
+            meteormethod="caregiver.update.experiences"
+            schema=schema
+            doc=doc
+        }}
+            {{> afQuickField name="_id"}}
+            {{> afQuickField name="user"}}
+            <p>* - Required field</p>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{> afQuickField name="years"}}
+                    {{> afQuickField name="background"}}
+                </div>
+                <div class="col-sm-6">
+                    {{> afQuickField name="education"}}
+                </div>
             </div>
-            <div class="col-sm-6">
-                {{> afQuickField name="education"}}
-            </div>
-        </div>
 
-        {{> afQuickField name="experiences" template="bootstrap3-horizontal"}}
+            {{> afQuickField name="experiences" template="bootstrap3-horizontal"}}
 
-        {{> submitButtons}}
+            {{> submitButtons}}
+        {{/autoForm}}
     </div>
 </template>

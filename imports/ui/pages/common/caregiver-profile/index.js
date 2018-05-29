@@ -14,26 +14,21 @@ import './caregiver-profile.html';
 Template.CaregiverProfile.onCreated(function() {
     let t = this;
     let id = Template.currentData().id();
-    t.autorun(()=> {
-        t.subscribe( 'caregiverById', id, ()=> {
-            t.doc = Caregivers.findOne( id );
-            t.subscribe( 'caregiver.images', t.doc.user );
-        });
-    });
+    t.subscribe( 'caregiverById', id );
 });
 
 Template.CaregiverProfile.helpers({
     caregiver() {
-        return Template.instance().doc;
+        return Caregivers.findOne( this.id );
     },
     activeClass( index ) {
         if( index === 0 ) return 'active';
     },
     notCurrentCaregiver() {
-        return Template.instance().doc.user !== Meteor.userId();
+        return Caregivers.findOne( this.id ).user !== Meteor.userId();
     },
     caregiverBackgroundCheck() {
-        return !!Template.instance().doc.background;
+        return !!Caregivers.findOne( this.id ).background;
     },
     isBookmarked() {
         let id = Template.currentData().id();
@@ -44,7 +39,7 @@ Template.CaregiverProfile.helpers({
         return Meteor.user().profile.type === 'customer';
     },
     msgDoc() {
-        const t = Template.instance().doc;
+        const t = Caregivers.findOne( this.id );
         const recipient = Meteor.users.findOne( t.user ).username;
         return { recipient };
     }
@@ -54,7 +49,16 @@ Template.CaregiverProfile.events({
     'click .favorite a'( e, t ) { 
         let id = t.data.id();
         bookmarkCaregiver.call({ id });
-    } 
+    },
+    'click .finalise'() {
+        Meteor.call('caregiver.complete', ( err, res )=> {
+            if( err ) {
+                showAlert( err.reason, 'danger');
+            } else {
+                showAlert( 'Your Caregiver Profile has been submitted! You can now apply for Jobs!' );
+            }
+        });
+    }
 });
 
 Template.hireCaregiverModal.onCreated(function() {

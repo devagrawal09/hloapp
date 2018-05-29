@@ -2,7 +2,7 @@
     <div id="photos" class="tab-pane fade">
         <div class="row">
             <div class="col-md-3 form-group">
-                Profile picture
+                Upload Photo
                 {{#with photoUpload}}
                     Uploading <b>{{file.name}}</b>:
                     <span id="progress">{{progress.get}}%</span>
@@ -17,7 +17,7 @@
                 {{/with}}
             </div>
             <div class="col-md-9">
-                Personal pictures
+                Uploaded Photos
                 <div class="photos">
                     {{#each photo in photos.each}}
                         <img src="{{photo.link}}" alt="{{photo.name}}" id="{{photo._id}}">
@@ -33,6 +33,6 @@
         <p>
             All uploaded photos will be displayed as cover photos on your public profile.
         </p>
-        {{> submitButtons}}
+        {{> submitButtons skipSubmit=true}}
     </div>    
 </template>

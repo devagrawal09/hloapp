@@ -40,7 +40,7 @@
                 {{/if}}
             </div>
         </div>
-        <div class="col-sm-6 name">
+        <div class="col-md-5 col-sm-4 name">
             <h1>{{caregiver.firstName}} {{caregiver.lastName}}</h1>
             <div class="rating">
                 <i class="fa fa-star" aria-hidden="true"></i>
@@ -52,7 +52,7 @@
             </div>
             <h4><span class="label label-success">${{caregiver.hourlyRate}} HKD per hour</span></h4>
         </div>
-        <div class="col-sm-3 profile-buttons">
+        <div class="col-md-4 col-sm-5 profile-buttons">
             {{#if isCustomer}}
             <button class="btn btn-primary" data-toggle="modal" data-target="#hireCaregiver">Hire</button>
             {{/if}}
@@ -65,6 +65,11 @@
                 <a href="{{pathFor 'profile.edit'}}" class="btn btn-primary">
                     <i class="fa fa-pencil"></i> Edit Profile
                 </a>
+                {{#unless caregiver.isProfileComplete}}
+                    <button class="btn btn-success finalise">
+                        <i class="fa fa-save"></i> Finalise and Submit Profile
+                    </button>
+                {{/unless}}
             {{/if}}
         </div>
     </div>

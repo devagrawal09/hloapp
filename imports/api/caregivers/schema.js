@@ -14,7 +14,7 @@ const Experience = new SimpleSchema({
     to: Datatypes.Date
 });
 
-export const caregiverSchema = new SimpleSchema({
+export const detailsSchema = new SimpleSchema({
 //details
     _id: Datatypes.Id,
     user: Datatypes.Id,
@@ -25,13 +25,10 @@ export const caregiverSchema = new SimpleSchema({
     aboutText: String,
     address: String,
     location: Datatypes.Location,
-    otherDistrict: {
-        type: String,
-        optional: true,
-        label: 'Please specify district'
-    },
+    otherDistrict: Datatypes.OtherField,
     country: Datatypes.Country,
     religion: Datatypes.Religion,
+    otherReligion: Datatypes.OtherField,
     hobbies: {
         type: String,
         optional: true
@@ -41,8 +38,13 @@ export const caregiverSchema = new SimpleSchema({
     otherWorkLocations: Datatypes.OtherField,
     languages: Array,
     'languages.$': Datatypes.Languages,
-    otherLanguages: Datatypes.OtherField,
+    otherLanguages: Datatypes.OtherField
+});
+
+export const experienceSchema = new SimpleSchema({
 //experience
+    _id: Datatypes.Id,
+    user: Datatypes.Id,
     years: {
         type: SimpleSchema.Integer,
         label: 'Years of experience*',
@@ -65,18 +67,13 @@ export const caregiverSchema = new SimpleSchema({
         type: String,
         label: 'Education History',
         optional: true
-    },
-//photos
-    profileImg: {
-        type: String,
-        optional: true
-    },
-    coverImg: {
-        type: String,
-        optional: true
-    },
-    // photos: [String],
+    }
+});
+
+export const servicesSchema = new SimpleSchema({
 //services
+    _id: Datatypes.Id,
+    user: Datatypes.Id,
     hourlyRate: Number,
     extraCharges: {
         type: Number,
@@ -127,8 +124,13 @@ export const caregiverSchema = new SimpleSchema({
         optional: true
     },
     'medicalConditions.$': Datatypes.MedicalCondition,
-    otherMedicalCondition: Datatypes.OtherField,
+    otherMedicalCondition: Datatypes.OtherField
+});
+
+export const pricingSchema = new SimpleSchema({
 //plan
+    _id: Datatypes.Id,
+    user: Datatypes.Id,
     plan: {
         type: String,
         allowedValues: [ 'Free', 'Entrepreneur', 'Partner' ]

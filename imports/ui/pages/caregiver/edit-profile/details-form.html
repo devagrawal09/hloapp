@@ -1,56 +1,71 @@
 <template name="caregiverDetailsForm">
     <div id="details" class="tab-pane fade in active">
-        <p>All fields are required</p>
-        
-        <div class="row">
-            <div class="col-sm-6 form-column">
-                {{> afQuickField name="firstName"}}
-                {{> afQuickField name="lastName"}}
-                {{> afQuickField name="gender" 
-                    options="allowed" 
-                    type="select-radio-inline"
-                }}
-                {{> afQuickField name="dob"}}
-                {{> afQuickField name="languages" 
-                    options="allowed"
-                    type="select-checkbox-columns"
-                }}
-                {{> afQuickField name="otherLanguages"
-                    placeholder="Others, please specify"
-                }}
-            </div>
-            <div class="col-sm-6 form-column">
-                {{> afQuickField name="address"}}
-                {{> afQuickField name="location" options="allowed"}}
-
-                {{#if afFieldValueIs name="location" value="Other"}} 
-                    {{> afQuickField name="otherDistrict"}}
-                {{/if}}
-
-                {{> afQuickField name="country" options="allowed"}}
-                {{> afQuickField name="religion" options="allowed"}}
-                {{> afQuickField name="workLocation"
-                    options="allowed" type="select-multiple"
-                    label="Work Location (Ctrl-click to select multiple)"
-                }}
-                {{> afQuickField name="otherLanguages"
-                    placeholder="Others, please specify"
-                }}
-            </div>
-        </div>
-        {{> afQuickField 
-            name="hobbies" 
-            type="textarea" 
-            rows=3
-            placeholder="Biking, painting..."
+        {{#autoForm
+            id="editDetails"
+            type="method"
+            meteormethod="caregiver.update.details"
+            schema=schema
+            doc=doc
         }}
-        {{> afQuickField 
-            name="aboutText" 
-            type="textarea" 
-            rows=5
-            label="About You"
-            placeholder="I am a 30 year old nursing student..."
-        }}
-        {{> submitButtons skipBack=true}}
+            {{> afQuickField name="_id"}}
+            {{> afQuickField name="user"}}
+            <p>All fields are required</p>
+            
+            <div class="row">
+                <div class="col-sm-6 form-column">
+                    {{> afQuickField name="firstName"}}
+                    {{> afQuickField name="lastName"}}
+                    {{> afQuickField name="gender" 
+                        options="allowed" 
+                        type="select-radio-inline"
+                    }}
+                    {{> afQuickField name="dob"}}
+                    {{> afQuickField name="languages" 
+                        options="allowed"
+                        type="select-checkbox-columns"
+                    }}
+                    {{> afQuickField name="otherLanguages"
+                        placeholder="Others, please specify"
+                    }}
+                </div>
+                <div class="col-sm-6 form-column">
+                    {{> afQuickField name="address"}}
+                    {{> afQuickField name="location" options="allowed"}}
+
+                    {{#if afFieldValueIs name="location" value="Other"}} 
+                        {{> afQuickField name="otherDistrict" placeholder="Other, please specify"}}
+                    {{/if}}
+
+                    {{> afQuickField name="country" options="allowed"}}
+                    {{> afQuickField name="religion" options="allowed"}}
+
+                    {{#if afFieldValueIs name="religion" value="Other"}} 
+                        {{> afQuickField name="otherReligion" placeholder="Other, please specify"}}
+                    {{/if}}
+
+                    {{> afQuickField name="workLocation"
+                        options="allowed" type="select-multiple"
+                        label="Work Location (Ctrl-click to select multiple)"
+                    }}
+                    {{> afQuickField name="otherLanguages"
+                        placeholder="Others, please specify"
+                    }}
+                </div>
+            </div>
+            {{> afQuickField 
+                name="hobbies" 
+                type="textarea" 
+                rows=3
+                placeholder="Biking, painting..."
+            }}
+            {{> afQuickField 
+                name="aboutText" 
+                type="textarea" 
+                rows=5
+                label="About You"
+                placeholder="I am a 30 year old nursing student..."
+            }}
+            {{> submitButtons skipBack=true}}
+        {{/autoForm}}
     </div>
 </template>

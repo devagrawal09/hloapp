@@ -36,32 +36,13 @@
                     </div>Pricing
                 </a>
             </li>
-            <li>
-                <a data-toggle="pill" href="#review">
-                    <div class="heart-bg">
-                        <i class="fa fa-heart"></i>
-                    </div>Review
-                </a>
-            </li>
         </ul>
-
-        {{#autoForm
-            id="editCaregiver"
-            type="method"
-            meteormethod="caregiver.update"
-            schema=caregiverSchema
-            doc=caregiverDoc
-        }}
-            {{> afQuickField name="_id"}}
-            {{> afQuickField name="user"}}
-            <div class="tab-content">
-                {{> caregiverDetailsForm}}
-                {{> caregiverExperienceForm}}
-                {{> caregiverServicesForm}}
-                {{> caregiverPhotosForm}}
-                {{> caregiverPricingForm}}
-                {{> caregiverProfileReview}}
-            </div>
-        {{/autoForm}}
+        <div class="tab-content">
+            {{> caregiverDetailsForm}}
+            {{> caregiverExperienceForm}}
+            {{> caregiverServicesForm}}
+            {{> caregiverPhotosForm}}
+            {{> caregiverPricingForm}}
+        </div>
     </div>
 </template>

@@ -20,6 +20,12 @@ Meteor.publishComposite('caregiverById', function( id ) {
                     fields: { username: 1 }
                 });
             }
+        }, {
+            find( caregiver ) {
+                return CaregiverImages.find({
+                    meta: { user: caregiver.user }
+                }).cursor
+            }
         }]
     }
 });
@@ -35,7 +41,12 @@ Meteor.publish('caregiverByUser', function( user ) {
 });
 
 Meteor.publish('caregiver.current', function() {
-    return Caregivers.find({ user: this.userId });
+    return [
+        Caregivers.find({ user: this.userId }),
+        CaregiverImages.find({
+            meta: { user: this.userId }
+        }).cursor
+    ];
 });
 
 Meteor.publish('caregiver.images', function( user ) {

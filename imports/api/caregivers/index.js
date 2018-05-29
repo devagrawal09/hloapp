@@ -7,7 +7,7 @@ import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
 
 import { Jobs } from '../jobs';
-import { caregiverSchema, photoSchema } from './schema.js';
+import { caregiverSchema, detailsSchema, experienceSchema, servicesSchema, pricingSchema, photoSchema } from './schema.js';
 
 export const Caregivers = new Mongo.Collection('caregivers');
 export const CaregiverImages = new FilesCollection({
@@ -24,18 +24,16 @@ export const CaregiverImages = new FilesCollection({
 
 //methods
 
-    export const updateCaregiverProfile = new ValidatedMethod({ //update caregiver profile
-        name: 'caregiver.update',
-        validate: caregiverSchema.validator(),
+    export const updateCaregiverDetails = new ValidatedMethod({
+        name: 'caregiver.update.details',
+        validate: detailsSchema.validator(),
         run( doc ) {
             
             if ( !this.userId || doc.user !== this.userId ) {
                 //if current user doesn't match received profile user
-                throw new Meteor.Error('caregiver.update.profile.unauthorized',
+                throw new Meteor.Error('caregiver.update.unauthorized',
                 'Invalid input, please try again');
             }
-
-            doc.isProfileComplete = true;
 
             let result = Caregivers.update({
                 _id: doc._id,
@@ -46,8 +44,8 @@ export const CaregiverImages = new FilesCollection({
 
             if ( !result ) {
                 //input ids don't match
-            throw new Meteor.Error('caregiver.update.unauthorized',
-            'Invalid input, please try again');
+                throw new Meteor.Error('caregiver.update.unauthorized',
+                'Invalid input, please try again');
             }
 
             Meteor.users.update( this.userId, { $set: {
@@ -55,6 +53,92 @@ export const CaregiverImages = new FilesCollection({
                 lastName: doc.lastName,
                 name: `${doc.firstName} ${doc.lastName}`
             }});
+
+            return 'Details';
+        }
+    });
+
+    export const updateCaregiverExp = new ValidatedMethod({
+        name: 'caregiver.update.experiences',
+        validate: experienceSchema.validator(),
+        run( doc ) {
+            
+            if ( !this.userId || doc.user !== this.userId ) {
+                //if current user doesn't match received profile user
+                throw new Meteor.Error('caregiver.update.unauthorized',
+                'Invalid input, please try again');
+            }
+
+            let result = Caregivers.update({
+                _id: doc._id,
+                user: doc.user
+            }, {
+                $set: doc
+            });
+
+            if ( !result ) {
+                //input ids don't match
+                throw new Meteor.Error('caregiver.update.unauthorized',
+                'Invalid input, please try again');
+            }
+
+            return 'Experiences';
+        }
+    });
+
+    export const updateCaregiverServices = new ValidatedMethod({
+        name: 'caregiver.update.services',
+        validate: servicesSchema.validator(),
+        run( doc ) {
+            
+            if ( !this.userId || doc.user !== this.userId ) {
+                //if current user doesn't match received profile user
+                throw new Meteor.Error('caregiver.update.unauthorized',
+                'Invalid input, please try again');
+            }
+
+            let result = Caregivers.update({
+                _id: doc._id,
+                user: doc.user
+            }, {
+                $set: doc
+            });
+
+            if ( !result ) {
+                //input ids don't match
+                throw new Meteor.Error('caregiver.update.unauthorized',
+                'Invalid input, please try again');
+            }
+
+            return 'Services';
+        }
+    });
+
+    export const updateCaregiverPlan = new ValidatedMethod({
+        name: 'caregiver.update.pricing',
+        validate: pricingSchema.validator(),
+        run( doc ) {
+            
+            if ( !this.userId || doc.user !== this.userId ) {
+                //if current user doesn't match received profile user
+                throw new Meteor.Error('caregiver.update.unauthorized',
+                'Invalid input, please try again');
+            }
+
+            let result = Caregivers.update({
+                _id: doc._id,
+                user: doc.user
+            }, {
+                $set: doc
+            });
+
+            if ( !result ) {
+                //input ids don't match
+                throw new Meteor.Error('caregiver.update.unauthorized',
+                'Invalid input, please try again');
+            }
+
+            return 'Plan';
         }
     });
 
@@ -106,11 +190,36 @@ export const CaregiverImages = new FilesCollection({
         }
     });
 
+    Meteor.methods({
+        'caregiver.complete'() {
+
+            if ( !this.userId ) {
+                //not logged in
+                throw new Meteor.Error('caregiver.complete.unauthorized',
+                'You need to be logged in!');
+            }
+
+            const result = Caregivers.update({
+                user: this.userId,
+                isProfileComplete: false
+            }, {
+                $set: { isProfileComplete: true }
+            });
+
+            if( !result ) {
+                throw new Meteor.Error('caregiver.complete.error', 
+                'Your caregiver profile is either already complete or does not exist!');
+            }
+
+            return true;
+        }
+    });
+
 //job methods
 
     export const applyForJob = new ValidatedMethod({    //apply for job
         name: 'jobs.apply',
-        validate: caregiverSchema.pick( '_id' ).validator(),
+        validate: detailsSchema.pick( '_id' ).validator(),
         run({ _id }) {
 
             if( !this.userId || Meteor.users.findOne( this.userId ).profile.type !== 'caregiver' ) {
@@ -156,7 +265,7 @@ export const CaregiverImages = new FilesCollection({
     //incomplete
     export const acceptOffer = new ValidatedMethod({    //accept offered job
         name: 'jobs.accept',
-        validate: caregiverSchema.pick( '_id' ).validator(),
+        validate: detailsSchema.pick( '_id' ).validator(),
         run({ _id }) {
 
             let job = _id;

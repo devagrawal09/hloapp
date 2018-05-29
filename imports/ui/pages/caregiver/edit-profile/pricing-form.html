@@ -1,22 +1,32 @@
 <template name="caregiverPricingForm">
     <div id="pricing" class="tab-pane fade">
-        {{> afQuickField name="plan"
-            options=options noselect=true defaultValue="Free"
+        {{#autoForm
+            id="editPricing"
+            type="method"
+            meteormethod="caregiver.update.pricing"
+            schema=schema
+            doc=doc
         }}
-        <p>
-            No payment is made on day of Homecare Service.
-            We will collect payment from the Customer one day after
-            the service is finished
-            and then pay the Caregiver in 3 business days (minus our commissions).
-            This is because of our Customer Satisfaction Guarantee.
-        </p>
-        <p>
-            Insurance Policy: Provided by QBE Hong Kong and Shanghai Insurance Limited.
-            Total aggregate amount is HK$10M. Includes Professional Indemnity
-            for medical professionals and Public Liability for non-professionals.
-            Insurance covers bodily injury, property damage, and theft.
-            Insurance begins on September 01, 2018.
-        </p>
-        {{> submitButtons}}
+            {{> afQuickField name="_id"}}
+            {{> afQuickField name="user"}}
+            {{> afQuickField name="plan"
+                options=options noselect=true defaultValue="Free"
+            }}
+            <p>
+                No payment is made on day of Homecare Service.
+                We will collect payment from the Customer one day after
+                the service is finished
+                and then pay the Caregiver in 3 business days (minus our commissions).
+                This is because of our Customer Satisfaction Guarantee.
+            </p>
+            <p>
+                Insurance Policy: Provided by QBE Hong Kong and Shanghai Insurance Limited.
+                Total aggregate amount is HK$10M. Includes Professional Indemnity
+                for medical professionals and Public Liability for non-professionals.
+                Insurance covers bodily injury, property damage, and theft.
+                Insurance begins on September 01, 2018.
+            </p>
+            {{> submitButtons review=true}}
+        {{/autoForm}}
     </div>
 </template>
