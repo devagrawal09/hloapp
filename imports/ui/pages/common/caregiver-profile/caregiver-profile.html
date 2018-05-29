@@ -56,8 +56,16 @@
             {{#if isCustomer}}
             <button class="btn btn-primary" data-toggle="modal" data-target="#hireCaregiver">Hire</button>
             {{/if}}
-            <button class="btn btn-default-clear" data-toggle="modal" data-target="#compose">Message</button>
-            {{> composeMsg doc=msgDoc}}
+            {{#if notCurrentCaregiver}}
+                <button class="btn btn-default-clear" data-toggle="modal" data-target="#compose">
+                    <i class="fa fa-envelope"></i> Message
+                </button>
+                {{> composeMsg doc=msgDoc}}
+            {{else}}
+                <a href="{{pathFor 'profile.edit'}}" class="btn btn-primary">
+                    <i class="fa fa-pencil"></i> Edit Profile
+                </a>
+            {{/if}}
         </div>
     </div>
 

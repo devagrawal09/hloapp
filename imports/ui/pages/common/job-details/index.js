@@ -30,6 +30,10 @@ Template.JobDetails.helpers({
     activeClass( index ) {
         if( index === 0 ) return 'active';
     },
+    isPostedByCurrent() {
+        let job = Jobs.findOne( this.id() );
+        return job.postedBy === Meteor.userId();
+    },
     isCaregiver() {
         return Meteor.user().profile.type === 'caregiver';
     },
