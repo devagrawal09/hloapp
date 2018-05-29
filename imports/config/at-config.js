@@ -90,10 +90,11 @@ if( Meteor.isServer ) {
         }
     });
 }
-
-Accounts.ui.config({
-    requestPermissions: {
-        facebook: ['id', 'first_name', 'last_name', 'picture', 'email']
-    },
-    passwordSignupFields: 'USERNAME_AND_EMAIL'
-});
+if( Meteor.isClient ) {
+    Accounts.ui.config({
+        requestPermissions: {
+            facebook: ['id', 'first_name', 'last_name', 'picture', 'email']
+        },
+        passwordSignupFields: 'USERNAME_AND_EMAIL'
+    });
+}
