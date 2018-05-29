@@ -93,7 +93,7 @@ if( Meteor.isServer ) {
 if( Meteor.isClient ) {
     Accounts.ui.config({
         requestPermissions: {
-            facebook: ['id', 'first_name', 'last_name', 'picture', 'email']
+            facebook: ['public_profile', 'email']
         },
         passwordSignupFields: 'USERNAME_AND_EMAIL'
     });
