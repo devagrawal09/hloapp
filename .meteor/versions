@@ -71,6 +71,7 @@ mongo@1.4.5
 mongo-dev-server@1.1.0
 mongo-id@1.0.7
 msavin:mongol@4.0.1
+nourharidy:ssl@0.2.2
 npm-bcrypt@0.9.3
 npm-mongo@2.2.34
 oauth@1.2.3

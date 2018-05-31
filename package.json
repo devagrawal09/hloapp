@@ -6,7 +6,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.44",
+    "@google-cloud/storage": "^1.7.0",
     "bcrypt": "^1.0.3",
+    "google-cloud": "^0.57.0",
     "meteor-node-stubs": "^0.3.2",
     "simpl-schema": "^1.4.2",
     "string-humanize": "^1.0.0",

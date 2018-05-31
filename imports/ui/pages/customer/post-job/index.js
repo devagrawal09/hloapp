@@ -8,6 +8,10 @@ import { newJob } from '../../../../api/jobs';
 import '../job-form';
 import './post-job.html';
 
+Template.PostJob.onCreated(function() {
+    this.subscribe( 'job.new.photos' );
+});
+
 Template.PostJob.helpers({
     schema() {
         return detailsSchema.omit( '_id', 'postedBy' );

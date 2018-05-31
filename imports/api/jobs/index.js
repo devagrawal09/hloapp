@@ -8,20 +8,11 @@ import Datatypes from '../data-types';
 
 import { Caregivers } from '../caregivers';
 import { detailsSchema, photoSchema, reviewSchema } from './schema.js';
+import { JobImages } from './images';
 
 export const Jobs = new Mongo.Collection('jobs');
 export const Reviews = new Mongo.Collection('reviews');
-export const JobImages = new FilesCollection({
-    collectionName: 'job-images',
-    allowClientCode: false,
-    onBeforeUpload(file) {
-        // Allow upload files under 10MB, and only in png/jpg/jpeg formats
-        if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
-            return true;
-        }
-        return 'Please upload image, with size equal or less than 10MB';
-    }
-});
+export {JobImages};
 
 //methods
 
@@ -65,14 +56,16 @@ export const JobImages = new FilesCollection({
                 'You are not logged in!');
             }
 
-            const photo = JobImages.update({ 
-                _id,
-                $or: [{
-                    meta: { job }
-                }, {
-                    meta: { user: this.userId, job }
-                }]
+            let meta = { job };
+            if( job === 'new' ) meta.user = this.userId;
+
+            JobImages.update({
+                meta, profile: true
             }, {
+                $set: { profile: false }
+            });
+
+            const photo = JobImages.update({ _id, meta }, {
                 $set: { profile: true }
             });
 
@@ -95,9 +88,11 @@ export const JobImages = new FilesCollection({
                 'You are not logged in!');
             }
 
+            let meta = { job };
+            if( job === 'new' ) meta.user = this.userId;
+
             let photo = JobImages.findOne({
-                _id,
-                meta: { job }
+                _id, meta
             });
 
             if( !photo ) {

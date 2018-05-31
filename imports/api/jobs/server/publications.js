@@ -17,8 +17,34 @@ Meteor.publishComposite('jobById', function( id ) {
     }
 });
 
-Meteor.publish('jobs', function() {
-    return Jobs.find({});
+Meteor.publishComposite('ownJobById', function( _id ) {
+    return {
+        find() {
+            return Jobs.find({
+                _id, postedBy: this.userId
+            });
+        },
+        children: [{
+            find( job ) {
+                return JobImages.find({
+                    meta: { job: job._id }
+                }).cursor;
+            }
+        }]
+    }
+});
+
+Meteor.publishComposite('jobs', {
+    find() {
+        return Jobs.find({});
+    },
+    children: [{
+        find( job ) {
+            return JobImages.find({
+                meta: { job: job._id }, profile: true
+            }).cursor;
+        }
+    }]
 });
 
 Meteor.publishComposite('myJobs', {
@@ -37,6 +63,12 @@ Meteor.publishComposite('myJobs', {
 Meteor.publish('jobs.images', function( job ) {
     return JobImages.find({
         meta: { job }
+    }).cursor;
+});
+
+Meteor.publish('job.new.photos', function() {
+    return JobImages.find({
+        meta: { job: 'new', user: this.userId }
     }).cursor;
 });
 

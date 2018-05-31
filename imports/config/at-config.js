@@ -9,6 +9,18 @@ Meteor.users.deny({
 
 const pwd = AccountsTemplates.removeField('password');
 AccountsTemplates.removeField('email');
+
+AccountsTemplates.addField({
+    _id: 'type',
+    type: 'radio',
+    select: [{
+        text: 'Customer',
+        value: 'customer'
+    }, {
+        text: 'Caregiver',
+        value: 'caregiver'
+    }]
+});
 AccountsTemplates.addFields([
   {
       _id: 'email',
@@ -51,18 +63,6 @@ AccountsTemplates.addField({
     required: true,
     displayName: 'Last name',
     placeholder: 'Last name'
-});
-
-AccountsTemplates.addField({
-    _id: 'type',
-    type: 'select',
-    select: [{
-        text: 'Customer',
-        value: 'customer'
-    }, {
-        text: 'Caregiver',
-        value: 'caregiver'
-    }]
 });
 
 if( Meteor.isServer ) {

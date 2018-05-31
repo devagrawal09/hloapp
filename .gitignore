@@ -2,5 +2,8 @@ node_modules/
 ngrok.exe
 
 prod.json
-
+staging.json
 dev.json
+
+private/server.crt
+private/server.key

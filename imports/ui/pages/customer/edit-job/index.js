@@ -11,7 +11,7 @@ import './edit-job.html';
 Template.EditJob.onCreated(function() {
     this.autorun(()=> {
         let id = Template.currentData().id();
-        this.subscribe( 'jobById', id );
+        this.subscribe( 'ownJobById', id );
     });
 });
 

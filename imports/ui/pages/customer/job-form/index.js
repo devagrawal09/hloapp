@@ -2,6 +2,8 @@ import { Template } from 'meteor/templating';
 
 import { JobImages, setDp, deletePhoto } from '../../../../api/jobs';
 
+import showAlert from '../../../shared-components/alert';
+
 import '../../../shared-components/checkbox-columns';
 import './details-form.html';
 import './requirements-form.html';
@@ -14,9 +16,8 @@ Template.jobForm.onCreated(function() {
     let job = 'new';
     let doc = this.data.doc;
     if( doc ) job = doc._id;
-    this.autorun(()=> {
-        this.subscribe( 'jobs.images', job );
-    });
+
+    this.subscribe( 'jobs.images', job );
 });
 
 Template.jobForm.helpers({
@@ -44,10 +45,13 @@ Template.jobPhotosForm.helpers({
     },
     photos() {
         let doc = this.doc;
-        let job = doc ? doc._id : 'new';
-        return JobImages.find({
-            meta: { job }
-        });
+        let job = 'new';
+        if( doc ) job = doc._id;
+
+        let meta = { job };
+        if( job === 'new' ) meta.user = Meteor.userId();
+
+        return JobImages.find({ meta });
     }
 });
 
@@ -57,7 +61,10 @@ Template.jobPhotosForm.events({
         let job = 'new';
         let doc = t.data.doc
         if( doc ) job = doc._id;
-        console.log( job );
+
+        let meta = { job };
+        if( job === 'new' ) meta.user = Meteor.userId();
+        console.log( meta );
 
         if (e.currentTarget.files && e.currentTarget.files[0]) {
 
@@ -65,7 +72,7 @@ Template.jobPhotosForm.events({
                 file: e.currentTarget.files[0],
                 streams: 'dynamic',
                 chunkSize: 'dynamic',
-                meta: { user: Meteor.userId(), job }
+                meta
             }, false);
 
             upload.on('start', function() {
@@ -76,7 +83,7 @@ Template.jobPhotosForm.events({
                 if (error) {
                     console.error('Error during upload: ' + error);
                 } else {
-                    console.log('File "' + fileObj.name + '" successfully uploaded');
+                    showAlert('File successfully uploaded!');
                 }
                 t.photoUpload.set(false);
             });
@@ -143,9 +150,14 @@ Template.jobPhotosForm.events({
 Template.jobPostReview.helpers({
     dp() {
         let doc = this.doc;
-        let id = doc ? doc._id : 'new';
+        let job = 'new';
+        if( doc ) job = doc._id;
+
+        let meta = { job };
+        if( job === 'new' ) meta.user = Meteor.userId();
+
         return JobImages.findOne({
-            meta: { job: id },
+            meta,
             profile: true
         }) || {
             link: '/img/search/job-ad.png',
