@@ -43,7 +43,7 @@ export { CaregiverImages };
             Meteor.users.update( this.userId, { $set: {
                 firstName: doc.firstName,
                 lastName: doc.lastName,
-                name: doc.name
+                fullName: doc.name
             }});
 
             return 'Details';

@@ -87,6 +87,8 @@
 /* search body CONTAINING ALL THE CARDS*/
 .search-body {
     background-color: $lightpink;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .search-grid .card-container {
@@ -102,10 +104,10 @@
 .search-card { /* a search profile */
     background-color: $purewhite;
     border: 1px solid $grey;
-    margin: 20px 5px 0px 5px; /* top right bottom left */
+    margin: 0 5px; /* top right bottom left */
     cursor: pointer;
     position: relative; /* so the link spanner spans to the card */
-    height: max-content;
+    height: 100%;
 
     .card-dp {
         width: 100%;
