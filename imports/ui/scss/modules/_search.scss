@@ -91,12 +91,20 @@
     padding-bottom: 20px;
 }
 
-.search-grid .card-container {
+.card-container {
+    height: min-content;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.ad-container {
     height: 400px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 @media (min-width: 992px) and (max-width: 1150px) {
-    .search-grid .card-container {
+    .ad-container {
         height: 500px;
     }
 }
@@ -112,9 +120,16 @@
     .card-dp {
         width: 100%;
         background-color: $lightgrey;
-        padding: 5px 15px 5px 15px;
+        padding: 5px 0;
+        text-align: center;
+        height: min-content;
 
-        img { width: 100%; }
+        div { 
+            width: 80%;
+            padding-bottom: 80%;
+            margin: auto;
+            background-size: 100% 100%;
+        }
     }
 
     .price {
@@ -198,4 +213,9 @@
            left: -50px;
        }
    }
+
+   .card-container {
+       height: 500px;
+   }
  }
+
