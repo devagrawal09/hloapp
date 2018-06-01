@@ -317,7 +317,7 @@ export { CaregiverImages };
 Caregivers.helpers({
     dp() {
         return this.profilePhoto ? CaregiverImages.findOne( this.profilePhoto ) : {
-            link: `/img/avatar-${this.gender}.png`
+            link: `/img/placeholder-${this.gender}.jpeg`
         };
     },
     photos() {
