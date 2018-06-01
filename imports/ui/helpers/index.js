@@ -12,5 +12,5 @@ Template.registerHelper( 'humanize', ( string )=> {
 });
 
 Template.registerHelper( 'hundChars', ( text )=> {
-    return text.substr(0, 99);
+    return text.substr(0, 90) + '...';
 });

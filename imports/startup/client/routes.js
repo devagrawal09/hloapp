@@ -92,7 +92,7 @@
         layoutTemplate: 'LoginLayout',
         template: 'atForm',
         contentRegion: 'main',
-        redirect: '/dashboards'
+        redirect: '/dashboard'
     });
 
     PublicOnlyRouter.route('/logged-out', {

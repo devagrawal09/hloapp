@@ -1,7 +1,22 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 import { ServiceConfiguration } from 'meteor/service-configuration';
-import { Accounts } from 'meteor/accounts-base';
+
+AccountsTemplates.configure({
+    sendVerificationEmail: true,
+    overrideLoginErrors: false,
+    privacyUrl: '/privacy',
+    termsUrl: '/terms',
+    onLogoutHook() {
+        FlowRouter.go('logged-out');
+    },
+    texts: {
+        errors: {
+            loginForbidden: "error.accounts.Login forbidden",
+        }
+    }
+});
 
 Meteor.users.deny({
     update() { return true; }
@@ -13,6 +28,8 @@ AccountsTemplates.removeField('email');
 AccountsTemplates.addField({
     _id: 'type',
     type: 'radio',
+    required: true,
+    displayName: '',
     select: [{
         text: 'Customer',
         value: 'customer'
@@ -39,17 +56,6 @@ AccountsTemplates.addFields([
   },
   pwd
 ]);
-
-AccountsTemplates.configure({
-    sendVerificationEmail: true,
-
-    privacyUrl: '/privacy',
-    termsUrl: '/terms',
-    onLogoutHook() {
-        FlowRouter.go('logged-out');
-    }
-});
-
 AccountsTemplates.addField({
     _id: 'firstName',
     type: 'text',

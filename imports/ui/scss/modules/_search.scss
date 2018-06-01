@@ -29,7 +29,8 @@
         }
 
         .dropdown-menu {
-            width: max-content;
+            width: auto;
+            font-size: 13px;
             
             li {
                 list-style-type: none;
@@ -58,6 +59,7 @@
                     color: $white;
                 }
             }
+            .filter-action { margin-top: 10px; }
         }
     }
 
@@ -87,12 +89,23 @@
     background-color: $lightpink;
 }
 
+.search-grid .card-container {
+    height: 400px;
+}
+
+@media (min-width: 992px) and (max-width: 1150px) {
+    .search-grid .card-container {
+        height: 500px;
+    }
+}
+
 .search-card { /* a search profile */
-    background-color: $white;
+    background-color: $purewhite;
     border: 1px solid $grey;
     margin: 20px 5px 0px 5px; /* top right bottom left */
     cursor: pointer;
     position: relative; /* so the link spanner spans to the card */
+    height: max-content;
 
     .card-dp {
         width: 100%;
@@ -106,7 +119,7 @@
         float: right;
         position: relative;
         display: inline;
-        top: -80px;
+        top: -45px;
         padding: 10px;
         background-color: rgba($color: $pureblack, $alpha: 0.7);
         color: $purewhite;
@@ -143,6 +156,7 @@
     &.job-ad {
         .ad-dp {
             padding: 5px 0 0 20px;
+            img { width: 100%; }
         }
         .job-header {
             padding-top: 10px;
@@ -171,5 +185,15 @@
 
    .search-text .nav-pills .dropdown-menu {
        width: 500px;
+       font-size: 14px;
+
+       &.technical-filter {
+           width: 700px;
+           left: -100px;
+       }
+
+       &.last-filter {
+           left: -50px;
+       }
    }
  }

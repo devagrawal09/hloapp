@@ -2,34 +2,8 @@
     <div class="search-text">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <ul class="nav nav-pills nav-justified">
-                        <li id="location-filter">
-                            <a href="" data-toggle="dropdown">
-                                Location
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu row">
-                                <li class="dropdown-header">Locations</li>
-                                {{#each location in filterData.locations}}
-                                    {{#if isOtherField location}}
-                                        <li class="col-sm-12">
-                                            <input type="text" name="otherLocation" class="form-control" placeholder="Other Location">
-                                        </li>
-                                    {{else}}
-                                        <li class="col-sm-6">
-                                            <a href="">{{location}}</a>
-                                        </li>
-                                    {{/if}}
-                                {{/each}}
-                                <li class="col-sm-6">
-                                    <button class="btn btn-default pull-left">Reset</button>
-                                </li>
-                                <li class="col-sm-6">
-                                    <button class="btn btn-primary pull-right">Apply</button>
-                                </li>
-                            </ul>
-                        </li>
                         <li id="personal-filter">
                             <a href="" data-toggle="dropdown">
                                 Personal
@@ -38,21 +12,21 @@
                             <ul class="dropdown-menu row">
 
                                 <li class="dropdown-header">Gender</li>
-                                    <li class="col-sm-6">
+                                    <li class="col-xs-6">
                                         <a href="" class="gender">Male</a>
                                     </li>
-                                    <li class="col-sm-6">
+                                    <li class="col-xs-6">
                                         <a href="" class="gender">Female</a>
                                     </li>
                                 
                                 <li class="dropdown-header" style="clear: left;">Religion</li>
                                     {{#each religion in filterData.religions}}
                                         {{#if isOtherField religion}}
-                                            <li class="col-sm-12">
+                                            <li class="col-xs-12">
                                                 <input type="text" id="otherReligion" class="form-control" placeholder="Other Religion">
                                             </li>
                                         {{else}}
-                                            <li class="col-sm-4">
+                                            <li class="col-xs-4">
                                                 <a href="" class="religion">{{religion}}</a>
                                             </li>
                                         {{/if}}
@@ -60,18 +34,18 @@
 
                                 <li class="dropdown-header" style="clear: left;">Language</li>
                                     {{#each language in filterData.languages}}
-                                        <li class="col-sm-4">
+                                        <li class="col-xs-4">
                                             <a href="" class="language">{{language}}</a>
                                         </li>
                                     {{/each}}
-                                    <li class="col-sm-12">
+                                    <li class="col-xs-12">
                                         <input type="text" id="otherLanguage" class="form-control" placeholder="Other Language">
                                     </li>
 
-                                <li class="col-sm-6">
+                                <li class="col-xs-6 filter-action">
                                     <button class="btn btn-default pull-left">Reset</button>
                                 </li>
-                                <li class="col-sm-6">
+                                <li class="col-xs-6 filter-action">
                                     <button class="btn btn-primary pull-right">Apply</button>
                                 </li>
                             
@@ -82,42 +56,68 @@
                                 Technical
                                 <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu row" style="width: 700px;">
+                            <ul class="dropdown-menu row technical-filter">
                         
                                 <li class="dropdown-header">Professional Services</li>
                                     {{#each service in filterData.professional}}
-                                        <li class="col-sm-4">
+                                        <li class="col-xs-4">
                                             <a href="" class="professional">{{service}}</a>
                                         </li>
                                     {{/each}}
-                                    <li class="col-sm-12">
+                                    <li class="col-xs-12">
                                         <input type="text" id="otherProfessional" class="form-control" placeholder="Other Service">
                                     </li>
 
                                 <li class="dropdown-header" style="clear: left;">Personal Services</li>
                                     {{#each service in filterData.personal}}
-                                        <li class="col-sm-4">
+                                        <li class="col-xs-4">
                                             <a href="" class="personal">{{service}}</a>
                                         </li>
                                     {{/each}}
-                                    <li class="col-sm-12">
+                                    <li class="col-xs-12">
                                         <input type="text" id="otherPersonal" class="form-control" placeholder="Other Service">
                                     </li>
                         
                                 <li class="dropdown-header" style="clear: left;">Medical Conditions</li>
                                     {{#each service in filterData.medical}}
-                                        <li class="col-sm-4">
+                                        <li class="col-xs-4">
                                             <a href="" class="medical">{{service}}</a>
                                         </li>
                                     {{/each}}
-                                    <li class="col-sm-12">
+                                    <li class="col-xs-12">
                                         <input type="text" id="otherMedical" class="form-control" placeholder="Other Condition">
                                     </li>
                         
-                                <li class="col-sm-6">
+                                <li class="col-xs-6 filter-action">
                                     <button class="btn btn-default pull-left">Reset</button>
                                 </li>
-                                <li class="col-sm-6">
+                                <li class="col-xs-6 filter-action">
+                                    <button class="btn btn-primary pull-right">Apply</button>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="location-filter">
+                            <a href="" data-toggle="dropdown">
+                                Location
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu row">
+                                <li class="dropdown-header">Locations</li>
+                                {{#each location in filterData.locations}}
+                                    {{#if isOtherField location}}
+                                        <li class="col-xs-12">
+                                            <input type="text" name="otherLocation" class="form-control" placeholder="Other Location">
+                                        </li>
+                                    {{else}}
+                                        <li class="col-xs-6">
+                                            <a href="">{{location}}</a>
+                                        </li>
+                                    {{/if}}
+                                {{/each}}
+                                <li class="col-xs-6 filter-action">
+                                    <button class="btn btn-default pull-left">Reset</button>
+                                </li>
+                                <li class="col-xs-6 filter-action">
                                     <button class="btn btn-primary pull-right">Apply</button>
                                 </li>
                             </ul>
@@ -128,18 +128,18 @@
                                 Time
                                 <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu row">
+                            <ul class="dropdown-menu row last-filter">
                                 <li class="dropdown-header">Job Tenure</li>
-                                <li class="col-sm-6">
+                                <li class="col-xs-6">
                                     <a href="" data-value="Short term">Short-term (1 hour to 1 week)</a>
                                 </li>
-                                <li class="col-sm-6">
+                                <li class="col-xs-6">
                                     <a href="" data-value="Long term">Long-term (repeat business)</a>
                                 </li>
-                                <li class="col-sm-6">
+                                <li class="col-xs-6 filter-action">
                                     <button class="btn btn-default pull-left">Reset</button>
                                 </li>
-                                <li class="col-sm-6">
+                                <li class="col-xs-6 filter-action">
                                     <button class="btn btn-primary pull-right">Apply</button>
                                 </li>
                             </ul>
@@ -150,26 +150,26 @@
                                 Price
                                 <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu row">
+                            <ul class="dropdown-menu row last-filter">
                                 <li class="dropdown-header">Max Hourly Rate</li>
-                                <li class="col-sm-12">
+                                <li class="col-xs-12">
                                     <input type="text" id="slider" value="500">
                                 </li>
-                                <li class="col-sm-6">
+                                <li class="col-xs-6">
                                     <button class="btn btn-default pull-left">Reset</button>
                                 </li>
-                                <li class="col-sm-6">
+                                <li class="col-xs-6">
                                     <button class="btn btn-primary pull-right">Apply</button>
                                 </li>
                             </ul>
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <div class="input-group">
                         <input type="text" id="nameSearch" class="form-control" placeholder="{{placeholder}}">
                         <span class="input-group-addon">
-                            <a href="">
+                            <a href="" class="search-icon">
                                 <i class="fa fa-search"></i>
                             </a>
                         </span>
@@ -178,9 +178,9 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid search-body">
         {{#if isGrid}}
-        <div class="row">
+        <div class="row search-grid">
             {{#each doc in docs}}
                 {{> Template.dynamic template=displayTemplate data=doc}}
             {{else}}

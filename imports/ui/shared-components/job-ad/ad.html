@@ -1,16 +1,18 @@
 <template name="jobAd">
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-3 col-sm-6 card-container">
         <div class="search-card job-ad">
             <a href="{{pathFor 'job.details' id=_id}}">
                 <span class="link-spanner"></span>
             </a>
-            <div class="row">
-                <div class="col col-xs-5 ad-dp text-center">
-                    <img src="{{this.dp.link}}" class="card-dp">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col col-sm-5 col-xs-4 ad-dp text-center">
+                    <img src="{{this.dp.link}}">
                 </div>
-                <div class="col col-xs-7 job-header">
-                    <h4>{{title}}</h4>
-                    <h6>Posted by {{username}}</h6>
+                <div class="col col-sm-7 col-xs-8 job-header">
+                    <h5>
+                        {{title}}<br>
+                        <small>Posted by {{username}}</small>
+                    </h5>
                     <span class="label label-success">{{location}}</span>
                 </div>
             </div>

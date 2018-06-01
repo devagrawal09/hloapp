@@ -12,6 +12,11 @@
         margin: 0 auto;
         margin-top: 20px;
         padding: 0;
+
+        .at-error {
+            right: unset;
+            left: 5px;
+        }
     }
 
     button {

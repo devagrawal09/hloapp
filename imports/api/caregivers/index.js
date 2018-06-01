@@ -26,6 +26,7 @@ export { CaregiverImages };
                 'Invalid input, please try again');
             }
 
+            doc.name =`${doc.firstName} ${doc.lastName}`;
             let result = Caregivers.update({
                 _id: doc._id,
                 user: doc.user
@@ -42,7 +43,7 @@ export { CaregiverImages };
             Meteor.users.update( this.userId, { $set: {
                 firstName: doc.firstName,
                 lastName: doc.lastName,
-                name: `${doc.firstName} ${doc.lastName}`
+                name: doc.name
             }});
 
             return 'Details';

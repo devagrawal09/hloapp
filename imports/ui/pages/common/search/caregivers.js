@@ -10,6 +10,10 @@ export function searchForCaregivers() {
     subscription.set( 'caregivers' );
     displayTemplate.set( 'caregiverCard' );
     collection.set( Caregivers );
-    resetFilters();    
+    resetFilters();
+    $('#slider').slider({
+        min: 0,
+        max: 500
+    });
 }
 

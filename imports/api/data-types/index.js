@@ -84,9 +84,12 @@ export default Datatypes = {
         type: String,
         label: 'District',
         allowedValues: [
-            'Central', 'Sai Wan Ho', 'Aberdeen', 'Wan Chai',
-            'Kwun Tong', 'Sham Shui Po', 'San Ko Pong', 'Mongkok',
-            'Sha Tin', 'Tsuen Wan', 'Yuen Long', 'Kowloon', 'Other'
+            'Yuen Long', 'Kowloon', 'Yau Tsim Mong',
+            'Islands', 'Kwai Tsing', 'North', 'Sai Kung',
+            'Tai Po', 'Tsuen Wan', 'Tuen Mun', 'Wong Tai Sin',
+            'Sha Tin', 'Kwun Tong', 'Sham Shui Po',
+            'Central and Western', 'Eastern', 'Southern', 'Wan Chai',
+            'Other'
         ]
     },
     Country: {

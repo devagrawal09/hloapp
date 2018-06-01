@@ -53,17 +53,35 @@ Template.Search.helpers({
     docs() {
         let filter = Filter.get();
         let coll = collection.get();
+        let searchType = subscription.get();
 
         let Query = Object.keys( filter ).reduce(( query, key )=> { //create query
             
             const val = filter[key];
             if( val.length )
             if( typeof val === 'string' ) {
+                const regexSearch = { $regex: val, $options: 'i' };
+                if( key === 'box' ) {
+                    query.$or = [
+                        { name: regexSearch },
+                        { location: regexSearch },
+                        { otherDistrict: regexSearch }
+                    ]
+                    if( searchType === 'caregivers' ) {
+                        query.$or.push(
+                            { workLocation: regexSearch },
+                            { otherWorkLocations: regexSearch }
+                        );
+                    }
+                    if( searchType === 'jobs' ) {
+                        query.$or.push({ title: regexSearch });
+                    }
+                } else
                 if( key === 'hourlyRate' ) {
                     query[key] = { $lte: parseInt(val) }
                 } else {
-                    query[key] = { $regex: val, $options: 'i' };
-            }
+                    query[key] = regexSearch;
+                }
             } else if( typeof val === 'object' ) {
                 query[key] = { $in: filter[key] };
             }
@@ -119,17 +137,15 @@ Template.Search.events({
     },
     'keypress #nameSearch'( e, t ) {
         if( e.which === 13 ) {
-
             let newFilter = Filter.get();
-            if( subscription.get() === 'jobs' ) {
-                newFilter.title = e.target.value;
-            } else {
-                newFilter.name = e.target.value;
-            }
-
+            newFilter.box = e.target.value;
             Filter.set(newFilter);
-            console.log(newFilter);
-    }
+        }
+    },
+    'click .search-icon'( e, t ) {
+        let newFilter = Filter.get();
+        newFilter.box = t.$('#nameSearch').val();
+        Filter.set(newFilter);
     },
     'click #location-filter .btn'( e, t ) {
 
@@ -143,7 +159,7 @@ Template.Search.events({
         }
         
         newFilter.location = t.$('#location-filter li a.active').get().map( el=> el.innerText );
-        newFilter.otherLocation = t.$('#location-filter input').val();
+        newFilter.otherDistrict = t.$('#location-filter input').val();
 
         Filter.set(newFilter);
         console.log(newFilter);

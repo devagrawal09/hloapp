@@ -190,6 +190,7 @@ import './submit-buttons.html';
             if( err ) {
                 showAlert( err.reason, 'danger');
             } else {
+                Template.EditProfileCaregiver.nextTab();
                 showAlert( `${res} saved successfully!` );
             }
         }}
