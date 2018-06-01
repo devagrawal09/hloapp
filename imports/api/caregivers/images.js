@@ -42,7 +42,7 @@ export const CaregiverImages = new FilesCollection({
             // https://googlecloudplatform.github.io/gcloud-node/#/docs/v0.36.0/storage/bucket?method=upload
             var options = {
                 destination: filePath,
-                resumable: true
+                resumable: false
             };
 
             bucket.upload(fileRef.path, options, function(error, file) {
