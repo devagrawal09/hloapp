@@ -1,16 +1,18 @@
 .profile-head {
     margin-top: -150px;
+
+    .name h4 {
+        display: inline-block;
+    }
+    .label-success {
+        background-color: $darkgreen;
+    }
 }
 
 @media (max-width: 767px) {
     .profile-head { /* center name when mobile */
         text-align: center;
     }
-}
-
-
-.label-success {
-    background-color: $darkgreen;
 }
 
 .name {
@@ -34,6 +36,7 @@
 @media(max-width: 767px) { /* name container mobile */
     .name {
         padding-top: 0px;
+        text-shadow: none;
 
         h1 {
             color: $pureblack;

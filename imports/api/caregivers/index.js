@@ -6,7 +6,7 @@ import { FilesCollection } from 'meteor/ostrio:files';
 import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
 
-import { Jobs } from '../jobs';
+import { Jobs, Reviews } from '../jobs';
 import { caregiverSchema, detailsSchema, experienceSchema, servicesSchema, pricingSchema, photoSchema } from './schema.js';
 import { CaregiverImages } from './images';
 
@@ -322,5 +322,15 @@ Caregivers.helpers({
     },
     photos() {
         return CaregiverImages.find({ meta: { user: this.user }});
+    },
+    reviews() {
+        return Reviews.find({
+            job: { $in: this.jobHistory }
+        });
+    },
+    rating() {
+        const reviews = this.reviews().fetch();
+        const count = reviews.length;
+        return reviews.reduce(( rating, review )=> rating + review.rating, 0)/count;
     }
 });

@@ -39,22 +39,22 @@
                 {{/if}} -->
             </div>
         </div>
-        <div class="col-sm-6 name">
+        <div class="col-md-5 col-sm-4 name">
             <h1>{{job.title}}</h1>
         </div>
-        <div class="col-sm-3 profile-buttons">
+        <div class="col-md-4 col-sm-5 profile-buttons">
             {{#if isCaregiver}}
                 {{#if isOffered}}
-                    <a class="btn btn-primary accept" href="" role="button">Accept Job Offer</a>
+                    <button class="btn btn-primary accept">Accept Job Offer</button>
                 {{else}} {{#if isApplied}}
-                    <a class="btn btn-default disabled" href="" role="button">Applied</a>
+                    <button class="btn btn-default" disabled>Applied</button>
                 {{else}} {{#if isOngoing}}
-                    <a class="btn btn-default disabled" href="" role="button">Ongoing</a>
+                    <button class="btn btn-default" disabled>Ongoing</button>
+                {{else}} {{#if isOpen}}
+                    <button class="btn btn-primary apply">Apply</button>
                 {{else}}
-                    <a class="btn btn-primary apply" href="" role="button">Apply</a>
-                {{/if}}
-                {{/if}}
-                {{/if}}
+                    <button class="btn btn-default" disabled>Closed</button>
+                {{/if}} {{/if}} {{/if}} {{/if}}
             {{/if}}
             {{#if isPostedByCurrent}}
                 <a href="{{pathFor 'job.edit' id=id}}" class="btn btn-primary">

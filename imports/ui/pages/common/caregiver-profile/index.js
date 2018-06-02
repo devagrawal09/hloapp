@@ -8,6 +8,7 @@ import { bookmarkCaregiver } from '../../../../api/users';
 import showAlert from '../../../shared-components/alert';
 import '../../../helpers';
 import '../../../shared-components/compose-modal';
+import '../../../shared-components/review';
 import './hire-caregiver.html';
 import './caregiver-profile.html';
 
@@ -93,13 +94,18 @@ Template.hireCaregiverModal.helpers({
         return a && b;
     }
 });
+
 Template.hireCaregiverModal.events({ 
     'click .accept'( e, t ) { 
         hireApplicant.call({
             job: t.$(e.target).attr('id'),
             applicant: t.data._id
-        }, ()=> {
-            showAlert('Successfully hired this applicant!');
+        }, ( err, res )=> {
+            if( err ) {
+                showAlert( err.reason, 'danger');
+            } else {
+                showAlert('Job offer sent!');
+            }
         });
     },
 
@@ -109,7 +115,7 @@ Template.hireCaregiverModal.events({
             caregiverId: t.data._id
         }, ( err, res )=> {
             if( err ) {
-                console.error( err );
+                showAlert( err.reason, 'danger');
             } else {
                 showAlert('Job offer sent!');
             }

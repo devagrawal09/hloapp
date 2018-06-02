@@ -3,14 +3,46 @@
         <div class="row">
         {{#each this.items}}
             <div class="col-sm-4">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="{{this.value}}" {{atts}} />
-                        {{this.label}}
-                    </label>
+                <div class="checkbox tiny">
+                    <div class="checkbox-overlay">
+                        <input type="checkbox"  value="{{this.value}}" {{atts}} />
+                        <div class="checkbox-container">
+                            <div class="checkbox-checkmark"></div>
+                        </div>
+                        <label>{{this.label}}</label>
+                    </div>
                 </div>
             </div>
         {{/each}}
+        </div>
+    </div>
+</template>
+
+<template name="selectCheckboxInline">
+    <div class="af-checkbox-group" {{dsk}}>
+        {{#each this.items}}
+            <div class="checkbox-inline checkbox tiny">
+                <div class="checkbox-overlay">
+                    <input type="checkbox" value="{{this.value}}" {{atts}} />
+                    <div class="checkbox-container">
+                        <div class="checkbox-checkmark"></div>
+                    </div>
+                    <label>{{this.label}}</label>
+                </div>
+            </div>
+            <i></i>
+        {{/each}}
+    </div>
+</template>
+
+<template name="booleanCheckbox">
+    <div class="checkbox tiny">
+        <div class="checkbox-overlay">
+            <input type="checkbox" value="true" {{atts}} />
+            <div class="checkbox-container">
+                <div class="checkbox-checkmark"></div>
+            </div>
+            <label>{{afFieldLabelText name=this.name}}</label>
         </div>
     </div>
 </template>

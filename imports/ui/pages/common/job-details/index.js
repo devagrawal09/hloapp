@@ -58,6 +58,10 @@ Template.JobDetails.helpers({
         let b = job.hired === caregiver._id;
         return a && b;
     },
+    isOpen() {
+        let job = Jobs.findOne( this.id() );
+        return job.status === 'open';
+    },
     msgDoc() {
         const job = Jobs.findOne( this.id() );
         const recipient = Meteor.users.findOne( job.postedBy ).username;

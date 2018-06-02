@@ -2,6 +2,29 @@ import { Template } from 'meteor/templating';
 
 import humanize from 'string-humanize';
 
+const fullFlag = '', emptyFlag = '-o', halfFlag = '-half-o';
+
+function stars( rating ) {
+
+    let stars = [];
+
+    const fullStars = Math.floor( rating/2 );
+    const halfStars = rating % 2;
+    const emptyStars = Math.floor( (10-rating)/2 );
+
+    for( let i=0; i<fullStars; i++ ) {
+        stars.push(fullFlag);
+    }
+    for( let i=0; i<halfStars; i++ ) {
+        stars.push(halfFlag);
+    }
+    for( let i=0; i<emptyStars; i++ ) {
+        stars.push(emptyFlag);
+    }
+    
+    return stars;
+};
+
 Template.registerHelper( 'getDate', ( date )=> {
     console.log(date);
     return date.toDateString();
@@ -14,3 +37,11 @@ Template.registerHelper( 'humanize', ( string )=> {
 Template.registerHelper( 'hundChars', ( text )=> {
     return text.substr(0, 90) + '...';
 });
+
+Template.registerHelper( 'plusOne', ( index )=> {
+    return index + 1;
+});
+
+Template.registerHelper( 'stars', ( rating )=> {
+    return stars( rating );
+})

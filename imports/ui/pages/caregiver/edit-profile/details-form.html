@@ -20,11 +20,11 @@
                         type="select-radio-inline"
                     }}
                     {{> afQuickField name="dob"}}
-                    {{> afQuickField name="languages" 
-                        options="allowed"
-                        type="select-checkbox-columns"
+                    {{> afQuickField name="workLocation"
+                        options="allowed" type="select-multiple"
+                        label="Work Location (Ctrl-click to select multiple)"
                     }}
-                    {{> afQuickField name="otherLanguages"
+                    {{> afQuickField name="otherWorkLocations"
                         placeholder="Others, please specify"
                     }}
                 </div>
@@ -42,16 +42,16 @@
                     {{#if afFieldValueIs name="religion" value="Other"}} 
                         {{> afQuickField name="otherReligion" placeholder="Other, please specify"}}
                     {{/if}}
-
-                    {{> afQuickField name="workLocation"
-                        options="allowed" type="select-multiple"
-                        label="Work Location (Ctrl-click to select multiple)"
-                    }}
-                    {{> afQuickField name="otherLanguages"
-                        placeholder="Others, please specify"
-                    }}
                 </div>
             </div>
+            {{> afQuickField name="languages" 
+                options="allowed"
+                type="select-checkbox-columns"
+            }}
+            {{> afQuickField name="otherLanguages"
+                placeholder="Others, please specify"
+                label="Other languages"
+            }}
             {{> afQuickField 
                 name="hobbies" 
                 type="textarea" 

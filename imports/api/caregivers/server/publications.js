@@ -26,6 +26,26 @@ Meteor.publishComposite('caregiverById', function( id ) {
                     meta: { user: caregiver.user }
                 }).cursor
             }
+        }, {
+            find( caregiver ) {
+                return Reviews.find({
+                    job: { $in: caregiver.jobHistory }
+                });
+            },
+            children: [{
+                find( review ) {
+                    return Jobs.find( review.job, {
+                        fields: { postedBy: 1 }
+                    })
+                },
+                children: [{
+                    find( job ) {
+                        return Meteor.users.find( job.postedBy, {
+                            fields: { fullName: 1 }
+                        });
+                    }
+                }]
+            }]
         }]
     }
 });

@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { AutoForm } from 'meteor/aldeed:autoform';
 
+import './checkbox.css';
 import './checkbox-columns.html';
 
 AutoForm.addInputType('select-checkbox-columns', {
@@ -47,3 +48,7 @@ Template.selectCheckboxColumns.helpers({
         }
     }
 });
+
+Template.selectCheckboxInline.replaces('afCheckboxGroupInline_bootstrap3');
+
+Template.booleanCheckbox.replaces('afCheckbox_bootstrap3');

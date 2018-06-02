@@ -198,3 +198,55 @@ Process after Job completion
 ---
 
 After job completion, a 'Review' button should appear on the job panel. This will open a modal with a form with a 5 star input and a textarea. The customer will write and submit a review, which will set the `review` field of the job. After succesful submission, the review button should disappear, and a 'Pay' button should appear, along with a 'Decline Payment'. The 'Decline Payment' will ask for confirmation and reasons, and set `payment` to `declined` with the `reason` field. 'Pay' button will go to the Paypal chekout page.
+
+Caregiver and Job fields privacy
+---
+
+##Caregiver
+
+###Private Fields
+
+* DOB
+* Email
+* Phone
+* Address (except district)
+* Plan Selected
+
+###Public Fields
+
+* Name
+* Gender
+* Location
+* Work locations
+* Languages
+* Religion
+* Hobbies
+* About
+* Education and Experience
+* Rate, Services and Availability
+* Photos
+
+##Job
+
+###Private Fields
+
+* DOB
+* HKID
+* Phone
+* Email
+* Address (except district)
+
+###Public Fields
+
+* Job Duration
+* Job Title
+* Name
+* Gender
+* Location
+* Hobbies
+* Languages
+* Describe
+* Job Requirements
+* Job Description
+* Dates and Work time
+* Photos

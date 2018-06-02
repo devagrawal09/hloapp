@@ -37,8 +37,8 @@ export {JobImages};
 
             JobImages.update({              //set uploaded photos to new job
                 meta: {
-                    user: this.userId,
-                    job: 'new'
+                    job: 'new',
+                    user: this.userId
                 }
             }, { $set: { meta: { job: id } } }, { multi: true });
 
