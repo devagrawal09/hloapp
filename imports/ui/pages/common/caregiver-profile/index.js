@@ -40,8 +40,7 @@ Template.CaregiverProfile.helpers({
         return Meteor.user().profile.type === 'customer';
     },
     msgDoc() {
-        const t = Caregivers.findOne( this.id );
-        const recipient = Meteor.users.findOne( t.user ).username;
+        const recipient = Caregivers.findOne( this.id ).username();
         return { recipient };
     }
 });

@@ -315,6 +315,9 @@ export { CaregiverImages };
     });
 
 Caregivers.helpers({
+    username() {
+        return Meteor.users.findOne( this.user ).username;
+    },
     dp() {
         return this.profilePhoto ? CaregiverImages.findOne( this.profilePhoto ) : {
             link: `/img/placeholder-${this.gender}.jpeg`

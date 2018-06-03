@@ -10,8 +10,31 @@
 }
 
 .profile-section {
-    h2 {
+
+    padding-bottom: 15px;
+    
+    h3 {
         margin-top: 25px;
+    }
+
+    ul {
+
+        li {
+            background-color: $pastelpink;
+            border: none;
+    
+            &:nth-of-type(odd) {
+                background-color: $pastelorange;
+            }
+        }
+    }
+
+    .table-striped tbody tr {
+        background-color: $pastelpink;
+
+        &:nth-of-type(odd) {
+            background-color: $pastelorange;
+        }
     }
 }
 

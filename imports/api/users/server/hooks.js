@@ -16,7 +16,8 @@ Accounts.onCreateUser(function(options, user){          //create new caregivers
             firstName: first,
             lastName: last,
             name: `${first} ${last}`,
-            isProfileComplete: false
+            isProfileComplete: false,
+            jobHistory: []
         });
     };
 

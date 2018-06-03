@@ -25,7 +25,7 @@
                         <img src="{{hc.dp.link}}" class="hired-picture">
                         <h4>{{hc.firstName}} {{hc.lastName}}</h4>
                         <h5>${{hc.hourlyRate}} HKD per hour</h5>
-                        <button class="btn btn-default">Message</button>
+                        <button class="btn btn-default message" data-recipient="{{hc.username}}">Message</button>
                         {{#if isCompleted}}
                             {{#if review}}
                                 {{#if payment}}
@@ -96,12 +96,12 @@
                                 <tr>
                                     <td>
                                         <a href="" class="applicant-link">
-                                            <h5 class="applicant-name">{{caregiver.firstName}} {{caregiver.lastName}}</h5>
+                                            <h5 class="applicant-name">{{caregiver.name}}</h5>
                                         </a>
                                     </td>
                                     <td class="applicant-buttons">
                                         <a class="btn btn-primary hire" id="{{caregiver._id}}">Hire</a>
-                                        <button class="btn btn-default">Message</button>
+                                        <button class="btn btn-default message" data-recipient="{{caregiver.username}}">Message</button>
                                     </td>
                                 </tr>
                             {{/each}}
@@ -114,11 +114,11 @@
                                 <tr>
                                     <td>
                                         <a href="" class="applicant-link">
-                                            <h5 class="applicant-name">{{caregiver.firstName}} {{caregiver.lastName}}</h5>
+                                            <h5 class="applicant-name">{{caregiver.name}}</h5>
                                         </a>
                                     </td>
                                     <td class="applicant-buttons">
-                                        <button class="btn btn-default">Message</button>
+                                        <button class="btn btn-default" data-recipient="{{caregiver.username}}">Message</button>
                                     </td>
                                 </tr>
                             {{/each}}

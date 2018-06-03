@@ -11,18 +11,18 @@ if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('caregivers');
 }
 
-Template.JobHistory.onCreated(function() {
+Template.JobHistory.onCreated(function () {
     let t = this;
-    t.autorun(()=> {
-        t.subscribe( 'caregiver.employment', ()=> {
-            t.caregiver = Caregivers.find({
-                user: Meteor.userId()
-            }, { fields: {
+    t.subscribe('caregiver.employment', () => {
+        t.caregiver = Caregivers.find({
+            user: Meteor.userId()
+        }, {
+            fields: {
                 offers: 1,
                 currentJob: 1,
                 appliedJobs: 1,
                 jobHistory: 1
-            }});
+            }
         });
     });
 });

@@ -12,12 +12,10 @@
 
                 <h5>{{name}}</h5>
                 <p>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                    (10)
+                    {{#each flag in stars this.rating}}
+                        <i class="fa fa-star{{flag}}" aria-hidden="true"></i>
+                    {{/each}}
+                    ({{this.reviews.count}})
                 </p>
                 <p>
                     <span class="label label-success">{{location}}</span>

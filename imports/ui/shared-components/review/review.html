@@ -1,8 +1,8 @@
 <template name="review">
     <div class="row reviewer-info">
         <div class="col-xs-6">
-            <img src="/img/profile/review.png" class="review-pic">
-            <h4 class="review-name">{{by}}</h4>
+            <img src="{{getJob.user.dp.link}}" alt="{{getJob.user.dp.name}}" class="review-pic">
+            <h4 class="review-name">{{getJob.username}}</h4>
             {{#each flag in stars rating}}
             <i class="fa fa-star{{flag}}" aria-hidden="true"></i>
             {{/each}}

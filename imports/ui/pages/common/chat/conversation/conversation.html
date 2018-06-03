@@ -5,7 +5,7 @@
         <div class="all-messages">
             {{#each msg in messages}}
                 <div class="message-body">
-                    <img src="/img/msg.png" />
+                    <img src="{{msg.fromUser.dp.link}}" />
                     <h4>{{msg.fromUser.fullName}}</h4>
                     <h6>{{msgDate msg.sent}}</h6>
                     <p>{{msg.msg}}</p>

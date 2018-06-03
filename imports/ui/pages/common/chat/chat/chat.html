@@ -9,7 +9,7 @@
             {{#each conversation in conversations}}
                 <tr class="inbox-message {{#unless conversation.isRead}} read {{/unless}}">
                     <td class="image-td">
-                        <img src="/img/msg.png" class="message-pic" />
+                        <img src="{{conversation.otherParticipant.dp.link}}" class="message-pic" />
                     </td>
                     <td>
                         <a href="{{pathFor 'conversation' id=conversation._id}}">

@@ -5,6 +5,7 @@ $red: #E53935;
 $pink: #F06292;
 $darkgreen: #174c1b;
 $green: #388E3C;
+$blue: #572c8b;
 
 /* secondary colors */
 $whitegrey: #f9f9f9;
@@ -29,3 +30,10 @@ $purewhite: #ffffff;
 /* hovered buttons */
 $primaryhover: rgba(240, 98, 146, 0.9);
 $defaulthover: #E6E6E6;
+
+/* pastel colors */
+$pastelpink: rgba($color: #ffb4bb, $alpha: 0.7);
+$pastelorange: rgba($color: #ffdfb9, $alpha: 0.7);
+$pastelyellow: rgba($color: #ffffb9, $alpha: 0.7);
+$pastelgreen: rgba($color: #baffc9, $alpha: 0.7);
+$pastelblue: rgba($color: #bae1ff, $alpha: 0.7);

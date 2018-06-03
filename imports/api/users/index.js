@@ -200,5 +200,15 @@ Meteor.users.helpers({
         return Caregivers.findOne({
             user: this._id
         });
+    },
+    dp() {
+        if( this.profile.type === 'caregiver' ) {
+            return Caregivers.findOne({ user: this._id }).dp();
+        }
+        let gender = this.gender;
+        return {
+            link: `/img/avatar-${gender}.png`,
+            name: `Customer profile photo`
+        }
     }
 });

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { Messages, Conversations } from '..';
+import { Caregivers, CaregiverImages } from '../../caregivers';
 
 Meteor.publishComposite('conversations', {
     find() {
@@ -23,9 +24,24 @@ Meteor.publishComposite('conversations', {
             return Meteor.users.find({
                 _id: { $in: conversation.participants }
             }, { fields: {
-                fullName: 1
+                fullName: 1, username: 1, gender: 1, profile: 1
             }});
-        }
+        },
+        children: [{
+            find( user ) {
+                return Caregivers.find({ user: user._id }, {
+                    fields: { user: 1, profilePhoto: 1 }
+                });
+            },
+            children: [{
+                find( caregiver ) {
+                    return CaregiverImages.find({
+                        _id: caregiver.profilePhoto,
+                        meta: { user: caregiver.user }
+                    }).cursor;
+                }
+            }]
+        }]
     }]
 });
 
@@ -52,9 +68,24 @@ Meteor.publishComposite('conversation', function( _id, limit ){
                 return Meteor.users.find({
                     _id: { $in: conversation.participants }
                 }, { fields: {
-                    fullName: 1
+                    fullName: 1, username: 1, gender: 1, profile: 1
                 }});
-            }
+            },
+            children: [{
+                find( user ) {
+                    return Caregivers.find({ user: user._id }, {
+                        fields: { user: 1, profilePhoto: 1 }
+                    });
+                },
+                children: [{
+                    find( caregiver ) {
+                        return CaregiverImages.find({
+                            _id: caregiver.profilePhoto,
+                            meta: { user: caregiver.user }
+                        }).cursor;
+                    }
+                }]
+            }]
         }]
     }
 });

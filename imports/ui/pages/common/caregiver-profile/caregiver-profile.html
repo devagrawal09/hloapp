@@ -43,12 +43,12 @@
         <div class="col-md-5 col-sm-4 name">
             <h1>{{caregiver.name}}</h1>
             <div class="rating">
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                <a href="#reviews">(7)</a>
+                <a href="#reviews" style="text-decoration: none;">
+                    {{#each flag in stars caregiver.rating}}
+                        <i class="fa fa-star{{flag}}" aria-hidden="true"></i>
+                    {{/each}}
+                    ({{caregiver.reviews.count}})
+                </a>
             </div>
             <h4>
                 <span class="label label-success">
@@ -75,8 +75,8 @@
                 </button>
                 {{> composeMsg doc=msgDoc}}
             {{else}}
-                <a href="{{pathFor 'profile.edit'}}" class="btn btn-primary">
-                    <i class="fa fa-pencil"></i> Edit Profile
+                <a href="/profile#photos" class="btn btn-primary">
+                    <i class="fa fa-pencil"></i>
                 </a>
                 {{#unless caregiver.isProfileComplete}}
                     <button class="btn btn-success finalise">
@@ -91,19 +91,25 @@
     <div class="row profile-main">
         <div class="col-sm-9 profile-body">
             <div class="profile-section" id="personal">
-                <h2>Gender</h2>
-                <h5>{{caregiver.gender}}</h5>
-                <h2>About</h2>
+                {{#unless notCurrentCaregiver}}
+                <a href="/profile#details" class="btn btn-primary pull-right">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                {{/unless}}
+                <h3>About</h3>
                 <h5>{{caregiver.aboutText}}</h5>
-                <h2>Hobbies</h2>
-                <h5>{{caregiver.hobbies}}</h5>
             </div>
             <div class="profile-section" id="work">
-                <h2>Work Experience</h2>
+                {{#unless notCurrentCaregiver}}
+                <a href="/profile#experience" class="btn btn-primary pull-right">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                {{/unless}}
+                <h3>Work Experience</h3>
                 <h5>{{caregiver.years}} years</h5>
                 {{#if caregiver.experiences.length}}
-                    <h2>Employement History</h2>
-                    <table class="table table-hover">
+                    <h3>Employement History</h3>
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -127,9 +133,14 @@
                     </table>
                 {{/if}}
             </div>
-            <div class="profile-section" id="availability">            
-                <h2>Availibility</h2>
-                <table class="table table-hover">
+            <div class="profile-section" id="availability">
+                {{#unless notCurrentCaregiver}}
+                <a href="/profile#services" class="btn btn-primary pull-right">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                {{/unless}}
+                <h3>Availibility</h3>
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Day of Week</th>
@@ -147,10 +158,10 @@
                 </table>
             </div>
             <div class="profile-section" id="reviews">
-                <h2>Reviews</h2>
+                <h3>Reviews</h3>
                 <h5 class="average-rating">
                     {{#each flag in stars caregiver.rating}}
-                    <i class="fa fa-star{{flag}}" aria-hidden="true"></i>
+                        <i class="fa fa-star{{flag}}" aria-hidden="true"></i>
                     {{/each}}
                     ({{caregiver.reviews.count}} total)
                 </h5>
@@ -165,7 +176,7 @@
             <div class="location-bar">
                 <p>
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    {{caregiver.workLocation}}{{#if caregiver.otherWorkLocation}},{{caregiver.otherWorkLocation}}{{/if}}
+                    {{caregiver.workLocation}}{{#if caregiver.otherWorkLocations}},{{caregiver.otherWorkLocations}}{{/if}}
                 </p>
             </div>
             <div class="sidebar-section checks">
@@ -185,11 +196,13 @@
                 {{/each}}
             </div>
             <div class="sidebar-section">
+                <h3>Personal Details</h3>
+                <h5>Gender</h5>
+                <p>{{caregiver.gender}}</p>
                 {{#if caregiver.education}}
                     <h5>Education</h5>
                     <p>{{caregiver.education}}</p>
                 {{/if}}
-                <h5></h5>
                 <h5>Caregiver types</h5>
                 <p>{{caregiver.caregiverType}}</p>
                 <h5>Professional Services</h5>
@@ -208,6 +221,8 @@
                 <p>
                     {{caregiver.languages}}{{#if caregiver.otherLanguages}},{{caregiver.otherLanguages}}{{/if}}
                 </p>
+                <h5>Hobbies</h5>
+                <p>{{caregiver.hobbies}}</p>
             </div>
         </div>
     </div>

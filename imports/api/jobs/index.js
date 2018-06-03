@@ -413,6 +413,9 @@ export {JobImages};
         username() {
             return Meteor.users.findOne( this.postedBy ).fullName;
         },
+        user() {
+            return Meteor.users.findOne( this.postedBy );
+        },
         dp() {
             return JobImages.findOne({ meta: { job: this._id }, profile: true });
         },
@@ -446,9 +449,6 @@ export {JobImages};
     });
 
     Reviews.helpers({
-        by() {
-            return Jobs.findOne( this.job ).username();
-        },
         getJob() {
             return Jobs.findOne( this.job );
         }

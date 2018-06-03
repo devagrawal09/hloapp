@@ -3,10 +3,21 @@ import { Meteor } from 'meteor/meteor';
 import { Caregivers, CaregiverImages } from '../index.js';
 import { Jobs, Reviews } from '../../jobs';
 
-Meteor.publish('caregivers', function() {
-    return Caregivers.find({
-        isProfileComplete: true
-    });
+Meteor.publishComposite('caregivers', {
+    find() {
+        return Caregivers.find({
+            isProfileComplete: true
+        });
+    },
+    children: [{
+        find( caregiver ) {
+            return Reviews.find({
+                job: { $in: caregiver.jobHistory }
+            }, {
+                fields: { rating: 1, job: 1 }
+            });
+        }
+    }]
 });
 
 Meteor.publishComposite('caregiverById', function( id ) {
@@ -41,7 +52,7 @@ Meteor.publishComposite('caregiverById', function( id ) {
                 children: [{
                     find( job ) {
                         return Meteor.users.find( job.postedBy, {
-                            fields: { fullName: 1 }
+                            fields: { fullName: 1, username: 1, gender: 1, profile: 1 }
                         });
                     }
                 }]
@@ -50,10 +61,21 @@ Meteor.publishComposite('caregiverById', function( id ) {
     }
 });
 
-Meteor.publish('caregiversById', function( ids ) {
-    return Caregivers.find({
-        _id: { $in: ids }
-    });
+Meteor.publishComposite('caregiversById', function( ids ) {
+    return {
+        find() {
+            return Caregivers.find({
+                _id: { $in: ids }
+            });
+        },
+        children: [{
+            find( caregiver ) {
+                return Meteor.users.find( caregiver.user, {
+                    fields: { username: 1 }
+                });
+            }
+        }]
+    }
 });
 
 Meteor.publish('caregiverByUser', function( user ) {
@@ -114,7 +136,7 @@ Meteor.publishComposite('caregiver.employment', {
         }, {
             find( job ) {
                 return Meteor.users.find( job.postedBy, {
-                    fields: { fullName: 1, username: 1 }
+                    fields: { fullName: 1, username: 1, gender: 1, profile: 1 }
                 });
             }
         }]

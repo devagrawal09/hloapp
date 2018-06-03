@@ -20,6 +20,14 @@ Template.jobForm.onCreated(function() {
     this.subscribe( 'jobs.images', job );
 });
 
+Template.jobForm.onRendered(function() {
+    let hash = window.location.hash;
+    if( hash ) {
+        this.$(`.nav li a[href="${hash}"]`).tab('show');
+        this.$('.form-steps').get()[0].scrollIntoView(true);
+    }
+});
+
 Template.jobForm.helpers({
     isEditForm( id ) {
         return id === 'editJob';
@@ -29,9 +37,11 @@ Template.jobForm.helpers({
 Template.jobForm.events({
     'click .next'( e, t ) {
         t.$( '.nav li.active' ).next( 'li' ).children( 'a' ).tab( 'show' );
+        t.$('.form-steps').get()[0].scrollIntoView(true);
     },
     'click .back'( e, t ) {
         t.$( '.nav li.active' ).prev( 'li' ).children( 'a' ).tab( 'show' );
+        t.$('.form-steps').get()[0].scrollIntoView(true);
     }
 }); 
 

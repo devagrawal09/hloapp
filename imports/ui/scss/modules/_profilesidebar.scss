@@ -4,29 +4,41 @@
     }
 }
 
-/* black bar */
-.location-bar {
-    color: $purewhite;
-    background-color: $black;
-    padding: 15px 25px 5px 25px; /* top right bottom left */
-    margin-left: -15px; /* fix until collaspe */
-}
+.profile-sidebar {
 
-.sidebar-section {
-    padding: 10px 10px 0px 10px;
+    // background-color: $black;
+    // color: $white;
 
-    h5 {
-        font-weight: bold;
+    /* black bar */
+    .location-bar {
+        color: $purewhite;
+        background-color: $black;
+        padding: 15px 25px 5px 25px; /* top right bottom left */
+        margin-left: -15px; /* fix until collaspe */
+    }
+    
+    .sidebar-section {
+        padding: 10px 10px 0px 10px;
+    
+        h3, h5 {
+            font-weight: bold;
+            color: $blue;
+        }
+    
+        h3 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            padding-bottom: 20px;
+        }
+    }
+    
+    .checks {
+        color: $red;
+        .true {
+            color: $green;
+        }
     }
 
-    p {
-        padding-bottom: 20px;
-    }
-}
-
-.checks {
-    color: $red;
-    .true {
-        color: $green;
-    }
 }
