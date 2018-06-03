@@ -26,13 +26,16 @@ Accounts.onCreateUser(function(options, user){          //create new caregivers
     user.fullName = `${first} ${last}`;
     user.profile = options.profile;
 
-    Email.send({ 
-        from: 'info@healthylovedones.com', 
-        to: user.emails[0].address,
-        replyTo: 'info@healthylovedones.com',
-        subject: 'Welcome to HealthyLovedOnes',
-        html: welcomeEmailHtml
-    });
+    if( user.emails ) {
+        Email.send({ 
+            from: 'info@healthylovedones.com', 
+            to: user.emails[0].address,
+            replyTo: 'info@healthylovedones.com',
+            subject: 'Welcome to HealthyLovedOnes',
+            html: welcomeEmailHtml
+        });
+    }
+
 
     return user;
 });
