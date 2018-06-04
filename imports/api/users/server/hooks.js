@@ -7,8 +7,15 @@ const welcomeEmailHtml = Assets.getText('welcome-email.html');
 
 Accounts.onCreateUser(function(options, user){          //create new caregivers
 
-    let first = options.profile.firstName,
+    let first = last = '';
+    if( user.services.facebook ) {
+        first = user.services.facebook.first_name;
+        last = user.services.facebook.last_name;        
+    } else {
+        first = options.profile.firstName;
         last = options.profile.lastName;
+    }
+    console.log(options);
 
     if( options.profile.type === 'caregiver') {
         Caregivers.insert({
@@ -35,7 +42,6 @@ Accounts.onCreateUser(function(options, user){          //create new caregivers
             html: welcomeEmailHtml
         });
     }
-
 
     return user;
 });

@@ -189,6 +189,45 @@ export const sendVerificationEmail = new ValidatedMethod({      //send verificat
     }
 });
 
+export const pickType = new ValidatedMethod({           //let undecided user pick type
+    name: 'user.type',
+    validate: new SimpleSchema({
+        type: {
+            type: String,
+            allowedValues: ['customer', 'caregiver']
+        }
+    }).validator(),
+    run({ type }) {
+
+        const user = Meteor.users.findOne( this.userId );
+        
+        if( !user.services.facebook || user.profile.type ) {    //only for users logged in through fb
+            throw new Meteor.Error('user.type.unauthorized', 
+            'You are not authorized for this function');
+        }
+
+        let profile = user.profile;
+        profile.type = type;
+
+        Meteor.users.update( this.userId, {
+            $set: { profile }
+        });
+
+        if( type === 'caregiver') {
+            Caregivers.insert({
+                user: this.userId,
+                firstName: first,
+                lastName: last,
+                name: `${first} ${last}`,
+                isProfileComplete: false,
+                jobHistory: []
+            });
+        };
+
+        return true;
+    }
+});
+
 Meteor.methods({
     'user.getType'() {
         if( !this.isSimulation ) return Meteor.users.findOne( this.userId ).profile.type;

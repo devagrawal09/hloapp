@@ -11,7 +11,7 @@ export default {
                 caregiver.import().then(()=> {
                     BlazeLayout.render( 'AppLayout', caregiver.render );
                 });
-            } else {
+            } else if ( res === 'customer' ) {
                 customer.import().then(()=> {
                     BlazeLayout.render( 'AppLayout', customer.render );
                 });

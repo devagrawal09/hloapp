@@ -31,7 +31,11 @@
 
 //route groups
     const PrivateRouter = FlowRouter.group({
-        triggersEnter: [AccountsTemplates.ensureSignedIn]
+        triggersEnter: [AccountsTemplates.ensureSignedIn, function() {
+            Meteor.call('user.getType', ( err, res )=> {
+                if ( !res ) FlowRouter.go('pick-type');
+            })
+        }]
     });
 
     const PublicOnlyRouter = FlowRouter.group({
@@ -41,20 +45,26 @@
     });
 
     const CustomerRouter = PrivateRouter.group({
-        triggersEnter: [function( con, redirect ) {
-            if ( Meteor.user().profile.type !== 'customer' ) {
-                console.log( 'You are not a customer' );
-                redirect('/dashboard');
-            }
+        triggersEnter: [function() {
+
+            Meteor.call('user.getType', ( err, res )=> {
+                if ( res !== 'customer' ) {
+                    console.log( 'You are not a customer' );
+                    FlowRouter.go('dashboard');
+                }
+            })
         }]
     });
 
     const CaregiverRouter = PrivateRouter.group({
-        triggersEnter: [function( con, redirect ) {
-            if ( Meteor.user().profile.type !== 'caregiver' ) {
-                console.log( 'You are not a caregiver' );
-                redirect('/dashboard');
-            }
+        triggersEnter: [function() {
+            
+            Meteor.call('user.getType', ( err, res )=> {
+                if ( res !== 'caregiver' ) {
+                    console.log( 'You are not a caregiver' );
+                    FlowRouter.go('dashboard');
+                }
+            })
         }]
     });
 
@@ -102,6 +112,14 @@
             import('../../ui/pages/logged-out').then(()=> {
                 BlazeLayout.render('LoginLayout', { main: 'LoggedOut' });
             });
+        }
+    });
+
+    FlowRouter.route('/pick', {
+        name: 'pick-type',
+        triggersEnter: [AccountsTemplates.ensureSignedIn],
+        action() {
+
         }
     });
 
@@ -367,10 +385,6 @@
     });
     
 //404 page
-    FlowRouter.notFound = {
-        action() {
-            alert('This page is under maintainence. Please try later.');
-        }
-    }
+    
 
     AutoForm.debug();
