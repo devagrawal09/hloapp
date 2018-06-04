@@ -1,12 +1,12 @@
 <template name="pickTypeForm">
-    <div>
+    <div class="container-small text-center">
         {{#autoForm
             id="pick-type"
             schema=schema
             type="method"
             meteormethod="user.type"
         }}
-            {{> afQuickField name="type" options="allowed" noselect=true}}
+            {{> afQuickField name="type" options="allowed" type="select-radio-inline"}}
             <button type="submit" class="btn btn-primary btn-block">Submit</button>
         {{/autoForm}}
     </div>
