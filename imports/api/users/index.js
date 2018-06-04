@@ -214,6 +214,8 @@ export const pickType = new ValidatedMethod({           //let undecided user pic
         });
 
         if( type === 'caregiver') {
+
+            let first = user.firstName, last = user.lastName;
             Caregivers.insert({
                 user: this.userId,
                 firstName: first,
