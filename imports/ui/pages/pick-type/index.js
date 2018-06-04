@@ -3,6 +3,8 @@ import { Template } from "meteor/templating";
 import '../../../api/users';
 import SimpleSchema from 'simpl-schema';
 
+import './pick-type.html';
+
 Template.pickTypeForm.helpers({
     schema: new SimpleSchema({
         type: {

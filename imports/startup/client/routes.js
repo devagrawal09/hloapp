@@ -119,7 +119,9 @@
         name: 'pick-type',
         triggersEnter: [AccountsTemplates.ensureSignedIn],
         action() {
-
+            import('../../ui/pages/pick-type').then(()=> {
+                BlazeLayout.render('LoginLayout', { main: 'pickTypeForm' });
+            });
         }
     });
 
