@@ -11,6 +11,9 @@ Accounts.onCreateUser(function(options, user){          //create new caregivers
     if( user.services.facebook ) {
         first = user.services.facebook.first_name;
         last = user.services.facebook.last_name;        
+    } else if( user.services.linkedin ){
+        first = user.services.linkedin.first_name;
+        last = user.services.linkedin.last_name;  
     } else {
         first = options.profile.firstName;
         last = options.profile.lastName;

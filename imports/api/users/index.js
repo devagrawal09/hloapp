@@ -201,7 +201,7 @@ export const pickType = new ValidatedMethod({           //let undecided user pic
 
         const user = Meteor.users.findOne( this.userId );
         
-        if( !user.services.facebook || user.profile.type ) {    //only for users logged in through fb
+        if( (!user.services.facebook && !user.services.linkedin) || user.profile.type ) {    //only for users logged in through fb
             throw new Meteor.Error('user.type.unauthorized', 
             'You are not authorized for this function');
         }

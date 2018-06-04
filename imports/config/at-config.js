@@ -95,12 +95,20 @@ if( Meteor.isServer ) {
             secret: Meteor.settings.facebook.secret
         }
     });
+    ServiceConfiguration.configurations.upsert({
+        service: 'linkedin'
+    }, { $set: {
+            appId: Meteor.settings.linkedin.id,
+            loginStyle: 'popup',
+            secret: Meteor.settings.linkedin.secret
+        }
+    });
 }
 if( Meteor.isClient ) {
     Accounts.ui.config({
         requestPermissions: {
-            facebook: ['public_profile', 'email']
-        },
-        passwordSignupFields: 'USERNAME_AND_EMAIL'
+            facebook: ['public_profile'],
+            linkedin: ['r_basicprofile']
+        }
     });
 }

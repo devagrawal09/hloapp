@@ -41,6 +41,16 @@
         </div>
         <div class="col-md-5 col-sm-4 name">
             <h1>{{job.title}}</h1>
+            <h4>
+                <span class="label label-danger">
+                    {{job.duration}}
+                </span>
+            </h4>
+            <h4>
+                <span class="label label-danger">
+                    {{job.startDate}} to {{job.endDate}}
+                </span>
+            </h4>
         </div>
         <div class="col-md-4 col-sm-5 profile-buttons">
             {{#if isCaregiver}}
@@ -72,19 +82,14 @@
     <!-- profile desc -->
     <div class="row profile-main">
         <div class="col-sm-9 profile-body">
-            <h1>Details</h1>
-            {{#if isPostedByCurrent}}
-            <a href="/edit/{{job._id}}#details" class="btn btn-primary pull-right">
-                <i class="fa fa-pencil"></i>
-            </a>
-            {{/if}}
             <div class="profile-section">
-                <h3>Description</h3>
-                <h5>{{job.jobDescription}}</h5>
-                <h3>Duration</h3>
-                <h5>{{job.duration}}</h5>
-                <h5>From {{job.startDate}} to {{job.endDate}}</h5>
-                <h5></h5>                
+                <h2>Job Description</h2>
+                {{#if isPostedByCurrent}}
+                <a href="/edit/{{job._id}}#details" class="btn btn-primary pull-right">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                {{/if}}
+                <h5>{{job.jobDescription}}</h5>                
             </div>
             <br>
             <h1>Requirements</h1>

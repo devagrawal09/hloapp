@@ -7,6 +7,9 @@
     .label-success {
         background-color: $darkgreen;
     }
+    .label-danger {
+        background-color: $darkred;
+    }
 }
 
 @media (max-width: 767px) {

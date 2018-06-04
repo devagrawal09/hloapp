@@ -3,6 +3,10 @@
         "appId": "327371107789201",
         "secret": "8eeb7b1ceb5fd76e7fb0d1a7f8e99c9c"
     },
+    "linkedin": {
+        "id": "81dbqd7onu0t2k",
+        "secret": "BlwuzpOQTbvpqbMQ"
+    },
     "gcloud": {
         "type": "service_account",
         "project_id": "hloapp-205720",
