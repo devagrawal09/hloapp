@@ -117,6 +117,12 @@
     position: relative; /* so the link spanner spans to the card */
     height: 100%;
 
+    .card-header {
+        color: $red;
+        font-weight: bold;
+        text-shadow: 1px 1px 1px #966;
+    }
+
     .card-dp {
         width: 100%;
         background-color: $lightgrey;
@@ -159,7 +165,7 @@
 
         .job-period {
             text-align: center;
-            color: $darkred;
+            color: $red;
             font-size: 18px;
             border-top: 1px solid $grey;
             border-bottom: 1px solid $grey;
