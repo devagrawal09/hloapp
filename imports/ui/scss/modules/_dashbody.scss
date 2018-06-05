@@ -2,6 +2,16 @@
     border-top: 1px solid $lightgrey; /* border between dashboard tabs */
     padding-top: 20px;
     padding-bottom: 40px;
+
+    h1 {
+        color: $red;
+        text-shadow: 1px 1px 1px $grey;
+    }
+
+    h3 {
+        color: $blue;
+        text-shadow: 1px 1px 1px $grey;        
+    }
 }
 
 .button-col {

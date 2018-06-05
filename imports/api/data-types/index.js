@@ -91,6 +91,16 @@ export default Datatypes = {
             "Yau Tsim Mong", "Yuen Long", "Other"
         ]
     },
+    WorkLocation: {
+        type: String,
+        allowedValues: [
+            "Central and Western", "Eastern", "Islands", "Kowloon",
+            "Kwai Tsing", "Kwun Tong", "North", "Sai Kung",
+            "Sha Tin", "Sham Shui Po", "Southern", "Tai Po",
+            "Tsuen Wan", "Tuen Mun", "Wan Chai", "Wong Tai Sin",
+            "Yau Tsim Mong", "Yuen Long"
+        ]
+    },
     Country: {
         type: String,
         allowedValues: [

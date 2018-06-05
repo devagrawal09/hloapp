@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="col-md-5 col-sm-4 name">
-            <h1>{{job.title}}</h1>
+            <h1 style="margin-top: 50px;">{{job.title}}</h1>
             <h4>
                 <span class="label label-danger">
                     {{job.duration}}
@@ -89,54 +89,13 @@
                     <i class="fa fa-pencil"></i>
                 </a>
                 {{/if}}
-                <h5>{{job.jobDescription}}</h5>                
-            </div>
-            <br>
-            <h1>Requirements</h1>
-            {{#if isPostedByCurrent}}
-            <a href="/edit/{{job._id}}#requirements" class="btn btn-primary pull-right">
-                <i class="fa fa-pencil"></i>
-            </a>
-            {{/if}}
-            <div class="profile-section">
-                <h3>Type of Caregiver</h3>
-                <ul class="row list-group">
-                    {{#each type in job.caregiverType}}
-                        <li class="col-sm-3 list-group-item">
-                            {{type}}
-                        </li>
-                    {{/each}}
-                </ul>
+                <h5>{{job.jobDescription}}</h5>
             </div>
             <div class="profile-section">
-                <h3>Professional Services</h3>
-                <ul class="row list-group">
-                    {{#each service in job.professionalServices}}
-                        <li class="col-sm-3 list-group-item">
-                            {{service}}
-                        </li>
-                    {{/each}}
-                </ul>
-            </div>
-            <div class="profile-section">
-                <h3>Personal Services</h3>
-                <ul class="row list-group">
-                    {{#each service in job.personalServices}}
-                        <li class="col-sm-3 list-group-item">
-                            {{service}}
-                        </li>
-                    {{/each}}
-                </ul>
-            </div>
-            <div class="profile-section">
-                <h3>Medical Conditions</h3>
-                <ul class="row list-group">
-                    {{#each condition in job.medicalConditions}}
-                        <li class="col-sm-3 list-group-item">
-                            {{condition}}
-                        </li>
-                    {{/each}}
-                </ul>
+                {{#if job.description}}
+                    <h2>Patient Description</h2>
+                    <h5>{{job.description}}</h5>
+                {{/if}}
             </div>
             <div class="profile-section">
                 <h2>Work days</h2>
@@ -183,10 +142,28 @@
                     <h5>Hobbies</h5>
                     <p>{{job.hobbies}}</p>
                 {{/if}}
-                {{#if job.description}}
-                    <h5>Description</h5>
-                    <p>{{job.description}}</p>
+            </div>
+            <div class="sidebar-section">
+                <h3>Requirements</h3>
+                {{#if isPostedByCurrent}}
+                <a href="/edit/{{job._id}}#requirements" class="btn btn-primary pull-right">
+                    <i class="fa fa-pencil"></i>
+                </a>
                 {{/if}}
+                <h5>Type of Caregiver</h5>
+                <p>{{job.caregiverType}}</p>
+                <h5>Professional Services</h5>
+                <p>
+                    {{job.professionalServices}}{{#if job.otherProfessionalService}},{{job.otherProfessionalService}}{{/if}}
+                </p>
+                <h5>Personal Services</h5>
+                <p>
+                    {{job.personalServices}}{{#if job.otherPersonalService}},{{job.otherPersonalService}}{{/if}}
+                </p>
+                <h5>Medical Conditions</h5>
+                <p>
+                    {{job.medicalConditions}}{{#if job.otherMedicalCondition}},{{job.otherMedicalCondition}}{{/if}}
+                </p>
             </div>
         </div>
     </div>

@@ -19,6 +19,7 @@ export const messageSchema = new SimpleSchema({
 export const conversationSchema = new SimpleSchema({    //only for reference
     _id: Datatypes.Id,
     subject: String,
+    last: Date,
     participants: Array,
     'participants.$': Datatypes.Id
 });

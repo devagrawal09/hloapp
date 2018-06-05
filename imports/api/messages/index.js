@@ -41,7 +41,8 @@ export const newConversation = new ValidatedMethod({ //send a new message
 
             const id = Conversations.insert({
                 participants: [msg.from, msg.to],
-                subject: msg.subject
+                subject: msg.subject,
+                last: msg.sent
             });
 
             msg.conversation = id;          //set conversation id
@@ -77,6 +78,10 @@ export const reply = new ValidatedMethod({
         msg.conversation = conversation._id;    //set conversation id
 
         Messages.insert( msg );                 //send message
+        Conversations.update( conversation._id, {
+            $set: { last: msg.sent }
+        });
+
         return true;
     }
 });

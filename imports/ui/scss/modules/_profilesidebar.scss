@@ -11,8 +11,9 @@
 
     /* black bar */
     .location-bar {
-        color: $purewhite;
-        background-color: $black;
+        color: $black;
+        font-weight: bold;
+        background-color: $yellow;
         padding: 15px 25px 5px 25px; /* top right bottom left */
         margin-left: -15px; /* fix until collaspe */
     }
@@ -22,24 +23,28 @@
     
         h3, h5 {
             font-weight: bold;
-            color: $red;
-            text-shadow: 1px 1px 1px #999;
+            text-shadow: 1px 1px 1px $grey;
         }
     
         h3 {
-            margin-bottom: 20px;
+            margin: 0 -10px 0 -25px;
+            padding: 10px 25px;
+            background-color: $blue;
+            color: $white;
         }
-
-        p {
-            padding-bottom: 20px;
+        h5 {
+            margin-top: 25px;
+            color: $blue;
         }
     }
     
-    .checks {
+    .checks > h5 {
         color: $red;
-        .true {
+        text-shadow: none;
+        &.true {
             color: $green;
         }
+        margin-top: 5px;
     }
 
 }

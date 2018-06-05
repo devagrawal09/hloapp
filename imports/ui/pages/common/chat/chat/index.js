@@ -20,7 +20,9 @@ Template.Chat.onCreated(function() {
 
 Template.Chat.helpers({ 
     conversations() { 
-        return Conversations.find({ participants: Meteor.userId() });
+        return Conversations.find({ participants: Meteor.userId() }, {
+            sort: { last: -1 }
+        });
     },
     msgDate( date ) {
         let now = new Date()

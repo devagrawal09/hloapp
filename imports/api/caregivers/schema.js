@@ -34,7 +34,7 @@ export const detailsSchema = new SimpleSchema({
         optional: true
     },
     workLocation: Array,
-    'workLocation.$': Datatypes.Location,
+    'workLocation.$': Datatypes.WorkLocation,
     otherWorkLocations: Datatypes.OtherField,
     languages: Array,
     'languages.$': Datatypes.Languages,

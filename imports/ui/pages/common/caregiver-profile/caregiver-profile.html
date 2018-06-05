@@ -203,6 +203,13 @@
                     <h5>Education</h5>
                     <p>{{caregiver.education}}</p>
                 {{/if}}
+                <h5>Languages</h5>
+                <p>
+                    {{caregiver.languages}}{{#if caregiver.otherLanguages}},{{caregiver.otherLanguages}}{{/if}}
+                </p>
+                <h5>Hobbies</h5>
+                <p>{{caregiver.hobbies}}</p>
+                <h3>Services</h3>                
                 <h5>Caregiver types</h5>
                 <p>{{caregiver.caregiverType}}</p>
                 <h5>Professional Services</h5>
@@ -217,12 +224,6 @@
                 <p>
                     {{caregiver.medicalConditions}}{{#if caregiver.otherMedicalCondition}},{{caregiver.otherMedicalCondition}}{{/if}}
                 </p>
-                <h5>Languages</h5>
-                <p>
-                    {{caregiver.languages}}{{#if caregiver.otherLanguages}},{{caregiver.otherLanguages}}{{/if}}
-                </p>
-                <h5>Hobbies</h5>
-                <p>{{caregiver.hobbies}}</p>
             </div>
         </div>
     </div>
