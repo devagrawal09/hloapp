@@ -75,7 +75,7 @@
                 </button>
                 {{> composeMsg doc=msgDoc}}
             {{else}}
-                <a href="/profile#photos" class="btn btn-primary">
+                <a href="/profile#photos" class="btn btn-primary edit">
                     <i class="fa fa-pencil"></i>
                 </a>
                 {{#unless caregiver.isProfileComplete}}
@@ -92,7 +92,7 @@
         <div class="col-sm-9 profile-body">
             <div class="profile-section" id="personal">
                 {{#unless notCurrentCaregiver}}
-                <a href="/profile#details" class="btn btn-primary pull-right">
+                <a href="/profile#details" class="btn btn-primary edit">
                     <i class="fa fa-pencil"></i>
                 </a>
                 {{/unless}}
@@ -101,7 +101,7 @@
             </div>
             <div class="profile-section" id="work">
                 {{#unless notCurrentCaregiver}}
-                <a href="/profile#experience" class="btn btn-primary pull-right">
+                <a href="/profile#experience" class="btn btn-primary edit">
                     <i class="fa fa-pencil"></i>
                 </a>
                 {{/unless}}
@@ -135,7 +135,7 @@
             </div>
             <div class="profile-section" id="availability">
                 {{#unless notCurrentCaregiver}}
-                <a href="/profile#services" class="btn btn-primary pull-right">
+                <a href="/profile#services" class="btn btn-primary edit">
                     <i class="fa fa-pencil"></i>
                 </a>
                 {{/unless}}

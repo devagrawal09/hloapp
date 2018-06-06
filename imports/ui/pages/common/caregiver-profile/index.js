@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Caregivers, CaregiverImages } from '../../../../api/caregivers';
 import { Jobs, hireApplicant, offerJob } from '../../../../api/jobs';
@@ -50,7 +51,7 @@ Template.CaregiverProfile.events({
         let id = t.data.id();
         bookmarkCaregiver.call({ id });
     },
-    'click .finalise'() {
+    'click .finalise'() {   
         Meteor.call('caregiver.complete', ( err, res )=> {
             if( err ) {
                 showAlert( err.reason, 'danger');
