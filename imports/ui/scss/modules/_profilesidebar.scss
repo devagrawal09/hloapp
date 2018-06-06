@@ -28,9 +28,14 @@
     
         h3 {
             margin: 0 -10px 0 -25px;
-            padding: 10px 25px;
+            padding: 10px 15px;
             background-color: $blue;
             color: $white;
+
+            .btn {
+                float: right;
+                margin-top: -5px;
+            }
         }
         h5 {
             margin-top: 25px;

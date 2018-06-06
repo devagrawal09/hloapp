@@ -417,7 +417,10 @@ export {JobImages};
             return Meteor.users.findOne( this.postedBy );
         },
         dp() {
-            return JobImages.findOne({ meta: { job: this._id }, profile: true });
+            const img = JobImages.findOne({ meta: { job: this._id }, profile: true });
+            return img ? img : {
+                link: `/img/job-placeholder-${this.gender}jpeg`
+            };
         },
         photos() {
             return JobImages.find({ meta: { job: this._id }});

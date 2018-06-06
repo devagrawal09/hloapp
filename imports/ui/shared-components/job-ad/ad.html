@@ -9,8 +9,10 @@
                     <img src="{{this.dp.link}}">
                 </div>
                 <div class="col col-lg-8 col-sm-7 col-xs-8 job-header">
-                    <h5 class="card-header">{{title}}</h5>
-                    <p class="text-muted">Posted by {{username}}</p>
+                    <h5 style="font-weight: bold;">
+                        {{title}}<br>
+                        <small>Posted by {{username}}</small>
+                    </h5>
                 </div>
             </div>
             
@@ -18,9 +20,9 @@
                 <p class="card-about">
                     <p class="job-period">{{startDate}} - {{endDate}}</p>
                     <span class="label label-success pull-right h4">{{location}}</span>                    
-                    <h5> Job Description </h5>
+                    <h5 class="card-header"> Job Description </h5>
                     <p>{{hundChars jobDescription}}</p>
-                    <h5> Patient Description </h5>
+                    <h5 class="card-header"> Patient Description </h5>
                     <p>{{hundChars description}}</p>
                 </p>
             </div>

@@ -320,7 +320,7 @@ Caregivers.helpers({
     },
     dp() {
         return this.profilePhoto ? CaregiverImages.findOne( this.profilePhoto ) : {
-            link: `/img/placeholder-${this.gender}.jpeg`
+            link: `/img/avatar-${this.gender}.png`
         };
     },
     photos() {

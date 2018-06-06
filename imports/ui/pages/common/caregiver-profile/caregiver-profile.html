@@ -196,9 +196,14 @@
                 {{/each}}
             </div>
             <div class="sidebar-section">
-                <h3>Personal Details</h3>
-                <h5>Gender</h5>
-                <p>{{caregiver.gender}}</p>
+                <h3>
+                    Personal
+                    {{#unless notCurrentCaregiver}}
+                    <a href="/profile#details" class="btn btn-default-clear">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    {{/unless}}
+                </h3>
                 {{#if caregiver.education}}
                     <h5>Education</h5>
                     <p>{{caregiver.education}}</p>
@@ -209,7 +214,14 @@
                 </p>
                 <h5>Hobbies</h5>
                 <p>{{caregiver.hobbies}}</p>
-                <h3>Services</h3>                
+                <h3>
+                    Services
+                    {{#unless notCurrentCaregiver}}
+                    <a href="/profile#services" class="btn btn-default-clear">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    {{/unless}}
+                </h3>                
                 <h5>Caregiver types</h5>
                 <p>{{caregiver.caregiverType}}</p>
                 <h5>Professional Services</h5>

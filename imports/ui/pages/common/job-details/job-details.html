@@ -129,9 +129,14 @@
                 </p>
             </div>
             <div class="sidebar-section">
-                <h3>Patient Details</h3>
-                <h5>Gender</h5>
-                <p>{{job.gender}}</p>
+                <h3>
+                    Patient Details
+                    {{#if isPostedByCurrent}}
+                    <a href="/edit/{{job._id}}#details" class="btn btn-default-clear">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    {{/if}}
+                </h3>
                 {{#if job.languages}}
                     <h5>Languages</h5>
                     <p>{{job.languages}}</p>
@@ -142,12 +147,14 @@
                 {{/if}}
             </div>
             <div class="sidebar-section">
-                <h3>Requirements</h3>
-                {{#if isPostedByCurrent}}
-                <a href="/edit/{{job._id}}#requirements" class="btn btn-primary pull-right">
-                    <i class="fa fa-pencil"></i>
-                </a>
-                {{/if}}
+                <h3>
+                    Requirements
+                    {{#if isPostedByCurrent}}
+                    <a href="/edit/{{job._id}}#requirements" class="btn btn-default-clear">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    {{/if}}
+                </h3>
                 <h5>Type of Caregiver</h5>
                 <p>{{job.caregiverType}}</p>
                 <h5>Professional Services</h5>
