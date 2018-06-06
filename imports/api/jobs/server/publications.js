@@ -36,7 +36,7 @@ Meteor.publishComposite('ownJobById', function( _id ) {
 
 Meteor.publishComposite('jobs', {
     find() {
-        return Jobs.find({});
+        return Jobs.find({ status: 'open' });
     },
     children: [{
         find( job ) {

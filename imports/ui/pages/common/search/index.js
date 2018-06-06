@@ -90,7 +90,9 @@ Template.Search.helpers({
         }, {});
 
         console.log( Query );
-        return coll.find( Query );
+        return coll.find( Query, {
+            sort: { postedOn: -1, name: 1 }
+        });
     },
     displayTemplate() {
         return displayTemplate.get();
@@ -171,16 +173,16 @@ Template.Search.events({
 
         if( t.$( e.target ).hasClass('pull-left') ) {
             //reset button
-            newFilter.gender = newFilter.religion = newFilter.language = '';
+            newFilter.gender = newFilter.religion = newFilter.languages = '';
             t.$('#location-filter li a.active').removeClass('active');
             return Filter.set(newFilter);
         }
 
         newFilter.gender = t.$('#personal-filter li a.active.gender').get().map( el=> el.innerText );
         newFilter.religion = t.$('#personal-filter li a.active.religion').get().map( el=> el.innerText );
-        newFilter.language = t.$('#personal-filter li a.active.language').get().map( el=> el.innerText );        
+        newFilter.languages = t.$('#personal-filter li a.active.language').get().map( el=> el.innerText );        
         newFilter.otherReligion = t.$('#personal-filter #otherReligion').val();
-        newFilter.otherLanguage = t.$('#personal-filter #otherLanguage').val();
+        newFilter.otherLanguages = t.$('#personal-filter #otherLanguage').val();
         
         Filter.set(newFilter);
         console.log(newFilter);
