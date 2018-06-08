@@ -23,7 +23,7 @@ if ( Meteor.isServer ) {
 }
 
 export const JobImages = new FilesCollection({
-    debug,
+    debug: true,
     collectionName: 'job-images',
     allowClientCode: false,
     onBeforeUpload(file) {

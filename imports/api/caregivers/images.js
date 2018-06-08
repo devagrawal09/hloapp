@@ -23,7 +23,7 @@ if ( Meteor.isServer ) {
 }
 
 export const CaregiverImages = new FilesCollection({
-    debug,
+    debug: true,
     collectionName: 'caregiver-images',
     allowClientCode: false,
     onBeforeUpload(file) {
