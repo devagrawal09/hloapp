@@ -2,7 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import { FilesCollection } from 'meteor/ostrio:files';
 
-let gcs, bucket, bucketMetadata, bound, Collections = {};
+let gcs, bucket, bucketMetadata, bound, Collections = {}, debug = false;
+
+if( Meteor.settings.env.public = 'development' ) debug = true;
+
 if ( Meteor.isServer ) {
     gcs = Npm.require('@google-cloud/storage')({
         projectId: 'hloapp-205720',
@@ -20,6 +23,7 @@ if ( Meteor.isServer ) {
 }
 
 export const JobImages = new FilesCollection({
+    debug,
     collectionName: 'job-images',
     allowClientCode: false,
     onBeforeUpload(file) {
