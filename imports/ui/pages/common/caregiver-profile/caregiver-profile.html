@@ -212,6 +212,14 @@
                 <p>
                     {{caregiver.languages}}{{#if caregiver.otherLanguages}},{{caregiver.otherLanguages}}{{/if}}
                 </p>
+                <h5>Religion</h5>
+                <p>
+                    {{#if caregiver.otherReligion}}
+                        {{caregiver.otherReligion}}
+                    {{else}}
+                        {{caregiver.religion}}
+                    {{/if}}
+                </p>
                 <h5>Hobbies</h5>
                 <p>{{caregiver.hobbies}}</p>
                 <h3>

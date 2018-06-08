@@ -9,9 +9,9 @@ if( Meteor.settings.public.env === 'development' ) debug = true;
 if ( Meteor.isServer ) {
     gcs = Npm.require('@google-cloud/storage')({
         projectId: 'hloapp-205720',
-        credentials: Meteor.settings.gcloud
+        credentials: Meteor.settings.gcloud.credentials        
     });
-    bucket = gcs.bucket('hloimages');
+    bucket = gcs.bucket(Meteor.settings.gcloud.bucket);
     bucket.getMetadata(function (error, metadata, apiResponse) {
         if (error) {
             console.error(error);
