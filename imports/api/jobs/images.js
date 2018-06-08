@@ -4,7 +4,7 @@ import { FilesCollection } from 'meteor/ostrio:files';
 
 let gcs, bucket, bucketMetadata, bound, Collections = {}, debug = false;
 
-if( Meteor.settings.env.public === 'development' ) debug = true;
+if( Meteor.settings.public.env === 'development' ) debug = true;
 
 if ( Meteor.isServer ) {
     gcs = Npm.require('@google-cloud/storage')({
