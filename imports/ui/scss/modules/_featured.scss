@@ -1,14 +1,27 @@
-.featured {
+.container-fluid.featured {
     background-color: $pastelblue;
 }
-.professional {
+.container-fluid.professional {
     background-color: $pastelpink;
 }
 
-.featured, .professional {
+.container-fluid.featured, .container-fluid.professional {
     padding: 0 30px;
 
     h2 {
-        font-weight: bold
+        text-shadow: 1px 1px 1px $blue;
     }
+
+    .card-container, .ad-container { height: min-content; }
+}
+
+@media (min-width: 450px) {
+    .container-fluid.featured, .container-fluid.professional {
+        .card-container { height: 400px; }
+        .ad-container { height: 450px; }
+    }
+}
+
+@media (min-width: 1024px) {
+    .container-fluid.featured .ad-container { height: 400px; }
 }

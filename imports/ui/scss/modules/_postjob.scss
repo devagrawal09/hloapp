@@ -32,87 +32,90 @@
 
 /* form styles */
 
-.add-time {
-    i {
-        margin-top: 8px;
+.edit-profile {
+
+    h4 {
+        text-shadow: 1px 1px 1px $blue;
     }
-}
 
-/* UPLOAD BUTTON  */
-.inputfile { /* hide upload button */
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
-}
-
-.inputfile + label {
-    font-size: 16px;
-    display: block;
-    cursor: pointer; /* "hand" cursor */
-    color: $lightgrey;
-    &:hover {
-        color: $purewhite
+    .add-time {
+        i {
+            margin-top: 8px;
+        }
     }
-}
-
-.inputfile + label * { /* touch screen */
-	pointer-events: none;
-}
-
-
-.photo-input {
-    display: block;
-    font-size: 70px;
-    padding: 20px 10px;
-    background-color: $mediumgrey;
-    text-align: center;
-    .upload {
-        font-size: 20px;
-        background-color: rgba($color: $black, $alpha: 0.6);
-        padding: 10px 15px;
-        border-radius: 50%;
+    
+    /* UPLOAD BUTTON  */
+    .inputfile { /* hide upload button */
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
         position: absolute;
-        bottom: 10px;
-        left: 25px;
+        z-index: -1;
     }
-}
-
-.photos {
-    padding: 10px;
-    border: 2px solid $lightgrey;
-    border-radius: 5px;
-    max-height: 160px;
-    overflow-x: scroll;
-    white-space: nowrap;
-    img {
-        width: 110px;
-        height: 110px;
-        margin: 0 10px;
-        border: 7px solid transparent;
+    
+    .inputfile + label {
+        font-size: 16px;
+        display: block;
+        cursor: pointer; /* "hand" cursor */
+        color: $lightgrey;
+        &:hover {
+            color: $purewhite
+        }
+    }
+    
+    .inputfile + label * { /* touch screen */
+        pointer-events: none;
+    }
+    
+    
+    .photo-input {
+        display: block;
+        font-size: 70px;
+        padding: 20px 10px;
+        background-color: $mediumgrey;
+        text-align: center;
+        .upload {
+            font-size: 20px;
+            background-color: rgba($color: $black, $alpha: 0.6);
+            padding: 10px 15px;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 10px;
+            left: 25px;
+        }
+    }
+    
+    .photos {
+        padding: 10px;
+        border: 2px solid $lightgrey;
         border-radius: 5px;
-        padding: 2px;
-        cursor: pointer;
-        &.selected {
-            border-color: lightblue;
-        }
-        &.profile {
-            border-color: lightgreen;
+        max-height: 160px;
+        overflow-x: scroll;
+        white-space: nowrap;
+        img {
+            width: 110px;
+            height: 110px;
+            margin: 0 10px;
+            border: 7px solid transparent;
+            border-radius: 5px;
+            padding: 2px;
+            cursor: pointer;
+            &.selected {
+                border-color: lightblue;
+            }
+            &.profile {
+                border-color: lightgreen;
+            }
         }
     }
-}
-
-.save-as-dp {
-    float: right;
-    margin-top: 10px;
-}
-
-.delete {
-    margin-top: 10px;
-}
-
-.checkbox-collection {
-    margin-bottom: 20px;
+    
+    .save-as-dp {
+        float: right;
+        margin-top: 10px;
+    }
+    
+    .delete {
+        margin-top: 10px;
+    }
 }

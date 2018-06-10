@@ -111,28 +111,27 @@
 
 .search-card { /* a search profile */
     background-color: $purewhite;
-    border: 1px solid $grey;
+    border: 1px solid #aaa;
     margin: 0 5px; /* top right bottom left */
     cursor: pointer;
     position: relative; /* so the link spanner spans to the card */
     height: 100%;
 
     .card-header {
-        color: $darkred;
         font-weight: bold;
-        text-shadow: 1px 1px 1px #966;
+        text-shadow: 1px 1px 1px $red;
     }
 
     .card-dp {
         width: 100%;
         background-color: $lightgrey;
-        padding: 5px 0;
+        padding: 2px 0;
         text-align: center;
         height: min-content;
 
         div { 
-            width: 80%;
-            padding-bottom: 80%;
+            width: 60%;
+            padding-bottom: 60%;
             margin: auto;
             background-size: 100% 100%;
         }
@@ -169,7 +168,7 @@
 
         .job-period {
             text-align: center;
-            color: $red;
+            text-shadow: 1px 1px 1px $red;
             font-size: 18px;
             border-top: 1px solid $grey;
             border-bottom: 1px solid $grey;

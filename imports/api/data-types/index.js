@@ -31,10 +31,10 @@ export default Datatypes = {
     CaregiverType: {
         type: String,
         allowedValues: [ 
-            'Volunteer Caregivers', 'Nursing Students', 'Home Nurse',
-            'Eldercare', 'Weekend Caregivers', 'Special Needs',
-            'Specialist Caregivers', 'Expert Caregivers',
-            'TLC Caregivers', 'Licensed Nurse', 'Sports Buddies'
+            'Volunteer', 'Nursing Students', 'Home Nurse',
+            'Eldercare', 'Weekend', 'Special Needs',
+            'Specialist', 'Expert',
+            'TLC', 'Licensed Nurse', 'Sports Buddies'
         ]
     },
     ProfessionalService: {
@@ -61,7 +61,7 @@ export default Datatypes = {
         type: String,
         allowedValues: [
             'Allergy', "Alzheimer's Disease", 'Anemia',
-            'Arthritis', 'Asthma', 'Blindness', 'Breast Disease',
+            'Arthritis', 'Asthma', 'Autism/ADHD', 'Blindness', 'Breast Disease',
             'Cancer', 'Dementia', 'Depression', 'Diabetes',
             'Foot Problem', 'Hypertension', 'Kidney Disease',
             "Parkinson's Disease", 'Stroke'

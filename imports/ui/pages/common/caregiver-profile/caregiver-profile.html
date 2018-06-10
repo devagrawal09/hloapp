@@ -57,6 +57,12 @@
             </h4>
             <h4>
                 <span class="label label-success">
+                    ${{caregiver.extraCharges}} HKD extra
+                </span>
+            </h4>
+            <h4>
+                <span class="label label-success">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
                     {{#if caregiver.otherDistrict}}
                         {{caregiver.otherDistrict}}
                     {{else}}
@@ -230,7 +236,7 @@
                     </a>
                     {{/unless}}
                 </h3>                
-                <h5>Caregiver types</h5>
+                <h5>Types of Care</h5>
                 <p>{{caregiver.caregiverType}}</p>
                 <h5>Professional Services</h5>
                 <p>

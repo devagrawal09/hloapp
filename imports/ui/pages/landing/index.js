@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Jobs } from '../../../api/jobs';
 import { Caregivers } from '../../../api/caregivers';
@@ -11,6 +12,8 @@ import './slick/slick.css';
 import './slick/slick-theme.css';
 import './landing.html';
 
+const slickLoaded = new ReactiveVar( false );
+
 Template.Landing.onCreated(function () {
     this.subscribe('jobs');
     this.subscribe('caregivers');    
@@ -18,6 +21,7 @@ Template.Landing.onCreated(function () {
 
 Template.Landing.onRendered(function () {
     $.getScript('/js/slick.min.js', () => {
+        slickLoaded.set( true );
         this.$('.caregiver-types .carousel').slick({
             autoplay: true,
             centerMode: true,
@@ -135,11 +139,25 @@ Template.Landing.helpers({
 });
 
 Template.cardCarousel.onRendered(function() {
-    
-    this.$('.ad-container, .card-container').removeClass('col-md-3 col-sm-6');
-    this.$('.carousel').slick({
-        autoplay: true,
-        infinite: true,
-        slidesToShow: 4
+    this.autorun(()=> {
+        if( slickLoaded.get() ) {
+            this.$('.ad-container, .card-container').removeClass('col-md-3 col-sm-6');
+            this.$('.carousel').slick({
+                autoplay: true,
+                infinite: true,
+                slidesToShow: 4,
+                responsive: [{
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 2
+                    }
+                },{
+                    breakpoint: 450,
+                    settings: {
+                        slidesToShow: 1
+                    }
+                }]
+            });
+        }
     });
 });
