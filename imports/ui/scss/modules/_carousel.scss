@@ -1,8 +1,21 @@
+.home-about {
+    padding: 50px 30px;
+
+    .item h2 {
+        color: $blue;
+        text-shadow: 1px 1px 1px $grey;
+    }
+}
+
 .caregiver-types {
     text-align: center;
     padding: 30px 40px 70px 40px;
     background-color: $red;
     color: $white;
+
+    h2 {
+        font-weight: bold;
+    }
 
     .carousel {
         margin-top: 50px;
@@ -22,4 +35,8 @@
             }
         }
     }
+}
+
+.carousel .slick-arrow {
+    transform: scale(1.5);
 }

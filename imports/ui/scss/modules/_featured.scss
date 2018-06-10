@@ -1,4 +1,14 @@
-.featured, .professional {
+.featured {
     background-color: $pastelblue;
-    padding: 40px;
+}
+.professional {
+    background-color: $pastelpink;
+}
+
+.featured, .professional {
+    padding: 0 30px;
+
+    h2 {
+        font-weight: bold
+    }
 }

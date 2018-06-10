@@ -3,6 +3,10 @@
     color: $purewhite;
     text-align: center;
     padding: 50px 0px;
+
+    h2 {
+        font-weight: bold;
+    }
 }
 
 .price-box { /* contains HK$ 0/mo */
@@ -59,7 +63,7 @@
     .plan-features {
         padding-top: 20px;
         padding-bottom: 30px;
-        text-align: justify;
+        text-align: left;
     }
 }
 

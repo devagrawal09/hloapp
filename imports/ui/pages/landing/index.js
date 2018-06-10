@@ -51,7 +51,7 @@ Template.Landing.onRendered(function () {
 Template.Landing.helpers({
     caregiverTypes: [
         {
-            title: 'Home Nurse Care',
+            title: 'Home Nurse',
             content: `
                 Very experienced with strong technical skills,
                 many have worked as family Caregivers.
@@ -59,19 +59,19 @@ Template.Landing.helpers({
                 Tender Loving Care.
             `
         }, {
-            title: 'Nursing Students Care',
+            title: 'Nursing Students',
             content: `
                 University students studying to become a licensed nurse.
                 Very passionate to help other people and start using their technical skills.
             `
         }, {
-            title: 'Volunteer Care',
+            title: 'Volunteer',
             content: `
                 People with super big hearts that is willing to be of service at no charge.
                 Real Social Heroes.
             `
         }, {
-            title: 'Licensed Nurse Care',
+            title: 'Licensed Nurse',
             content: `
                 Registered or Enroll Nurses. Very experienced with strong technical skills,
                 ideal for patients with long-term medical conditions.
@@ -83,43 +83,43 @@ Template.Landing.helpers({
                 Many are other seniors who can empathize with your Loved Ones.
             `
         }, {
-            title: 'Special Needs Care',
+            title: 'Special Needs',
             content: `
                 Be it autism, mental or physically challenged.
                 Find Caregivers who have the experience, empathy, and compassion to help.
             `
         }, {
-            title: 'Specialist Care',
+            title: 'Specialist',
             content: `
                 There are so many different types of specialists and therapists
                 (alternative, holistic and wellness). Find professional, licensed,
                 knowledgeable, and friendly specialists to help.
             `
         }, {
-            title: 'Expert Care',
+            title: 'Expert',
             content: `
                 There are so many different types of experts
                 (personal trainers, life coaches, consultants, counselors, and many, many more).
             `
         }, {
-            title: 'TLC Care',
+            title: 'TLC',
             content: `
                 Experts at caring for people with colds and flus.
             `
         }, {
-            title: 'Everyday Care',
+            title: 'Everyday',
             content: `
                 Sunday’s can be every day. Maybe your maid is on holiday or sick.
                 Sometimes it’s nice to have a trusted, professional,
                 and friendly neighbor to help out.
             `
         }, {
-            title: 'Lastminute Care',
+            title: 'Lastminute',
             content: `
                 Normally means same day service.
             `
         }, {
-            title: 'Sports Buddies Care',
+            title: 'Sports Buddies',
             content: `
                 Many sports requires a partner. It helps to motivate and inspire people
                 to take action and walk the talk.
@@ -138,6 +138,7 @@ Template.cardCarousel.onRendered(function() {
     
     this.$('.ad-container, .card-container').removeClass('col-md-3 col-sm-6');
     this.$('.carousel').slick({
+        autoplay: true,
         infinite: true,
         slidesToShow: 4
     });

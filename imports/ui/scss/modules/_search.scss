@@ -118,7 +118,7 @@
     height: 100%;
 
     .card-header {
-        color: $red;
+        color: $darkred;
         font-weight: bold;
         text-shadow: 1px 1px 1px #966;
     }
@@ -153,6 +153,10 @@
 
         .card-about {
             margin-top: 15px;
+        }
+
+        h4 {
+            font-weight: bold;
         }
 
         h4, p { /* for the name and other desc. */
