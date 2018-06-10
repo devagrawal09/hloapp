@@ -1,0 +1,25 @@
+.static {
+
+    h2 {
+        // text-shadow: 1px 1px 1px $grey;
+        font-weight: bold;
+    }
+
+    p {
+        opacity: 1;
+    }
+
+    li {
+        list-style-image: url('/img/heart.jpg');
+        list-style-position: outside;
+    }
+
+    .diagrams {
+        margin-top: 30px;
+        margin-bottom: 30px;
+
+        img {
+            width: 100%;
+        }
+    }
+}
