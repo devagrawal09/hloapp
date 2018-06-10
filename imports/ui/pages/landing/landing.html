@@ -1,4 +1,5 @@
 <template name="Landing">
+
     <div class="jumbotron">
         <div class="container-fluid hlo-desc">
             <h1>Find a trusted Caregiver nearby in just a few clicks.</h1>
@@ -6,29 +7,52 @@
         <div class="container-fluid home-buttons">
             <h4>Everyone deserves care.</h4>
             <p>Find the right Caregiver for your Loved Ones, or become a Caregiver yourself.</p>
-            <a class="btn btn-primary" href="#" role="button">Find a Caregiver</a>
-            <a class="btn btn-default-clear" href="#" role="button">Become a Caregiver</a>
+            <a class="btn btn-primary" href="/caregivers" role="button">Find a Caregiver</a>
+            <a class="btn btn-default-clear" href="/signup" role="button">Become a Caregiver</a>
         </div>
     </div>
 
     <div class="container-fluid green-bar">
         <div class="container">
-            <marquee>
-                TLC is Tender Loving Care, it’s about Compassion, Empathy, and Dignity.
-                We believe in helping people in need. We believe in humanity.
-                We believe in giving people a better choice to Social Care.
-                In sports adversity produces Champions,
+            <marquee scrollamount=4>
+                TLC is Tender Loving Care, it’s about Compassion, Empathy, and Dignity. We believe in helping people in need. We believe
+                in humanity. We believe in giving people a better choice to Social Care. In sports adversity produces Champions,
                 in business adversity produces Disruptors.
             </marquee>
         </div>
     </div>
 
     <div class="container home-about">
-        <h2>What is HealthyLovedOnes?</h2>
-        <img src="/img/home-graphic.png" class="home-about-media">
-        <video controls="" class="home-about-media" poster="http://healthylovedones.com/assets/images/video-poster.png">
+
+        <div id="landing" class="carousel slide landing-carousel" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#landing" data-slide-to="0" class="active"></li>
+                <li data-target="#landing" data-slide-to="1"></li>
+            </ol>
+
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <h2>What is HealthyLovedOnes?</h2>
+                    <img src="/img/home-graphic.png" class="home-about-media">
+                </div>
+                <div class="item">
+                    <h2>What we do</h2>                    
+                    <img src="/img/hlo-summary.jpeg" class="home-about-media">
+                </div>
+            </div>
+
+            <a class="left carousel-control" href="#landing" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#landing" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <!-- <video controls="" class="home-about-media" poster="http://healthylovedones.com/assets/images/video-poster.png">
             <source src="http://healthylovedones.com/assets/images/HLOComplete.mp4" type="video/mp4">
-        </video>
+        </video> -->
     </div>
 
     <div class="container-fluid pricings">
@@ -42,13 +66,13 @@
                     <span class="per-month">/mo</span>
                     <h2 class="price-label">0</h2>
                 </div>
-                    <h5 class="commissions">10% commissions</h5>
+                <h5 class="commissions">10% commissions</h5>
                 <hr>
-                <div class="plan-features">
-                    <p>Professional Certified Training</p>
-                    <p>HK$10M Insurance</p>
-                    <p>Guarenteed payment</p>
-                </div>
+                <ul class="plan-features">
+                    <li>Professional Certified Training</li>
+                    <li>HK$10M Insurance</li>
+                    <li>Guarenteed payment</li>
+                </ul>
                 <a class="btn btn-primary" href="#" role="button">Sign up</a>
             </div>
             <div class="col-sm-4 entrepreneur-plan">
@@ -58,14 +82,14 @@
                     <span class="per-month">/mo</span>
                     <h2 class="price-label">88</h2>
                 </div>
-                    <h5 class="commissions">5% commissions</h5>
+                <h5 class="commissions">5% commissions</h5>
                 <hr>
-                <div class="plan-features">
-                    <p>Caregivers that work more than 10 hours a week</p>
-                    <p>Processional Certified Training</p>
-                    <p>HK$10M Insurance</p>
-                    <p>Guarenteed payment</p>
-                </div>
+                <ul class="plan-features">
+                    <li>Caregivers that work more than 10 hours a week</li>
+                    <li>Processional Certified Training</li>
+                    <li>HK$10M Insurance</li>
+                    <li>Guarenteed payment</li>
+                </ul>
                 <a class="btn btn-primary" href="#" role="button">Sign up</a>
             </div>
             <div class="col-sm-4 partner-plan">
@@ -75,76 +99,65 @@
                     <span class="per-month">/mo</span>
                     <h2 class="price-label">888</h2>
                 </div>
-                    <h5 class="commissions">10% commissions</h5>
+                <h5 class="commissions">10% commissions</h5>
                 <hr>
-                <div class="plan-features">
-                    <p>Incremental sales</p>
-                    <p>HK$10M Insurance</p>
-                    <p>Guarenteed payment</p>
-                </div>
+                <ul class="plan-features">
+                    <li>Incremental sales</li>
+                    <li>HK$10M Insurance</li>
+                    <li>Guarenteed payment</li>
+                </ul>
                 <a class="btn btn-primary" href="#" role="button">Sign up</a>
             </div>
         </div>
-        <p class="insurance">Insurance Policy: Provided by the QBE Hong Kong and Shanghai Insurance Limited. Total amount is $10 million HKD. Includes both Medical Malpractice for healthcare professional and Public Liability for private citizens. Insurance includes bodily injury, property damage, and theft. Insurance begins on January 01, 2018.</p>
+        <p class="insurance">
+            Insurance Policy: Provided by the QBE Hong Kong and Shanghai Insurance Limited. Total amount is $10 million HKD.
+            Includes both Medical Malpractice for healthcare professional and Public Liability for private citizens. Insurance
+            includes bodily injury, property damage, and theft. Insurance begins on April 01, 2018.
+        </p>
     </div>
 
     <div class="container-fluid caregiver-types">
-        <h3>Types of Caregivers</h3>
+        <h2>Types of Caregivers</h2>
         <!-- replace later -->
-        <div class="row" style="margin-top: 30px;">
-            <div class="col-sm-4">
-                <img src="img/placeholder.png" style="width: 100%;">
+        <div class="carousel">
+            {{#each type in caregiverTypes}}
+            <div style="background-image: url('/img/care-types/{{type.title}}.jpg');">
+                <h3>{{type.title}}</h3>
+                <p>{{type.content}}</p>
             </div>
-            <div class="col-sm-4">
-                <img src="img/placeholder.png" style="width: 100%;">
-            </div>
-            <div class="col-sm-4">
-                <img src="img/placeholder.png" style="width: 100%;">
-            </div>
+            {{/each}}           
         </div>
         <!-- end -->
     </div>
 
-    <div class="container-fluid featured text-center">
-        <div class="row">
-            <div class="col-md-6"><!-- professional caregivers -->
-                <h3>Professional Caregivers</h3>
-                <div class="row feature-row">
-                    <div class="col-sm-6">
-                        <img src="img/placeholder2.png" style="width: 95%;">
-                    </div>
-                    <div class="col-sm-6">
-                        <img src="img/placeholder2.png" style="width: 95%;">
-                    </div>
-                </div>
-                <div class="row feature-row">
-                    <div class="col-md-6">
-                        <img src="img/placeholder2.png" style="width: 95%;">
-                    </div>
-                    <div class="col-sm-6">
-                        <img src="img/placeholder2.png" style="width: 95%;">
-                    </div>
-                </div>
+
+    <div class="container-fluid featured">
+        <h3>Featured Jobs</h3>
+
+        {{#if Template.subscriptionsReady}}
+            {{> cardCarousel docs=featured template="jobAd"}}
+        {{else}}
+            <h4>Loading...</h4>
+        {{/if}}
+    </div>
+
+    <div class="container-fluid professional">
+        <h3>Professional Caregivers</h3>
+
+        {{#if Template.subscriptionsReady}}
+            {{> cardCarousel docs=professional.fetch template="caregiverCard"}}
+        {{else}}
+            <h4>Loading...</h4>
+        {{/if}}
+    </div>
+</template>
+
+<template name="cardCarousel">
+    <div class="carousel">
+        {{#each doc in docs}}
+            <div>
+                {{> Template.dynamic template=template data=doc}}
             </div>
-            <div class="col-md-6"><!-- featured jobs -->
-                <h3>Featured Jobs</h3>
-                <div class="row feature-row">
-                    <div class="col-md-6">
-                        <img src="img/placeholder2.png" style="width: 95%;">
-                    </div>
-                    <div class="col-sm-6">
-                        <img src="img/placeholder2.png" style="width: 95%;">
-                    </div>
-                </div>
-                <div class="row feature-row">
-                    <div class="col-md-6">
-                        <img src="img/placeholder2.png" style="width: 95%;">
-                    </div>
-                    <div class="col-sm-6">
-                        <img src="img/placeholder2.png" style="width: 95%;">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!-- entire container for featured -->
+        {{/each}}
+    </div>
 </template>

@@ -2,9 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import { FilesCollection } from 'meteor/ostrio:files';
 
-let gcs, bucket, bucketMetadata, Request, bound, Collections = {}, debug = false;
-
-if( Meteor.settings.public.env === 'development' ) debug = true;
+let gcs, bucket, bucketMetadata, Request, bound, Collections = {};
 
 if ( Meteor.isServer ) {
     gcs = Npm.require('@google-cloud/storage')({
@@ -23,7 +21,6 @@ if ( Meteor.isServer ) {
 }
 
 export const CaregiverImages = new FilesCollection({
-    debug: true,
     collectionName: 'caregiver-images',
     allowClientCode: false,
     onBeforeUpload(file) {

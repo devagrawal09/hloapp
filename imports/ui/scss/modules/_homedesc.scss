@@ -1,3 +1,12 @@
+.landing-carousel {
+    .item img { margin: auto; }
+
+    .carousel-control.left, .carousel-control.right {
+        background: none;
+        color: $pureblack;
+    }
+}
+
 .home-about-media {
     width: 70%;
     padding: 50px 0px;

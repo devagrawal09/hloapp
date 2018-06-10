@@ -1,4 +1,25 @@
 .caregiver-types {
     text-align: center;
     padding: 30px 40px 70px 40px;
+    background-color: $red;
+    color: $white;
+
+    .carousel {
+        margin-top: 50px;
+
+        div {
+            margin-left: 20px;
+            margin-right: 20px;
+            background-size: cover;
+            padding: 10px;
+            text-shadow: 1px 1px 1px $black;
+            height: 200px;
+            transition: 0.5s;
+            
+            &.slick-center {
+                transform: scale(1.2);
+                z-index: 1;
+            }
+        }
+    }
 }

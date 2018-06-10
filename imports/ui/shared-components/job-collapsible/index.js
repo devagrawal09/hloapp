@@ -26,6 +26,45 @@ Template.jobCollapsible.onCreated(function() {
     });
 });
 
+Template.jobCollapsible.onRendered(function() {
+    if( 
+        (this.data.postedBy === Meteor.userId()) && 
+        (this.data.review) && 
+        (!this.data.payment) 
+    ) {
+        $.getScript('https://www.paypalobjects.com/api/checkout.js', ()=> {
+            paypal.Button.render({
+                env: 'sandbox',
+                client: {
+                    sandbox: 'AdFGzHj1egaqVdN5Z1XYmXqUjlX4UG4ZRyjamt5SU28RRxINlkpp1uAHUBJzeBkAbUY8yXtWXjk9AVbp',
+                    production: 'xxxxxxxxx'
+                },
+                commit: true,
+                style: {
+                    color: 'gold',
+                    size: 'small'
+                },
+                payment(data, actions) {
+                    return actions.payment.create({ payment: {
+                        transactions: [{ 
+                            amount: { total: '5.00', currency: 'USD' }
+                        }]
+                    }});
+                },
+                onAuthorize(data, actions) {
+                    return actions.payment.execute().then( payment=> showAlert('Payment Completed!') );
+                },
+                onCancel(data, actions) {
+                    showAlert('Payment Cancelled!', 'danger');
+                },
+                onError(err) {
+                    showAlert('There was some error!', 'danger');
+                }
+            }, '#paypal-pay');
+        });
+    }
+});
+
 Template.jobCollapsible.helpers({
     isOpen() {
         return this.status === 'open';
