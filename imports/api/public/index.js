@@ -21,10 +21,14 @@ export const contactUs = new ValidatedMethod({
 
         if( !this.isSimulation )
         Email.send({
-            from: email,
+            replyTo: email,
             to: 'devagrawal09@gmail.com',          
             subject: `${name} contacted HLO!`,
-            text
+            text: `
+                ${name} contacted HLO through the website!
+                Email id - ${email},
+                Message - ${text}
+            `
         });
 
         return true;
