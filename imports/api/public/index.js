@@ -22,7 +22,7 @@ export const contactUs = new ValidatedMethod({
         if( !this.isSimulation )
         Email.send({
             replyTo: email,
-            to: 'devagrawal09@gmail.com',          
+            to: 'info@healthylovedones.com',          
             subject: `${name} contacted HLO!`,
             text: `
                 ${name} contacted HLO through the website!

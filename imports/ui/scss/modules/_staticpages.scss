@@ -39,7 +39,7 @@
             a {
                 color: $black;
                 transition: 0.2s;
-                h3 { font-size: 18px; }
+                h3 { font-size: 18px; font-weight: bold; }
 
                 &:hover, &:focus { color: blue; }
             }
