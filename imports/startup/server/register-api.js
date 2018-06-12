@@ -11,3 +11,5 @@ import '../../api/jobs/server/publications.js';
 
 import '../../api/messages';
 import '../../api/messages/server/publications.js';
+
+import '../../api/public';

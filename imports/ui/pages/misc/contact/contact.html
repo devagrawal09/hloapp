@@ -4,10 +4,10 @@
             <div class="row">
                 <div class="col-xs-6">
                     <h1>Contact Us</h1>
-                    <h5>Lorem Ipsum.</h5>
+                    <h5>TLC is about compassion, empathy, and dignity.</h5>
                 </div>
                 <div class="col-xs-6 header-image-col">
-                    <img src="images/infopage/pluses.png" class="header-image">
+                    <img src="/img/infopage/pluses.png" class="header-image">
                 </div>
             </div>
         </div>
@@ -15,7 +15,47 @@
 
     <div class="container">
         <div class="row">
-
+            <div class="col-md-5">
+                <h2>Leave a message</h2>
+                {{#autoForm
+                    id="contact-us"
+                    schema=schema
+                }}
+                    {{> afQuickField name="name"}}
+                    {{> afQuickField name="email"}}
+                    {{> afQuickField name="text"
+                        type="textarea"
+                        rows=5
+                        placeholder="Begin your message here..."
+                    }}
+                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                {{/autoForm}}
+            </div>
+            <div class="col-md-5 col-md-offset-2 contact-details">
+                <p>
+                    <i class="fa fa-map-marker"></i>
+                    Room 1804 Jubilee Centre,<br>
+                    18 Fenwick Street,<br>
+                    Wai Chai, Hong Kong
+                </p>
+                <p>
+                    <i class="fa fa-envelope"></i>
+                    <a href="mailto:info@healthylovedones.com">info@healthylovedones.com</a>
+                </p>
+                <p>
+                    <i class="fa fa-phone"></i>
+                    +852-9460-6840
+                </p>
+                <p>
+                    Interested in partnering?<br>
+                    Send us your name, company name, phone contact and <br>
+                    partnership request.
+                </p>
+                <p>
+                    <i class="fa fa-envelope"></i>
+                    <a href="mailto:partner@healthylovedones.com">partner@healthylovedones.com</a>
+                </p>
+            </div>
         </div>
     </div>
 </template>
