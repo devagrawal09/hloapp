@@ -24,6 +24,7 @@ Template.Landing.onRendered(function () {
         slickLoaded.set( true );
         this.$('.caregiver-types .carousel').slick({
             autoplay: true,
+            autoplaySpeed: 5000,
             centerMode: true,
             centerPadding: '100px',
             dots: true,
@@ -57,10 +58,8 @@ Template.Landing.helpers({
         {
             title: 'Home Nurse',
             content: `
-                Very experienced with strong technical skills,
-                many have worked as family Caregivers.
-                Housewives and other seniors that truly understand the meaning of
-                Tender Loving Care.
+                Experienced housewives and other seniors that truly understand
+                the meaning of Tender Loving Care.
             `
         }, {
             title: 'Nursing Students',
@@ -95,9 +94,8 @@ Template.Landing.helpers({
         }, {
             title: 'Specialist',
             content: `
-                There are so many different types of specialists and therapists
-                (alternative, holistic and wellness). Find professional, licensed,
-                knowledgeable, and friendly specialists to help.
+                There are so many different types of specialists and therapists.
+                Find the right one to help you.
             `
         }, {
             title: 'Expert',
@@ -144,6 +142,7 @@ Template.cardCarousel.onRendered(function() {
             this.$('.ad-container, .card-container').removeClass('col-md-3 col-sm-6');
             this.$('.carousel').slick({
                 autoplay: true,
+                autoplaySpeed: 5000,
                 infinite: true,
                 slidesToShow: 4,
                 responsive: [{
