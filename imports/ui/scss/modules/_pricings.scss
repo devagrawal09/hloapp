@@ -33,12 +33,12 @@
     margin-top: 40px;
     color: $pureblack;
     padding: 30px 0px;
-    width: 80%;
+    width: 70%;
 
     .free-plan, .partner-plan, .entrepreneur-plan {
         background-color: $white;
         border: 1px solid $lightgrey;
-        padding: 40px; /* padding of a plan */
+        padding: 20px 10px; /* padding of a plan */
     }
 
     .entrepreneur-plan { /* shift entrepreneur plan up */
