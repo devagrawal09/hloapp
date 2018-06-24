@@ -1,58 +1,64 @@
 <template name="PostedJobs">
-
-    {{#if Template.subscriptionsReady}}
+    
     <div class="container">
-        <div class="row">
-            <div class="col-xs-6">
-                <h1>Listed Jobs</h1>
+    
+        {{#if Template.subscriptionsReady}}
+            <div class="row">
+                <div class="col-xs-6">
+                    <h1>Listed Jobs</h1>
+                </div>
+                <div class="col-xs-6 button-col">
+                    <a class="btn btn-primary" href="{{pathFor 'jobs.new'}}" role="button">Add Job</a>
+                </div>
             </div>
-            <div class="col-xs-6 button-col">
-                <a class="btn btn-primary" href="{{pathFor 'jobs.new'}}" role="button">Add Job</a>
-            </div>
-        </div>
 
-        {{#if jobs}}
+            {{#if jobs}}
 
-            {{#each job in jobs}}
-                {{> jobCollapsible (job)}}
-            {{/each}}
+                {{#each job in jobs}}
+                    {{> jobCollapsible (job)}}
+                {{/each}}
 
-        {{else}}
-            No jobs currently listed.
+            {{else}}
+                No jobs currently listed.
+            {{/if}}
+
+            {{#if ongoingJobs.fetch}}
+
+                <h3>Ongoing Jobs</h3>
+
+                {{#each job in ongoingJobs}}
+                    {{> jobCollapsible (job)}}
+                {{/each}}
+
+            {{/if}}
+
+            {{#if completedJobs.fetch}}
+
+                <h3>Completed Jobs</h3>
+
+                {{#each job in completedJobs}}
+                    {{> jobCollapsible (job)}}
+                {{/each}}
+                
+            {{/if}}
+
+            {{#if expiredJobs.fetch}}
+
+                <h3>Expired Jobs</h3>
+
+                {{#each job in expiredJobs}}
+                    {{> jobCollapsible (job)}}
+                {{/each}}
+            {{/if}}
+
+            {{> composeMsg doc=msgDoc}}
+
         {{/if}}
 
-        {{#if ongoingJobs.fetch}}
-
-            <h3>Ongoing Jobs</h3>
-
-            {{#each job in ongoingJobs}}
-                {{> jobCollapsible (job)}}
-            {{/each}}
-
+        {{#if currentUser.bookmarks.length}}
+            <h4><a href="/favorites">See Favorite Caregivers</a></h4>
         {{/if}}
-
-        {{#if completedJobs.fetch}}
-
-            <h3>Completed Jobs</h3>
-
-            {{#each job in completedJobs}}
-                {{> jobCollapsible (job)}}
-            {{/each}}
-            
-        {{/if}}
-
-        {{#if expiredJobs.fetch}}
-
-            <h3>Expired Jobs</h3>
-
-            {{#each job in expiredJobs}}
-                {{> jobCollapsible (job)}}
-            {{/each}}
-        {{/if}}
-
-        {{> composeMsg doc=msgDoc}}
-
-    </div>
-    {{/if}}
+        
+    </div>    
 
 </template>

@@ -1,0 +1,17 @@
+<template name="Bookmarks">
+    <div class="container">
+        <h1>Favourite Caregivers</h1>
+        {{#if isGrid}}
+        <div class="row search-grid">
+            {{#each doc in docs}}
+                {{> caregiverCard (doc)}}
+            {{else}}
+                <div class="col-xs-12">
+                    <h2 class="text-center">No Favorite Caregivers!</h2>
+                </div>
+            {{/each}}
+        </div>
+        {{else}} List display here
+        {{/if}}
+    </div>
+</template>

@@ -161,17 +161,15 @@ import './submit-buttons.html';
 //pricing form
     Template.caregiverPricingForm.helpers({
         schema: pricingSchema,
+        options: {
+            Free: 'Free plan - $0/mo, 15% commission',
+            Entrepreneur: 'Entrepreneur Plan - 88$/mo, 10% commission',
+            Partner: 'Partner Plan - 888$/mo, 10% commission'
+        },
         doc() {
             return Caregivers.findOne({
                 user: Meteor.userId()
             });
-        },
-        options() {
-            return {
-                Free: 'Free plan - $0/mo, 10% commission',
-                Entrepreneur: 'Entrepreneur Plan - 88$/mo, 5% commission',
-                Partner: 'Partner Plan - 888$/mo, 10% commission'
-            }
         }
     });
 

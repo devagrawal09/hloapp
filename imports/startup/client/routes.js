@@ -146,6 +146,19 @@
         }
     });
 
+//bookmarks page
+    PrivateRouter.route('/favorites', {
+        name: 'favorites',
+        action() {
+            import('../../ui/pages/common/bookmarks').then(()=> {
+                BlazeLayout.render('AppLayout', {
+                    main: 'DashboardLayout',
+                    content: 'Bookmarks'
+                });
+            });
+        }
+    });
+
 //messaging pages
     PrivateRouter.route('/chat', {
         name: 'chat',

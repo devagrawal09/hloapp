@@ -8,7 +8,7 @@
         <div class="container-small dashbar">
             <!-- dashboard tabs -->
             <div class="row text-center">
-                <a class="col-xs-3 {{isActiveRoute regex='dashboard|jobs.new|job.edit'}}" href="{{pathFor 'dashboard'}}">
+                <a class="col-xs-3 {{isActiveRoute regex='dashboard|jobs.new|job.edit|favorites'}}" href="{{pathFor 'dashboard'}}">
                     <i class="fa fa-briefcase dashboard-logo"></i>
                     <p>Jobs</p>
                 </a>
@@ -20,7 +20,7 @@
                         <i class="fa fa-user dashboard-logo"></i>
                     <p>Profile</p>
                 </a>
-                <a class="col-xs-3 {{isActiveRoute 'settings'}}" href="{{pathFor 'settings'}}">
+                <a class="col-xs-3 {{isActiveRoute regex='settings|settings.username|settings.emails|settings.passwords|settings.payment'}}" href="{{pathFor 'settings'}}">
                         <i class="fa fa-cog dashboard-logo"></i>
                     <p>Settings</p>
                 </a>
