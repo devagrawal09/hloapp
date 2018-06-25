@@ -1,47 +1,60 @@
 <template name="JobHistory">
 
-    {{#if Template.subscriptionsReady}}
     <div class="container">
+    
 
-        {{#if employment.offers}}
-            <h1>Job Offers</h1>
-            {{#each job in jobOffers}}
-                {{> jobCollapsible (job)}}
-            {{/each}}
-        {{/if}}
+        {{#if Template.subscriptionsReady}}
 
-        <h1>Job History</h1>
+            {{#if employment.offers}}
+                <h1>Job Offers</h1>
+                {{#each job in jobOffers}}
+                    {{> jobCollapsible (job)}}
+                {{/each}}
+            {{/if}}
 
-        {{#if employment.currentJob}}
+            <h1>Job History</h1>
 
-            <h3>Current Job</h3>
-            {{> jobCollapsible (currentJob)}}
+            {{#if employment.currentJob}}
 
-        {{/if}}
+                <h3>Current Job</h3>
+                {{> jobCollapsible (currentJob)}}
 
-        {{#if employment.appliedJobs}}
+            {{/if}}
 
-            <h3>Applied Jobs</h3>
-            {{#each job in appliedJobs}}
-                {{> jobCollapsible (job)}}
-            {{/each}}
+            {{#if employment.appliedJobs}}
+
+                <h3>Applied Jobs</h3>
+                {{#each job in appliedJobs}}
+                    {{> jobCollapsible (job)}}
+                {{/each}}
+                
+            {{/if}}
             
+            {{#if employment.jobHistory}}
+
+                <h3>Completed Jobs</h3>
+                {{#each job in jobHistory}}
+                    {{> jobCollapsible (job)}}
+                {{/each}}
+                
+            {{/if}}
+
         {{/if}}
         
-        {{#if employment.jobHistory}}
-
-            <h3>Completed Jobs</h3>
-            {{#each job in jobHistory}}
-                {{> jobCollapsible (job)}}
-            {{/each}}
-            
+        {{#if currentUser.bookmarks.length}}
+            <h3>Favorite Caregivers</h3>
+            <div class="row search-grid">
+                {{#each doc in favorites}}
+                    {{> caregiverCard (doc)}}
+                {{else}}
+                    <div class="col-xs-12">
+                        <h5 class="text-center">No Favorite Caregivers!</h5>
+                    </div>
+                {{/each}}
+            </div>
+            <h5><a href="/favorites">View All</a></h5>
         {{/if}}
 
-    </div>
-    {{/if}}
-
-    {{#if currentUser.bookmarks.length}}
-        <h4><a href="/favorites">See Favorite Caregivers</a></h4>
-    {{/if}}
+    </div>    
 
 </template>

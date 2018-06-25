@@ -1,11 +1,13 @@
 import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Jobs } from '../../../../api/jobs';
+import { Caregivers } from '../../../../api/caregivers';
 
 import '../../../shared-components/job-collapsible';
 import '../../../shared-components/compose-modal';
+import '../../../shared-components/caregiver-card';
 import './posted-jobs.html';
-import { ReactiveVar } from 'meteor/reactive-var';
 
 if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('jobs');
@@ -15,6 +17,10 @@ if( Meteor.settings.public.env === 'development' ) {
 Template.PostedJobs.onCreated(function() {
     this.subscribe( 'myJobs' );
     this.msgRecipient = new ReactiveVar('');
+    this.autorun(()=> {
+        let bookmarks = Meteor.user().bookmarks;        
+        this.subscribe('caregiversById', bookmarks );
+    });
 });
 
 Template.PostedJobs.helpers({
@@ -41,6 +47,15 @@ Template.PostedJobs.helpers({
     msgDoc() {
         const recipient = Template.instance().msgRecipient.get();
         return { recipient };
+    },
+    favorites() {
+        let bookmarks = Meteor.user().bookmarks;
+        if( bookmarks.length > 4 ) {
+            bookmarks = bookmarks.slice(0,4);
+        }
+        return Caregivers.find({
+            _id: { $in: bookmarks }
+        });
     }
 });
 

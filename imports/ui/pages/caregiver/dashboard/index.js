@@ -25,6 +25,10 @@ Template.JobHistory.onCreated(function () {
             }
         });
     });
+    this.autorun(()=> {
+        let bookmarks = Meteor.user().bookmarks;        
+        this.subscribe('caregiversById', bookmarks );
+    });
 });
 
 Template.JobHistory.helpers({
@@ -57,6 +61,15 @@ Template.JobHistory.helpers({
         return Jobs.find({
             _id: { $in: caregiver.jobHistory },
             hired: caregiver._id
+        });
+    },
+    favorites() {
+        let bookmarks = Meteor.user().bookmarks;
+        if( bookmarks.length > 4 ) {
+            bookmarks = bookmarks.slice(0,4);
+        }
+        return Caregivers.find({
+            _id: { $in: bookmarks }
         });
     }
 });
