@@ -1,5 +1,9 @@
 <template name="Bookmarks">
     <div class="container">
+        <div class="btn-group display-toggle pull-right" role="group">
+            <button class="btn grid-toggle {{#if isGrid}}active{{/if}}">Grid</button>
+            <button class="btn list-toggle {{#unless isGrid}}active{{/unless}}">List</button>
+        </div>
         <h1>Favourite Caregivers</h1>
         {{#if isGrid}}
         <div class="row search-grid">
@@ -7,11 +11,18 @@
                 {{> caregiverCard (doc)}}
             {{else}}
                 <div class="col-xs-12">
-                    <h2 class="text-center">No Favorite Caregivers!</h2>
+                    <h2 class="text-center">No Favorite Caregivers!</h2>                    
                 </div>
             {{/each}}
         </div>
-        {{else}} List display here
+        {{else}}
+        <div class="search-list">
+            {{#each doc in docs}}
+                {{> caregiverList (doc)}}            
+            {{else}}
+                <h2 class="text-center">No Favorite Caregivers!</h2>            
+            {{/each}}
+        </div>
         {{/if}}
     </div>
 </template>
