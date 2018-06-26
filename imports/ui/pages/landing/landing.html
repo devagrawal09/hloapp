@@ -136,7 +136,7 @@
         {{#if Template.subscriptionsReady}}
             {{> cardCarousel docs=featured template="jobAd"}}
         {{else}}
-            <h4>Loading...</h4>
+            {{> loading}}
         {{/if}}
     </div>
 
@@ -146,7 +146,7 @@
         {{#if Template.subscriptionsReady}}
             {{> cardCarousel docs=professional.fetch template="caregiverCard"}}
         {{else}}
-            <h4>Loading...</h4>
+            {{> loading}}        
         {{/if}}
     </div>
 </template>

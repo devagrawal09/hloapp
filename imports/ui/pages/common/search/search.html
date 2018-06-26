@@ -184,24 +184,28 @@
             <button class="btn list-toggle {{#unless isGrid}}active{{/unless}}">List</button>
         </div>
         <h2>Search Results</h2>
-        {{#if isGrid}}
-        <div class="row search-grid">
-            {{#each doc in docs}}
-                {{> Template.dynamic template=display.grid data=doc}}
+        {{#if Template.subscriptionsReady}}
+            {{#if isGrid}}
+            <div class="row search-grid">
+                {{#each doc in docs}}
+                    {{> Template.dynamic template=display.grid data=doc}}
+                {{else}}
+                    <div class="col-xs-12">
+                        <h2 class="text-center">No search results found! Try different search parameters!</h2>
+                    </div>
+                {{/each}}
+            </div>
             {{else}}
-                <div class="col-xs-12">
+            <div class="search-list">
+                {{#each doc in docs}}
+                    {{> Template.dynamic template=display.list data=doc}}
+                {{else}}
                     <h2 class="text-center">No search results found! Try different search parameters!</h2>
-                </div>
-            {{/each}}
-        </div>
+                {{/each}}
+            </div>
+            {{/if}}
         {{else}}
-        <div class="search-list">
-            {{#each doc in docs}}
-                {{> Template.dynamic template=display.list data=doc}}
-            {{else}}
-                <h2 class="text-center">No search results found! Try different search parameters!</h2>
-            {{/each}}
-        </div>
+            {{> loading}}
         {{/if}}
     </div>
 </template>

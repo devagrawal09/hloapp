@@ -4,6 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Jobs } from '../../../../api/jobs';
 import { Caregivers } from '../../../../api/caregivers';
 
+import '../../../shared-components/loading';
 import '../../../shared-components/job-collapsible';
 import '../../../shared-components/compose-modal';
 import '../../../shared-components/caregiver-card';

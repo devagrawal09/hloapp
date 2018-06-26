@@ -51,28 +51,30 @@
                 {{/each}}
             {{/if}}
 
+            {{#if currentUser.bookmarks.length}}
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h3>Favorite Caregivers</h3>                    
+                    </div>
+                    <div class="col-xs-6 button-col">
+                        <a class="btn btn-primary" href="/favorites">View All</a>
+                    </div>
+                </div>
+                <div class="row search-grid">
+                    {{#each doc in favorites}}
+                        {{> caregiverCard (doc)}}
+                    {{else}}
+                        <div class="col-xs-12">
+                            <h5 class="text-center">No Favorite Caregivers!</h5>
+                        </div>
+                    {{/each}}
+                </div>
+            {{/if}}
+
             {{> composeMsg doc=msgDoc}}
 
-        {{/if}}
-
-        {{#if currentUser.bookmarks.length}}
-            <div class="row">
-                <div class="col-xs-6">
-                    <h3>Favorite Caregivers</h3>                    
-                </div>
-                <div class="col-xs-6 button-col">
-                    <a class="btn btn-primary" href="/favorites">View All</a>
-                </div>
-            </div>
-            <div class="row search-grid">
-                {{#each doc in favorites}}
-                    {{> caregiverCard (doc)}}
-                {{else}}
-                    <div class="col-xs-12">
-                        <h5 class="text-center">No Favorite Caregivers!</h5>
-                    </div>
-                {{/each}}
-            </div>
+        {{else}}
+            {{> loading}}
         {{/if}}
 
     </div>    

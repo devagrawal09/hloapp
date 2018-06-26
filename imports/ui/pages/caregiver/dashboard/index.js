@@ -5,6 +5,7 @@ import { Caregivers } from '../../../../api/caregivers';
 import { Jobs } from '../../../../api/jobs';
 
 import './job-history.html';
+import '../../../shared-components/caregiver-card';
 import '../../../shared-components/job-collapsible';
 
 if( Meteor.settings.public.env === 'development' ) {

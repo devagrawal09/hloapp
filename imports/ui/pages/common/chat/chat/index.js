@@ -1,11 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { AutoForm } from 'meteor/aldeed:autoform';
 
-import { Conversations, newMsg } from '../../../../../api/messages';
-import { messageSchema } from '../../../../../api/messages/schema.js';
+import { Conversations } from '../../../../../api/messages';
 
-import showAlert from '../../../../shared-components/alert';
+import '../../../../shared-components/loading';
 import '../../../../shared-components/compose-modal';
 import './chat.html';
 

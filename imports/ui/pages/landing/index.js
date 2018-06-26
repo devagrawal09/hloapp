@@ -5,6 +5,7 @@ import { Jobs } from '../../../api/jobs';
 import { Caregivers } from '../../../api/caregivers';
 
 import '../../helpers';
+import '../../shared-components/loading';
 import '../../shared-components/job-ad';
 import '../../shared-components/caregiver-card';
 

@@ -38,21 +38,23 @@
                 {{/each}}
                 
             {{/if}}
-
-        {{/if}}
         
-        {{#if currentUser.bookmarks.length}}
-            <h3>Favorite Caregivers</h3>
-            <div class="row search-grid">
-                {{#each doc in favorites}}
-                    {{> caregiverCard (doc)}}
-                {{else}}
-                    <div class="col-xs-12">
-                        <h5 class="text-center">No Favorite Caregivers!</h5>
-                    </div>
-                {{/each}}
-            </div>
-            <h5><a href="/favorites">View All</a></h5>
+            {{#if currentUser.bookmarks.length}}
+                <h3>Favorite Caregivers</h3>
+                <div class="row search-grid">
+                    {{#each doc in favorites}}
+                        {{> caregiverCard (doc)}}
+                    {{else}}
+                        <div class="col-xs-12">
+                            <h5 class="text-center">No Favorite Caregivers!</h5>
+                        </div>
+                    {{/each}}
+                </div>
+                <h5><a href="/favorites">View All</a></h5>
+            {{/if}}
+
+        {{else}}
+            {{> loading}}
         {{/if}}
 
     </div>    

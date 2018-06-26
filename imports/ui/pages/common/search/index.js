@@ -6,6 +6,7 @@ import { ReactiveVar } from 'meteor/reactive-var'
 import Datatypes from '../../../../api/data-types';
 
 import '../../../helpers';
+import '../../../shared-components/loading';
 import './filter-templates.js';
 import './search.html';
 
@@ -38,7 +39,6 @@ export const resetFilters = ()=> {
 Template.Search.onCreated(function() {
     this.autorun(()=> {
         let subs = subscription.get();
-        console.log( subs );
         this.subscribe( subs );
     });
 });
