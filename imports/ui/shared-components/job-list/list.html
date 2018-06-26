@@ -1,0 +1,32 @@
+<template name="jobList">
+    <div class="list-result">
+        <a href="{{pathFor 'job.details' id=_id}}">
+            <div class="row">
+                <div class="col-xs-3 col-md-1">
+                    <div class="list-dp">
+                        <div style="background-image: url({{this.dp.link}});"></div>
+                    </div>
+                </div>
+                <div class="col-xs-9 col-md-11 list-desc">
+                    <span class="h3">{{title}}</span>
+                    <span>Posted by {{username}}</span>
+                    <span class="h4">From {{startDate}} to {{endDate}}</span>
+                    <span class="label label-success h4"><i class="fa fa-map-marker"></i> {{location}}</span>
+                    <!-- <p class="hidden-xs">{{aboutText}}</p> -->
+                    <p class="hidden-xs">
+                        <strong>Job Description</strong>
+                        {{onefiftyChars jobDescription}} <br>
+                        <strong>Patient Description</strong>
+                        {{onefiftyChars description}}
+                    </p>
+                    <p class="visible-xs-block">
+                        <strong>Job Description</strong>
+                        {{hundChars jobDescription}} <br>
+                        <strong>Patient Description</strong>
+                        {{hundChars description}}
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+</template>

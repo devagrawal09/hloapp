@@ -35,7 +35,11 @@ Template.registerHelper( 'humanize', ( string )=> {
 });
 
 Template.registerHelper( 'hundChars', ( text )=> {
-    return text.substr(0, 90) + '...';
+    return text.substr(0, 99) + '...';
+});
+
+Template.registerHelper( 'onefiftyChars', ( text )=> {
+    return text.substr(0, 149) + '...';
 });
 
 Template.registerHelper( 'plusOne', ( index )=> {
