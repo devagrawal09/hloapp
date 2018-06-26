@@ -26,7 +26,8 @@ const filterData = {
 const Filter = new ReactiveVar({});
 const gridDisplay = new ReactiveVar( true );
 export const subscription = new ReactiveVar( '' );
-export const displayTemplate = new ReactiveVar( '' );
+export const gridTemplate = new ReactiveVar( '' );
+export const listTemplate = new ReactiveVar( '' );
 export const collection = new ReactiveVar();
 export const resetFilters = ()=> {
     Filter.set({});
@@ -94,8 +95,11 @@ Template.Search.helpers({
             sort: { postedOn: -1, name: 1 }
         });
     },
-    displayTemplate() {
-        return displayTemplate.get();
+    display() {
+        return {
+            grid: gridTemplate.get(),
+            list: listTemplate.get()
+        }
     },
     isGrid() {
         return gridDisplay.get();
@@ -225,7 +229,7 @@ Template.Search.events({
 
         Filter.set(newFilter);
         console.log(newFilter);
-        },
+    },
     'click #price-filter .btn'( e, t ) {
 
         let newFilter = Filter.get();
@@ -240,5 +244,7 @@ Template.Search.events({
         
         Filter.set(newFilter);
         console.log(newFilter);
-    }
+    },
+    'click .grid-toggle'() { gridDisplay.set( true ); },
+    'click .list-toggle'() { gridDisplay.set( false ); },    
 });

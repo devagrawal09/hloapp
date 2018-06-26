@@ -84,6 +84,10 @@
     }
 }
 
+.display-toggle .btn {
+    background-color: $white;
+}
+
 /* search body CONTAINING ALL THE CARDS*/
 .search-body {
     background-color: $lightpink;
@@ -201,6 +205,40 @@
     top: 0;
     left: 0;
     z-index: 1;
+}
+
+.list-result {
+
+    padding: 5px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #aaa;
+    background-color: $white;
+    border-radius: 5px;
+    // height: 100px;
+
+    a {
+        color: black;
+    }
+    .list-dp {
+        width: 100%;
+        text-align: center;
+        height: min-content;
+
+        div { 
+            width: 100%;
+            padding-bottom: 100%;
+            margin: auto;
+            background-size: 100% 100%;
+        }
+    }
+    .list-desc {
+        span {
+            margin-right: 10px;
+        }
+        p {
+            margin-top: 5px;
+        }
+    }
 }
 
 @media (min-width: 768px) {

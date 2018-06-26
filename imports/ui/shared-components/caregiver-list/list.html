@@ -1,0 +1,29 @@
+<template name="caregiverList">
+    <div class="list-result">
+        <a href="{{pathFor 'caregiver.profile' id=_id}}">
+            <div class="row">
+                <div class="col-xs-3 col-md-1">
+                    <div class="list-dp">
+                        <div style="background-image: url({{dp.link}});"></div>
+                    </div>
+                </div>
+                <div class="col-xs-7 col-md-9 col-lg-10 list-desc">
+                    <span class="h3">{{name}}</span>
+                    <span> 
+                        {{#each flag in stars this.rating}}
+                            <i class="fa fa-star{{flag}}" aria-hidden="true"></i>
+                        {{/each}}
+                        ({{this.reviews.count}})
+                    </span>
+                    <span class="label label-success h4"><i class="fa fa-map-marker"></i> {{location}}</span>
+                    <p class="hidden-xs">{{aboutText}}</p>
+                    <p class="visible-xs-block">{{hundChars aboutText}}</p>
+                </div>
+                <div class="col-xs-2 col-md-2 col-lg-1 price">
+                    <h4 class="text-center hidden-xs">${{hourlyRate}} HKD/hr</h4>
+                    <h5 class="visible-xs-block">${{hourlyRate}} HKD/hr</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+</template>
