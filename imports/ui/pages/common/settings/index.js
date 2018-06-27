@@ -17,82 +17,119 @@ import './settings.html';
 //username form
 
     const editMode = new ReactiveVar(false);
+    const usernameSubmitting = new ReactiveVar(false);
 
     Template.usernameSettings.helpers({
         schema: new SimpleSchema({ username: String }),
         editMode() {
             return editMode.get();
+        },
+        submitting() {
+            return usernameSubmitting.get();
         }
     });
 
     Template.usernameSettings.events({ 
         'click .edit-mode'( e, t ) { 
             editMode.set(true);
-        } 
+        }
     });
 
     AutoForm.hooks({
         usernameForm: {
-            after: { method( err, res ) {
+            before: { method( doc ) {
+                usernameSubmitting.set(true);
+                return doc;
+            }},
+            after: { method( err ) {
                 if( err ) {
                     showAlert( err.reason, 'danger');
                 } else {
                     showAlert( 'Username changed successfully!' );
                     editMode.set(false);
+                    usernameSubmitting.set(false);
                 }
             }}
         }
     });
 
 //emails form
-    Template.emailSettings.onCreated(function() {
-        this.newEmail = new ReactiveVar(0);
-        this.validator = new SimpleSchema({
-            email: SimpleSchema.RegEx.EmailWithTLD
-        }).newContext();
-    });
+
+    const newEmail = new ReactiveVar(0);
 
     Template.emailSettings.helpers({
+        newEmail() { return newEmail.get(); }
+    });
+
+    Template.emailSettings.events({
+        'click .new-email'( e, t ) {
+            const user = Meteor.user();
+            const index = user.emails.length + 1;
+            newEmail.set( index );
+        },
+    });
+
+    Template.emailRow.onCreated(function() {
+        this.verifying = new ReactiveVar();
+        this.removing = new ReactiveVar();
+    });
+
+    Template.emailRow.helpers({
+        verifying() { return Template.instance().verifying.get(); },
+        removing() { return Template.instance().removing.get(); },
         plusOne( index ) {
             return ++index;
-        },
-        newEmail() {
-            return Template.instance().newEmail.get();
         }
     });
 
-    Template.emailSettings.events({ 
+    Template.emailRow.events({
         'click .verify'( e, t ) {
+            t.verifying.set(true);
             const email = t.$( e.target ).data('email');
-            sendVerificationEmail.call({ email }, ( err, res )=> {
+            sendVerificationEmail.call({ email }, ( err )=> {
                 if( err ) {
                     console.error(err);
                     showAlert( err.reason, 'danger');
                 } else {
                     showAlert('Verification email sent successfully!');
                 }
+                t.verifying.set();                
             });
         },
         'click .remove'( e, t ) {
+            t.removing.set(true);
             const email = t.$( e.target ).data('email');
-            modifyEmail.call({ email, action: 'remove' }, ( err, res )=> {
+            modifyEmail.call({ email, action: 'remove' }, ( err )=> {
                 if( err ) {
                     console.error(err);
                     showAlert( err.reason, 'danger');
                 } else {
                     showAlert('Email removed!');
                 }
+                t.verifying.set();
             });
-        },
-        'click .new-email'( e, t ) {
-            const user = Meteor.user();
-            const index = user.emails.length + 1;
-            t.newEmail.set( index );
-        },
+        }
+    });
+
+    Template.newEmailForm.onCreated(function() {
+        this.submitting = new ReactiveVar();
+        this.validator = new SimpleSchema({
+            email: SimpleSchema.RegEx.EmailWithTLD
+        }).newContext();
+    });
+
+    Template.newEmailForm.helpers({
+        newEmail() { return newEmail.get(); },
+        submitting() { return Template.instance().submitting.get(); }
+    });
+
+    Template.newEmailForm.events({
         'click .submit, submit #newEmail'( e, t ) {
 
             e.preventDefault();
             e.stopPropagation();
+
+            t.submitting.set(true);
 
             let email = t.$( '#new-email-input' ).val();
             t.validator.validate({ email });
@@ -104,16 +141,18 @@ import './settings.html';
                         showAlert( err.reason, 'danger');
                     } else {
                         showAlert('Successfully added email!');
-                        t.newEmail.set(0);
+                        newEmail.set(0);
                     }
+                    t.submitting.set();
                 });
             } else {
                 console.error( t.validator.validationErrors() );
                 showAlert('Please enter a valid email id!', 'danger');
+                t.submitting.set();
             }
         },
         'click .cancel'( e, t ) {
-            t.newEmail.set(0);
+            newEmail.set(0);
         }
     });
 

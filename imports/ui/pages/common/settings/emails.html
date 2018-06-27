@@ -10,43 +10,10 @@
             </tr></thead>
             <tbody>
                 {{#each email in currentUser.emails}}
-                <tr>
-                    <td>{{plusOne @index}}</td>
-                    <td>{{email.address}}</td>
-                    <td>
-                        {{#if email.verified}}
-                            <span class="text-success">Verified</span>
-                        {{else}}
-                            <span class="text-danger">Not Verified</span>
-                        {{/if}}
-                    </td>
-                    <td>
-                        {{#unless email.verified}}
-                            <button class="btn btn-primary verify" data-email="{{email.address}}">Verify</button>
-                        {{/unless}}
-                        <button class="btn btn-danger remove" data-email="{{email.address}}">Remove</button>
-                    </td>
-                </tr>
+                    {{> emailRow index=@index email=email}}
                 {{/each}}
                 {{#if newEmail}}
-                <tr>
-                    <td>{{newEmail}}</td>
-                    <td colspan="2">
-                        <form id="newEmail">
-                            <input
-                                type="text"
-                                name="newEmail"
-                                id="new-email-input"
-                                class="form-control"
-                                placeholder="john.doe@example.com"
-                            >
-                        </form>
-                    </td>
-                    <td>
-                        <button type="submit" class="btn btn-success submit">Submit</button>
-                        <button type="reset" class="btn btn-danger cancel">Cancel</button>
-                    </td>
-                </tr>
+                    {{> newEmailForm}}
                 {{/if}}
             </tbody>
         </table>
@@ -56,4 +23,51 @@
         </button>
         {{/unless}}
     </div>
+</template>
+
+<template name="emailRow">
+    <tr>
+        <td>{{plusOne index}}</td>
+        <td>{{email.address}}</td>
+        <td>
+            {{#if email.verified}}
+            <span class="text-success">Verified</span>
+            {{else}}
+            <span class="text-danger">Not Verified</span>
+            {{/if}}
+        </td>
+        <td>
+            {{#unless email.verified}}
+            <button class="btn btn-primary verify" data-email="{{email.address}}">
+                {{#if verifying}}
+                <i class="fa fa-spinner fa-spin"></i>
+                {{else}} Verify {{/if}}
+            </button>
+            {{/unless}}
+            <button class="btn btn-danger remove" data-email="{{email.address}}">
+                {{#if removing}}
+                <i class="fa fa-spinner fa-spin"></i>
+                {{else}} Remove {{/if}}
+            </button>
+        </td>
+    </tr>
+</template>
+
+<template name="newEmailForm">
+    <tr>
+        <td>{{newEmail}}</td>
+        <td colspan="2">
+            <form id="newEmail">
+                <input type="text" name="newEmail" id="new-email-input" class="form-control" placeholder="john.doe@example.com">
+            </form>
+        </td>
+        <td>
+            <button type="submit" class="btn btn-success submit">
+                {{#if submitting}}
+                <i class="fa fa-spinner fa-spin"></i>
+                {{else}} Submit {{/if}}
+            </button>
+            <button type="reset" class="btn btn-danger cancel">Cancel</button>
+        </td>
+    </tr>
 </template>

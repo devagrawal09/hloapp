@@ -40,7 +40,14 @@
             {{/if}}
         
             {{#if currentUser.bookmarks.length}}
-                <h3>Favorite Caregivers</h3>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h3>Favorite Caregivers</h3>                    
+                    </div>
+                    <div class="col-xs-6 button-col">
+                        <a class="btn btn-primary" href="/favorites">View All</a>
+                    </div>
+                </div>
                 <div class="row search-grid">
                     {{#each doc in favorites}}
                         {{> caregiverCard (doc)}}
