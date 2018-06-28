@@ -22,6 +22,10 @@
           },
         "bucket": "hlofiles"
     },
+    "xgate": {
+        "id": "healthyloved1api",
+        "password": "843yflkdad"
+    },
     "public": {
         "env": "development"
     }

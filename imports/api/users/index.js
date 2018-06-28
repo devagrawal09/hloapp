@@ -6,6 +6,7 @@ import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
 
 import { Caregivers } from '../caregivers';
+import { SMS } from '../sms';
 
 export const userProfileSchema = new SimpleSchema({
     firstName: String,
@@ -167,6 +168,53 @@ export const modifyEmail = new ValidatedMethod({                //add or remove 
         return true;
     }
 });
+
+/* export const modifyMobile = new ValidatedMethod({                //add or remove email
+    name: 'user.mobile',
+    validate: new SimpleSchema({
+        mobile: String,
+        action: {
+            type: String,
+            allowedValues: ['add', 'remove']
+        }
+    }).validator(),
+    run({ mobile, action }) {
+
+        //must be logged in
+        if( !this.userId ) {
+            throw new Meteor.Error('user.mobile.unauthorized',
+            'You are not logged in!');
+        }
+
+        if( !this.isSimulation ) {          //only continue if method is running on server
+
+            if( action === 'add' ) {        //add email
+                SMS.send({
+                    to: mobile,
+                    msg: 'Hello, welcome to HealthyLovedOnes!'
+                }, function( err, res ) {
+                    if( err ) throw err;
+                    
+                });
+            } else
+            if( action === 'remove' ) {     //remove email
+
+                let user = Meteor.users.findOne( this.userId );
+                let verifiedEmails = user.emails.filter( obj => obj.verified );
+
+                //if email is the only verified email
+                if( (verifiedEmails.length === 1) && (verifiedEmails[0].address === email) ) {
+                    throw new Meteor.Error('user.email.error', 
+                    'You must have at least one verified email!');
+                }
+
+                Accounts.removeEmail( this.userId, email );
+            }
+        }
+
+        return true;
+    }
+}); */
 
 export const sendVerificationEmail = new ValidatedMethod({      //send verification mail
     name: 'user.email.sendVerification',

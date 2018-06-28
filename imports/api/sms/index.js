@@ -20,7 +20,7 @@ export const SMS = {
         //place http call
         HTTP.post('https://smsc.xgate.com.hk/smshub/sendsms', {
             content: requestStr
-        }, ( err, res )=> {
+        }, ( err, result )=> {
             //general http error
             if( err ) return callback( err );
             //http call succesful, parse result xml

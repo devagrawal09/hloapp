@@ -9,6 +9,7 @@
     "@google-cloud/storage": "^1.7.0",
     "bcrypt": "^1.0.3",
     "meteor-node-stubs": "^0.4.1",
+    "paypal-rest-sdk": "^1.8.1",
     "simpl-schema": "^1.4.2",
     "string-humanize": "^1.0.0",
     "xml2js": "^0.4.19"
