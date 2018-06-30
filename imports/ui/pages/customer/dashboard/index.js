@@ -13,6 +13,7 @@ import './posted-jobs.html';
 if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('jobs');
     Package['msavin:mongol'].Mongol.showCollection('job-images');
+    Package['msavin:mongol'].Mongol.showCollection('payments');
 }
 
 Template.PostedJobs.onCreated(function() {

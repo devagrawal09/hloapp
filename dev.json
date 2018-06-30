@@ -26,6 +26,11 @@
         "id": "healthyloved1api",
         "password": "843yflkdad"
     },
+    "paypal": {
+        "mode": "sandbox",
+        "client_id": "AQM0MlumXoSyWHgKeQR0cGIiWLAJ28sItc7asHQYoyQYN6zyxRIasdv2CRyoOaAlKDtgGVdkjDbVHzIH",
+        "client_secret": "EHwbNlP3IZKuJtAoL3fZrwyLWrGT-iCKunvbhkUeBtLcbWY5COPK_1on8fv-5DJS2QMNgr_roV1bbPS0"
+    },
     "public": {
         "env": "development"
     }

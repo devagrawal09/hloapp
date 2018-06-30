@@ -10,6 +10,7 @@ import '../../../shared-components/job-collapsible';
 
 if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('caregivers');
+    Package['msavin:mongol'].Mongol.showCollection('payments');
 }
 
 Template.JobHistory.onCreated(function () {

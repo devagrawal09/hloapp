@@ -35,7 +35,7 @@
                                         <button class="btn btn-danger disabled">Payment Declined</button>
                                     {{/if}}
                                 {{else}}
-                                    <span id="paypal-pay"></span>
+                                    <button class="btn btn-primary pay">Pay</button>
                                     <button
                                         type="button"
                                         class="btn btn-danger"
@@ -61,6 +61,36 @@
                         {{/if}}
                     </div>
                 {{/with}}
+                {{/if}}
+            {{/if}}
+            {{#if isCurrentCaregiverHired}}
+                {{#if isCompleted}}
+                    {{#if paymentDetails}}
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success" disabled>
+                                Payment Details Submitted
+                            </button>
+                            <p>
+                                <strong>Hours worked :</strong> {{paymentDetails.hours}} <br>
+                                <strong>Hourly rate charged :</strong> HK ${{paymentDetails.hourlyRate}} <br>
+                                {{#if paymentDetails.extraCharges}}
+                                <strong>Extra Charges :</strong> HK ${{paymentDetails.extraCharges}}
+                                {{/if}}
+                            </p>
+                        </div>
+                    {{else}}
+                        <div class="text-center">
+                                <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-toggle="modal"
+                                data-target="#payment-details"
+                            >
+                                Submit Payment Details
+                            </button>
+                        </div>
+                        {{> paymentDetailsModal}}
+                    {{/if}}
                 {{/if}}
             {{/if}}
             <h4>Job Description</h4>

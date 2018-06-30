@@ -12,4 +12,7 @@ import '../../api/jobs/server/publications.js';
 import '../../api/messages';
 import '../../api/messages/server/publications.js';
 
+import '../../api/payments';
+import '../../api/payments/server/publications.js';
+
 import '../../api/public';

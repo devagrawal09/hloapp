@@ -1,0 +1,39 @@
+<template name="paymentDetailsModal">
+    <div id="payment-details" class="modal fade payment-deails" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Submit Payment Details</h4>
+                </div>
+                <div class="modal-body">
+                    {{#autoForm
+                        id="paymentDetails"
+                        type="method"
+                        schema=schema
+                        meteormethod="payments.new"
+                    }}
+                        {{> afQuickField name="job" type="hidden" value=_id}}
+                        {{> afQuickField name="hours"
+                            placeholder="500"
+                            label="Hours worked"
+                        }}
+                        {{> afQuickField name="hourlyRate"
+                            placeholder=charges.hourly
+                            label="Hourly rate charged (HKD)"
+                            value=charges.hourly
+                        }}
+                        {{> afQuickField name="extraCharges"
+                            placeholder=charges.extra
+                            label="Extra Charges (if any) (HKD)"
+                            value=charges.extra
+                        }}
+                        <div class="submit-buttons">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    {{/autoForm}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

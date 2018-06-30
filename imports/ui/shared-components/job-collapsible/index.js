@@ -2,14 +2,18 @@ import { Template } from 'meteor/templating';
 
 import SimpleSchema from 'simpl-schema';
 
+import { paymentSchema } from '../../../api/payments/schema.js';
+
 import { Caregivers, acceptOffer } from '../../../api/caregivers';
 import { hireApplicant, completeJob, review, pay, declinePayment } from '../../../api/jobs';
+import { Payments, newPayment } from '../../../api/payments';
 
 import showAlert from '../alert';
 
 import '../../helpers';
 import '../review';
 import './review-modal.html';
+import './payment-details-modal.html';
 import './decline-modal.html';
 import './collapsible.html';
 
@@ -23,46 +27,8 @@ Template.jobCollapsible.onCreated(function() {
             this.subscribe( 'caregiverById', data.hired );
             this.subscribe( 'caregiverById.images', data.hired );
         }
+        this.subscribe( 'job.payment', data._id );
     });
-});
-
-Template.jobCollapsible.onRendered(function() {
-    if( 
-        (this.data.postedBy === Meteor.userId()) && 
-        (this.data.review) && 
-        (!this.data.payment) 
-    ) {
-        $.getScript('https://www.paypalobjects.com/api/checkout.js', ()=> {
-            paypal.Button.render({
-                env: 'sandbox',
-                client: {
-                    sandbox: 'AdFGzHj1egaqVdN5Z1XYmXqUjlX4UG4ZRyjamt5SU28RRxINlkpp1uAHUBJzeBkAbUY8yXtWXjk9AVbp',
-                    production: 'xxxxxxxxx'
-                },
-                commit: true,
-                style: {
-                    color: 'gold',
-                    size: 'small'
-                },
-                payment(data, actions) {
-                    return actions.payment.create({ payment: {
-                        transactions: [{ 
-                            amount: { total: '5.00', currency: 'USD' }
-                        }]
-                    }});
-                },
-                onAuthorize(data, actions) {
-                    return actions.payment.execute().then( payment=> showAlert('Payment Completed!') );
-                },
-                onCancel(data, actions) {
-                    showAlert('Payment Cancelled!', 'danger');
-                },
-                onError(err) {
-                    showAlert('There was some error!', 'danger');
-                }
-            }, '#paypal-pay');
-        });
-    }
 });
 
 Template.jobCollapsible.helpers({
@@ -78,9 +44,6 @@ Template.jobCollapsible.helpers({
     isOwnedByCurrentUser() {
         return this.postedBy === Meteor.userId();
     },
-    rightImageSrc() {
-        return this.dp().link();
-    },
     isOfferedToCurrentUser() {
         let caregiver = Caregivers.findOne({ user: Meteor.userId() });
         let job = this;
@@ -88,8 +51,19 @@ Template.jobCollapsible.helpers({
         let b = _.indexOf( job.offers, caregiver._id ) !== -1;
         return a && b;
     },
+    isCurrentCaregiverHired() {
+        let caregiver = Caregivers.findOne({ user: Meteor.userId() });
+        let job = this;
+        return job.hired === caregiver._id;
+    },
     isPaid() {
         return this.payment === 'completed';
+    },
+    rightImageSrc() {
+        return this.dp().link();
+    },
+    paymentDetails() {
+        return Payments.findOne({ job: this._id });
     }
 });
 
@@ -162,4 +136,15 @@ Template.declinePaymentModal.helpers({
             type: String, optional: true
         }
     })
+});
+
+Template.paymentDetailsModal.helpers({
+    schema: paymentSchema.pick('job', 'hours', 'hourlyRate', 'extraCharges'),
+    charges() {
+        const caregiver = Caregivers.findOne({ user: Meteor.userId() });
+        return {
+            hourly: caregiver.hourlyRate,
+            extra: caregiver.extraCharges
+        }
+    }
 });
