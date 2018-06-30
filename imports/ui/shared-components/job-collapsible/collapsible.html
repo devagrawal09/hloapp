@@ -28,23 +28,35 @@
                         <button class="btn btn-default message" data-recipient="{{hc.username}}">Message</button>
                         {{#if isCompleted}}
                             {{#if review}}
-                                {{#if payment}}
-                                    {{#if isPaid}}
-                                        <button class="btn btn-success disabled">Payment Completed</button>
+                                {{#if paymentDetails}}
+                                    {{#if payment}}
+                                        {{#if isPaid}}
+                                            <button class="btn btn-success" disabled>Payment Completed</button>
+                                        {{else}}
+                                            <button class="btn btn-danger" disabled>Payment Declined</button>
+                                        {{/if}}
                                     {{else}}
-                                        <button class="btn btn-danger disabled">Payment Declined</button>
+                                        <button class="btn btn-primary pay">Pay</button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-danger"
+                                            data-toggle="modal"
+                                            data-target="#decline-payment"
+                                        >
+                                            Decline Payment
+                                        </button>
+                                        <p>
+                                            <strong>Hours worked :</strong> {{paymentDetails.hours}} <br>
+                                            <strong>Hourly rate charged :</strong> HK ${{paymentDetails.hourlyRate}} <br>
+                                            {{#if paymentDetails.extraCharges}}
+                                            <strong>Extra Charges :</strong> HK ${{paymentDetails.extraCharges}} <br>
+                                            {{/if}}
+                                            <strong>Total : HK ${{paymentDetails.total}}</strong>
+                                        </p>
+                                        {{> declinePaymentModal}}
                                     {{/if}}
                                 {{else}}
-                                    <button class="btn btn-primary pay">Pay</button>
-                                    <button
-                                        type="button"
-                                        class="btn btn-danger"
-                                        data-toggle="modal"
-                                        data-target="#decline-payment"
-                                    >
-                                        Decline Payment
-                                    </button>
-                                    {{> declinePaymentModal}}
+                                    <h4>Awaiting Payment Details from Caregiver</h4>
                                 {{/if}}
                             {{else}}
                                 <button
@@ -74,8 +86,9 @@
                                 <strong>Hours worked :</strong> {{paymentDetails.hours}} <br>
                                 <strong>Hourly rate charged :</strong> HK ${{paymentDetails.hourlyRate}} <br>
                                 {{#if paymentDetails.extraCharges}}
-                                <strong>Extra Charges :</strong> HK ${{paymentDetails.extraCharges}}
+                                <strong>Extra Charges :</strong> HK ${{paymentDetails.extraCharges}} <br>
                                 {{/if}}
+                                <strong>Total : HK ${{paymentDetails.total}}</strong>
                             </p>
                         </div>
                     {{else}}

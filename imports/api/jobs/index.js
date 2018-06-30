@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import { FilesCollection } from 'meteor/ostrio:files';
 
 import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';

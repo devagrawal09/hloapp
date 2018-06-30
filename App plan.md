@@ -250,3 +250,16 @@ Caregiver and Job fields privacy
 * Job Description
 * Dates and Work time
 * Photos
+
+##Email/SMS requirements:
+
+* Email verification – for new members (Email/SMS)
+* Welcome to HLO – for new members (Email/SMS).
+* Confirm total amount of job after job is accepted by Caregiver (Email/SMS)
+* Messages between parties (Email).
+* Missing information (Email) (Notifications to remind users to complete their Profile or Job Ad)
+* New Job Ads (Email)
+* New Caregivers (Email)
+* Payment accept/decline (Email/SMS)
+* Customer/Caregiver Review (Email/SMS)
+* Job Expire/Delete (Email/SMS)

@@ -9,6 +9,9 @@ import { paymentSchema } from './schema.js';
 import { Jobs } from '../jobs';
 import { Caregivers } from '../caregivers';
 
+const createInvoiceFiber = Meteor.wrapAsync( paypal.invoice.create, paypal.invoice );
+const sendInvoiceFiber = Meteor.wrapAsync( paypal.invoice.send, paypal.invoice );
+
 export const Payments = new Mongo.Collection('payments');
 
 export const newPayment = new ValidatedMethod({     //caregiver submits payment info
@@ -44,10 +47,6 @@ export const newPayment = new ValidatedMethod({     //caregiver submits payment 
             'Payment for this job has already been initiated!');
         }
 
-        payment.status = 'sent';
-
-        Payments.insert( payment );
-
         if( !this.isSimulation ) {
 
             const invoiceTemplate = newInvoice({
@@ -58,26 +57,34 @@ export const newPayment = new ValidatedMethod({     //caregiver submits payment 
                 jobTitle: job.title,
                 caregiverName: caregiver.name
             });
-            
-            console.log( JSON.stringify( invoiceTemplate ) );
+            console.log( invoiceTemplate )
 
-            paypal.invoice.create( invoiceTemplate, ( err, invoice )=> {
-                if( err ) {
-                    console.error( err );
-                    console.log( JSON.stringify(err) );
-                    throw err;
-                };
-                console.log( invoice );
-                const invoiceId = invoice.id;
-                paypal.invoice.send( invoiceId, ( err, rv )=> {
-                    if( err ) {
-                        console.error( err );
-                        console.log( JSON.stringify(err) );
-                        throw err;
-                    };
-                    console.log( rv );
-                });
-            });
+            try {
+                const invoice = createInvoiceFiber( invoiceTemplate );
+
+                sendInvoiceFiber( invoice.id );
+    
+                payment.status = 'sent';
+                payment.invoice = invoice.id;
+        
+                Payments.insert( payment );
+            }
+            catch( err ) {
+                console.error( err );
+                console.log( JSON.stringify( err ) );
+                throw err;
+            }
         }
+
+        return true;
+    }
+});
+
+Payments.helpers({
+    total() {
+        let total = 0, hours = this.hours, rate = this.hourlyRate, extra = this.extraCharges;
+        if( extra ) total = ( hours * rate ) + extra;
+        else total = hours * rate;
+        return total;
     }
 });

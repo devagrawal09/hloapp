@@ -1,5 +1,7 @@
 export default function({ hours, rate, extra, customerEmails, jobTitle, caregiverName }) {
-    const total = `${( hours * rate ) + extra}`;
+    let total = 0;
+    if( extra ) total = ( hours * rate ) + extra;
+    else total = hours * rate;
     const items = [{
         'name': 'Caregiver Hourly Charge',
         'quantity': hours,
@@ -38,7 +40,7 @@ export default function({ hours, rate, extra, customerEmails, jobTitle, caregive
         'tax_inclusive': false,
         'total_amount': {
             'currency': 'HKD',
-            'value': total
+            'value': `${total}`
         },
         'logo_url': 'https://hloapp.herokuapp.com/img/invoice-logo.jpg'
     }

@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { AutoForm } from 'meteor/aldeed:autoform';
 
 import SimpleSchema from 'simpl-schema';
 
@@ -146,5 +147,17 @@ Template.paymentDetailsModal.helpers({
             hourly: caregiver.hourlyRate,
             extra: caregiver.extraCharges
         }
+    }
+});
+
+AutoForm.hooks({
+    paymentDetails: {
+        after: { method( err ) {
+            if( err ) {
+                showAlert( err.reason, 'danger');
+            } else {
+                showAlert('Invoice sent to the Customer!');
+            }
+        }}
     }
 });
