@@ -179,9 +179,12 @@
         </div>
     </div>
     <div class="container-fluid search-body">
-        <div class="btn-group display-toggle pull-right" role="group">
-            <button class="btn grid-toggle {{#if isGrid}}active{{/if}}">Grid</button>
-            <button class="btn list-toggle {{#unless isGrid}}active{{/unless}}">List</button>
+        <div class="pull-right">
+            {{> sortButtons}}
+            <div class="btn-group display-toggle" role="group">
+                <button class="btn grid-toggle {{#if isGrid}}active{{/if}}">Grid</button>
+                <button class="btn list-toggle {{#unless isGrid}}active{{/unless}}">List</button>
+            </div>
         </div>
         <h2>Search Results</h2>
         {{#if Template.subscriptionsReady}}
@@ -208,4 +211,18 @@
             {{> loading}}
         {{/if}}
     </div>
+</template>
+
+<template name="sortButtons">
+    <div class="btn-group sort" role="group">
+        {{#each key in sortKeys}}
+            {{> sortButton key=key}}
+        {{/each}}
+    </div>
+</template>
+
+<template name="sortButton">
+    <button class="btn">
+        <i class="fa fa-arrow-{{arrowDir}}"></i> {{humanize key}}
+    </button>
 </template>

@@ -23,18 +23,20 @@ const filterData = {
     personal: Datatypes.PersonalService.allowedValues,
     medical: Datatypes.MedicalCondition.allowedValues
 };
-
-const Filter = new ReactiveVar({});
-const gridDisplay = new ReactiveVar( true );
 export const subscription = new ReactiveVar( '' );
 export const gridTemplate = new ReactiveVar( '' );
 export const listTemplate = new ReactiveVar( '' );
 export const collection = new ReactiveVar();
+export const Sort = new ReactiveVar({});
+export const sortKeys = new ReactiveVar([]);
 export const resetFilters = ()=> {
     Filter.set({});
     $('.nav-pills ul li a.active').removeClass('active');
     $('#nameSearch').val('');
 }
+
+const Filter = new ReactiveVar({});
+const gridDisplay = new ReactiveVar( true );
 
 Template.Search.onCreated(function() {
     this.autorun(()=> {
@@ -55,6 +57,7 @@ Template.Search.helpers({
         let filter = Filter.get();
         let coll = collection.get();
         let searchType = subscription.get();
+        let sort = Sort.get();
 
         let Query = Object.keys( filter ).reduce(( query, key )=> { //create query
             
@@ -90,10 +93,8 @@ Template.Search.helpers({
 
         }, {});
 
-        console.log( Query );
-        return coll.find( Query, {
-            sort: { postedOn: -1, name: 1 }
-        });
+        console.log( sort );
+        return coll.find( Query, { sort });
     },
     display() {
         return {
@@ -247,4 +248,31 @@ Template.Search.events({
     },
     'click .grid-toggle'() { gridDisplay.set( true ); },
     'click .list-toggle'() { gridDisplay.set( false ); },    
+});
+
+Template.sortButtons.helpers({
+    sortKeys() {
+        return sortKeys.get();
+    }
+});
+
+Template.sortButton.helpers({
+    arrowDir() {
+        const order = Sort.get()[this.key];
+        console.log(this, order);
+        if( order === 1 ) return 'down';
+        if( order === -1 ) return 'up';
+    }
+});
+
+Template.sortButton.events({
+    'click .btn'( e , t ) {
+        console.log('clicked');
+        const key = t.data.key;
+        const currentSort = Sort.get();
+        const newSort = {};
+        if( currentSort[key] === 1 ) newSort[key] = -1;
+        else newSort[key] = 1;
+        Sort.set(newSort);
+    }
 });

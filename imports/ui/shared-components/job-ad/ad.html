@@ -1,6 +1,7 @@
 <template name="jobAd">
     <div class="col-md-3 col-sm-6 ad-container">
         <div class="search-card job-ad">
+            {{#if Template.subscriptionsReady}}
             <a href="{{pathFor 'job.details' id=_id}}">
                 <span class="link-spanner"></span>
             </a>
@@ -26,6 +27,9 @@
                     <p>{{hundChars description}}</p>
                 </p>
             </div>
+            {{else}}
+                {{> loading}}
+            {{/if}}
         </div>
     </div>
 </template>
