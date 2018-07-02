@@ -324,10 +324,10 @@ export {JobImages};
                 status: 'completed'
             });
 
-            if( !job ) {
+            if( !job || job.review ) {
                 //invalid input
                 throw new Meteor.Error('jobs.review.error',
-                'Invalid Input, please try again!');
+                'This job is either cannot be reviewed or does not exist!');
             }
 
             //set review date and by
@@ -339,67 +339,6 @@ export {JobImages};
             //update job
             Jobs.update( job._id, {
                 $set: { review: reviewId }
-            });
-
-            return true;
-        }
-    });
-
-    export const declinePayment = new ValidatedMethod({ //decline payment
-        name: 'jobs.payment.decline',
-        validate: new SimpleSchema({
-            _id: Datatypes.Id,
-            reason: {
-                type: String, optional: true
-            }
-        }).validator(),
-        run({ _id, reason }) {
-
-            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
-                //current user is not a customer
-                throw new Meteor.Error('jobs.payment.unauthorized',
-                'You are not registered customer!');
-            }
-
-            //update job 
-            let job = Jobs.update({
-                _id,
-                postedBy: this.userId,
-                status: 'completed',
-                review: { $exists: true }
-            }, { $set: {
-                payment: 'declined',
-                reason
-            }});
-
-            if( !job ) {
-                //invalid input
-                throw new Meteor.Error('jobs.payment.error',
-                'Invalid Input, please try again!');
-            }
-        }
-    });
-
-    //to be revisited
-    export const pay= new ValidatedMethod({             //complete payment (simulate)
-        name: 'jobs.payment.complete',
-        validate: detailsSchema.pick( '_id' ).validator(),
-        run({ _id }) {
-
-            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
-                //current user is not a customer
-                throw new Meteor.Error('jobs.payment.unauthorized',
-                'You are not registered customer!');
-            }
-
-            //update job 
-            let job = Jobs.update({
-                _id,
-                postedBy: this.userId,
-                status: 'completed',
-                review: { $exists: true }
-            }, { 
-                $set: { payment: 'completed' }
             });
 
             return true;

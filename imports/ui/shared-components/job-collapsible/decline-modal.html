@@ -10,9 +10,9 @@
                         id="declinePayment" 
                         type="method" 
                         schema=schema 
-                        meteormethod="jobs.payment.decline"
+                        meteormethod="payments.decline"
                     }}
-                        {{> afQuickField name="_id" type="hidden" value=_id}}
+                        {{> afQuickField name="id" type="hidden" value=_id}}
                         {{> afQuickField name="reason"
                             type="textarea" rows=4
                             placeholder="Please tell us why you didn't like the service"

@@ -13,7 +13,7 @@ export const paymentSchema = new SimpleSchema({
     status: {
         type: String,
         allowedValues: [
-            'draft', 'sent', 'paid', 'received', 'declined'
+            'sent', 'paid', 'received', 'declined'
         ]
     }
 });

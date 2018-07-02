@@ -3,35 +3,67 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Submit Payment Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">
+                        {{#if isCaregiver}}Submit{{/if}} Payment Details
+                    </h4>
                 </div>
-                <div class="modal-body">
-                    {{#autoForm
-                        id="paymentDetails"
-                        type="method"
-                        schema=schema
-                        meteormethod="payments.new"
-                    }}
-                        {{> afQuickField name="job" type="hidden" value=_id}}
-                        {{> afQuickField name="hours"
-                            placeholder="500"
-                            label="Hours worked"
+                <div class="modal-body text-left">
+                    {{#if isCaregiver}}
+                        {{#autoForm
+                            id="paymentDetails"
+                            type="method"
+                            schema=schema
+                            meteormethod="payments.new"
                         }}
-                        {{> afQuickField name="hourlyRate"
-                            placeholder=charges.hourly
-                            label="Hourly rate charged (HKD)"
-                            value=charges.hourly
-                        }}
-                        {{> afQuickField name="extraCharges"
-                            placeholder=charges.extra
-                            label="Extra Charges (if any) (HKD)"
-                            value=charges.extra
-                        }}
-                        <div class="submit-buttons">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    {{/autoForm}}
+                            {{> afQuickField name="job" type="hidden" value=_id}}
+                            {{> afQuickField name="hours"
+                                placeholder="500"
+                                label="Hours worked"
+                            }}
+                            {{> afQuickField name="hourlyRate"
+                                placeholder=charges.hourly
+                                label="Hourly rate charged (HKD)"
+                                value=charges.hourly
+                            }}
+                            {{> afQuickField name="extraCharges"
+                                placeholder=charges.extra
+                                label="Extra Charges (if any) (HKD)"
+                                value=charges.extra
+                            }}
+                            <div class="submit-buttons">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        {{/autoForm}}
+                    {{else}}
+                        <h5>Payment Details</h5>
+                        <p>
+                            <strong>Hours worked :</strong> {{paymentDetails.hours}}
+                            <br>
+                            <strong>Hourly rate charged :</strong> HK ${{paymentDetails.hourlyRate}}
+                            <br> 
+                            {{#if paymentDetails.extraCharges}}
+                                <strong>Extra Charges :</strong> HK ${{paymentDetails.extraCharges}}
+                                <br> 
+                            {{/if}}
+                            <strong>Total : HK ${{paymentDetails.total}}</strong>
+                        </p>
+                        <h5>Payment Options</h5>
+                        <p>
+                            An Invoice link has been sent to you email address.
+                            Click on the link to initiate payment.
+                        </p>
+                        <button class="btn btn-primary check">
+                            {{#if checking}}
+                                <i class="fa fa-spinner fa-spin"></i>
+                            {{else}}
+                                Already Paid?
+                            {{/if}}
+                        </button>
+                    {{/if}}
                 </div>
             </div>
         </div>

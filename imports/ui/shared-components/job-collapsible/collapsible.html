@@ -25,49 +25,45 @@
                         <img src="{{hc.dp.link}}" class="hired-picture">
                         <h4>{{hc.firstName}} {{hc.lastName}}</h4>
                         <h5>${{hc.hourlyRate}} HKD per hour</h5>
-                        <button class="btn btn-default message" data-recipient="{{hc.username}}">Message</button>
+                        <button
+                            class="btn btn-default message"
+                            data-recipient="{{hc.username}}"
+                        >
+                            Message
+                        </button>
                         {{#if isCompleted}}
-                            {{#if review}}
-                                {{#if paymentDetails}}
-                                    {{#if payment}}
-                                        {{#if isPaid}}
-                                            <button class="btn btn-success" disabled>Payment Completed</button>
-                                        {{else}}
-                                            <button class="btn btn-danger" disabled>Payment Declined</button>
-                                        {{/if}}
-                                    {{else}}
-                                        <button class="btn btn-primary pay">Pay</button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-danger"
-                                            data-toggle="modal"
-                                            data-target="#decline-payment"
-                                        >
-                                            Decline Payment
-                                        </button>
-                                        <p>
-                                            <strong>Hours worked :</strong> {{paymentDetails.hours}} <br>
-                                            <strong>Hourly rate charged :</strong> HK ${{paymentDetails.hourlyRate}} <br>
-                                            {{#if paymentDetails.extraCharges}}
-                                            <strong>Extra Charges :</strong> HK ${{paymentDetails.extraCharges}} <br>
-                                            {{/if}}
-                                            <strong>Total : HK ${{paymentDetails.total}}</strong>
-                                        </p>
-                                        {{> declinePaymentModal}}
-                                    {{/if}}
-                                {{else}}
-                                    <h4>Awaiting Payment Details from Caregiver</h4>
-                                {{/if}}
+                            {{#if paymentDetails}}
+                                {{#if paymentStatus.isReceived}}
+                                    <button class="btn btn-success" disabled>Payment Completed</button>
+                                    {{> reviewSection}}
+                                {{else}} {{#if paymentStatus.isPaid}}
+                                    <button class="btn btn-success" disabled>Payment Completed</button>
+                                    {{> reviewSection}}
+                                {{else}} {{#if paymentStatus.isDeclined}}
+                                    <button class="btn btn-danger" disabled>Payment Declined</button>
+                                    {{> reviewSection}}
+                                {{else}} {{#if paymentStatus.isSent}}
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                        data-toggle="modal"
+                                        data-target="#payment-details"
+                                    >
+                                        Pay
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        data-toggle="modal"
+                                        data-target="#decline-payment"
+                                    >
+                                        Decline Payment
+                                    </button>
+                                    {{> paymentDetailsModal}}
+                                    {{> declinePaymentModal}}
+                                {{/if}}{{/if}}{{/if}}{{/if}}
                             {{else}}
-                                <button
-                                    type="button" 
-                                    class="btn btn-primary" 
-                                    data-toggle="modal" 
-                                    data-target="#review-modal"
-                                >
-                                    Review
-                                </button>
-                                {{> reviewModal}}
+                                <h4>Awaiting Payment Details from Caregiver</h4>
                             {{/if}}
                         {{else}}
                         {{/if}}
@@ -77,33 +73,41 @@
             {{/if}}
             {{#if isCurrentCaregiverHired}}
                 {{#if isCompleted}}
-                    {{#if paymentDetails}}
-                        <div class="text-center">
-                            <button type="button" class="btn btn-success" disabled>
+                    <div class="text-center">
+                    {{#if paymentDetails}} 
+                        {{#if paymentStatus.isReceived}}
+                            <button class="btn btn-success" disabled>Payment Received</button>
+                        {{else}} {{#if paymentStatus.isPaid}}
+                            <button class="btn btn-success" disabled>Payment Sent by Customer</button>
+                        {{else}} {{#if paymentStatus.isDeclined}}
+                            <button class="btn btn-danger" disabled>Payment Declined by Customer</button>
+                            <p><strong>Reason:</strong> {{paymentDetails.reason}}</p>
+                        {{else}} {{#if paymentStatus.isSent}}
+                            <button class="btn btn-success" disabled>
                                 Payment Details Submitted
                             </button>
-                            <p>
-                                <strong>Hours worked :</strong> {{paymentDetails.hours}} <br>
-                                <strong>Hourly rate charged :</strong> HK ${{paymentDetails.hourlyRate}} <br>
-                                {{#if paymentDetails.extraCharges}}
-                                <strong>Extra Charges :</strong> HK ${{paymentDetails.extraCharges}} <br>
-                                {{/if}}
-                                <strong>Total : HK ${{paymentDetails.total}}</strong>
-                            </p>
-                        </div>
+                        {{/if}} {{/if}} {{/if}} {{/if}}
+                        <p>
+                            <strong>Hours worked :</strong> {{paymentDetails.hours}}
+                            <br>
+                            <strong>Hourly rate charged :</strong> HK ${{paymentDetails.hourlyRate}}
+                            <br> {{#if paymentDetails.extraCharges}}
+                            <strong>Extra Charges :</strong> HK ${{paymentDetails.extraCharges}}
+                            <br> {{/if}}
+                            <strong>Total : HK ${{paymentDetails.total}}</strong>
+                        </p>
                     {{else}}
-                        <div class="text-center">
-                                <button
-                                type="button"
-                                class="btn btn-primary"
-                                data-toggle="modal"
-                                data-target="#payment-details"
-                            >
-                                Submit Payment Details
-                            </button>
-                        </div>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-toggle="modal"
+                            data-target="#payment-details"
+                        >
+                            Submit Payment Details
+                        </button>
                         {{> paymentDetailsModal}}
                     {{/if}}
+                    </div>
                 {{/if}}
             {{/if}}
             <h4>Job Description</h4>
@@ -183,4 +187,15 @@
             {{/if}}
         </div>
     </div>
+</template>
+
+<template name="reviewSection">
+    {{#if review}}
+        <button class="btn btn-success" disabled>Review Submitted</button>
+    {{else}}    
+        <button class="btn btn-primary" data-toggle="modal" data-target="#review-modal">
+            Review
+        </button>
+        {{> reviewModal}}
+    {{/if}}
 </template>

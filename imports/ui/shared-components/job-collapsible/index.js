@@ -6,8 +6,8 @@ import SimpleSchema from 'simpl-schema';
 import { paymentSchema } from '../../../api/payments/schema.js';
 
 import { Caregivers, acceptOffer } from '../../../api/caregivers';
-import { hireApplicant, completeJob, review, pay, declinePayment } from '../../../api/jobs';
-import { Payments, newPayment } from '../../../api/payments';
+import { hireApplicant, completeJob, review } from '../../../api/jobs';
+import { Payments, newPayment, checkPayment, declinePayment } from '../../../api/payments';
 
 import showAlert from '../alert';
 
@@ -33,6 +33,9 @@ Template.jobCollapsible.onCreated(function() {
 });
 
 Template.jobCollapsible.helpers({
+    rightImageSrc() {
+        return this.dp().link();
+    },
     isOpen() {
         return this.status === 'open';
     },
@@ -57,11 +60,14 @@ Template.jobCollapsible.helpers({
         let job = this;
         return job.hired === caregiver._id;
     },
-    isPaid() {
-        return this.payment === 'completed';
-    },
-    rightImageSrc() {
-        return this.dp().link();
+    paymentStatus() {
+        const status = Payments.findOne({ job: this._id }).status;
+        return {
+            isSent: status === 'sent',
+            isPaid: status === 'paid',
+            isReceived: status === 'received',
+            isDeclined: status === 'declined'
+        }
     },
     paymentDetails() {
         return Payments.findOne({ job: this._id });
@@ -101,7 +107,7 @@ Template.jobCollapsible.events({
     },
     'click .pay'( e, t ) {
         //pay caregiver
-        pay.call({ _id: t.data._id });
+        // pay.call({ _id: t.data._id });
     }
 });
 
@@ -120,9 +126,9 @@ Template.reviewModal.events({
             content: e.target.content.value
         };
 
-        review.call( options, ( err, res )=> {
+        review.call( options, ( err )=> {
             if( err ) {
-                console.error( err );
+                showAlert( err.reason, 'danger');
             } else {
                 showAlert('Review successfully posted!');
             }
@@ -132,32 +138,64 @@ Template.reviewModal.events({
 
 Template.declinePaymentModal.helpers({
     schema: new SimpleSchema({
-        _id: Datatypes.Id,
+        id: Datatypes.Id,
         reason: {
             type: String, optional: true
         }
     })
 });
 
+Template.paymentDetailsModal.onCreated(function() {
+    this.checking = new ReactiveVar( false );
+});
+
 Template.paymentDetailsModal.helpers({
     schema: paymentSchema.pick('job', 'hours', 'hourlyRate', 'extraCharges'),
+    isCaregiver() {
+        return Meteor.user().profile.type === 'caregiver';
+    },
     charges() {
         const caregiver = Caregivers.findOne({ user: Meteor.userId() });
         return {
             hourly: caregiver.hourlyRate,
             extra: caregiver.extraCharges
         }
+    },
+    paymentDetails() {
+        return Payments.findOne({ job: this._id });
+    },
+    checking() {
+        return Template.instance().checking.get();
     }
+});
+
+Template.paymentDetailsModal.events({ 
+    'click .check'( e, t ) { 
+        t.checking.set( true );
+        checkPayment.call({ job: t.data._id }, ( err, res )=> {
+            if( err ) {
+                showAlert( err.reason, 'danger');
+                console.error( err );
+            }
+            else showAlert( res );
+            t.checking.set( false );
+            t.$('#payment-details').modal('hide');
+        });
+    } 
 });
 
 AutoForm.hooks({
     paymentDetails: {
         after: { method( err ) {
+
             if( err ) {
                 showAlert( err.reason, 'danger');
             } else {
                 showAlert('Invoice sent to the Customer!');
             }
-        }}
+        }},
+        endSubmit() {
+            $('#payment-details').modal('hide');
+        }
     }
 });
