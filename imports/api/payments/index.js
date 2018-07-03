@@ -130,6 +130,7 @@ export const checkPayment = new ValidatedMethod({   //check status of payment bo
                 const invoice = getInvoiceFiber( payment.invoice );
                 switch ( invoice.status ) {
                     case 'SENT':
+                        newStatus = 'sent';
                         result = 'Payment details submitted by the Caregiver';
                         break;
                     case 'PAID':
