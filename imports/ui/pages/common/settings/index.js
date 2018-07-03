@@ -3,13 +3,14 @@ import { Accounts } from 'meteor/accounts-base';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { AutoForm } from 'meteor/aldeed:autoform';
 
-import { sendVerificationEmail, modifyEmail } from '../../../../api/users';
+import { sendVerificationEmail, modifyEmail, newMobile, verifyMobile, removeMobile } from '../../../../api/users';
 
 import SimpleSchema from 'simpl-schema';
 import showAlert from '../../../shared-components/alert';
 
 import './username.html';
 import './emails.html';
+import './numbers.html';
 import './password.html';
 import './payment.html';
 import './settings.html';
@@ -153,6 +154,108 @@ import './settings.html';
         },
         'click .cancel'( e, t ) {
             newEmail.set(0);
+        }
+    });
+
+//numbers form
+
+    const newNumber = new ReactiveVar(0);
+
+    Template.numberSettings.helpers({
+        newNumber() { return newNumber.get(); }
+    });
+
+    Template.numberSettings.events({
+        'click .new-number'() {
+            const user = Meteor.user();
+            const index = user.numbers.length + 1;
+            newNumber.set( index );
+        },
+    });
+
+    Template.numberRow.onCreated(function() {
+        this.removing = new ReactiveVar();
+    });
+
+    Template.numberRow.helpers({
+        removing() { return Template.instance().removing.get(); },
+        plusOne( index ) {
+            return ++index;
+        }
+    });
+
+    Template.numberRow.events({
+        'click .remove'( e, t ) {
+            t.removing.set(true);
+            const number = t.data.number;
+            // remove number method here
+            showAlert('Under Deveopment!', 'danger');
+            
+            removeMobile.call({ number }, ( err )=> {
+                if( err ) showAlert( err.reason, 'danger');
+                else {
+                    showAlert('Mobile numer successfully removed!');
+                    t.removing.set();
+                }
+            });
+        }
+    });
+
+    Template.newNumberForm.onCreated(function() {
+        this.submitting = new ReactiveVar();
+        this.otpSubmit = new ReactiveVar();
+        this.newMobile = new ReactiveVar();
+        console.log( this );
+    });
+
+    Template.newNumberForm.helpers({
+        newNumber() { return newNumber.get(); },
+        submitting() { return Template.instance().submitting.get(); },
+        otpSubmit() { return Template.instance().otpSubmit.get(); },
+        newMobile() { return Template.instance().newMobile.get(); }
+    });
+
+    Template.newNumberForm.events({
+        'click .submit, submit #newNumber'( e, t ) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            t.submitting.set(true);
+
+            if( t.otpSubmit.get() ) {
+                //submit otp
+                const number = t.newMobile.get();
+                const otp = t.$( '#new-number-otp' ).val();
+                verifyMobile.call({ number, otp }, ( err )=> {
+                    if( err ) showAlert( err.reason, 'danger');
+                    else {
+                        showAlert('Mobile number successfully added!');
+                        t.submitting.set();
+                        t.otpSubmit.set();
+                        t.newMobile.set();
+                        newNumber.set(0);
+                    }
+                });
+            } else {
+                //add new number
+                const number = t.$( '#new-number-input' ).val();
+                newMobile.call({ number }, ( err )=> {
+                    if( err ) showAlert( err.reason, 'danger');
+                    else {
+                        showAlert(`
+                            A one-time password has been sent to this number,
+                            use it to complete registration.
+                        `);
+                        t.submitting.set();
+                        t.otpSubmit.set(true);
+                        t.newMobile.set( number );
+                    }
+                });
+            }
+        },
+        'click .cancel'( e, t ) {
+            newNumber.set(0);
         }
     });
 

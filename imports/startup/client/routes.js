@@ -259,7 +259,20 @@
         }
     });
 
-    PrivateRouter.route('/settings/payment', {
+    PrivateRouter.route('/settings/numbers', {
+        name: 'settings.numbers',
+        action() {
+            import('../../ui/pages/common/settings').then(()=> {
+                BlazeLayout.render( 'AppLayout', {
+                    main: 'DashboardLayout',
+                    content: 'Settings',
+                    settings: 'numberSettings'
+                });
+            });
+        }
+    });
+
+    /* PrivateRouter.route('/settings/payment', {
         name: 'settings.payment',
         action() {
             import('../../ui/pages/common/settings').then(()=> {
@@ -270,7 +283,7 @@
                 });
             });
         }
-    });
+    }); */
 
 //search routes
     FlowRouter.route('/caregivers', {

@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
 import { Accounts } from 'meteor/accounts-base';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
@@ -6,7 +7,9 @@ import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
 
 import { Caregivers } from '../caregivers';
-import { SMS } from '../sms';
+import { sendSMS } from '../sms';
+
+const TimerHandlers = {};
 
 export const userProfileSchema = new SimpleSchema({
     firstName: String,
@@ -169,53 +172,6 @@ export const modifyEmail = new ValidatedMethod({                //add or remove 
     }
 });
 
-/* export const modifyMobile = new ValidatedMethod({                //add or remove email
-    name: 'user.mobile',
-    validate: new SimpleSchema({
-        mobile: String,
-        action: {
-            type: String,
-            allowedValues: ['add', 'remove']
-        }
-    }).validator(),
-    run({ mobile, action }) {
-
-        //must be logged in
-        if( !this.userId ) {
-            throw new Meteor.Error('user.mobile.unauthorized',
-            'You are not logged in!');
-        }
-
-        if( !this.isSimulation ) {          //only continue if method is running on server
-
-            if( action === 'add' ) {        //add email
-                SMS.send({
-                    to: mobile,
-                    msg: 'Hello, welcome to HealthyLovedOnes!'
-                }, function( err, res ) {
-                    if( err ) throw err;
-                    
-                });
-            } else
-            if( action === 'remove' ) {     //remove email
-
-                let user = Meteor.users.findOne( this.userId );
-                let verifiedEmails = user.emails.filter( obj => obj.verified );
-
-                //if email is the only verified email
-                if( (verifiedEmails.length === 1) && (verifiedEmails[0].address === email) ) {
-                    throw new Meteor.Error('user.email.error', 
-                    'You must have at least one verified email!');
-                }
-
-                Accounts.removeEmail( this.userId, email );
-            }
-        }
-
-        return true;
-    }
-}); */
-
 export const sendVerificationEmail = new ValidatedMethod({      //send verification mail
     name: 'user.email.sendVerification',
     validate: new SimpleSchema({
@@ -231,6 +187,154 @@ export const sendVerificationEmail = new ValidatedMethod({      //send verificat
 
         if( !this.isSimulation ) {  //run on server
             Accounts.sendVerificationEmail( this.userId, email );
+        }
+
+        return true;
+    }
+});
+
+export const newMobile = new ValidatedMethod({                  //initiate adding a mobile
+    name: 'user.number.new',
+    validate: new SimpleSchema({
+        number: String
+    }).validator(),
+    run({ number }) {
+
+        //must be logged in
+        if( !this.userId ) {
+            throw new Meteor.Error('user.mobile.unauthorized',
+            'You are not logged in!');
+        }
+
+        if( !this.isSimulation ) {  //only continue if method is running on server
+
+            //check if mobile is already in use
+            const existing = Meteor.users.findOne({ numbers: number });
+
+            if( existing ) {
+                throw new Meteor.Error('user.mobile.exists', 
+                'This mobile number is already registered with HLO!');
+            }
+
+            //clear any existing newMobile timer
+            const oldHandle = TimerHandlers[this.userId];
+            if( oldHandle ) Meteor.clearTimeout( oldHandle );
+
+            //Generate an OTP
+            const otp = `${ Math.floor( Random.fraction() * 1000000 ) }`;
+
+            //Start timer
+            const newHandle = Meteor.setTimeout( ()=> {
+                Meteor.users.update( this.userId, {
+                    $unset: { newMobile: '' }
+                });
+                TimerHandlers[this.userId] = undefined;
+            }, 600000);
+
+            //save otp and number to database
+            Meteor.users.update( this.userId, {
+                $set: { newMobile: { number, otp } }
+            });
+
+            //save timer handler
+            TimerHandlers[ this.userId ] = newHandle;
+
+            if( Meteor.settings.public.env !== 'development' ) {
+                const res = sendSMS({
+                    to: number,
+                    msg: `
+                        Thank you for registering with HealthyLovedOnes! To complete
+                        registration, enter ${otp} as you one-time password.
+                        This OTP will expire in 10 minutes.
+                    `
+                });
+            }
+
+            // console.log('sms sent succesfully', JSON.stringify( res ) );
+        }
+
+        return true;
+    }
+});
+
+export const verifyMobile = new ValidatedMethod({               //verify mobile otp
+    name: 'user.mobile.verify',
+    validate: new SimpleSchema({
+        number: String,
+        otp: String
+    }).validator(),
+    run({ number, otp }) {
+
+        //must be logged in
+        if( !this.userId ) {
+            throw new Meteor.Error('user.mobile.unauthorized',
+            'You are not logged in!');
+        }
+
+        if( !this.isSimulation ) {  //only continue if method is running on server
+            
+            const newMobile = Meteor.users.findOne( this.userId ).newMobile;
+
+            //check if newMobile exists
+            if( !newMobile ) {
+                throw new Meteor.Error('user.mobile.error', 
+                'No mobile number to verify!');
+            }
+
+            //check if number is correct
+            if( newMobile.number !== number ) {
+                throw new Meteor.Error('user.mobile.error', 
+                'Invalid Input! Please try again!');
+            }
+
+            const handle = TimerHandlers[ this.userId ];
+
+            //check if otp is correct
+            if( newMobile.otp !== otp ) {
+
+                //remove timer and data
+                Meteor.clearTimeout( handle );
+                Meteor.users.update( this.userId, {
+                    $unset: { newMobile: '' }
+                });
+
+                throw new Meteor.Error('user.mobile.invalid', 
+                'The OTP you entered was incorrect!');
+            }
+
+            //otp is correct, remove timer and update data
+            Meteor.clearTimeout( handle );
+
+            Meteor.users.update( this.userId, {
+                $push: { numbers: number },
+                $unset: { newMobile: '' }
+            });
+
+            return true;
+        }
+    }
+});
+
+export const removeMobile = new ValidatedMethod({
+    name: 'user.number.remove',
+    validate: new SimpleSchema({
+        number: String
+    }).validator(),
+    run({ number }) {
+
+        //must be logged in
+        if( !this.userId ) {
+            throw new Meteor.Error('user.mobile.unauthorized',
+            'You are not logged in!');
+        }
+
+        if( !this.isSimulation ) {  //only continue if method is running on server
+            Meteor.users.update({
+                _id: this.userId,
+                numbers: number
+            }, {
+                $pull: { numbers: number }
+            });
         }
 
         return true;

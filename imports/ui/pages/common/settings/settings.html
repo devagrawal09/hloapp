@@ -9,19 +9,22 @@
                         <li class="nav-item {{isActiveRoute 'settings.username'}}">
                             <a href="{{pathFor 'settings.username'}}">Username</a>
                         </li>
-                        <li class="nav-item {{isActiveRoute 'settings.emails'}}">
-                            <a href="{{pathFor 'settings.emails'}}">Manage Emails</a>
-                        </li>
                         <li class="nav-item {{isActiveRoute 'settings.passwords'}}">
                             <a href="{{pathFor 'settings.passwords'}}">Change Password</a>
                         </li>
                     {{/if}}
+                    <li class="nav-item {{isActiveRoute 'settings.emails'}}">
+                        <a href="{{pathFor 'settings.emails'}}">Manage Emails</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{pathFor 'settings.numbers'}}">Manage Mobile Numbers</a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{pathFor 'profile.edit'}}">Edit Profile</a>
                     </li>
-                    <li class="nav-item {{isActiveRoute 'settings.payment'}}">
+                    <!-- <li class="nav-item {{isActiveRoute 'settings.payment'}}">
                         <a href="{{pathFor 'settings.payment'}}">Payment Details</a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="col-sm-9">

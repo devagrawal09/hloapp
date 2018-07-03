@@ -35,6 +35,7 @@ Accounts.onCreateUser(function(options, user){          //create new caregivers
     user.lastName = last;
     user.fullName = `${first} ${last}`;
     user.profile = options.profile;
+    user.numbers = [];
 
     if( user.emails ) {
         Email.send({ 

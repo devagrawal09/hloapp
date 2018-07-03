@@ -1,0 +1,78 @@
+<template name="numberSettings">
+    <div class="container-small">
+        <h3 class="text-center">Manage your mobile numbers</h3>
+        <table class="table table-hover">
+            <thead><tr>
+                <th>#</th>
+                <th>Number</th>
+                <th>Actions</th>
+            </tr></thead>
+            <tbody>
+                {{#each number in currentUser.numbers}}
+                    {{> numberRow index=@index number=number}}
+                {{/each}}
+                {{#if newNumber}}
+                    {{> newNumberForm}}
+                {{/if}}
+            </tbody>
+        </table>
+        {{#unless newNumber}}
+        <button class="btn btn-primary new-number">
+            Add new Number
+        </button>
+        {{/unless}}
+    </div>
+</template>
+
+<template name="numberRow">
+    <tr>
+        <td>{{plusOne index}}</td>
+        <td>{{number}}</td>
+        <td>
+            <button class="btn btn-danger remove">
+                {{#if removing}}
+                <i class="fa fa-spinner fa-spin"></i>
+                {{else}} Remove {{/if}}
+            </button>
+        </td>
+    </tr>
+</template>
+
+<template name="newNumberForm">
+    <tr>
+        <td>{{newNumber}}</td>
+        <td>
+            <form class="form-inline" id="newNumber">
+                {{#if otpSubmit}}
+                    <label for="otp">
+                        Enter OTP sent to:
+                        <strong>{{newMobile}}</strong>
+                    </label>
+                    <input 
+                        type="text"
+                        name="otp"
+                        id="new-number-otp"
+                        class="form-control"
+                        placeholder="OTP"
+                    >
+                {{else}}
+                    <input 
+                        type="text" 
+                        name="newNumber"
+                        id="new-number-input" 
+                        class="form-control" 
+                        placeholder="85290000001"
+                    >
+                {{/if}}
+            </form>
+        </td>
+        <td>
+            <button type="submit" class="btn btn-success submit">
+                {{#if submitting}}
+                <i class="fa fa-spinner fa-spin"></i>
+                {{else}} Submit {{/if}}
+            </button>
+            <button type="reset" class="btn btn-danger cancel">Cancel</button>
+        </td>
+    </tr>
+</template>
