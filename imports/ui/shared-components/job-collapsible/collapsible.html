@@ -47,7 +47,7 @@
                                         type="button"
                                         class="btn btn-primary"
                                         data-toggle="modal"
-                                        data-target="#payment-details"
+                                        data-target="#payment-details-{{_id}}"
                                     >
                                         Pay
                                     </button>
@@ -55,7 +55,7 @@
                                         type="button"
                                         class="btn btn-danger"
                                         data-toggle="modal"
-                                        data-target="#decline-payment"
+                                        data-target="#decline-payment-{{_id}}"
                                     >
                                         Decline Payment
                                     </button>
@@ -101,7 +101,7 @@
                             type="button"
                             class="btn btn-primary"
                             data-toggle="modal"
-                            data-target="#payment-details"
+                            data-target="#payment-details-{{_id}}"
                         >
                             Submit Payment Details
                         </button>
@@ -193,7 +193,7 @@
     {{#if review}}
         <button class="btn btn-success" disabled>Review Submitted</button>
     {{else}}    
-        <button class="btn btn-primary" data-toggle="modal" data-target="#review-modal">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#review-modal-{{_id}}">
             Review
         </button>
         {{> reviewModal}}

@@ -112,9 +112,6 @@ Template.jobCollapsible.events({
 });
 
 Template.reviewModal.events({
-    'click .cancel'( e, t ) {
-        t.$( '#review-modal' ).modal('hide');
-    },
     'submit #reviewForm'( e, t ) {
 
         e.preventDefault();
@@ -179,7 +176,8 @@ Template.paymentDetailsModal.events({
             }
             else showAlert( res );
             t.checking.set( false );
-            t.$('#payment-details').modal('hide');
+            t.$(`#payment-details-${t.data._id}`).modal('hide');
+            $('.modal-backdrop').remove();
         });
     } 
 });
@@ -187,15 +185,12 @@ Template.paymentDetailsModal.events({
 AutoForm.hooks({
     paymentDetails: {
         after: { method( err ) {
-
             if( err ) {
                 showAlert( err.reason, 'danger');
             } else {
                 showAlert('Invoice sent to the Customer!');
             }
-        }},
-        endSubmit() {
-            $('#payment-details').modal('hide');
-        }
+            $('.modal-backdrop').remove();
+        }}
     }
 });
