@@ -403,5 +403,8 @@ Meteor.users.helpers({
             link: `/img/avatar-${gender}.png`,
             name: `Customer profile photo`
         }
+    },
+    getEmails() {
+        return this.emails.map( email=> email.address );
     }
 });

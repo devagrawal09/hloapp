@@ -188,8 +188,6 @@ import './settings.html';
         'click .remove'( e, t ) {
             t.removing.set(true);
             const number = t.data.number;
-            // remove number method here
-            showAlert('Under Deveopment!', 'danger');
             
             removeMobile.call({ number }, ( err )=> {
                 if( err ) showAlert( err.reason, 'danger');

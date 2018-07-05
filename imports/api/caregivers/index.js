@@ -1,13 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import { FilesCollection } from 'meteor/ostrio:files';
-
-import SimpleSchema from 'simpl-schema';
-import Datatypes from '../data-types';
 
 import { Jobs, Reviews } from '../jobs';
-import { caregiverSchema, detailsSchema, experienceSchema, servicesSchema, pricingSchema, photoSchema } from './schema.js';
+import { detailsSchema, experienceSchema, servicesSchema, pricingSchema, photoSchema } from './schema.js';
 import { CaregiverImages } from './images';
 
 export const Caregivers = new Mongo.Collection('caregivers');
@@ -203,6 +199,8 @@ export { CaregiverImages };
                 'Your caregiver profile is either already complete or does not exist!');
             }
 
+            if( !this.isSimulation ) Caregivers.notifications.finalise({ userId: this.userId });
+
             return true;
         }
     });
@@ -251,10 +249,13 @@ export { CaregiverImages };
             }, { $push: {
                 appliedJobs: _id
             }});
+
+            if( !this.isSimulation ) Jobs.notifications.newApplication({ caregiverId: caregiver._id, jobId: _id });
+
+            return true;
         }
     });
 
-    //incomplete
     export const acceptOffer = new ValidatedMethod({    //accept offered job
         name: 'jobs.accept',
         validate: detailsSchema.pick( '_id' ).validator(),
@@ -309,6 +310,8 @@ export { CaregiverImages };
                 $set: { currentJob: job },
                 $pull: { offers: job }
             });
+
+            if( this.isSimulation ) Jobs.notifications.offerAccepted({ caregiverId: caregiver._id, jobId: _id });
 
             return true;
         }

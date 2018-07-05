@@ -11,7 +11,7 @@ import { JobImages } from './images';
 
 export const Jobs = new Mongo.Collection('jobs');
 export const Reviews = new Mongo.Collection('reviews');
-export {JobImages};
+export { JobImages };
 
 //methods
 
@@ -195,6 +195,9 @@ export {JobImages};
             Caregivers.update( caregiverId, { $push: {
                 offers: job
             }});
+
+            //notify caregiver
+            if( !this.isSimulation ) Caregivers.notifications.newOffer({ caregiverId, jobId: job });
         }
     });
 
@@ -228,30 +231,49 @@ export {JobImages};
                 'Applicant is already employed!');
             }
 
-            //update job with hired status and id
-            let result = Jobs.update({
+            //fetch job details
+            const jobDoc = Jobs.findOne({
                 _id: job,
                 postedBy: this.userId,
                 status: 'open',
                 applicants: applicant
-            }, { $set: {
+            });
+
+            if( !jobDoc._id ) {
+                //invalid input
+                throw new Meteor.Error('jobs.hire.error',
+                'Invalid Input, please try again!');
+            }
+
+            //update job with hired status and id
+            Jobs.update( jobDoc._id, { $set: {
                 status: 'hired',
                 hired: applicant,
                 applicants: [],
                 offers: []
             }});
 
-            if( !result ) {
-                //invalid input
-                throw new Meteor.Error('jobs.hire.error',
-                'Invalid Input, please try again!');
-            }
-
             //update caregiver's profile with job id
             Caregivers.update( applicant, { 
                 $set: { currentJob: job },
                 $pull: { appliedJobs: job }
             });
+
+            //notifications
+            if( !this.isSimulation ) {
+                //notify hired applicant
+                Caregivers.notifications.appAccepted({ jobId: job, caregiverId: applicant });
+
+                //notify other applicants
+                jobDoc.applicants.filter( app=> app !== applicant ).forEach( caregiverId=> {
+                    Caregivers.notifications.appNotAccepted({ caregiverId, jobId: job });
+                });
+
+                //notify offered caregivers
+                jobDoc.offers.forEach( caregiverId=> {
+                    Caregivers.notifications.offerExpired({ caregiverId, jobId: job });
+                });
+            }
         }
     });
     
@@ -285,6 +307,21 @@ export {JobImages};
                     $set: { status: 'expired' }
                 });
 
+                //notifications
+                if( !this.isSimulation ) {
+
+                    //notify applicants
+                    job.applicants.forEach( caregiverId=> {
+                        Caregivers.notifications.appNotAccepted({ caregiverId, jobId: job });
+                    });
+
+                    //notify offered caregivers
+                    job.offers.forEach( caregiverId=> {
+                        Caregivers.notifications.offerExpired({ caregiverId, jobId: job });
+                    });
+
+                }
+
                 return 'expired';
             }
             
@@ -298,6 +335,12 @@ export {JobImages};
                 $set: { currentJob: '' },
                 $push: { jobHistory: _id }
             });
+
+            //notify caregiver
+            if( !this.isSimulation ) {
+                Caregivers.notifications.jobCompleted({ jobId: _id });
+                Jobs.notifications.jobCompleted({ jobId: _id });
+            }
 
             return 'completed';
 
@@ -340,6 +383,9 @@ export {JobImages};
             Jobs.update( job._id, {
                 $set: { review: reviewId }
             });
+
+            //notify caregiver
+            if( !this.isSimulation ) Caregivers.notifications.reviewed({ jobId: job._id });
 
             return true;
         }

@@ -129,6 +129,7 @@ Template.reviewModal.events({
             } else {
                 showAlert('Review successfully posted!');
             }
+            $('.modal-backdrop').remove();
         });
     }
 });

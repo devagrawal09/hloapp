@@ -137,6 +137,7 @@ export const checkPayment = new ValidatedMethod({   //check status of payment bo
                     case 'MARKED_AS_PAID':
                         newStatus = 'paid';
                         result = 'Payment has been recieved by HLO!';
+                        if( !this.isSimulation ) Caregivers.notifications.paid({ jobId: job._id });
                         break;
                     case 'CANCELLED':
                         newStatus = 'declined';
