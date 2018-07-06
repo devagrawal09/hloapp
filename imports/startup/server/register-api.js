@@ -16,4 +16,6 @@ import '../../api/messages/server/publications.js';
 import '../../api/payments';
 import '../../api/payments/server/publications.js';
 
+import '../../api/notifications/server/publications.js';
+
 import '../../api/public';

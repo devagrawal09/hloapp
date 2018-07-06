@@ -3,10 +3,12 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import { messageSchema } from './schema.js';
 
+import { Notifications } from '../notifications';
+
 export const Messages = new Mongo.Collection('msg');
 export const Conversations = new Mongo.Collection('conversations');
 
-export const newConversation = new ValidatedMethod({ //send a new message
+export const newConversation = new ValidatedMethod({    //send a new message
     name: 'msg.new',
     validate: messageSchema.pick('recipient', 'msg', 'subject').validator(),
     run( msg ) {
@@ -46,7 +48,13 @@ export const newConversation = new ValidatedMethod({ //send a new message
             });
 
             msg.conversation = id;          //set conversation id
-            Messages.insert(msg);           //send message
+            Messages.insert( msg );         //send message
+
+            Notifications.insert({
+                user: recipient._id,
+                type: 'msg',
+                conversation: id
+            });
 
             return true;
         }
@@ -58,7 +66,7 @@ export const reply = new ValidatedMethod({
     validate: messageSchema.pick('msg', 'conversation').validator(),
     run( msg ) {
 
-        let conversation = Conversations.findOne({    //fetch conversation
+        const conversation = Conversations.findOne({    //fetch conversation
             _id: msg.conversation,
             participants: this.userId
         });
@@ -71,7 +79,7 @@ export const reply = new ValidatedMethod({
         const fromIndex = _.indexOf( conversation.participants, this.userId );
         const toIndex = fromIndex? 0 : 1;
 
-        msg.to = conversation.participants[toIndex];
+        msg.to = conversation.participants[ toIndex ];
         msg.from = this.userId;
         msg.sent = new Date();                  //set message sent date
         msg.read = false;                       //all messages are unread by default
@@ -82,6 +90,12 @@ export const reply = new ValidatedMethod({
             $set: { last: msg.sent }
         });
 
+        Notifications.insert({
+            user: msg.to,
+            type: 'msg',
+            conversation: conversation._id
+        });
+
         return true;
     }
 });
@@ -89,7 +103,7 @@ export const reply = new ValidatedMethod({
 export const readMsg = new ValidatedMethod({    //set messages as read of a conversation
     name: 'msg.read',
     validate: messageSchema.pick('conversation').validator(),
-    run({ conversation }) {     //only conversation id needed
+    run({ conversation }) {                     //only conversation id needed
 
         Messages.update({
             conversation,
@@ -99,6 +113,12 @@ export const readMsg = new ValidatedMethod({    //set messages as read of a conv
             $set: { read: true }
         }, {
             multi: true         //modify all matching docs
+        });
+
+        Notifications.remove({
+            type: 'msg',
+            conversation,
+            user: this.userId
         });
     }
 });

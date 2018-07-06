@@ -51,3 +51,7 @@ Template.Conversation.events({
         });
     } 
 });
+
+Template.Conversation.onDestroyed(function() {
+    readMsg.call({ conversation: Template.currentData().conversation() });
+});

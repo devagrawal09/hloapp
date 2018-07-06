@@ -11,7 +11,6 @@ import { paymentSchema } from './schema.js';
 
 import { Jobs } from '../jobs';
 import { Caregivers } from '../caregivers';
-import { ADDRGETNETWORKPARAMS } from 'dns';
 
 const createInvoiceFiber = Meteor.wrapAsync( paypal.invoice.create, paypal.invoice );
 const sendInvoiceFiber = Meteor.wrapAsync( paypal.invoice.send, paypal.invoice );
