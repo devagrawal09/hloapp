@@ -1,7 +1,12 @@
 <template name="jobCollapsible">
     <div class="job">
         <div class="job-name">
-            <h4>{{title}}</h4>
+            <h4>
+                {{title}}
+                {{#if notifications}}
+                <span class="badge">{{notifications}}</span>
+                {{/if}}
+            </h4>
             <h6>{{getDate postedOn}}</h6>
         </div>
         <div class="job-right">

@@ -4,6 +4,7 @@ import { sendSMS } from '../../sms';
 
 import { Caregivers } from '..';
 import { Jobs } from '../../jobs';
+import { Notifications } from '../../notifications';
 
 const root = process.env.ROOT_URL;
 
@@ -38,6 +39,11 @@ Caregivers.notifications = {
             dashboard: ` ${ root }dashboard `,
             job: ` ${ root }job/${ job._id } `
         }
+        Notifications.insert({
+            user: caregiver.user,
+            type: 'job',
+            job: jobId
+        });
         Email.send({
             from: 'info@healthylovedones.com',
             to: emails,
@@ -85,6 +91,11 @@ Caregivers.notifications = {
             dashboard: ` ${ root }dashboard `,
             job: ` ${ root }job/${ job._id } `
         }
+        Notifications.insert({
+            user: caregiver.user,
+            type: 'job',
+            job: jobId
+        });
         Email.send({
             from: 'info@healthylovedones.com',
             to: emails,
@@ -132,6 +143,11 @@ Caregivers.notifications = {
         const Urls = {
             dashboard: ` ${ root }dashboard `
         }
+        Notifications.insert({
+            user: caregiver.user,
+            type: 'job',
+            job: jobId
+        });
         Email.send({
             from: 'info@healthylovedones.com',
             to: emails,
@@ -155,6 +171,11 @@ Caregivers.notifications = {
         const Urls = {
             dashboard: ` ${ root }dashboard `
         }
+        Notifications.insert({
+            user: caregiver.user,
+            type: 'job',
+            job: jobId
+        });
         Email.send({
             from: 'info@healthylovedones.com',
             to: emails,
@@ -174,6 +195,11 @@ Caregivers.notifications = {
         const caregiver = Caregivers.findOne( job.hired );
         const customer = Meteor.users.findOne( job.postedBy );
         const emails = Meteor.users.findOne( caregiver.user ).getEmails();
+        Notifications.insert({
+            user: caregiver.user,
+            type: 'job',
+            job: jobId
+        });
         Email.send({
             from: 'info@healthylovedones.com',
             to: emails,

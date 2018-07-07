@@ -4,6 +4,7 @@ import { sendSMS } from '../../sms';
 
 import { Caregivers } from '../../caregivers';
 import { Jobs } from '..';
+import { Notifications } from '../../notifications';
 
 const root = process.env.ROOT_URL;
 
@@ -17,6 +18,11 @@ Jobs.notifications = {
             dashboard: ` ${ root }dashboard `,
             caregiver: ` ${ root }caregiver/${ caregiver._id } `
         }
+        Notifications.insert({
+            user: customer._id,
+            type: 'job',
+            job: jobId
+        });
         Email.send({
             from: 'info@healthylovedones.com',
             to: emails,
@@ -39,6 +45,11 @@ Jobs.notifications = {
         const Urls = {
             dashboard: ` ${ root }dashboard `,
         }
+        Notifications.insert({
+            user: customer._id,
+            type: 'job',
+            job: jobId
+        });
         Email.send({
             from: 'info@healthylovedones.com',
             to: emails,

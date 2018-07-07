@@ -18,5 +18,11 @@ Template.DashboardLayout.helpers({
             user: Meteor.userId(),
             type: 'msg'
         }).count();
+    },
+    jobNotifications() {
+        return Notifications.find({
+            user: Meteor.userId(),
+            type: 'job'
+        }).count();
     }
 });

@@ -5,8 +5,9 @@ import SimpleSchema from 'simpl-schema';
 
 import { paymentSchema } from '../../../api/payments/schema.js';
 
+import { Notifications } from '../../../api/notifications';
 import { Caregivers, acceptOffer } from '../../../api/caregivers';
-import { hireApplicant, completeJob, review } from '../../../api/jobs';
+import { hireApplicant, completeJob, review, viewJob } from '../../../api/jobs';
 import { Payments, newPayment, checkPayment, declinePayment } from '../../../api/payments';
 
 import showAlert from '../alert';
@@ -32,9 +33,23 @@ Template.jobCollapsible.onCreated(function() {
     });
 });
 
+Template.jobCollapsible.onRendered(function() {
+    const _id = this.data._id;
+    $(`#${ _id }`).on('shown.bs.collapse', ()=> {
+        viewJob.call({ _id });
+    });
+});
+
 Template.jobCollapsible.helpers({
     rightImageSrc() {
         return this.dp().link();
+    },
+    notifications() {
+        return Notifications.find({
+            type: 'job',
+            job: this._id,
+            user: Meteor.userId()
+        }).count();
     },
     isOpen() {
         return this.status === 'open';

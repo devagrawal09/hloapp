@@ -12,7 +12,9 @@
                     <i class="fa fa-briefcase dashboard-logo"></i>
                     <p>
                         Jobs 
-                        <!-- <span class="badge">5</span> -->
+                        {{#if jobNotifications}}
+                        <span class="badge">{{jobNotifications}}</span>
+                        {{/if}}
                     </p>
                 </a>
                 <a class="col-xs-3 {{isActiveRoute regex='chat|conversation'}}" href="{{pathFor 'chat'}}">

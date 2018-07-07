@@ -8,6 +8,7 @@ import Datatypes from '../data-types';
 import { Caregivers } from '../caregivers';
 import { detailsSchema, photoSchema, reviewSchema } from './schema.js';
 import { JobImages } from './images';
+import { Notifications } from '../notifications';
 
 export const Jobs = new Mongo.Collection('jobs');
 export const Reviews = new Mongo.Collection('reviews');
@@ -388,6 +389,38 @@ export { JobImages };
             if( !this.isSimulation ) Caregivers.notifications.reviewed({ jobId: job._id });
 
             return true;
+        }
+    });
+
+    export const viewJob = new ValidatedMethod({
+        name: 'jobs.view',
+        validate: detailsSchema.pick( '_id' ).validator(),
+        run({ _id }) {
+
+            if( !this.userId ) {
+                //current user is not a customer
+                throw new Meteor.Error('jobs.unauthorized',
+                'You are not logged in!');
+            }
+
+            const job = Jobs.findOne( _id );
+
+            if( job.postedBy !== this.userId ) {
+                //current user is not the owner of the job
+                const caregiver = Caregivers.findOne({ user: this.userId });
+    
+                if( job.hired !== caregiver._id ) {
+                    //current user is not the hired caregiver for this job
+                    throw new Meteor.Error('jobs.unauthorized', 
+                    'You are not associated with this job!');
+                }
+            }
+
+            Notifications.remove({
+                job: _id,
+                type: 'job',
+                user: this.userId
+            });
         }
     });
 
