@@ -19,9 +19,9 @@ const sendFunc = ({ to, msg }, callback )=> {
     //place http call
     HTTP.post('https://smsc.xgate.com.hk/smshub/sendsms', {
         content: requestStr
-    }, ( error, result )=> {
+    }, ( err, result )=> {
         //general http error
-        if( error ) return callback( error );
+        if( err ) return callback( err );
         //http call succesful, parse result xml
         _parser.parseString( result.content, ( err, res )=> {
             //error parsing
