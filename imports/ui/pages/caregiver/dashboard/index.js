@@ -28,8 +28,8 @@ Template.JobHistory.onCreated(function () {
         });
     });
     this.autorun(()=> {
-        let bookmarks = Meteor.user().bookmarks;        
-        this.subscribe('caregiversById', bookmarks );
+        const bookmarks = Meteor.user().bookmarks;        
+        if( bookmarks ) this.subscribe('caregiversById', bookmarks );
     });
 });
 

@@ -1,70 +1,67 @@
 import { Meteor } from 'meteor/meteor';
+import { _ } from 'meteor/underscore';
 import { Random } from 'meteor/random';
 import { FilesCollection } from 'meteor/ostrio:files';
 
-let gcs, bucket, bucketMetadata, Request, bound, Collections = {};
+let stream, S3, fs, s3Conf, bound, s3 = {};
 
-if ( Meteor.isServer ) {
-    gcs = Npm.require('@google-cloud/storage')({
-        projectId: 'hloapp-205720',
-        credentials: Meteor.settings.gcloud.credentials
-    });
-    bucket = gcs.bucket(Meteor.settings.gcloud.bucket);    
-    bucket.getMetadata(function (error, metadata, apiResponse) {
-        if (error) {
-            console.error(error);
-        }
-    });
-    bound = Meteor.bindEnvironment(function (callback) {
+if( Meteor.isServer ) {
+    stream = require('stream');
+    S3 = require('aws-sdk/clients/s3');
+    fs = require('fs');
+
+    s3Conf = Meteor.settings.s3;
+    bound = Meteor.bindEnvironment((callback) => {
         return callback();
+    });
+    
+    s3 = new S3({
+        secretAccessKey: s3Conf.secret,
+        accessKeyId: s3Conf.key,
+        region: s3Conf.region,
+        // sslEnabled: true,
+        httpOptions: {
+            timeout: 6000,
+            agent: false
+        }
     });
 }
 
 export const CaregiverImages = new FilesCollection({
+    debug: false,
+    storagePath: 'assets/app/uploads/caregiver-images',
     collectionName: 'caregiver-images',
     allowClientCode: false,
-    onBeforeUpload(file) {
-        // Allow upload files under 5MB, and only in png/jpg/jpeg formats
-        if (file.size <= 5242880 && /png|jpg|jpeg/i.test(file.extension)) {
-            return true;
-        }
-        return 'Please upload image, with size equal or less than 10MB';
-    },
     onAfterUpload(fileRef) {
-        // In the onAfterUpload callback, we will move the file to Google Cloud Storage
-        var self = this;
-        _.each(fileRef.versions, function(vRef, version) {
-            // We use Random.id() instead of real file's _id
-            // to secure files from reverse engineering
-            // As after viewing this code it will be easy
-            // to get access to unlisted and protected files
-            var filePath = "files/" + (Random.id()) + "-" + version + "." + fileRef.extension;
-            // Here we set the neccesary options to upload the file, for more options, see
-            // https://googlecloudplatform.github.io/gcloud-node/#/docs/v0.36.0/storage/bucket?method=upload
-            var options = {
-                destination: filePath,
-                resumable: false
-            };
+        
+        _.each(fileRef.versions, (vRef, version) => {
+            
+            const filePath = 'files/' + (Random.id()) + '-' + version + '.' + fileRef.extension;
 
-            bucket.upload(fileRef.path, options, function(error, file) {
-                bound(function() {
-                    var upd;
+            s3.putObject({
+                // ServerSideEncryption: 'AES256', // Optional
+                StorageClass: 'STANDARD',
+                Bucket: s3Conf.bucket,
+                Key: filePath,
+                Body: fs.createReadStream(vRef.path),
+                ContentType: vRef.type,
+            }, (error) => {
+                bound(() => {
                     if (error) {
                         console.error(error);
                     } else {
-                        upd = {
-                            $set: {}
-                        };
-                        upd['$set']["versions." + version + ".meta.pipePath"] = filePath;
-                        self.collection.update({
+                        // Update FilesCollection with link to the file at AWS
+                        const upd = { $set: {} };
+                        upd['$set']['versions.' + version + '.meta.pipePath'] = filePath;
+
+                        this.collection.update({
                             _id: fileRef._id
-                        }, upd, function (error) {
-                            if (error) {
-                                console.error(error);
+                        }, upd, (updError) => {
+                            if (updError) {
+                                console.error(updError);
                             } else {
-                                // Unlink original files from FS
-                                // after successful upload to Google Cloud Storage
-                                self.unlink(self.collection.findOne(fileRef._id), version);
+                                // Unlink original files from FS after successful upload to AWS:S3
+                                this.unlink(this.collection.findOne(fileRef._id), version);
                             }
                         });
                     }
@@ -72,100 +69,83 @@ export const CaregiverImages = new FilesCollection({
             });
         });
     },
+
     interceptDownload(http, fileRef, version) {
-        let path, ref, ref1, ref2;
-        path = (ref = fileRef.versions) != null ? (ref1 = ref[version]) != null ? (ref2 = ref1.meta) != null ? ref2.pipePath : void 0 : void 0 : void 0;
-        let vRef = ref1;
-        if (path) {
-            // If file is moved to Google Cloud Storage
-            // We will pipe request to Google Cloud Storage
-            // So, original link will stay always secure
-            var remoteReadStream = getReadableStream(http, path, vRef);
-            this.serve(http, fileRef, vRef, version, remoteReadStream);
-            return true;
-        } else {
-            // While the file has not been uploaded to Google Cloud Storage, we will serve it from the filesystem
-            return false;
+        let path;
+
+        if (fileRef && fileRef.versions && fileRef.versions[version] && fileRef.versions[version].meta && fileRef.versions[version].meta.pipePath) {
+            path = fileRef.versions[version].meta.pipePath;
         }
+
+        if (path) {
+            
+            const opts = {
+                Bucket: s3Conf.bucket,
+                Key: path
+            };
+
+            if (http.request.headers.range) {
+                const vRef = fileRef.versions[version];
+                let range = _.clone(http.request.headers.range);
+                const array = range.split(/bytes=([0-9]*)-([0-9]*)/);
+                const start = parseInt(array[1]);
+                let end = parseInt(array[2]);
+                if (isNaN(end)) {
+                    
+                    end = (start + this.chunkSize) - 1;
+                    if (end >= vRef.size) {
+                        end = vRef.size - 1;
+                    }
+                }
+                opts.Range = `bytes=${start}-${end}`;
+                http.request.headers.range = `bytes=${start}-${end}`;
+            }
+
+            const fileColl = this;
+            s3.getObject(opts, function (error) {
+                if (error) {
+                    console.error(error);
+                    if (!http.response.finished) {
+                        http.response.end();
+                    }
+                } else {
+                    if (http.request.headers.range && this.httpResponse.headers['content-range']) {
+                        // Set proper range header in according to what is returned from AWS:S3
+                        http.request.headers.range = this.httpResponse.headers['content-range'].split('/')[0].replace('bytes ', 'bytes=');
+                    }
+
+                    const dataStream = new stream.PassThrough();
+                    fileColl.serve(http, fileRef, fileRef.versions[version], version, dataStream);
+                    dataStream.end(this.data.Body);
+                }
+            });
+
+            return true;
+        }
+        
+        return false;
     }
 });
 
-if ( Meteor.isServer ) {
-    // Intercept file's collection remove method to remove file from Google Cloud Storage
-    var _origRemove = CaregiverImages.remove;
-
-    CaregiverImages.remove = function(search) {
-        var cursor = this.collection.find(search);
-        cursor.forEach(function (fileRef) {
-            _.each(fileRef.versions, function (vRef) {
-                var ref;
-                if (vRef != null ? (ref = vRef.meta) != null ? ref.pipePath : void 0 : void 0) {
-                    bucket.file(vRef.meta.pipePath).delete(function (error) {
-                        bound(function () {
-                            if (error) {
-                                console.error(error);
-                            }
-                        });
+const _origRemove = CaregiverImages.remove;
+CaregiverImages.remove = function(search) {
+    const cursor = this.collection.find(search);
+    cursor.forEach((fileRef) => {
+        _.each(fileRef.versions, (vRef) => {
+            if (vRef && vRef.meta && vRef.meta.pipePath) {
+                // Remove the object from AWS:S3 first, then we will call the original FilesCollection remove
+                s3.deleteObject({
+                    Bucket: s3Conf.bucket,
+                    Key: vRef.meta.pipePath,
+                }, (error) => {
+                    bound(() => {
+                        if (error) console.error(error);
                     });
-                }
-            });
+                });
+            }
         });
-        // Call the original removal method
-        _origRemove.call(this, search);
-    };
-}
+    });
 
-function getReadableStream(http, path, vRef) {
-    let array, end, partial, remoteReadStream, reqRange, responseType, start, take;
-
-    if (http.request.headers.range) {
-        partial = true;
-        array = http.request.headers.range.split(/bytes=([0-9]*)-([0-9]*)/);
-        start = parseInt(array[1]);
-        end = parseInt(array[2]);
-        if (isNaN(end)) {
-            end = vRef.size - 1;
-        }
-        take = end - start;
-    } else {
-        start = 0;
-        end = vRef.size - 1;
-        take = vRef.size;
-    }
-
-    if (partial || (http.params.query.play && http.params.query.play === 'true')) {
-        reqRange = {
-            start: start,
-            end: end
-        };
-        if (isNaN(start) && !isNaN(end)) {
-            reqRange.start = end - take;
-            reqRange.end = end;
-        }
-        if (!isNaN(start) && isNaN(end)) {
-            reqRange.start = start;
-            reqRange.end = start + take;
-        }
-        if ((start + take) >= vRef.size) {
-            reqRange.end = vRef.size - 1;
-        }
-        if ((reqRange.start >= (vRef.size - 1) || reqRange.end > (vRef.size - 1))) {
-            responseType = '416';
-        } else {
-            responseType = '206';
-        }
-    } else {
-        responseType = '200';
-    }
-
-    if (responseType === "206") {
-        remoteReadStream = bucket.file(path).createReadStream({
-            start: reqRange.start,
-            end: reqRange.end
-        });
-    } else if (responseType === "200") {
-        remoteReadStream = bucket.file(path).createReadStream();
-    }
-
-    return remoteReadStream;
-}
+    //remove original file from database
+    _origRemove.call(this, search);
+};

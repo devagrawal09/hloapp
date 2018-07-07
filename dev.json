@@ -7,21 +7,6 @@
         "id": "81dbqd7onu0t2k",
         "secret": "BlwuzpOQTbvpqbMQ"
     },
-    "gcloud": {
-        "credentials": {
-            "type": "service_account",
-            "project_id": "affable-tribute-205722",
-            "private_key_id": "385a01d7119236ef6d3f31edcd6c559a023f4e11",
-            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDXLeNXhG6HeSXf\nACmxRI9QX6G48z0HsmhACE8vzuQq4w2LICUrRcV0Upad/3Ngqvqh/JsCP4XzAZD9\nrZxfPrg9shsEytUEGOqWV6CyUSNAT8AlEy9mEswfalaHFSp73sKj53xjmB+7LrcT\ny7Rv0xciheqfG0PeLOJKW4oDa6JbSBvIJZIo+j06MhNkaALUELTmJqoAEJr04kWX\nctZBOkEGa0mgGYcmm2Yebhl+3XblHizrThqxhFEeNo0xGvQGtNrUT70Y5RvS1ccY\n75WMRpPUxh8PHL5oWceBkoA+V68aW8/+RcuyMlbx2jD9ZqYSD6orjeFQo/+bIQOP\n48A6wxgzAgMBAAECggEABqInLa3Vy8lZTdxEbMQ5+CFVQU1bpp7CW077mfQH0VFP\nO+hmx5m5XOeliwNdUYU+gBCN0Bjt49rlgbHWGJLnZ8d+JmdWVRpWM6z0iuq4v8/K\n6ERaJAxqTIGhCehbd0FxFfpvOZFuplI/Wes1Xx55H8WpwPPnOLSA2V1PDjdFjwjF\n5BQ50xwpieiuymzaefkIi6comvNZgNuTUpHu9DF+bQLxIfWH6jDi8FBIGfHOF5E7\niWmbDdFY7982Jb1It5WuIJL4pcz5B8qiMvI37Q3bcMSfg9ht81uiXd7/09+UzesO\n9hOv5MVaii+8rtea+BGDvnUNnW0EKwZwAQq6mVVooQKBgQD0qvj26Ee7n4j27GYI\nA0lJiQG6d26IK+X9t/WhM1UcJKHMuwzEoJ2qHCzmtUuFOuwWkIYz61vuf/aLCkQa\nB9BWWD00rvBQX9DRvnKyra3I3BF3MbgEa/3mA/ajsWoX7Mg8YogUdhwpQs+VbH84\n7L2Al+K3/U21uKk2aKOaECovIwKBgQDhJUTc45uofuH1V+kHrX0O8jyuulogyBan\n/I7haJBhQmvqAY91OOQfSIJx0aY2l1EThwcHfxsnX62G861xhHBRLSkk2Ota3+hH\nz8UgzAo4wFpmrPRRGGoxINoH3B0Fhd6lwNPk4JyUjCkemNmuUSToaIcfuB6hDp0X\n2j5g3kYLsQKBgCZqWeDao7iv2d97SqHjcjRbkKvoaLB0xA3MPoLq/mgG0GjGzcBp\nv5egCOTIfm0SzVLVqlyojayq5tj56at0op+MB0AoX48fHDhygKvRXUH2W7+tTMlU\n826UHLui9ZeAFAh3KAqeaNmJpfI+MNONSEvSjUR6PyNTNS5Xy6g69YSlAoGAO+ZK\nd+omU6HORBPrb5t8lilkc6goqmgRfwf2i4niP74IL+3SWQGVz6ze56E7c3K2o1dd\nS2VJuCQAatMR5g2yRCabt63uj/LaPaDNdXhTj929L2v8ZEb2mbN/zm+FWR7QqZCv\nz0ji37KajgVkhLgZ9as5p/q4S2kz6lCqH+ODB0ECgYATE1aApcqkjLfqwlcTitqm\n1NkfPCGiNdMsjcJpZ99YUWZn20hBlSDyiH6WpMAtPrgMLGf4I7zzUZQdTSz4G+9D\nNkuyXehwbBKMI1iYBv3nxQ6kHhVfMNt4WRoH/QyfkFC2yRSXuRo44nZ3At/dYgYy\nR9VGp8+5i+7/H9jTngtDTg==\n-----END PRIVATE KEY-----\n",
-            "client_email": "image-service@affable-tribute-205722.iam.gserviceaccount.com",
-            "client_id": "108102391722561555508",
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://accounts.google.com/o/oauth2/token",
-            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/image-service%40affable-tribute-205722.iam.gserviceaccount.com"
-          },
-        "bucket": "hlofiles"
-    },
     "xgate": {
         "id": "healthyloved1api",
         "password": "843yflkdad"
@@ -30,6 +15,12 @@
         "mode": "sandbox",
         "client_id": "AQM0MlumXoSyWHgKeQR0cGIiWLAJ28sItc7asHQYoyQYN6zyxRIasdv2CRyoOaAlKDtgGVdkjDbVHzIH",
         "client_secret": "EHwbNlP3IZKuJtAoL3fZrwyLWrGT-iCKunvbhkUeBtLcbWY5COPK_1on8fv-5DJS2QMNgr_roV1bbPS0"
+    },
+    "s3": {
+        "key": "AKIAIQDWAP544UUKEYNQ",
+        "secret": "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",
+        "bucket": "hlocaregiverandjobimages",
+        "region": "us-east-1"
     },
     "public": {
         "env": "development"
