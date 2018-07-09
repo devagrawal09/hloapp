@@ -11,7 +11,7 @@
                 <a class="col-xs-3 {{isActiveRoute regex='dashboard|jobs.new|job.edit|favorites'}}" href="{{pathFor 'dashboard'}}">
                     <i class="fa fa-briefcase dashboard-logo"></i>
                     <p>
-                        Jobs 
+                        <span class="faded">Jobs</span>
                         {{#if jobNotifications}}
                         <span class="badge">{{jobNotifications}}</span>
                         {{/if}}
@@ -20,19 +20,20 @@
                 <a class="col-xs-3 {{isActiveRoute regex='chat|conversation'}}" href="{{pathFor 'chat'}}">
                     <i class="fa fa-envelope dashboard-logo"></i>
                     <p>
-                        Messages
+                        <span class="faded">Messages</span>
                         {{#if msgNotifications}}
                         <span class="badge">{{msgNotifications}}</span>
                         {{/if}}
                     </p>
                 </a>
                 <a class="col-xs-3 {{isActiveRoute 'profile.edit'}}" href="{{pathFor 'profile.edit'}}">
-                        <i class="fa fa-user dashboard-logo"></i>
-                    <p>Profile</p>
+                    <i class="fa fa-user dashboard-logo"></i>
+                    <p class="faded">Profile</p>
                 </a>
-                <a class="col-xs-3 {{isActiveRoute regex='settings|settings.username|settings.emails|settings.passwords|settings.payment'}}" href="{{pathFor 'settings'}}">
-                        <i class="fa fa-cog dashboard-logo"></i>
-                    <p>Settings</p>
+                <a class="col-xs-3 {{isActiveRoute regex='settings|settings.username|settings.emails|settings.passwords|settings.payment'}}"
+                    href="{{pathFor 'settings'}}">
+                    <i class="fa fa-cog dashboard-logo"></i>
+                    <p class="faded">Settings</p>
                 </a>
             </div>
         </div>

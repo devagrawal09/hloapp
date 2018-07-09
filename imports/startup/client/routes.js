@@ -4,6 +4,7 @@
     import { FlowRouter } from 'meteor/kadira:flow-router';
     import { BlazeLayout } from 'meteor/kadira:blaze-layout';
     import { AccountsTemplates } from 'meteor/useraccounts:core';
+    import { FlowRouterTitle } from 'meteor/ostrio:flow-router-title';
 
 //import partials
     import '../../ui/partials';
@@ -15,6 +16,9 @@
 //import layouts
     import '../../ui/layouts/app-layout';
     import '../../ui/layouts/login-layout';
+
+//import loader
+    import '../../ui/shared-components/loading';
 
 //login and logout hooks
 
@@ -46,7 +50,6 @@
 
     const CustomerRouter = PrivateRouter.group({
         triggersEnter: [function() {
-
             Meteor.call('user.getType', ( err, res )=> {
                 if ( res !== 'customer' ) {
                     console.log( 'You are not a customer' );
@@ -58,7 +61,6 @@
 
     const CaregiverRouter = PrivateRouter.group({
         triggersEnter: [function() {
-            
             Meteor.call('user.getType', ( err, res )=> {
                 if ( res !== 'caregiver' ) {
                     console.log( 'You are not a caregiver' );
@@ -71,6 +73,7 @@
 //landing page
     FlowRouter.route('/', {
         name: 'landing',
+        title: 'HealthyLovedOnes',
         action() {
             import('../../ui/pages/landing').then(()=> {
                 BlazeLayout.render('AppLayout', { main: 'Landing' });
@@ -81,6 +84,7 @@
 //accounts pages
     PublicOnlyRouter.route('/account', {
         name: 'account',
+        title: 'Register with HLO',
         action() {
             import ('../../ui/pages/account').then(function() {
                 BlazeLayout.render('Account');
@@ -107,6 +111,7 @@
 
     PublicOnlyRouter.route('/logged-out', {
         name: 'logged-out',
+        title: 'Successfully logged out!',
         action() {
             //logout page render
             import('../../ui/pages/logged-out').then(()=> {
@@ -117,6 +122,7 @@
 
     FlowRouter.route('/pick', {
         name: 'pick-type',
+        title: 'Choose type',
         triggersEnter: [AccountsTemplates.ensureSignedIn],
         action() {
             import('../../ui/pages/pick-type').then(()=> {
@@ -128,8 +134,8 @@
 //dashboard
     PrivateRouter.route('/dashboard', {
         name: 'dashboard',
+        title: 'Dashboard',
         action() {
-            UI.showLoader();
             UI.commonRoutesAction({ caregiver: {
                 import() { return import('../../ui/pages/caregiver/dashboard') },
                 render: {
@@ -149,6 +155,7 @@
 //bookmarks page
     PrivateRouter.route('/favorites', {
         name: 'favorites',
+        title: 'Favorite caregivers',
         action() {
             import('../../ui/pages/common/bookmarks').then(()=> {
                 BlazeLayout.render('AppLayout', {
@@ -162,8 +169,8 @@
 //messaging pages
     PrivateRouter.route('/chat', {
         name: 'chat',
+        title: 'Messages',
         action() {
-            UI.showLoader();
             import('../../ui/pages/common/chat/chat').then(()=> {
                 BlazeLayout.render('AppLayout', {
                     main: 'DashboardLayout',
@@ -175,6 +182,9 @@
     
     PrivateRouter.route('/chat/:id', {
         name: 'conversation',
+        title( params ) {
+            return require('../../api/messages').Conversations.findOne( params.id ).subject;
+        },
         action( params ) {
             import('../../ui/pages/common/chat/conversation').then(()=> {
                 BlazeLayout.render('AppLayout', {
@@ -189,8 +199,8 @@
 //profile edit page
     PrivateRouter.route('/profile', {
         name: 'profile.edit',
+        title: 'Edit Profile',
         action() {
-            UI.showLoader('DashboardLayout');
             UI.commonRoutesAction({ caregiver: {
                 import() { return import('../../ui/pages/caregiver/edit-profile') },
                 render: {
@@ -210,6 +220,7 @@
 //settings pages
     PrivateRouter.route('/settings', {
         name: 'settings',
+        title: 'Settings',
         action() {
             import('../../ui/pages/common/settings').then(()=> {
                 BlazeLayout.render( 'AppLayout', {
@@ -222,6 +233,7 @@
 
     PrivateRouter.route('/settings/username', {
         name: 'settings.username',
+        title: 'Username',
         action() {
             import('../../ui/pages/common/settings').then(()=> {
                 BlazeLayout.render( 'AppLayout', {
@@ -235,6 +247,7 @@
 
     PrivateRouter.route('/settings/emails', {
         name: 'settings.emails',
+        title: 'Manage Emails',
         action() {
             import('../../ui/pages/common/settings').then(()=> {
                 BlazeLayout.render( 'AppLayout', {
@@ -248,6 +261,7 @@
 
     PrivateRouter.route('/settings/passwords', {
         name: 'settings.passwords',
+        title: 'Change Password',
         action() {
             import('../../ui/pages/common/settings').then(()=> {
                 BlazeLayout.render( 'AppLayout', {
@@ -261,6 +275,7 @@
 
     PrivateRouter.route('/settings/numbers', {
         name: 'settings.numbers',
+        title: 'Manage Mobile Numbers',
         action() {
             import('../../ui/pages/common/settings').then(()=> {
                 BlazeLayout.render( 'AppLayout', {
@@ -288,6 +303,7 @@
 //search routes
     FlowRouter.route('/caregivers', {
         name: 'caregivers.search',
+        title: 'Caregiver search',
         action() {
             import('../../ui/pages/common/search/caregivers.js').then(( imports )=> {
                 BlazeLayout.render('AppLayout', { main: 'Search' });
@@ -298,6 +314,9 @@
 
     FlowRouter.route('/caregiver/:id', {
         name: 'caregiver.profile',
+        title( params ) {
+            return require('../../api/caregivers').Caregivers.findOne( params.id ).name;
+        },
         action( params ) {
             import('../../ui/pages/common/caregiver-profile').then(()=> {
                 BlazeLayout.render('AppLayout', {
@@ -310,6 +329,7 @@
 
     FlowRouter.route('/jobs', {
         name: 'jobs.search',
+        title: 'Job search',
         action() {
             import('../../ui/pages/common/search/jobs.js').then(( imports )=> {
                 BlazeLayout.render('AppLayout', { main: 'Search' });
@@ -320,6 +340,9 @@
 
     FlowRouter.route('/job/:id', {
         name: 'job.details',
+        title( params ) {
+            return require('../../api/jobs').Jobs.findOne( params.id ).title;
+        },
         action( params ) {
             import('../../ui/pages/common/job-details').then(()=> {
                 BlazeLayout.render('AppLayout', {
@@ -334,6 +357,7 @@
 //customer routes
     CustomerRouter.route('/jobs/new', {
         name: 'jobs.new',
+        title: 'New Job post',
         action() {
             import('../../ui/pages/customer/post-job').then(()=> {
                 BlazeLayout.render( 'AppLayout', {
@@ -346,6 +370,7 @@
 
     CustomerRouter.route('/edit/:id', {
         name: 'job.edit',
+        title: 'Edit Job post',
         action( params ) {
             import('../../ui/pages/customer/edit-job').then(()=> {
                 BlazeLayout.render( 'AppLayout', {
@@ -360,6 +385,7 @@
 //misc pages
     FlowRouter.route('/community', {
         name: 'community',
+        title: 'Community Guidelines',
         action() {
             import('../../ui/pages/misc/community').then(function(){
                 BlazeLayout.render('AppLayout', { main: 'Community' });
@@ -369,6 +395,7 @@
     
     FlowRouter.route('/contact', {
         name: 'contact',
+        title: 'Contact Us',
         action() {
             import('../../ui/pages/misc/contact').then(function(){
                 BlazeLayout.render('AppLayout', { main: 'Contact' });
@@ -378,6 +405,7 @@
     
     FlowRouter.route('/faq', {
         name: 'faq',
+        title: 'Frequently Asked Questions',
         action() {
             import('../../ui/pages/misc/faq').then(function(){
                 BlazeLayout.render('AppLayout', { main: 'FAQ' });
@@ -387,6 +415,7 @@
     
     FlowRouter.route('/privacy', {
         name: 'privacy',
+        title: 'Privacy Policy',
         action() {
             import('../../ui/pages/misc/privacy').then(function(){
                 BlazeLayout.render('AppLayout', { main: 'Privacy' });
@@ -396,6 +425,7 @@
     
     FlowRouter.route('/terms', {
         name: 'terms',
+        title: 'Terms of Use',
         action() {
             import('../../ui/pages/misc/terms').then(function(){
                 BlazeLayout.render('AppLayout', { main: 'Terms' });
@@ -405,6 +435,7 @@
     
     FlowRouter.route('/about', {
         name: 'about',
+        title: 'About Us',
         action() {
             import('../../ui/pages/misc/about').then(function(){
                 BlazeLayout.render('AppLayout', { main: 'About' });
@@ -414,5 +445,17 @@
     
 //404 page
     
+    FlowRouter.notFound = {
+        action() {
+            alert('This page is under development!');
+        }
+    };
 
-    AutoForm.debug();
+//initialise flowrouter title
+    new FlowRouterTitle( FlowRouter );
+
+//trigger loaders
+    FlowRouter.triggers.enter([ UI.showLoader ]);
+
+//debug code
+    if( Meteor.settings.public.env === 'development' ) AutoForm.debug();

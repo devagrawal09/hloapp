@@ -3,7 +3,9 @@
     padding-bottom: 10px;
 
     .col-xs-3 {
-        opacity: 0.4;
+        i.fa, .faded {
+            opacity: 0.4;
+        }
     }
 
     a {
@@ -17,8 +19,17 @@
     }
 
     .active {
-        opacity: 1;
         font-weight: bold;
+        i.fa, .faded {
+            opacity: 1;
+        }
+    }
+
+    .badge {
+        background-color: #ffffb9;
+        color: $black;
+        padding: 4px 8px;
+        font-size: 14px;
     }
 }
 

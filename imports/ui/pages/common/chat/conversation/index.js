@@ -1,10 +1,8 @@
-import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 import { Conversations, Messages, reply, readMsg } from '../../../../../api/messages';
 
 import showAlert from '../../../../shared-components/alert';
-import '../../../../shared-components/loading';
 import './conversation.html';
 
 Template.Conversation.onCreated(function() {
