@@ -240,7 +240,7 @@ export const newMobile = new ValidatedMethod({                  //initiate addin
             TimerHandlers[ this.userId ] = newHandle;
 
             if( Meteor.settings.public.env !== 'development' ) {
-                const res = sendSMS({
+                sendSMS({
                     to: number,
                     msg: `
                         Thank you for registering with HealthyLovedOnes! To complete
