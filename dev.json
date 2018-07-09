@@ -23,6 +23,7 @@
         "region": "us-east-1"
     },
     "public": {
-        "env": "development"
+        "env": "development",
+        "analyticsSettings": {}
     }
 }
