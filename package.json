@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "start": "meteor run -s dev.json",
-    "start:prod": "meteor run --production -s dev.json"
+    "start:prod": "meteor run --production -s dev.json",
+    "start:visualizer": "meteor run --extra-packages bundle-visualizer --production -s dev.json"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
