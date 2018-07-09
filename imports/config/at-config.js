@@ -98,7 +98,7 @@ if( Meteor.isServer ) {
     ServiceConfiguration.configurations.upsert({
         service: 'linkedin'
     }, { $set: {
-            appId: Meteor.settings.linkedin.id,
+            clientId: Meteor.settings.linkedin.id,
             loginStyle: 'popup',
             secret: Meteor.settings.linkedin.secret
         }
