@@ -1,6 +1,7 @@
 //import libraries
     import { Meteor } from 'meteor/meteor';
     import { Accounts } from 'meteor/accounts-base';
+    import { analytics } from 'meteor/okgrow:analytics';
     import { FlowRouter } from 'meteor/kadira:flow-router';
     import { BlazeLayout } from 'meteor/kadira:blaze-layout';
     import { AccountsTemplates } from 'meteor/useraccounts:core';
@@ -458,4 +459,7 @@
     FlowRouter.triggers.enter([ UI.showLoader ]);
 
 //debug code
-    if( Meteor.settings.public.env === 'development' ) AutoForm.debug();
+    if( Meteor.settings.public.env === 'development' ) {
+        AutoForm.debug();
+        analytics.debug();
+    }

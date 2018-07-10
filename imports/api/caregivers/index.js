@@ -2,9 +2,19 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
+import { analytics } from 'meteor/okgrow:analytics';
+
 import { Jobs, Reviews } from '../jobs';
-import { detailsSchema, experienceSchema, servicesSchema, pricingSchema, photoSchema } from './schema.js';
+import { 
+    detailsSchema, 
+    experienceSchema, 
+    servicesSchema, 
+    pricingSchema, 
+    photoSchema 
+} from './schema.js';
 import { CaregiverImages } from './images';
+import userChecks from '../users/checks';
+import caregiverChecks from './checks.js';
 
 export const Caregivers = new Mongo.Collection('caregivers');
 export { CaregiverImages };
@@ -15,12 +25,9 @@ export { CaregiverImages };
         name: 'caregiver.update.details',
         validate: detailsSchema.validator(),
         run( doc ) {
-            
-            if ( !this.userId || doc.user !== this.userId ) {
-                //if current user doesn't match received profile user
-                throw new Meteor.Error('caregiver.update.unauthorized',
-                'Invalid input, please try again');
-            }
+
+            userChecks.loggedIn( this.userId );
+            userChecks.isCurrent( this.userId, doc.user );
 
             doc.name =`${doc.firstName} ${doc.lastName}`;
             let result = Caregivers.update({
@@ -50,12 +57,9 @@ export { CaregiverImages };
         name: 'caregiver.update.experiences',
         validate: experienceSchema.validator(),
         run( doc ) {
-            
-            if ( !this.userId || doc.user !== this.userId ) {
-                //if current user doesn't match received profile user
-                throw new Meteor.Error('caregiver.update.unauthorized',
-                'Invalid input, please try again');
-            }
+
+            userChecks.loggedIn( this.userId );
+            userChecks.isCurrent( this.userId, doc.user );
 
             let result = Caregivers.update({
                 _id: doc._id,
@@ -78,12 +82,9 @@ export { CaregiverImages };
         name: 'caregiver.update.services',
         validate: servicesSchema.validator(),
         run( doc ) {
-            
-            if ( !this.userId || doc.user !== this.userId ) {
-                //if current user doesn't match received profile user
-                throw new Meteor.Error('caregiver.update.unauthorized',
-                'Invalid input, please try again');
-            }
+
+            userChecks.loggedIn( this.userId );
+            userChecks.isCurrent( this.userId, doc.user );
 
             let result = Caregivers.update({
                 _id: doc._id,
@@ -106,12 +107,9 @@ export { CaregiverImages };
         name: 'caregiver.update.pricing',
         validate: pricingSchema.validator(),
         run( doc ) {
-            
-            if ( !this.userId || doc.user !== this.userId ) {
-                //if current user doesn't match received profile user
-                throw new Meteor.Error('caregiver.update.unauthorized',
-                'Invalid input, please try again');
-            }
+
+            userChecks.loggedIn( this.userId );
+            userChecks.isCurrent( this.userId, doc.user );
 
             let result = Caregivers.update({
                 _id: doc._id,
@@ -130,22 +128,21 @@ export { CaregiverImages };
         }
     });
 
-    export const updateProfilePhoto = new ValidatedMethod({     //update profile image
+    export const updateProfilePhoto = new ValidatedMethod({ //update profile image
         name: 'caregiver.images.set.profile',
         validate: photoSchema.validator(),
         run({ _id }) {
 
-            if( !this.userId ) {
-                throw new Meteor.Error('caregiver.images.set.profile.unauthorized', 
-                'You are not logged in!');
-            }
+            userChecks.loggedIn( this.userId );
 
             let photo = CaregiverImages.findOne({ _id });
 
-            if( !photo || photo.meta.user !== this.userId ) {
-                throw new Meteor.Error('caregiver.images.set.profile.invalid', 
+            if( !photo ) {
+                throw new Meteor.Error('caregiver.images.invalid', 
                 'Invalid input! Please try again');
             }
+
+            userChecks.isCurrent( this.userId, photo.meta.user );
 
             Caregivers.update({ user: this.userId }, { $set: {
                 profilePhoto: _id
@@ -155,51 +152,57 @@ export { CaregiverImages };
         }
     });
 
-    export const deletePhoto = new ValidatedMethod({            //remove photo from array
+    export const deletePhoto = new ValidatedMethod({    //remove photo from array
         name: 'caregiver.images.remove',
         validate: photoSchema.validator(),
         run( q ) {
 
-            if( !this.userId ) {
-                throw new Meteor.Error('caregiver.images.remove.unauthorized', 
-                'You are not logged in!');
-            }
+            userChecks.loggedIn( this.userId );
 
             let photo = CaregiverImages.findOne( q );
 
-            if( !photo || photo.meta.user !== this.userId ) {
-                throw new Meteor.Error('caregiver.images.remove.invalid', 
+            if( !photo ) {
+                throw new Meteor.Error('caregiver.images.invalid', 
                 'Invalid input! Please try again');
             }
 
-            photo.remove(( err )=> {
-                console.error( err );
-            });
+            userChecks.isCurrent( this.userId, photo.meta.user );
+
+            photo.remove();
         }
     });
 
     Meteor.methods({
         'caregiver.complete'() {
 
-            if ( !this.userId ) {
-                //not logged in
-                throw new Meteor.Error('caregiver.complete.unauthorized',
-                'You need to be logged in!');
-            }
+            userChecks.loggedIn( this.userId );
+            userChecks.isVerified( this.userId );
 
-            const result = Caregivers.update({
+            const caregiver = Caregivers.findOne({
                 user: this.userId,
                 isProfileComplete: false
-            }, {
+            });
+
+            caregiverChecks.isComplete( caregiver );
+
+            const result = Caregivers.update( caregiver._id, {
                 $set: { isProfileComplete: true }
             });
 
-            if( !result ) {
+            if( !result )
                 throw new Meteor.Error('caregiver.complete.error', 
                 'Your caregiver profile is either already complete or does not exist!');
-            }
-
-            if( !this.isSimulation ) Caregivers.notifications.finalise({ userId: this.userId });
+                
+            if( this.isSimulation ) analytics.track('New Caregiver', {
+                name: caregiver.name,
+                plan: caregiver.plan,
+                gender: caregiver.gender,
+                experience: caregiver.years,
+                location: caregiver.location,
+                hourlyRate: caregiver.hourlyRate,
+                extraCharges: caregiver.extraCharges,
+            });
+            else Caregivers.notifications.finalise({ userId: this.userId });            
 
             return true;
         }
@@ -212,22 +215,18 @@ export { CaregiverImages };
         validate: detailsSchema.pick( '_id' ).validator(),
         run({ _id }) {
 
-            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type !== 'caregiver' ) {
-                //current user is not a caregiver
-                throw new Meteor.Error('jobs.apply.unauthorized',
-                'You are not a registered caregiver!');
-            }
+            userChecks.loggedIn( this.userId );
+            caregiverChecks.isCaregiver( this.userId );
 
             //get current user's caregiver profile
-            let caregiver = Caregivers.findOne({
-                user: this.userId
-            });
+            let caregiver = Caregivers.findOne({ user: this.userId });
 
-            if( caregiver.currentJob ) {
+            caregiverChecks.isComplete( caregiver );
+
+            if( caregiver.currentJob )
                 //current user already employed
                 throw new Meteor.Error('jobs.apply.unauthorized',
                 'You are already employed on a job!');
-            }
 
             //update the job document with the new applicant
             let result = Jobs.update({
@@ -237,11 +236,10 @@ export { CaregiverImages };
                 $push: { applicants: caregiver._id } 
             });
 
-            if( !result ) {
+            if( !result )
                 //invalid input
                 throw new Meteor.Error('jobs.apply.error',
                 'The job you are trying to apply to is closed or does not exist!');
-            }
 
             //update caregiver profile with applied job
             Caregivers.update({
@@ -250,7 +248,10 @@ export { CaregiverImages };
                 appliedJobs: _id
             }});
 
-            if( !this.isSimulation ) Jobs.notifications.newApplication({ caregiverId: caregiver._id, jobId: _id });
+            if( !this.isSimulation )
+                Jobs.notifications.newApplication(
+                    { caregiverId: caregiver._id, jobId: _id }
+                );
 
             return true;
         }
@@ -263,11 +264,8 @@ export { CaregiverImages };
 
             let job = _id;
 
-            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type !== 'caregiver' ) {
-                //current user is not a caregiver
-                throw new Meteor.Error('jobs.accept.unauthorized',
-                'You are not a registered caregiver!');
-            }
+            userChecks.loggedIn( this.userId );
+            caregiverChecks.isCaregiver( this.userId );
 
             //get current user's caregiver profile
             let caregiver = Caregivers.findOne({
@@ -275,17 +273,15 @@ export { CaregiverImages };
                 offers: job
             });
 
-            if( !caregiver ) {
+            if( !caregiver )
                 //caregiver hasn't been offered job
                 throw new Meteor.Error('jobs.accept.unauthorized',
                 'You have not been offered this job!');
-            }
 
-            if( caregiver.currentJob ) {
+            if( caregiver.currentJob )
                 //current user already employed
                 throw new Meteor.Error('jobs.accept.unauthorized',
                 'You are already employed on a job!');
-            }
 
             //update the job document with the new applicant
             let result = Jobs.update({
@@ -299,11 +295,10 @@ export { CaregiverImages };
                 offers: []
             }});
 
-            if( !result ) {
+            if( !result )
                 //invalid input
                 throw new Meteor.Error('jobs.accept.error',
                 'This job is either no longer open or does not exist!');
-            }
 
             //update caregiver profile with applied job
             Caregivers.update( caregiver._id, { 
@@ -311,7 +306,10 @@ export { CaregiverImages };
                 $pull: { offers: job }
             });
 
-            if( this.isSimulation ) Jobs.notifications.offerAccepted({ caregiverId: caregiver._id, jobId: _id });
+            if( this.isSimulation )
+                Jobs.notifications.offerAccepted(
+                    { caregiverId: caregiver._id, jobId: _id }
+                );
 
             return true;
         }
