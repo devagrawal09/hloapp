@@ -14,11 +14,8 @@ export default {
         }
     },
     isVerified( userId ) {
-        if( 
-            !! Meteor.users.findOne( userId ).emails
-            .filter( email=> email.verified ).length 
-        )
-            throw new Meteor.Error('user.unverified', 
+        if( !Meteor.users.findOne( userId ).isVerified() )
+            throw new Meteor.Error('user.unverified',
             'You need to have atleast one verified email address for this action!');
     },
     isCustomer( userId ) {

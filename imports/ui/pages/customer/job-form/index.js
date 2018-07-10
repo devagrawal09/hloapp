@@ -11,6 +11,8 @@ import './photos-form.html';
 import './review.html';
 import './job-form.html';
 
+import '../../common/job-details';
+
 Template.jobForm.onCreated(function() {
     
     let job = 'new';

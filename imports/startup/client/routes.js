@@ -49,28 +49,6 @@
         }]
     });
 
-    const CustomerRouter = PrivateRouter.group({
-        triggersEnter: [function() {
-            Meteor.call('user.getType', ( err, res )=> {
-                if ( res !== 'customer' ) {
-                    console.log( 'You are not a customer' );
-                    FlowRouter.go('dashboard');
-                }
-            })
-        }]
-    });
-
-    const CaregiverRouter = PrivateRouter.group({
-        triggersEnter: [function() {
-            Meteor.call('user.getType', ( err, res )=> {
-                if ( res !== 'caregiver' ) {
-                    console.log( 'You are not a caregiver' );
-                    FlowRouter.go('dashboard');
-                }
-            })
-        }]
-    });
-
 //landing page
     FlowRouter.route('/', {
         name: 'landing',
@@ -315,9 +293,6 @@
 
     FlowRouter.route('/caregiver/:id', {
         name: 'caregiver.profile',
-        title( params ) {
-            return require('../../api/caregivers').Caregivers.findOne( params.id ).name;
-        },
         action( params ) {
             import('../../ui/pages/common/caregiver-profile').then(()=> {
                 BlazeLayout.render('AppLayout', {
@@ -341,9 +316,6 @@
 
     FlowRouter.route('/job/:id', {
         name: 'job.details',
-        title( params ) {
-            return require('../../api/jobs').Jobs.findOne( params.id ).title;
-        },
         action( params ) {
             import('../../ui/pages/common/job-details').then(()=> {
                 BlazeLayout.render('AppLayout', {
@@ -356,28 +328,38 @@
 
 //caregiver routes
 //customer routes
-    CustomerRouter.route('/jobs/new', {
+    PrivateRouter.route('/jobs/new', {
         name: 'jobs.new',
         title: 'New Job post',
         action() {
-            import('../../ui/pages/customer/post-job').then(()=> {
-                BlazeLayout.render( 'AppLayout', {
-                    main: 'DashboardLayout',
-                    content: 'PostJob'
+            Meteor.call('user.getType', ( err, res )=> {
+                if( res !== 'customer' ) {
+                    return FlowRouter.go('dashboard');
+                }
+                import('../../ui/pages/customer/post-job').then(()=> {
+                    BlazeLayout.render( 'AppLayout', {
+                        main: 'DashboardLayout',
+                        content: 'PostJob'
+                    });
                 });
             });
         }
     });
 
-    CustomerRouter.route('/edit/:id', {
+    PrivateRouter.route('/edit/:id', {
         name: 'job.edit',
         title: 'Edit Job post',
         action( params ) {
-            import('../../ui/pages/customer/edit-job').then(()=> {
-                BlazeLayout.render( 'AppLayout', {
-                    main: 'DashboardLayout',
-                    content: 'EditJob',
-                    id: params.id
+            Meteor.call('user.getType', ( err, res )=> {
+                if( res !== 'customer' ) {
+                    return FlowRouter.go('dashboard');
+                }
+                import('../../ui/pages/customer/edit-job').then(()=> {
+                    BlazeLayout.render( 'AppLayout', {
+                        main: 'DashboardLayout',
+                        content: 'EditJob',
+                        id: params.id
+                    });
                 });
             });
         }
@@ -456,7 +438,12 @@
     new FlowRouterTitle( FlowRouter );
 
 //trigger loaders
-    FlowRouter.triggers.enter([ UI.showLoader ]);
+    const dbRoutes = [
+        'dashboard', 'favorites', 'chat', 'conversation', 'profile.edit',
+        'settings', 'settings.username', 'settings.emails', 'settings.passwords',
+        'settings.numbers', 'jobs.new', 'job.edit'
+    ];
+    FlowRouter.triggers.enter([ UI.showLoader ], { except: dbRoutes });
 
 //debug code
     if( Meteor.settings.public.env === 'development' ) {

@@ -19,7 +19,14 @@ export default {
         }
     },
     isComplete( caregiver ) {
-        if( !caregiver.isProfileComplete )
-            caregiverSchema.validate( caregiver );  
+        if( !caregiver.isProfileComplete ) {
+            try {
+                caregiverSchema.validate( caregiver );
+            }
+            catch( err ) {
+                throw new Meteor.Error('caregivers.incomplete', 
+                'Please submit all the required information!');
+            }
+        }
     }
 }

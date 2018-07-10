@@ -3,7 +3,13 @@ import { Accounts } from 'meteor/accounts-base';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { AutoForm } from 'meteor/aldeed:autoform';
 
-import { sendVerificationEmail, modifyEmail, newMobile, verifyMobile, removeMobile } from '../../../../api/users';
+import {
+     sendVerificationEmail,
+     modifyEmail, 
+     newMobile, 
+     verifyMobile,
+     removeMobile 
+    } from '../../../../api/users';
 
 import SimpleSchema from 'simpl-schema';
 import showAlert from '../../../shared-components/alert';
@@ -98,7 +104,7 @@ import './settings.html';
             });
         },
         'click .remove'( e, t ) {
-            t.removing.set(true);
+            t.removing.set( true );
             const email = t.$( e.target ).data('email');
             modifyEmail.call({ email, action: 'remove' }, ( err )=> {
                 if( err ) {
@@ -107,7 +113,7 @@ import './settings.html';
                 } else {
                     showAlert('Email removed!');
                 }
-                t.verifying.set();
+                t.removing.set( false );
             });
         }
     });
