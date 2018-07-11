@@ -1,5 +1,10 @@
 <template name="Bookmarks">
     <div class="container">
+        <div class="btn-group sort" role="group">
+            {{#each key in sortKeys}}
+                {{> sortButtonF key=key}}
+            {{/each}}
+        </div>
         <div class="btn-group display-toggle pull-right">
             <button class="btn grid-toggle {{#if isGrid}}active{{/if}}">Grid</button>
             <button class="btn list-toggle {{#unless isGrid}}active{{/unless}}">List</button>
@@ -25,4 +30,10 @@
         </div>
         {{/if}}
     </div>
+</template>
+
+<template name="sortButtonF">
+    <button class="btn">
+        <i class="fa fa-arrow-{{arrowDir}}"></i> {{humanize key}}
+    </button>
 </template>

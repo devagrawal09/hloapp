@@ -16,8 +16,8 @@ import './landing.html';
 const slickLoaded = new ReactiveVar( false );
 
 Template.Landing.onCreated(function () {
-    this.subscribe('jobs');
-    this.subscribe('caregivers');    
+    this.subscribe('featured');
+    this.subscribe('professional');
 });
 
 Template.Landing.onRendered(function () {
@@ -93,16 +93,11 @@ Template.Landing.helpers({
                 Find Caregivers who have the experience, empathy, and compassion to help.
             `
         }, {
-            title: 'Specialist',
+            title: 'Vertical',
             content: `
-                There are so many different types of specialists and therapists.
-                Find the right one to help you.
-            `
-        }, {
-            title: 'Expert',
-            content: `
-                There are so many different types of experts
-                (personal trainers, life coaches, consultants, counselors, and many, many more).
+                People with strong practical experience and domain knowledge.
+                Many are medical professionals and specialists/experts
+                in their fields.
             `
         }, {
             title: 'TLC',
@@ -130,10 +125,16 @@ Template.Landing.helpers({
         }
     ],
     featured() {
-        return Jobs.find({});
+        return Jobs.find({
+            status: 'open',
+            featured: true
+        }).fetch();
     },
     professional() {
-        return Caregivers.find({});
+        return Caregivers.find({
+            isProfileComplete: true,
+            professional: true
+        }).fetch();
     }
 });
 
