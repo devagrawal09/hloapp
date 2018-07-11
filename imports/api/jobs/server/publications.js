@@ -92,7 +92,7 @@ Meteor.publishComposite('featured', {
     find() {
         return Jobs.find({
             status: 'open',
-            featured: true
+            // featured: true
         });
     },
     children: [{

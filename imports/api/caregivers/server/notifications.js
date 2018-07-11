@@ -200,6 +200,11 @@ Caregivers.notifications = {
             type: 'job',
             job: jobId
         });
+        Notifications.insert({
+            user: job.postedBy,
+            type: 'job',
+            job: jobId
+        });
         Email.send({
             from: 'info@healthylovedones.com',
             to: emails,

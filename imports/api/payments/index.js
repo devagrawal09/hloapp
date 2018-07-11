@@ -12,6 +12,9 @@ import { paymentSchema } from './schema.js';
 import { Jobs } from '../jobs';
 import { Caregivers } from '../caregivers';
 
+import userChecks from '../users/checks';
+import caregiverChecks from '../caregivers/checks';
+
 const createInvoiceFiber = Meteor.wrapAsync( paypal.invoice.create, paypal.invoice );
 const sendInvoiceFiber = Meteor.wrapAsync( paypal.invoice.send, paypal.invoice );
 const getInvoiceFiber = Meteor.wrapAsync( paypal.invoice.get, paypal.invoice );
@@ -24,11 +27,8 @@ export const newPayment = new ValidatedMethod({     //caregiver submits payment 
     validate: paymentSchema.pick('job', 'hours', 'hourlyRate', 'extraCharges').validator(),
     run( payment ) {
 
-        if( !this.userId || (Meteor.users.findOne( this.userId ).profile.type !== 'caregiver') ) {
-            //not a registered caregiver
-            throw new Meteor.Error('payments.new.unauthorized', 
-            'You are not a registered caregiver');
-        }
+        userChecks.loggedIn( this.userId );
+        caregiverChecks.isCaregiver( this.userId );
 
         const caregiver = Caregivers.findOne({ user: this.userId });
 
@@ -90,11 +90,7 @@ export const checkPayment = new ValidatedMethod({   //check status of payment bo
     validate: paymentSchema.pick('job').validator(),
     run( obj ) {
 
-        if( !this.userId ) {
-            //current user is not a customer
-            throw new Meteor.Error('payments.check.unauthorized',
-            'You are not logged in!');
-        }
+        userChecks.loggedIn( this.userId );        
 
         //fetch job details
         const job = Jobs.findOne({

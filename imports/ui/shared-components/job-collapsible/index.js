@@ -38,6 +38,7 @@ Template.jobCollapsible.onRendered(function() {
     $(`#${ _id }`).on('shown.bs.collapse', ()=> {
         viewJob.call({ _id });
     });
+    checkPayment.call({ job: _id });
 });
 
 Template.jobCollapsible.helpers({
