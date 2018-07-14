@@ -87,3 +87,19 @@ Meteor.publish('jobs.hired', function( job ) {
 Meteor.publish('jobs.hired.dp', function( job ) {
     return Jobs.findOne( job ).hiredCaregiver().fetch()[0].dp().cursor;
 });
+
+Meteor.publishComposite('featured', {
+    find() {
+        return Jobs.find({
+            status: 'open',
+            featured: true
+        });
+    },
+    children: [{
+        find( job ) {
+            return JobImages.find({
+                meta: { job: job._id }, profile: true
+            }).cursor;
+        }
+    }]
+});

@@ -107,8 +107,8 @@ if( Meteor.isServer ) {
 if( Meteor.isClient ) {
     Accounts.ui.config({
         requestPermissions: {
-            facebook: ['public_profile'],
-            linkedin: ['r_basicprofile']
+            facebook: ['public_profile', 'email'],
+            linkedin: ['r_basicprofile', 'r_emailaddress']
         }
     });
 }

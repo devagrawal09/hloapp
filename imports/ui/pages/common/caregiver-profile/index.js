@@ -14,9 +14,10 @@ import './hire-caregiver.html';
 import './caregiver-profile.html';
 
 Template.CaregiverProfile.onCreated(function() {
-    let t = this;
     let id = Template.currentData().id();
-    t.subscribe( 'caregiverById', id );
+    this.subscribe( 'caregiverById', id, ()=> {
+        document.title = Caregivers.findOne( id ).name;
+    });
 });
 
 Template.CaregiverProfile.helpers({

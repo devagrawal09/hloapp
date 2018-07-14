@@ -150,3 +150,21 @@ Meteor.publishComposite('caregiver.employment', {
         }]
     }]
 });
+
+Meteor.publishComposite('professional', {
+    find() {
+        return Caregivers.find({
+            isProfileComplete: true,
+            professional: true
+        });
+    },
+    children: [{
+        find( caregiver ) {
+            return Reviews.find({
+                job: { $in: caregiver.jobHistory }
+            }, {
+                fields: { rating: 1, job: 1 }
+            });
+        }
+    }]
+});

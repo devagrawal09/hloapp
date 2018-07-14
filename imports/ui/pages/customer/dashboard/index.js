@@ -1,8 +1,11 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Jobs } from '../../../../api/jobs';
 import { Caregivers } from '../../../../api/caregivers';
+
+import showAlert from '../../../shared-components/alert';
 
 import '../../../shared-components/loading';
 import '../../../shared-components/job-collapsible';
@@ -66,5 +69,11 @@ Template.PostedJobs.events({
         let recipient = t.$(e.target).data('recipient');
         t.msgRecipient.set( recipient );
         t.$('#compose').modal('show');
-    } 
+    },
+    'click .new-job'() {
+        if( Meteor.user().isVerified() )
+            FlowRouter.go('jobs.new');
+        else
+            showAlert('You need to have atleast one verified email address for this action!', 'danger');
+    }
 });

@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
+import { analytics } from 'meteor/okgrow:analytics';
+
 import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
 
@@ -9,6 +11,8 @@ import { Caregivers } from '../caregivers';
 import { detailsSchema, photoSchema, reviewSchema } from './schema.js';
 import { JobImages } from './images';
 import { Notifications } from '../notifications';
+import userChecks from '../users/checks';
+import caregiverChecks from '../caregivers/checks';
 
 export const Jobs = new Mongo.Collection('jobs');
 export const Reviews = new Mongo.Collection('reviews');
@@ -21,11 +25,9 @@ export { JobImages };
         validate: detailsSchema.omit('_id', 'postedBy').validator(),
         run( job ) {
             
-            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
-                //current user is not a customer
-                throw new Meteor.Error('jobs.new.unauthorized',
-                'You are not registered customer');
-            }
+            userChecks.loggedIn( this.userId );
+            userChecks.isVerified( this.userId );
+            userChecks.isCustomer( this.userId );
 
             job.postedBy = this.userId;     //posted by the current user
             job.postedOn = new Date();      //posted right now
@@ -42,6 +44,12 @@ export { JobImages };
                 }
             }, { $set: { meta: { job: id } } }, { multi: true });
 
+            if( this.isSimulation ) analytics.track('New Job', {
+                title: job.title,
+                duration: job.duration,
+                location: job.location
+            });
+
             return true;
         }
     });
@@ -51,10 +59,8 @@ export { JobImages };
         validate: photoSchema.validator(),
         run({ _id, job }) {
 
-            if( !this.userId ) {
-                throw new Meteor.Error('jobs.images.set.profile.unauthorized', 
-                'You are not logged in!');
-            }
+            userChecks.loggedIn( this.userId );
+            userChecks.isCustomer( this.userId );
 
             let meta = { job };
             if( job === 'new' ) meta.user = this.userId;
@@ -83,10 +89,8 @@ export { JobImages };
         validate: photoSchema.validator(),
         run({ _id, job }) {
 
-            if( !this.userId ) {
-                throw new Meteor.Error('jobs.images.remove.unauthorized', 
-                'You are not logged in!');
-            }
+            userChecks.loggedIn( this.userId );
+            userChecks.isCustomer( this.userId );
 
             let meta = { job };
             if( job === 'new' ) meta.user = this.userId;
@@ -111,17 +115,13 @@ export { JobImages };
         validate: detailsSchema.validator(),
         run( job ) {
 
-            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
-                //current user is not a customer
-                throw new Meteor.Error('jobs.update.unauthorized',
-                'You are not registered customer');
-            }
+            userChecks.loggedIn( this.userId );
+            userChecks.isCustomer( this.userId );
 
-            if( job.postedBy !== this.userId ) {
+            if( job.postedBy !== this.userId )
                 //recieved document doesn't belong to current user
                 throw new Meteor.Error('jobs.update.unauthorized',
                 'Invalid Input or this job was not poste by you. Please try again');
-            }
 
             let result = Jobs.update({
                 _id: job._id,
@@ -143,13 +143,8 @@ export { JobImages };
         }).validator(),
         run({ job, caregiverId }) {
 
-            console.log( job, caregiverId );
-
-            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
-                //current user is not a customer
-                throw new Meteor.Error('jobs.offer.unauthorized',
-                'You are not registered customer!');
-            }
+            userChecks.loggedIn( this.userId );
+            userChecks.isCustomer( this.userId );
 
             let caregiver = Caregivers.findOne( caregiverId );
 
@@ -158,6 +153,8 @@ export { JobImages };
                 throw new Meteor.Error('jobs.offer.error',
                 'Invalid Input, please try again!');
             }
+
+            caregiverChecks.isComplete( caregiver );
 
             if( caregiver.currentJob ) {
                 //caregiver is already employed
@@ -210,13 +207,8 @@ export { JobImages };
         }).validator(),
         run({ job, applicant }) {
 
-            console.log( job, applicant );
-
-            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
-                //current user is not a customer
-                throw new Meteor.Error('jobs.hire.unauthorized',
-                'You are not registered customer!');
-            }
+            userChecks.loggedIn( this.userId );
+            userChecks.isCustomer( this.userId );
 
             let caregiver = Caregivers.findOne( applicant );
 
@@ -283,11 +275,8 @@ export { JobImages };
         validate: detailsSchema.pick( '_id' ).validator(),
         run({ _id }) {
 
-            if( !this.userId || Meteor.users.findOne( this.userId ).profile.type === 'caregiver' ) {
-                //current user is not a customer
-                throw new Meteor.Error('jobs.complete.unauthorized',
-                'You are not registered customer!');
-            }
+            userChecks.loggedIn( this.userId );
+            userChecks.isCustomer( this.userId );
 
             //fetch job details
             let job = Jobs.findOne({
@@ -353,13 +342,8 @@ export { JobImages };
         validate: reviewSchema.omit( '_id', 'date' ).validator(),
         run( review ) {
 
-            const user = Meteor.users.findOne( this.userId );
-
-            if( !this.userId || user.profile.type === 'caregiver' ) {
-                //current user is not a customer
-                throw new Meteor.Error('jobs.review.unauthorized',
-                'You are not registered customer!');
-            }
+            userChecks.loggedIn( this.userId );
+            userChecks.isCustomer( this.userId );
 
             //fetch job details
             let job = Jobs.findOne({
@@ -397,11 +381,7 @@ export { JobImages };
         validate: detailsSchema.pick( '_id' ).validator(),
         run({ _id }) {
 
-            if( !this.userId ) {
-                //current user is not a customer
-                throw new Meteor.Error('jobs.unauthorized',
-                'You are not logged in!');
-            }
+            userChecks.loggedIn( this.userId );            
 
             const job = Jobs.findOne( _id );
 

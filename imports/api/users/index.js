@@ -147,7 +147,7 @@ export const modifyEmail = new ValidatedMethod({                //add or remove 
             'You are not logged in!');
         }
 
-        if( !this.isSimulation ) {          //only continue if method is running on server
+        if( !this.isSimulation ) {  //only continue if method is running on server
 
             if( action === 'add' ) {        //add email
                 Accounts.addEmail( this.userId, email );
@@ -406,5 +406,8 @@ Meteor.users.helpers({
     },
     getEmails() {
         return this.emails.map( email=> email.address );
+    },
+    isVerified() {
+        return !!this.emails.filter( email=> email.verified ).length;
     }
 });

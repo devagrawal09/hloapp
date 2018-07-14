@@ -12,6 +12,19 @@
     .job-name {
         display: inline-block;
         margin: 5px 40px;
+        
+        h4, h5, h6 {
+            display: inline-block;
+            margin: 7px;
+        }
+
+        .badge {
+            background-color: #ffffb9;
+            color: $black;
+            padding: 4px 8px;
+            font-size: 14px;
+            border: 1px solid $mediumpink;
+        }
     }
 
     .job-desc { /* expanded content of job */
@@ -91,24 +104,19 @@
 /* hired caregiver */
 .hired-caregiver {
     margin-bottom: 30px;
-    text-align: center;
 
     .hired-picture {
         border-radius: 50%;
-        width: 200px;
-        height: 200px;
+        width: 150px;
+        height: 150px;
         padding: 10px 0px;
     }
 
-    @media (min-width: 768px) {
-        .col-sm-9 { /* column with message, review */
-            margin-top: 100px;
-        }
+    @media (min-width: 1200px) {
+        padding: 0 100px;
     }
-}
 
-@media (max-width: 767px) {
-    .hired-caregiver {
+    @media (max-width: 767px) {
         text-align: center;
     }
 }

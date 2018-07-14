@@ -16,7 +16,9 @@ if( Meteor.settings.public.env === 'development' ) {
 Template.JobDetails.onCreated(function() {
     let id = this.data.id();
     this.autorun(()=> {
-        this.subscribe( 'jobById', id );
+        this.subscribe( 'jobById', id, ()=> {
+            document.title = Jobs.findOne( id ).title;
+        });
         this.subscribe( 'jobs.images', id );
         this.subscribe( 'caregiver.employment' );
         console.log( 'subscribe here', id );

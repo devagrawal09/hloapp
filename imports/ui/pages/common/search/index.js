@@ -267,7 +267,6 @@ Template.sortButton.helpers({
 
 Template.sortButton.events({
     'click .btn'( e , t ) {
-        console.log('clicked');
         const key = t.data.key;
         const currentSort = Sort.get();
         const newSort = {};

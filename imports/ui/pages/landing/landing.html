@@ -50,8 +50,8 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
-        <video controls="" class="home-about-media" poster="http://healthylovedones.com/assets/images/video-poster.png">
-            <source src="http://healthylovedones.com/assets/images/HLOComplete.mp4" type="video/mp4">
+        <video controls="" class="home-about-media" poster="https://healthylovedones.com/assets/images/video-poster.png">
+            <source src="https://healthylovedones.com/assets/images/HLOComplete.mp4" type="video/mp4">
         </video>
     </div>
 
@@ -134,7 +134,11 @@
         <h2 class="text-center">Featured Jobs</h2>
 
         {{#if Template.subscriptionsReady}}
-            {{> cardCarousel docs=featured template="jobAd"}}
+            {{#if featured.length}}
+                {{> cardCarousel docs=featured template="jobAd"}}
+            {{else}}
+                <h4 class="text-center">No Featured Jobs!</h4>
+            {{/if}}
         {{else}}
             {{> loading}}
         {{/if}}
@@ -144,7 +148,11 @@
         <h2 class="text-center">Professional Caregivers</h2>
 
         {{#if Template.subscriptionsReady}}
-            {{> cardCarousel docs=professional.fetch template="caregiverCard"}}
+            {{#if featured.length}}
+                {{> cardCarousel docs=professional template="caregiverCard"}}
+            {{else}}
+                <h4 class="text-center">No Professional Caregivers!</h4>
+            {{/if}}
         {{else}}
             {{> loading}}        
         {{/if}}
