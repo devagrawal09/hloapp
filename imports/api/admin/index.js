@@ -46,11 +46,14 @@ Meteor.methods({
 
         check( caregiverId, String );
 
-        const res = Caregivers.remove( caregiverId );
+        const caregiver = Caregivers.findOne( caregiverId );
 
-        if( !res ) 
+        if( !caregiver ) 
             throw new Meteor.Error('admin.invalid', 
             'Invalid Input! Please try again!');
+
+        Caregivers.remove( caregiver._id );
+        Meteor.users.remove( caregiver.user );
 
         return true;
     },
