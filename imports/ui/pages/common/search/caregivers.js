@@ -5,10 +5,14 @@ import '../../../shared-components/caregiver-card';
 import '../../../shared-components/caregiver-list';
 import './slider/css/slider.css';
 import './slider/js/bootstrap-slider.js';
-import { subscription, gridTemplate, listTemplate, collection, sortKeys, Sort, resetFilters } from '.';
+import { 
+    subscription, gridTemplate, listTemplate,
+    collection, sortKeys, Sort, resetFilters, resultCount
+} from '.';
 
 export function searchForCaregivers() {
-    subscription.set( 'caregivers' );
+    subscription.set( 'caregivers.cards' );
+    resultCount.set( 20 );
     gridTemplate.set( 'caregiverCard' );
     listTemplate.set( 'caregiverList' );
     collection.set( Caregivers );

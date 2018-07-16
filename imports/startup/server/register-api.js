@@ -18,4 +18,6 @@ import '../../api/payments/server/publications.js';
 
 import '../../api/notifications/server/publications.js';
 
+import '../../api/admin';
+
 import '../../api/public';

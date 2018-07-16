@@ -7,6 +7,7 @@ import { subscription, gridTemplate, listTemplate, collection, sortKeys, Sort, r
 
 export function searchForJobs() {
     subscription.set( 'jobs' );
+    resultCount.set( 20 );
     gridTemplate.set( 'jobAd' );
     listTemplate.set( 'jobList' );
     collection.set( Jobs );

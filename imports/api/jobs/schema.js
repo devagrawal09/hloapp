@@ -16,8 +16,7 @@ export const jobSchema = new SimpleSchema({
     hired: Datatypes.Id
 });
 
-export const detailsSchema = new SimpleSchema({
-//job details
+export const jobDetails = new SimpleSchema({
     _id: Datatypes.Id,
     postedBy: Datatypes.Id,
     title: {
@@ -35,24 +34,24 @@ export const detailsSchema = new SimpleSchema({
     hkid: {
         type: String,
         label: 'HKID or Passport number',
-        optional: true
+        defaultValue: ''        
     },
     phone: String,
     email: {
         type: SimpleSchema.RegEx.EmailWithTLD,
-        optional: true
+        defaultValue: ''
     },
     address: String,
     location: Datatypes.Location,
     otherDistrict: {
         type: String,
-        optional: true,
+        defaultValue: '',
         label: 'Please specify district'
     },
     country: Datatypes.Country,
     hobbies: {
         type: String,
-        optional: true
+        defaultValue: ''
     },
     languages: {
         type: Array,
@@ -61,8 +60,9 @@ export const detailsSchema = new SimpleSchema({
     'languages.$': Datatypes.Languages,
     description: {
         type: String
-    },
-//requirements
+    }
+});
+export const jobRequirements = new SimpleSchema({
     caregiverType: {
         type: Array,
         optional: true
@@ -99,6 +99,10 @@ export const detailsSchema = new SimpleSchema({
     jobDescription: String
 });
 
+export const detailsSchema = new SimpleSchema({});
+detailsSchema.extend( jobDetails );
+detailsSchema.extend( jobRequirements );
+
 export const photoSchema = new SimpleSchema({
     _id: Datatypes.Id,
     job: String
@@ -110,7 +114,7 @@ export const reviewSchema = new SimpleSchema({
     rating: SimpleSchema.Integer,
     content: {
         type: String,
-        optional: true
+        defaultValue: ''
     },
     date: Date
 });

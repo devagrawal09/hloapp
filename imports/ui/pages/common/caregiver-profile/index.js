@@ -1,13 +1,14 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
-import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import { Caregivers, CaregiverImages } from '../../../../api/caregivers';
+import { Caregivers } from '../../../../api/caregivers';
 import { Jobs, hireApplicant, offerJob } from '../../../../api/jobs';
 import { bookmarkCaregiver } from '../../../../api/users';
 
 import showAlert from '../../../shared-components/alert';
+
 import '../../../helpers';
+import '../../../shared-components/admin-buttons';
 import '../../../shared-components/compose-modal';
 import '../../../shared-components/review';
 import './hire-caregiver.html';
@@ -21,6 +22,9 @@ Template.CaregiverProfile.onCreated(function() {
 });
 
 Template.CaregiverProfile.helpers({
+    isAdmin() {
+        return Meteor.user().username === 'admin';
+    },
     caregiver() {
         return Caregivers.findOne( this.id );
     },

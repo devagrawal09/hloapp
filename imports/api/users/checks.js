@@ -23,5 +23,10 @@ export default {
             //current user is not a customer
             throw new Meteor.Error('user.unauthorized',
             'You are not registered customer!');
+    },
+    isAdmin( userId ) {
+        if( Meteor.users.findOne( userId ).username !== 'admin' )
+            throw new Meteor.Error('admin.unauthorized', 
+            'This is an administrative action!');
     }
 }

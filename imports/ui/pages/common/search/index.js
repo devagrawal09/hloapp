@@ -24,6 +24,7 @@ const filterData = {
     medical: Datatypes.MedicalCondition.allowedValues
 };
 export const subscription = new ReactiveVar( '' );
+export const resultCount = new ReactiveVar( 20 );
 export const gridTemplate = new ReactiveVar( '' );
 export const listTemplate = new ReactiveVar( '' );
 export const collection = new ReactiveVar();
@@ -41,7 +42,9 @@ const gridDisplay = new ReactiveVar( true );
 Template.Search.onCreated(function() {
     this.autorun(()=> {
         let subs = subscription.get();
-        this.subscribe( subs );
+        let sort = Sort.get();
+        let limit = resultCount.get();
+        this.subscribe( subs, { sort, limit });
     });
 });
 
@@ -88,6 +91,7 @@ Template.Search.helpers({
                 }
             } else if( typeof val === 'object' ) {
                 query[key] = { $in: filter[key] };
+                console.log('this shouldnt be null', filter[key]);
             }
             return query;
 
@@ -246,8 +250,11 @@ Template.Search.events({
         Filter.set(newFilter);
         console.log(newFilter);
     },
+    'click .load-more'() {
+        resultCount.set( resultCount.get() + 20 );
+    },
     'click .grid-toggle'() { gridDisplay.set( true ); },
-    'click .list-toggle'() { gridDisplay.set( false ); },    
+    'click .list-toggle'() { gridDisplay.set( false ); }
 });
 
 Template.sortButtons.helpers({

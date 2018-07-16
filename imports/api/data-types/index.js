@@ -1,5 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
+SimpleSchema.extendOptions(['autoform']);
+
 export default Datatypes = {
     Id: {
         type: String,
@@ -60,11 +62,17 @@ export default Datatypes = {
     MedicalCondition: {
         type: String,
         allowedValues: [
-            'Allergy', "Alzheimer's Disease", 'Anemia',
-            'Arthritis', 'Asthma', 'Autism/ADHD', 'Blindness', 'Breast Disease',
-            'Cancer', 'Dementia', 'Depression', 'Diabetes',
-            'Foot Problem', 'Hypertension', 'Kidney Disease',
-            "Parkinson's Disease", 'Stroke'
+            "ALS", "Allergy", "Alzheimer's Disease", "Anemia", "Arthritis",
+            "Asthma", "Autism/ADHD", "Blindness", "Blood Disorders",
+            "Breast Disease", "COPD", "Cancer", "Cardiovascular Disorders",
+            "Dementia", "Depression", "Diabetes", "Foot Problem",
+            "Gastronomical Disorders", "HIV/AIDS", "Hearing Disorders",
+            "Home Healthcare", "Hospice Care", "Hypertension", "Kidney Disease",
+            "Multiple Sclerosis", "Neurological Disorders", "Orthopedic Care",
+            "Palliative Care", "Parkinson's Disease", "Post Surgery Recovery",
+            "Renal and Urological Disorders", "Respiratory Disorders",
+            "Skin Disorders", "Stroke", "Tracheotomy/Ventilation",
+            "Vision and Eye Disorders"
         ]
     },
     Languages: {
@@ -110,8 +118,8 @@ export default Datatypes = {
     },
     OtherField: {
         type: String,
-        optional: true,
         max: 50,
+        defaultValue: '',
         autoform: {
             label: false
         }

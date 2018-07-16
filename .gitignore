@@ -5,5 +5,7 @@ prod.json
 staging.json
 dev.json
 twilio.json
-data.js
-new-data.js
+db.json
+server/data.js
+server/new-data.js
+public/old-db

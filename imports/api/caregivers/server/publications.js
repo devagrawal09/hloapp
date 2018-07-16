@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check, Match } from 'meteor/check';
 
 import { Caregivers, CaregiverImages } from '../index.js';
 import { Jobs, Reviews } from '../../jobs';
@@ -6,7 +7,7 @@ import { Jobs, Reviews } from '../../jobs';
 Meteor.publishComposite('caregivers', {
     find() {
         return Caregivers.find({
-            isProfileComplete: true
+            
         });
     },
     children: [{
@@ -18,6 +19,37 @@ Meteor.publishComposite('caregivers', {
             });
         }
     }]
+});
+
+Meteor.publishComposite('caregivers.cards', function({ sort, limit }) {
+
+    check( sort, Object );
+    check( limit, Match.Integer );
+
+    return {
+        find() {
+            return Caregivers.find({
+                isProfileComplete: true
+            }, { fields: {
+                name: 1,
+                gender: 1,
+                location: 1,
+                aboutText: 1,
+                hourlyRate: 1,
+                jobHistory: 1,
+                profilePhoto: 1
+            }, sort, limit });
+        },
+        children: [{
+            find( caregiver ) {
+                return Reviews.find({
+                    job: { $in: caregiver.jobHistory }
+                }, {
+                    fields: { rating: 1, job: 1 }
+                });
+            }
+        }]
+    }
 });
 
 Meteor.publishComposite('caregiverById', function( id ) {

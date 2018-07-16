@@ -52,7 +52,8 @@ Caregivers.notifications = {
                 Hi ${ caregiver.name },
                 You have been offered the Job ${ job.title } which was posted by
                 ${ customer.fullName }!
-                Accept this offer from your dashboard : ${ Urls.dashboard }
+                You can accept this offer from your Dashboard.
+                Go to dashboard : ${ Urls.dashboard }
                 View details for this job here : ${ Urls.job }
             `
         });
@@ -156,10 +157,11 @@ Caregivers.notifications = {
                 Hi ${ caregiver.name },
                 Congratulations on completing the job "${ job.title }"
                 which was posted by ${ customer.fullName }!
-                Now you can submit the details of the payment that the Customer
-                owes you form your Dashboard! Please make sure you submit the details
-                as soon as possible.
-                Go to Dashboard : ${ Urls.dashboard }
+                Please make sure you complete and submit your work order
+                as soon as possible so that the Customer can complete the
+                Payment and Review process. You can fill the payment details form
+                from your dashboard.
+                Go to dashboard : ${ Urls.dashboard }
             `
         });
     },

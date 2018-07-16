@@ -39,13 +39,13 @@ Template.jobForm.helpers({
 Template.jobForm.events({
     'click .next'( e, t ) {
         t.$( '.nav li.active' ).next( 'li' ).children( 'a' ).tab( 'show' );
-        t.$('.form-steps').get()[0].scrollIntoView(true);
+        t.$('.form-steps').get()[0].scrollIntoView( true );
     },
     'click .back'( e, t ) {
         t.$( '.nav li.active' ).prev( 'li' ).children( 'a' ).tab( 'show' );
-        t.$('.form-steps').get()[0].scrollIntoView(true);
+        t.$('.form-steps').get()[0].scrollIntoView( true );
     }
-}); 
+});
 
 Template.jobPhotosForm.onCreated(function() {
     this.photoUpload = new ReactiveVar(false);

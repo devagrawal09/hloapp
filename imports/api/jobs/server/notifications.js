@@ -76,7 +76,9 @@ Jobs.notifications = {
             text: `
                 Hi ${ customer.fullName },
                 Congratulations on completing the Job ${ job.title }!
-
+                The Caregiver will soon submit a work order, after which you will
+                receive an email invoice from PayPal. Please make sure you complete
+                the payment within 24 hours of receiving the invoice!
                 Go to dashboard : ${ Urls.dashboard }
             `
         });
