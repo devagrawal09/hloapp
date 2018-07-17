@@ -31,7 +31,7 @@ export const detailsSchema = new SimpleSchema({
     otherReligion: Datatypes.OtherField,
     hobbies: {
         type: String,
-        optional: true
+        defaultValue: ''
     },
     workLocation: Array,
     'workLocation.$': Datatypes.WorkLocation,
@@ -48,7 +48,7 @@ export const experienceSchema = new SimpleSchema({
     years: {
         type: SimpleSchema.Integer,
         label: 'Years of experience*',
-        optional: true
+        defaultValue: ''
     },
     experiences: {
         type: Array,
@@ -61,12 +61,12 @@ export const experienceSchema = new SimpleSchema({
     background: {
         type: String,
         label: 'Licenses and Credentials',
-        optional: true
+        defaultValue: ''
     },
     education: {
         type: String,
         label: 'Education History',
-        optional: true
+        defaultValue: ''        
     }
 });
 
@@ -77,7 +77,7 @@ export const servicesSchema = new SimpleSchema({
     hourlyRate: Number,
     extraCharges: {
         type: Number,
-        optional: true
+        defaultValue: ''
     },
     serviceType: {
         type: Array,

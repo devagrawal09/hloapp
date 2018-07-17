@@ -320,8 +320,8 @@ Caregivers.helpers({
         return Meteor.users.findOne( this.user ).username;
     },
     dp() {
-        return this.profilePhoto ? CaregiverImages.findOne( this.profilePhoto ) : {
-            link: `/img/avatar-${this.gender}.png`
+        return CaregiverImages.findOne( this.profilePhoto ) || {
+            link: `/img/placeholder-${this.gender}.jpeg`
         };
     },
     photos() {
