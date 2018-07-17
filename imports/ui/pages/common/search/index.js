@@ -1,6 +1,4 @@
 import { Template } from 'meteor/templating';
-import { AutoForm } from 'meteor/aldeed:autoform';
-import SimpleSchema from 'simpl-schema';
 import { ReactiveVar } from 'meteor/reactive-var'
 
 import Datatypes from '../../../../api/data-types';

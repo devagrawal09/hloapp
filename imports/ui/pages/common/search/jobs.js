@@ -1,9 +1,10 @@
-import { Template } from 'meteor/templating';
-
 import { Jobs } from '../../../../api/jobs';
 import '../../../shared-components/job-ad';
 import '../../../shared-components/job-list';
-import { subscription, gridTemplate, listTemplate, collection, sortKeys, Sort, resetFilters } from '.';
+import { 
+    subscription, gridTemplate, listTemplate,
+    collection, sortKeys, Sort, resetFilters, resultCount
+} from '.';
 
 export function searchForJobs() {
     subscription.set( 'jobs' );
