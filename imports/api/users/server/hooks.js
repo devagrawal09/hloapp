@@ -3,7 +3,9 @@ import { Email } from 'meteor/email';
 
 import { Caregivers } from '../../caregivers';
 
-const welcomeEmailHtml = Assets.getText('welcome-email.html');
+const root = process.env.ROOT_URL;
+
+const welcomeEmailTemplate = _.template( Assets.getText('emails/welcome.html') );
 
 Accounts.onCreateUser(function( options, user ) {       //create new caregivers
     
@@ -45,7 +47,11 @@ Accounts.onCreateUser(function( options, user ) {       //create new caregivers
         to: user.emails[0].address,
         replyTo: 'info@healthylovedones.com',
         subject: 'Welcome to HealthyLovedOnes',
-        html: welcomeEmailHtml
+        html: welcomeEmailTemplate({
+            user, Urls: {
+                dashboard: `${ root }dashboard`
+            }
+        })
     });
 
     return user;

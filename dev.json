@@ -17,8 +17,8 @@
         "client_secret": "EHwbNlP3IZKuJtAoL3fZrwyLWrGT-iCKunvbhkUeBtLcbWY5COPK_1on8fv-5DJS2QMNgr_roV1bbPS0"
     },
     "s3": {
-        "key": "AKIAIQDWAP544UUKEYNQ",
-        "secret": "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",
+        "key": "AKIAJ5Q6QZQUHE2PXRZQ",
+        "secret": "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",
         "bucket": "hlocaregiverandjobimages",
         "region": "us-east-1"
     },

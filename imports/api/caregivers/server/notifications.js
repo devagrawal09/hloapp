@@ -8,6 +8,21 @@ import { Notifications } from '../../notifications';
 
 const root = process.env.ROOT_URL;
 
+const emails = {
+    finalise: 'profile completed',
+    newOffer: 'job offer',
+    offerExpired: 'offer expired',
+    appAccepted: 'application accepted',
+    appNotAccepted: 'application denied',
+    jobCompleted: 'job completed',
+    reviewed: 'review',
+    paid: 'payment received'
+}
+
+const EmailNotifs = Object.keys( emails ).reduce( ( notifs, key )=> {
+    notifs[key] = _.template( Assets.getText(`email/${ emails[key] }.html`) );
+}, {});
+
 Caregivers.notifications = {
     finalise({ userId }) {
         const caregiver = Caregivers.findOne({ user: userId });
@@ -20,14 +35,7 @@ Caregivers.notifications = {
             from: 'info@healthylovedones.com',
             to: emails,
             subject: 'Profile submitted',
-            text: `
-                Hi ${ caregiver.name },
-                You have successfully completed and submitted your Caregiver profile!
-                Now you can apply to Jobs and receive Job offers on HealthyLovedOnes.
-                Thank You for registering with us!
-                Go to dashboard : ${ Urls.dashboard }
-                Start searching for jobs : ${ Urls.jobs }
-            `
+            html: EmailNotifs.finalise({ caregiver, Urls })
         });
     },
     newOffer({ caregiverId, jobId }) {
@@ -48,14 +56,7 @@ Caregivers.notifications = {
             from: 'info@healthylovedones.com',
             to: emails,
             subject: `You have been offered the Job - ${ job.title }`,
-            text: `
-                Hi ${ caregiver.name },
-                You have been offered the Job ${ job.title } which was posted by
-                ${ customer.fullName }!
-                You can accept this offer from your Dashboard.
-                Go to dashboard : ${ Urls.dashboard }
-                View details for this job here : ${ Urls.job }
-            `
+            html: EmailNotifs.newOffer({ caregiver, job, customer, Urls })
         });
     },
     offerExpired({ caregiverId, jobId }) {
@@ -71,16 +72,7 @@ Caregivers.notifications = {
             from: 'info@healthylovedones.com',
             to: emails,
             subject: `Your offer for the job "${ job.title }" has expired!`,
-            text: `
-                Hi ${ caregiver.name },
-                You were offered the Job ${ job.title } which was posted by
-                ${ customer.fullName }.
-                Unfortunately, this Job offer is no longer valid because
-                either the Customer has hired someone else for the Job, or
-                the Job is no longer needed by the Customer.
-                Go to dashboard : ${ Urls.dashboard }
-                Search for more jobs : ${ Urls.jobs }
-            `
+            html: EmailNotifs.offerExpired({ caregiver, job, customer, Urls })
         });
     },
     appAccepted({ caregiverId, jobId }) {
@@ -101,14 +93,7 @@ Caregivers.notifications = {
             from: 'info@healthylovedones.com',
             to: emails,
             subject: `Your application for the Job "${ job.title }" has been accepted!`,
-            text: `
-                Hi ${ caregiver.name },
-                Your application for the job "${ job.title }" which was posted by
-                ${ customer.fullName } has been accepted!
-                Congratulations for you latest employment!
-                Go to Dashboard : ${ Urls.dashboard }
-                View details for this Job : ${ Urls.job }
-            `
+            html: EmailNotifs.appAccepted({ customer, job, caregiver, Urls })
         });
     },
     appNotAccepted({ caregiverId, jobId }) {
@@ -124,16 +109,7 @@ Caregivers.notifications = {
             from: 'info@healthylovedones.com',
             to: emails,
             subject: `Your application for the job "${ job.title }" has been rejected!`,
-            text: `
-                Hi ${ caregiver.name },
-                Your application for the job ${ job.title } which was posted by
-                ${ customer.fullName } has been rejected!
-                Either the Customer has hired another Caregiver for this Job,
-                or this Job is no longer needed by the Customer.
-                We hope you get an employment more suited to you the next time!
-                Go to dashboard : ${ Urls.dashboard }
-                Search for more jobs : ${ Urls.jobs }
-            `
+            html: EmailNotifs.appNotAccepted({ caregiver, job, customer, Urls })
         });
     },
     jobCompleted({ jobId }) {
@@ -153,16 +129,7 @@ Caregivers.notifications = {
             from: 'info@healthylovedones.com',
             to: emails,
             subject: `The Job "${ job.title }" is complete!`,
-            text: `
-                Hi ${ caregiver.name },
-                Congratulations on completing the job "${ job.title }"
-                which was posted by ${ customer.fullName }!
-                Please make sure you complete and submit your work order
-                as soon as possible so that the Customer can complete the
-                Payment and Review process. You can fill the payment details form
-                from your dashboard.
-                Go to dashboard : ${ Urls.dashboard }
-            `
+            html: EmailNotifs.jobCompleted({ caregiver, job, customer, Urls })
         });
     },
     reviewed({ jobId }) {
@@ -182,14 +149,7 @@ Caregivers.notifications = {
             from: 'info@healthylovedones.com',
             to: emails,
             subject: `You have received a review for the Job "${ job.title }"!`,
-            text: `
-                Hi ${ caregiver.name },
-                Congratulations on completing the job "${ job.title }"
-                which was posted by ${ customer.fullName }.
-                The Customer has submitted a review for the Job!
-                You can see the review from your Dashboard!
-                Go to Dashboard : ${ Urls.dashboard }
-            `
+            html: EmailNotifs.reviewed({ caregiver, job, customer, Urls })
         });
     },
     paid({ jobId }) {
@@ -211,14 +171,7 @@ Caregivers.notifications = {
             from: 'info@healthylovedones.com',
             to: emails,
             subject: `You have received payment for the job "${ job.title }"!`,
-            text: `
-                Hi ${ caregiver.name },
-                Congratulations on completing the job "${ job.title }"
-                which was posted by ${ customer.fullName }.
-                The Customer has made a payment according to the details you submitted.
-                The payment has been received by us, and we will forward it to you
-                within 3 business days.
-            `
+            html: EmailNotifs.paid({ caregiver, job, customer })
         });
     }
 }

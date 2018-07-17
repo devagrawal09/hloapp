@@ -73,7 +73,7 @@ AccountsTemplates.addField({
 
 if( Meteor.isServer ) {
 
-    const verifyEmailTemplate = _.template( Assets.getText('verify-email.html') );
+    const verifyEmailTemplate = _.template( Assets.getText('emails/email verification.html') );
 
     Accounts.emailTemplates.from = 'no-reply@hloapp.herokuapp.com';
     Accounts.emailTemplates.siteName = 'HealthyLovedOnes';
