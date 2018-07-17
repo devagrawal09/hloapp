@@ -21,16 +21,17 @@ Meteor.publishComposite('caregivers', {
     }]
 });
 
-Meteor.publishComposite('caregivers.cards', function({ sort, limit }) {
+Meteor.publishComposite('caregivers.cards', function({ filter = {}, sort, limit }) {
 
+    check( filter, Object );
     check( sort, Object );
     check( limit, Match.Integer );
 
+    filter.isProfileComplete = true;
+
     return {
         find() {
-            return Caregivers.find({
-                isProfileComplete: true
-            }, { fields: {
+            return Caregivers.find( filter, { fields: {
                 name: 1,
                 gender: 1,
                 location: 1,

@@ -38,13 +38,48 @@ export const resetFilters = ()=> {
 
 const Filter = new ReactiveVar({});
 const gridDisplay = new ReactiveVar( true );
+const filterToQuery = ( filter = {}, searchType = '' )=> {
+    return Object.keys( filter ).reduce(( query, key )=> { //create query
+        const val = filter[key];
+        if( val.length )
+        if( typeof val === 'string' ) {
+            const regexSearch = { $regex: val, $options: 'i' };
+            if( key === 'box' ) {
+                query.$or = [
+                    { name: regexSearch },
+                    { location: regexSearch },
+                    { otherDistrict: regexSearch }
+                ]
+                if( searchType === 'caregivers' ) {
+                    query.$or.push(
+                        { workLocation: regexSearch },
+                        { otherWorkLocations: regexSearch }
+                    );
+                }
+                if( searchType === 'jobs' ) {
+                    query.$or.push({ title: regexSearch });
+                }
+            } else
+            if( key === 'hourlyRate' ) {
+                query[key] = { $lte: parseInt(val) }
+            } else {
+                query[key] = regexSearch;
+            }
+        } else if( typeof val === 'object' ) {
+            query[key] = { $in: filter[key] };
+            console.log('this shouldnt be null', filter[key]);
+        }
+        return query;
+    }, {});
+}
 
 Template.Search.onCreated(function() {
     this.autorun(()=> {
         let subs = subscription.get();
+        let filter = filterToQuery( Filter.get(), subs );
         let sort = Sort.get();
         let limit = resultCount.get();
-        this.subscribe( subs, { sort, limit });
+        this.subscribe( subs, { filter, sort, limit });
     });
 });
 
@@ -61,43 +96,8 @@ Template.Search.helpers({
         let coll = collection.get();
         let searchType = subscription.get();
         let sort = Sort.get();
-
-        let Query = Object.keys( filter ).reduce(( query, key )=> { //create query
-            
-            const val = filter[key];
-            if( val.length )
-            if( typeof val === 'string' ) {
-                const regexSearch = { $regex: val, $options: 'i' };
-                if( key === 'box' ) {
-                    query.$or = [
-                        { name: regexSearch },
-                        { location: regexSearch },
-                        { otherDistrict: regexSearch }
-                    ]
-                    if( searchType === 'caregivers' ) {
-                        query.$or.push(
-                            { workLocation: regexSearch },
-                            { otherWorkLocations: regexSearch }
-                        );
-                    }
-                    if( searchType === 'jobs' ) {
-                        query.$or.push({ title: regexSearch });
-                    }
-                } else
-                if( key === 'hourlyRate' ) {
-                    query[key] = { $lte: parseInt(val) }
-                } else {
-                    query[key] = regexSearch;
-                }
-            } else if( typeof val === 'object' ) {
-                query[key] = { $in: filter[key] };
-                console.log('this shouldnt be null', filter[key]);
-            }
-            return query;
-
-        }, {});
-
-        console.log( sort );
+        let Query = filterToQuery( filter, searchType );
+        console.log( {Query} );
         return coll.find( Query, { sort });
     },
     display() {

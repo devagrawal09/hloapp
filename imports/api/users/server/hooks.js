@@ -40,13 +40,13 @@ Accounts.onCreateUser(function( options, user ) {       //create new caregivers
         else return user;
     }
 
-    /* Email.send({ 
+    Email.send({ 
         from: 'info@healthylovedones.com', 
         to: user.emails[0].address,
         replyTo: 'info@healthylovedones.com',
         subject: 'Welcome to HealthyLovedOnes',
         html: welcomeEmailHtml
-    }); */
+    });
 
     return user;
 });

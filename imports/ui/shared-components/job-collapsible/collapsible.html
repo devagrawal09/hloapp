@@ -18,7 +18,7 @@
         <div class="job-right">
             <img src="{{rightImageSrc}}" class="job-status">
             {{#if isOwnedByCurrentUser}}
-                <a href="{{pathFor 'edit' id=_id}}" class="btn edit-btn">
+                <a href="/edit/{{_id}}" class="btn edit-btn">
                     <i class="fa fa-pencil"></i>
                 </a>
             {{/if}}
