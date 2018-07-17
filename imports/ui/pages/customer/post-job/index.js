@@ -20,6 +20,9 @@ Template.PostJob.helpers({
 
 AutoForm.hooks({
     postJob: {
+        before: { method( doc ) {
+            return detailsSchema.omit( '_id', 'postedBy' ).clean( doc );
+        }},
         after: { method( err, result ) {
             if( err ) {
                 console.log( err );

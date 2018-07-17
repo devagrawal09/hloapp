@@ -325,7 +325,11 @@ Caregivers.helpers({
         };
     },
     photos() {
-        return CaregiverImages.find({ meta: { user: this.user }});
+        const photos = CaregiverImages.find({ meta: { user: this.user }});
+        if( photos.count() ) return photos;
+        return { each: [{
+            link: '/img/profile/cover-def.jpeg'
+        }]};
     },
     reviews() {
         return Reviews.find({

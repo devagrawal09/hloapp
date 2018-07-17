@@ -27,7 +27,10 @@ Template.EditJob.helpers({
 
 AutoForm.hooks({
     editJob: {
-        after: { method( err, result ) {
+        before: { method( doc ) {
+            return detailsSchema.clean( doc );
+        }},
+        after: { method( err ) {
             if( err ) {
                 console.log( err );
             } else {
