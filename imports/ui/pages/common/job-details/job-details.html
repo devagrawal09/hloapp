@@ -46,28 +46,32 @@
             </h4>
         </div>
         <div class="col-md-4 col-sm-5 profile-buttons">
-            {{#if isCaregiver}}
-                {{#if isOffered}}
-                    <button class="btn btn-primary accept">Accept Job Offer</button>
-                {{else}} {{#if isApplied}}
-                    <button class="btn btn-default" disabled>Applied</button>
-                {{else}} {{#if isOngoing}}
-                    <button class="btn btn-default" disabled>Ongoing</button>
-                {{else}} {{#if isOpen}}
-                    <button class="btn btn-primary apply">Apply</button>
-                {{else}}
-                    <button class="btn btn-default" disabled>Closed</button>
-                {{/if}} {{/if}} {{/if}} {{/if}}
-            {{/if}}
-            {{#if isPostedByCurrent}}
-                <a href="/edit/{{id}}#photos" class="btn btn-primary">
-                    <i class="fa fa-pencil"></i>
-                </a>
+            {{#if isAdmin}}
+                {{> adminButtons job=job}}
             {{else}}
-                <button class="btn btn-default-clear" data-toggle="modal" data-target="#compose">
-                    <i class="fa fa-envelope"></i> Message Customer
-                </button>
-                {{> composeMsg doc=msgDoc}}
+                {{#if isCaregiver}}
+                    {{#if isOffered}}
+                        <button class="btn btn-primary accept">Accept Job Offer</button>
+                    {{else}} {{#if isApplied}}
+                        <button class="btn btn-default" disabled>Applied</button>
+                    {{else}} {{#if isOngoing}}
+                        <button class="btn btn-default" disabled>Ongoing</button>
+                    {{else}} {{#if isOpen}}
+                        <button class="btn btn-primary apply">Apply</button>
+                    {{else}}
+                        <button class="btn btn-default" disabled>Closed</button>
+                    {{/if}} {{/if}} {{/if}} {{/if}}
+                {{/if}}
+                {{#if isPostedByCurrent}}
+                    <a href="/edit/{{id}}#photos" class="btn btn-primary">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                {{else}}
+                    <button class="btn btn-default-clear" data-toggle="modal" data-target="#compose">
+                        <i class="fa fa-envelope"></i> Message Customer
+                    </button>
+                    {{> composeMsg doc=msgDoc}}
+                {{/if}}
             {{/if}}
         </div>
     </div>

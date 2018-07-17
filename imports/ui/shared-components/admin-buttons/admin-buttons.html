@@ -18,7 +18,17 @@
             </button>
         {{/if}}
         {{/with}}
-        <button class="btn btn-danger delete">
+        <button class="btn btn-danger delete-c">
+            <i class="fa fa-trash"></i>
+            Delete
+        </button>
+    {{/if}}
+    {{#if job}}
+        <button class="btn btn-{{#if job.featured}}danger{{else}}success{{/if}} toggle-feat">
+            <i class="fa fa-list"></i>
+            {{#if job.featured}}Unset{{else}}Set{{/if}} Featured
+        </button>
+        <button class="btn btn-danger delete-j">
             <i class="fa fa-trash"></i>
             Delete
         </button>

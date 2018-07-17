@@ -47,6 +47,30 @@ Meteor.publishComposite('jobs', {
     }]
 });
 
+Meteor.publishComposite('jobs.ads', function({ filter = {}, sort, limit }) {
+
+    check( filter, Object );
+    check( sort, Object );
+    check( limit, Match.Integer );
+
+    filter.status = 'open';
+
+    return {
+        find() {
+            return Jobs.find( filter, { fields: {
+
+            }, sort, limit });
+        },
+        children: [{
+            find( job ) {
+                return JobImages.find({
+                    meta: { job: job._id }, profile: true
+                }).cursor;
+            }
+        }]
+    }
+});
+
 Meteor.publishComposite('myJobs', {
     find() {
         return Jobs.find({
@@ -92,7 +116,7 @@ Meteor.publishComposite('featured', {
     find() {
         return Jobs.find({
             status: 'open',
-            // featured: true
+            featured: true
         });
     },
     children: [{

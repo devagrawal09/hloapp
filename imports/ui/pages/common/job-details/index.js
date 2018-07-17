@@ -1,10 +1,10 @@
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Jobs } from '../../../../api/jobs';
 import { applyForJob } from '../../../../api/caregivers';
 
 import showAlert from '../../../shared-components/alert';
+import '../../../shared-components/admin-buttons';
 import '../../../shared-components/compose-modal';
 import './job-details.html';
 
@@ -26,6 +26,9 @@ Template.JobDetails.onCreated(function() {
 });
 
 Template.JobDetails.helpers({
+    isAdmin() {
+        return Meteor.user().username === 'admin';
+    },
     job() {
         return Jobs.findOne( this.id() );
     },

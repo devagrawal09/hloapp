@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
 import { Caregivers } from '../caregivers';
+import { Jobs } from '../jobs';
 
 import userChecks from '../users/checks.js';
 import { check } from 'meteor/check';
@@ -39,6 +40,24 @@ Meteor.methods({
 
         return true;
     },
+    setProfessional({ caregiverId, professional = false }) {
+
+        userChecks.loggedIn( this.userId );
+        userChecks.isAdmin( this.userId );
+
+        check( caregiverId, String );
+        check( professional, Boolean );
+
+        const res = Caregivers.update( caregiverId, {
+            $set: { professional }
+        });
+
+        if( !res )
+            throw new Meteor.Error('admin.invalid', 
+            'Invalid Input! Please try again!');
+
+        return true;
+    },
     deleteCaregiver({ caregiverId }) {
 
         userChecks.loggedIn( this.userId );
@@ -57,19 +76,34 @@ Meteor.methods({
 
         return true;
     },
-    setProfessional({ caregiverId, professional = false }) {
+    setFeatured({ jobId, featured = false }) {
 
         userChecks.loggedIn( this.userId );
         userChecks.isAdmin( this.userId );
 
-        check( caregiverId, String );
-        check( professional, Boolean );
+        check( jobId, String );
+        check( featured, Boolean );
 
-        const res = Caregivers.update( caregiverId, {
-            $set: { professional }
+        const res = Jobs.update( jobId, {
+            $set: { featured }
         });
 
         if( !res )
+            throw new Meteor.Error('admin.invalid', 
+            'Invalid Input! Please try again!');
+
+        return true;
+    },
+    deleteJob({ jobId }) {
+
+        userChecks.loggedIn( this.userId );
+        userChecks.isAdmin( this.userId );
+
+        check( jobId, String );
+
+        const job = Jobs.remove( jobId );
+
+        if( !job ) 
             throw new Meteor.Error('admin.invalid', 
             'Invalid Input! Please try again!');
 

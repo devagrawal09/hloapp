@@ -188,7 +188,7 @@ Meteor.publishComposite('professional', {
     find() {
         return Caregivers.find({
             isProfileComplete: true,
-            // professional: true
+            professional: true
         });
     },
     children: [{
