@@ -1,6 +1,7 @@
 import '../../api/users';
 import '../../api/users/server/publications.js';
 import '../../api/users/server/hooks.js';
+import '../../api/users/server/notifications.js';
 
 import '../../api/caregivers';
 import '../../api/caregivers/server/publications.js';

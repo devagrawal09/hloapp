@@ -120,6 +120,7 @@ export default Datatypes = {
         type: String,
         max: 50,
         defaultValue: '',
+        optional: true,
         autoform: {
             label: false
         }

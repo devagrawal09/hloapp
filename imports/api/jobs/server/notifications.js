@@ -16,6 +16,7 @@ const emails = {
 const EmailNotifs = Object.keys( emails ).reduce( ( notifs, key )=> {
     notifs = notifs || {};
     notifs[key] = _.template( Assets.getText(`emails/${ emails[key] }.html`) );
+    return notifs;
 });
 
 Jobs.notifications = {
@@ -24,6 +25,7 @@ Jobs.notifications = {
         const job = Jobs.findOne( jobId );
         const customer = Meteor.users.findOne( job.postedBy );        
         const emails = customer.getEmails();
+        const numbers = customer.numbers;
         const Urls = {
             dashboard: ` ${ root }dashboard `,
             caregiver: ` ${ root }caregiver/${ caregiver._id } `
@@ -39,12 +41,17 @@ Jobs.notifications = {
             subject: `You have received an application for the job ${ job.title }`,
             html: EmailNotifs.newApplication({ customer, job, caregiver, Urls })
         });
+        if( numbers && numbers.length )
+            numbers.forEach( to=> sendSMS({
+                to, msg: `New Caregiver application for Job/${ job.title } 你有一個新的工作川請。`
+            }));
     },
     offerAccepted({ caregiverId, jobId }) {
         const caregiver = Caregivers.findOne( caregiverId );
         const job = Jobs.findOne( jobId );
         const customer = Meteor.users.findOne( job.postedBy );        
         const emails = customer.getEmails();
+        const numbers = customer.numbers;
         const Urls = {
             dashboard: ` ${ root }dashboard `,
         }
@@ -59,5 +66,9 @@ Jobs.notifications = {
             subject: `${ caregiver.name } has accepted your offer for the Job ${ job.title }`,
             html: EmailNotifs.offerAccepted({ customer, job, caregiver, Urls })            
         });
+        if( numbers && numbers.length )
+            numbers.forEach( to=> sendSMS({
+                to, msg: `Caregiver ${ caregiver.name } accepts Job Ad ${ job.title } 護理員/${ caregiver.name } 接受了招聘廣告${ job.title }`
+            }));
     }
 }

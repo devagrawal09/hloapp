@@ -239,18 +239,14 @@ export const newMobile = new ValidatedMethod({                  //initiate addin
             //save timer handler
             TimerHandlers[ this.userId ] = newHandle;
 
-            if( Meteor.settings.public.env !== 'development' ) {
-                sendSMS({
-                    to: number,
-                    msg: `
-                        Thank you for registering with HealthyLovedOnes! To complete
-                        registration, enter ${otp} as you one-time password.
-                        This OTP will expire in 10 minutes.
-                    `
-                });
-            }
-
-            // console.log('sms sent succesfully', JSON.stringify( res ) );
+            sendSMS({
+                to: number,
+                msg: `
+                    Thank you for registering with HealthyLovedOnes! To complete
+                    registration, enter ${otp} as you one-time password.
+                    This OTP will expire in 10 minutes.
+                `
+            });
         }
 
         return true;
@@ -309,6 +305,8 @@ export const verifyMobile = new ValidatedMethod({               //verify mobile 
                 $push: { numbers: number },
                 $unset: { newMobile: '' }
             });
+
+            if( !this.isSimulation ) Meteor.users.notifications.newMobile( number );
 
             return true;
         }

@@ -3,10 +3,6 @@ import { Email } from 'meteor/email';
 
 import { Caregivers } from '../../caregivers';
 
-const root = process.env.ROOT_URL;
-
-const welcomeEmailTemplate = _.template( Assets.getText('emails/welcome.html') );
-
 Accounts.onCreateUser(function( options, user ) {       //create new caregivers
     
     let first = last = email = '';
@@ -42,17 +38,7 @@ Accounts.onCreateUser(function( options, user ) {       //create new caregivers
         else return user;
     }
 
-    Email.send({ 
-        from: 'info@healthylovedones.com', 
-        to: user.emails[0].address,
-        replyTo: 'info@healthylovedones.com',
-        subject: 'Welcome to HealthyLovedOnes',
-        html: welcomeEmailTemplate({
-            user, Urls: {
-                dashboard: `${ root }dashboard`
-            }
-        })
-    });
+    Meteor.users.notifications.welcome( user );
 
     return user;
 });
