@@ -34,23 +34,27 @@ export const jobDetails = new SimpleSchema({
     hkid: {
         type: String,
         label: 'HKID or Passport number',
+        optional: true,
         defaultValue: ''        
     },
     phone: String,
     email: {
         type: SimpleSchema.RegEx.EmailWithTLD,
+        optional: true,
         defaultValue: ''
     },
     address: String,
     location: Datatypes.Location,
     otherDistrict: {
         type: String,
+        optional: true,
         defaultValue: '',
         label: 'Please specify district'
     },
     country: Datatypes.Country,
     hobbies: {
         type: String,
+        optional: true,
         defaultValue: ''
     },
     languages: {
@@ -114,6 +118,7 @@ export const reviewSchema = new SimpleSchema({
     rating: SimpleSchema.Integer,
     content: {
         type: String,
+        optional: true,
         defaultValue: ''
     },
     date: Date
