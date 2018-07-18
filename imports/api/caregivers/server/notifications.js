@@ -20,7 +20,7 @@ const emails = {
 }
 
 const EmailNotifs = Object.keys( emails ).reduce( ( notifs, key )=> {
-    notifs[key] = _.template( Assets.getText(`email/${ emails[key] }.html`) );
+    notifs[key] = _.template( Assets.getText(`emails/${ emails[key] }.html`) );
 }, {});
 
 Caregivers.notifications = {
