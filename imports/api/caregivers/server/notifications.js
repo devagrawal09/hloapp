@@ -19,11 +19,10 @@ const emails = {
     paid: 'payment received'
 }
 
-const EmailNotifs = Object.keys( emails ).reduce( ( notifs, key )=> {
-    notifs = notifs || {};
+const EmailNotifs = Object.keys( emails ).reduce(( notifs, key )=> {
     notifs[key] = _.template( Assets.getText(`emails/${ emails[key] }.html`) );
     return notifs;
-});
+}, {});
 
 Caregivers.notifications = {
     finalise({ userId }) {

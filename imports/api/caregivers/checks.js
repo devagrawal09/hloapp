@@ -4,7 +4,13 @@ import SimpleSchema from 'simpl-schema';
 
 import { detailsSchema, experienceSchema, servicesSchema, pricingSchema } from './schema.js';
 
-const caregiverSchema = new SimpleSchema();
+const caregiverSchema = new SimpleSchema({
+    name: String,
+    isProfileComplete: Boolean,
+    jobHistory: Array,
+    'jobHistory.$': String,
+    profilePhoto: String
+});
 caregiverSchema.extend( detailsSchema );
 caregiverSchema.extend( experienceSchema );
 caregiverSchema.extend( servicesSchema );
@@ -24,6 +30,7 @@ export default {
                 caregiverSchema.validate( caregiver );
             }
             catch( err ) {
+                console.log( err );
                 throw new Meteor.Error('caregivers.incomplete', 
                 'Please submit all the required information!');
             }
