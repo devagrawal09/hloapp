@@ -159,6 +159,7 @@ Meteor.publishComposite('caregiver.employment', {
             currentJob: 1,
             appliedJobs: 1,
             jobHistory: 1,
+            isProfileComplete: 1
         }});
     },
     children: [{
