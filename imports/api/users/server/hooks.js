@@ -1,5 +1,4 @@
 import { Accounts } from 'meteor/accounts-base';
-import { Email } from 'meteor/email';
 
 import { Caregivers } from '../../caregivers';
 
@@ -38,7 +37,11 @@ Accounts.onCreateUser(function( options, user ) {       //create new caregivers
         else return user;
     }
 
-    Meteor.users.notifications.welcome( user );
+    if( !user.username ) {
+        user.username = user.emails[0].address.split('@')[0];
+    }
+
+    // Meteor.users.notifications.welcome( user );
 
     return user;
 });

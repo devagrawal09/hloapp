@@ -108,5 +108,18 @@ Meteor.methods({
             'Invalid Input! Please try again!');
 
         return true;
+    },
+    setUsernames() {
+        
+        userChecks.loggedIn( this.userId );
+        userChecks.isAdmin( this.userId );
+
+        if( !this.isSimulation ) {
+            Meteor.users.find({
+                username: { $exists: false }
+            }).forEach( user=> {
+                Accounts.setUsername( user._id, user.emails[0].address.split('@')[0] );
+            });
+        }
     }
 });

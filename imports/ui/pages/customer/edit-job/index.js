@@ -32,10 +32,10 @@ Template.EditJob.helpers({
 AutoForm.hooks({
     editJob: {
         before: { method( doc ) {
-            const newDoc = detailsSchema.omit( '_id', 'postedBy' ).clean( doc );
+            const newDoc = detailsSchema.clean( doc );
             this.validationContext.validate( newDoc );
             if( this.validationContext.isValid() ) return newDoc;
-            const errorField = humanize( this.validationContext.validationErrors()[0].name );
+            const errorField =  this.validationContext.validationErrors()[0].name ;
             const errorMsg = `${ errorField } is required!`;
             showAlert( errorMsg, 'danger');
             return false;
@@ -43,7 +43,9 @@ AutoForm.hooks({
         after: { method( err ) {
             if( err ) {
                 console.log( err );
+                showAlert( err.reason, 'danger');
             } else {
+                showAlert('Job updated successfully!');
                 FlowRouter.go('dashboard');
             }
         }}
