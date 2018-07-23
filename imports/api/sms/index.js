@@ -11,6 +11,7 @@ const sendFunc = ({ to, msg }, callback )=> {
         UserID: Meteor.settings.xgate.id,
         UserPassword: Meteor.settings.xgate.password,
         MessageType: 'TEXT',
+        MessageLanguage: 'UTF8',
         MessageReceiver: to,
         MessageBody: msg
     }};
