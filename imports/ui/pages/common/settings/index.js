@@ -232,7 +232,10 @@ import './settings.html';
                 const number = t.newMobile.get();
                 const otp = t.$( '#new-number-otp' ).val();
                 verifyMobile.call({ number, otp }, ( err )=> {
-                    if( err ) showAlert( err.reason, 'danger');
+                    if( err ) {
+                        showAlert( err.reason, 'danger');
+                        t.submitting.set();
+                    }
                     else {
                         showAlert('Mobile number successfully added!');
                         t.submitting.set();
@@ -245,14 +248,17 @@ import './settings.html';
                 //add new number
                 const number = t.$( '#new-number-input' ).val();
                 newMobile.call({ number }, ( err )=> {
-                    if( err ) showAlert( err.reason, 'danger');
+                    if( err ) {
+                        showAlert( err.reason, 'danger');
+                        t.submitting.set();
+                    }
                     else {
                         showAlert(`
                             A one-time password has been sent to this number,
                             use it to complete registration.
                         `);
                         t.submitting.set();
-                        t.otpSubmit.set(true);
+                        t.otpSubmit.set( true );
                         t.newMobile.set( number );
                     }
                 });
