@@ -329,7 +329,6 @@ export { JobImages };
             //notify caregiver
             if( !this.isSimulation ) {
                 Caregivers.notifications.jobCompleted({ jobId: _id });
-                Jobs.notifications.jobCompleted({ jobId: _id });
             }
 
             return 'completed';
@@ -388,8 +387,12 @@ export { JobImages };
             if( job.postedBy !== this.userId ) {
                 //current user is not the owner of the job
                 const caregiver = Caregivers.findOne({ user: this.userId });
+
+                const isHired = job.hired === caregiver._id;
+                const isApplicant = _.indexOf( job.applicants, caregiver._id ) !== -1;
+                const isOffered = _.indexOf( job.offers, caregiver._id ) !== -1;
     
-                if( job.hired !== caregiver._id ) {
+                if( !( isHired || isApplicant || isOffered ) ) {
                     //current user is not the hired caregiver for this job
                     throw new Meteor.Error('jobs.unauthorized', 
                     'You are not associated with this job!');

@@ -127,3 +127,5 @@ Meteor.publishComposite('featured', {
         }
     }]
 });
+
+// JobImages.remove({});

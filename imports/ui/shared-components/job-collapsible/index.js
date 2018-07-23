@@ -98,6 +98,7 @@ Template.jobCollapsible.events({
         }, ( err, res )=> {
             if( err ) {
                 console.error( err );
+                showAlert( err.reason, 'danger');
             } else {
                 showAlert('Sucessfully hired this caregiver!');
             }
@@ -107,6 +108,7 @@ Template.jobCollapsible.events({
         completeJob.call({ _id: t.data._id }, ( err, res )=> {
             if( err ) {
                 console.error( err );
+                showAlert( err.reason, 'danger');
             } else {
                 showAlert(`Sucessfully ${res} this job!`);
             }
@@ -116,14 +118,11 @@ Template.jobCollapsible.events({
         acceptOffer.call({ _id: t.data._id }, ( err, res )=> {
             if( err ) {
                 console.error( err );
+                showAlert( err.reason, 'danger');
             } else {
                 showAlert('Sucessfully accepted offer for this job!');
             }
         })
-    },
-    'click .pay'( e, t ) {
-        //pay caregiver
-        // pay.call({ _id: t.data._id });
     }
 });
 

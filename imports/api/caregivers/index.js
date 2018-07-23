@@ -306,7 +306,7 @@ export { CaregiverImages };
                 $pull: { offers: job }
             });
 
-            if( this.isSimulation )
+            if( !this.isSimulation )
                 Jobs.notifications.offerAccepted(
                     { caregiverId: caregiver._id, jobId: _id }
                 );
