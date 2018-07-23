@@ -208,10 +208,6 @@ export const newMobile = new ValidatedMethod({                  //initiate addin
 
         if( !this.isSimulation ) {  //only continue if method is running on server
 
-            //check if mobile is already in use
-            if( number.length === 8 ) {
-                number = `852${number}`
-            }
             const existing = Meteor.users.findOne({ numbers: number });
 
             if( existing ) {

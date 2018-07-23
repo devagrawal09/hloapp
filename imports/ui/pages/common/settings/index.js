@@ -246,7 +246,13 @@ import './settings.html';
                 });
             } else {
                 //add new number
-                const number = t.$( '#new-number-input' ).val();
+                let number = t.$( '#new-number-input' ).val();
+                
+                //check if mobile is already in use
+                if( number.length === 8 ) {
+                    number = `852${number}`
+                }
+
                 newMobile.call({ number }, ( err )=> {
                     if( err ) {
                         showAlert( err.reason, 'danger');

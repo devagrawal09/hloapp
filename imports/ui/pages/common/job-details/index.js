@@ -70,7 +70,7 @@ Template.JobDetails.helpers({
     msgDoc() {
         const job = Jobs.findOne( this.id() );
         const recipient = Meteor.users.findOne( job.postedBy ).username;
-        const subject = `Regarding ${ job.title }`;
+        const subject = job.title;
         return { recipient, subject };
     }
 });
