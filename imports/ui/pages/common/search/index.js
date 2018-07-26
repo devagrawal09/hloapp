@@ -65,7 +65,6 @@ const filterToQuery = ( filter = {}, searchType = '' )=> {
             }
         } else if( typeof val === 'object' ) {
             query[key] = { $in: filter[key] };
-            console.log('this shouldnt be null', filter[key]);
         }
         return query;
     }, {});
@@ -78,6 +77,7 @@ Template.Search.onCreated(function() {
         let sort = Sort.get();
         let limit = resultCount.get();
         this.subscribe( subs, { filter, sort, limit });
+        console.log({ filter });
     });
 });
 
@@ -90,13 +90,9 @@ Template.Search.onRendered(function() {
 
 Template.Search.helpers({
     docs() {
-        let filter = Filter.get();
         let coll = collection.get();
-        let searchType = subscription.get();
         let sort = Sort.get();
-        let Query = filterToQuery( filter, searchType );
-        console.log( {Query} );
-        return coll.find( Query, { sort });
+        return coll.find( {}, { sort });
     },
     display() {
         return {
@@ -126,7 +122,6 @@ Template.Search.helpers({
             min: 0,
             max: 500
         });
-        console.log('initiateSlider');
         return '';
     },
     filterData
@@ -171,7 +166,6 @@ Template.Search.events({
         newFilter.otherDistrict = t.$('#location-filter input').val();
 
         Filter.set(newFilter);
-        console.log(newFilter);
         
     },
     'click #personal-filter .btn'( e, t ) {
@@ -181,7 +175,7 @@ Template.Search.events({
         if( t.$( e.target ).hasClass('pull-left') ) {
             //reset button
             newFilter.gender = newFilter.religion = newFilter.languages = '';
-            t.$('#location-filter li a.active').removeClass('active');
+            t.$('#personal-filter li a.active').removeClass('active');
             return Filter.set(newFilter);
         }
 
@@ -192,7 +186,6 @@ Template.Search.events({
         newFilter.otherLanguages = t.$('#personal-filter #otherLanguage').val();
         
         Filter.set(newFilter);
-        console.log(newFilter);
     },
     'click #technical-filter .btn'( e, t ) {
 
@@ -203,7 +196,7 @@ Template.Search.events({
             newFilter.professionalServices = 
             newFilter.personalServices = 
             newFilter.medicalConditions = '';
-            t.$('#location-filter li a.active').removeClass('active');
+            t.$('#technical-filter li a.active').removeClass('active');
             return Filter.set(newFilter);
         }
         
@@ -215,7 +208,6 @@ Template.Search.events({
         newFilter.otherMedicalCondition = t.$('#technical-filter #otherMedical').val();
         
         Filter.set(newFilter);
-        console.log(newFilter);
     },
     'click #time-filter .btn'( e, t ) {
 
@@ -224,14 +216,13 @@ Template.Search.events({
         if( t.$( e.target ).hasClass('pull-left') ) {
             //reset button
             newFilter.duration = '';
-            t.$('#location-filter li a.active').removeClass('active');
+            t.$('#time-filter li a.active').removeClass('active');
             return Filter.set(newFilter);
         }
 
         newFilter.duration = t.$('#time-filter li a.active').get().map( el=> el.dataset.value );
 
         Filter.set(newFilter);
-        console.log(newFilter);
     },
     'click #price-filter .btn'( e, t ) {
 
@@ -246,7 +237,6 @@ Template.Search.events({
         newFilter.hourlyRate = t.$('#price-filter #slider').val();
         
         Filter.set(newFilter);
-        console.log(newFilter);
     },
     'click .load-more'() {
         resultCount.set( resultCount.get() + 20 );
@@ -264,7 +254,6 @@ Template.sortButtons.helpers({
 Template.sortButton.helpers({
     arrowDir() {
         const order = Sort.get()[this.key];
-        console.log(this, order);
         if( order === 1 ) return 'down';
         if( order === -1 ) return 'up';
     }
