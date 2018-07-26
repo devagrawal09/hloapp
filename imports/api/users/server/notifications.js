@@ -7,7 +7,8 @@ const root = process.env.ROOT_URL;
 const emails = {
     welcome: 'welcome',
     pwdChange: 'password change',
-    unameChange: 'username change'
+    unameChange: 'username change',
+    newMsg: 'new message'
 }
 
 const EmailNotifs = Object.keys( emails ).reduce( ( notifs, key )=> {
@@ -57,6 +58,17 @@ Meteor.users.notifications = {
             to: emails,
             subject: `Username change alert`,
             html: EmailNotifs.unameChange({ urls })            
+        });
+    },
+    newMsg( recipientId, senderId, msg ) {
+        const recipient = Meteor.users.findOne( recipientId );
+        const sender = Meteor.users.findOne( senderId );
+        const emails = recipient.getEmails();
+        Email.send({
+            from: 'info@healthylovedones.com',
+            to: emails,
+            subject: `You have a new message`,
+            html: EmailNotifs.newMsg({ recipient, sender, msg })
         });
     }
 }

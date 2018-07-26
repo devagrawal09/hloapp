@@ -240,11 +240,7 @@ export const newMobile = new ValidatedMethod({                  //initiate addin
 
             sendSMS({
                 to: number,
-                msg: `
-                    Thank you for registering with HealthyLovedOnes! To complete
-                    registration, enter ${otp} as you one-time password.
-                    This OTP will expire in 10 minutes.
-                `
+                msg: `Thank you for registering with HealthyLovedOnes! To complete registration, enter ${otp} as you one-time password. This OTP will expire in 10 minutes. 多謝你註冊使用康愛！要完成註冊，請輸入 ${otp} 驗證你的帳戶。此號碼將會在10分鐘後失效。`
             });
         }
 

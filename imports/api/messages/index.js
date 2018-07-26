@@ -56,6 +56,8 @@ export const newConversation = new ValidatedMethod({    //send a new message
                 conversation: id
             });
 
+            Meteor.users.notifications.newMsg( msg.to, msg.from, msg.msg );
+
             return true;
         }
     }
@@ -95,6 +97,8 @@ export const reply = new ValidatedMethod({
             type: 'msg',
             conversation: conversation._id
         });
+
+        if( !this.isSimulation ) Meteor.users.notifications.newMsg( msg.to, msg.from, msg.msg );
 
         return true;
     }

@@ -13,7 +13,7 @@
 		<meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>*|MC:SUBJECT|*</title>
+		<title>You have a new message</title>
         
     <style type="text/css">
 		p{
@@ -622,15 +622,15 @@
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
                             <h1><br>
-<span style="color:#0000CD"><strong><span style="font-size:20px">Hello Customer,<br>
-You have a new message. &nbsp;</span></strong></span><span style="color:#ff0099"><strong><span style="font-size:20px">From:</span></strong></span><span style="color:#0000CD"><strong><span style="font-size:20px"> XXXXX. </span></strong></span><br>
-<span style="color:#ff0099"><strong><span style="font-size:20px">Message:</span></strong></span><span style="color:#0000CD"><strong><span style="font-size:20px"> XXXXX.<br>
+<span style="color:#0000CD"><strong><span style="font-size:20px">Hello <%= recipient.fullName %>,<br>
+You have a new message. &nbsp;</span></strong></span><span style="color:#ff0099"><strong><span style="font-size:20px">From:</span></strong></span><span style="color:#0000CD"><strong><span style="font-size:20px"> <%= sender.fullName %> (<%= sender.username %>) </span></strong></span><br>
+<span style="color:#ff0099"><strong><span style="font-size:20px">Message:</span></strong></span><span style="color:#0000CD"><strong><span style="font-size:20px"> <%= msg %><br>
 Many Thanks,<br>
 Support: </span></strong></span><span style="color:#ff0099"><strong><span style="font-size:20px">+852-94606840</span></strong></span><span style="color:#0000CD"><strong><span style="font-size:20px">.</span></strong></span></h1>
 <br>
 <span style="color:#0000CD"><strong><span style="font-size:21px">您好客戶，<br>
-你有一條新信息。 :</span></strong></span><span style="color:#ff0099"><strong><span style="font-size:21px">來自:</span></strong></span><span style="color:#0000CD"><strong><span style="font-size:21px"> XXXXX。 </span></strong></span><br>
-<span style="color:#ff0099"><strong><span style="font-size:21px">信息:</span></strong></span><span style="color:#0000CD"><strong><span style="font-size:21px"> XXXXX<br>
+你有一條新信息。 :</span></strong></span><span style="color:#ff0099"><strong><span style="font-size:21px">來自:</span></strong></span><span style="color:#0000CD"><strong><span style="font-size:21px"> <%= sender.fullName %> (<%= sender.username %>)。</span></strong></span><br>
+<span style="color:#ff0099"><strong><span style="font-size:21px">信息:</span></strong></span><span style="color:#0000CD"><strong><span style="font-size:21px">  <%= msg %><br>
 非常感謝。<br>
 聯絡我們：</span><span style="font-size:21px">&nbsp;</span><span style="font-size:20px">+852-94606840</span><span style="font-size:21px">.</span></strong></span><br>
 <br>
