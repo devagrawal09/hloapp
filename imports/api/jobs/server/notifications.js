@@ -14,10 +14,9 @@ const emails = {
 }
 
 const EmailNotifs = Object.keys( emails ).reduce( ( notifs, key )=> {
-    notifs = notifs || {};
     notifs[key] = _.template( Assets.getText(`emails/${ emails[key] }.html`) );
     return notifs;
-});
+}, {});
 
 Jobs.notifications = {
     newApplication({ caregiverId, jobId }) {

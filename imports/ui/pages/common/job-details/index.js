@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 
 import { Jobs } from '../../../../api/jobs';
-import { applyForJob } from '../../../../api/caregivers';
+import { applyForJob, acceptOffer } from '../../../../api/caregivers';
 
 import showAlert from '../../../shared-components/alert';
 import '../../../shared-components/admin-buttons';
@@ -82,11 +82,22 @@ Template.JobDetails.events({
         }, ( err, res )=> {
             if( err ){
                 console.error( err );
+                showAlert( err.reason, 'danger');
             } else {
                 showAlert('Successfully applied for this job!');
             }
         });
     },
-    'click .accept'() {},
-    'click .msg'() {}
+    'click .accept'( e, t ) {
+        acceptOffer.call({
+            _id: t.data.id()
+        }, ( err, res )=> {
+            if( err ){
+                console.error( err );
+                showAlert( err.reason, 'danger');
+            } else {
+                showAlert('Successfully accepted the offer for this job!');
+            }
+        });
+    }
 });
