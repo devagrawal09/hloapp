@@ -29,6 +29,7 @@ const sendFunc = ({ to, msg }, callback )=> {
             if( err ) return callback( err );
             const response = res.ShortMessageResponse;
             //successful
+            console.log({ response });
             if( response.Success ) return callback( null, response );
             //invalid mobile number
             if( response.ResponseCode === 'C004') return callback( new Meteor.Error(
