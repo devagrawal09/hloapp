@@ -27,7 +27,8 @@ Meteor.publishComposite('caregivers.cards', function({ filter = {}, sort, limit 
     check( sort, Object );
     check( limit, Match.Integer );
 
-    filter.isProfileComplete = true;
+    if( Meteor.users.findOne( this.userId ).username !== 'admin' )
+        filter.isProfileComplete = true;
 
     return {
         find() {

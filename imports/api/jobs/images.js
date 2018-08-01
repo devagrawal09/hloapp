@@ -127,25 +127,27 @@ export const JobImages = new FilesCollection({
     }
 });
 
-const _origRemove = JobImages.remove;
-JobImages.remove = function(search) {
-    const cursor = this.collection.find(search);
-    cursor.forEach((fileRef) => {
-        _.each(fileRef.versions, (vRef) => {
-            if (vRef && vRef.meta && vRef.meta.pipePath) {
-                // Remove the object from AWS:S3 first, then we will call the original FilesCollection remove
-                s3.deleteObject({
-                    Bucket: s3Conf.bucket,
-                    Key: vRef.meta.pipePath,
-                }, (error) => {
-                    bound(() => {
-                        if (error) console.error(error);
+if( Meteor.isServer ) {
+    const _origRemove = JobImages.remove;
+    JobImages.remove = function(search) {
+        const cursor = this.collection.find(search);
+        cursor.forEach((fileRef) => {
+            _.each(fileRef.versions, (vRef) => {
+                if (vRef && vRef.meta && vRef.meta.pipePath) {
+                    // Remove the object from AWS:S3 first, then we will call the original FilesCollection remove
+                    s3.deleteObject({
+                        Bucket: s3Conf.bucket,
+                        Key: vRef.meta.pipePath,
+                    }, (error) => {
+                        bound(() => {
+                            if (error) console.error(error);
+                        });
                     });
-                });
-            }
+                }
+            });
         });
-    });
 
-    //remove original file from database
-    _origRemove.call(this, search);
-};
+        //remove original file from database
+        _origRemove.call(this, search);
+    };
+}
