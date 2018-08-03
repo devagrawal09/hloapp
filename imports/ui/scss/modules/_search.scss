@@ -175,6 +175,11 @@
             color: $pureblack;
         }
 
+        .label-success {
+            background-color: $darkgreen;
+            font-size: 12px;
+        }
+
         .job-period {
             text-align: center;
             text-shadow: 1px 1px 1px $red;
@@ -245,6 +250,10 @@
         }
         p {
             margin-top: 5px;
+        }
+        .label-success {
+            background-color: $darkgreen;
+            font-size: 12px;
         }
     }
     .card-header {
