@@ -52,7 +52,7 @@
 //landing page
     FlowRouter.route('/', {
         name: 'landing',
-        title: 'HealthyLovedOnes Homecare, Vertical Care, and Caregiving',
+        title: 'HealthyLovedOnes | Homecare, Vertical Care, and Caregiving',
         action() {
             import('../../ui/pages/landing').then(()=> {
                 BlazeLayout.render('AppLayout', { main: 'Landing' });
