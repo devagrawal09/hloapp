@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
+import SimpleSchema from 'simpl-schema';
+
 import { Caregivers } from '../caregivers';
 import { Jobs } from '../jobs';
 
@@ -20,6 +22,15 @@ if( Meteor.isServer ) {
         });
     }
 }
+
+const userSchema = new SimpleSchema({
+    email: String,
+    profile: new SimpleSchema({
+        firstName: String,
+        lastName: String,
+        type: String
+    })
+});
 
 Meteor.methods({
     setCaregiverStatus({ caregiverId, status = false }) {
@@ -121,5 +132,18 @@ Meteor.methods({
                 Accounts.setUsername( user._id, user.emails[0].address.split('@')[0] );
             });
         }
+    },
+    createUserAdmin( user ) {
+
+        userChecks.loggedIn( this.userId );
+        userChecks.isAdmin( this.userId );
+
+        userSchema.validate( user );
+        if( !this.isSimulation ) {
+            Accounts.createUser( user );
+        }
+    },
+    sendEnrollmentEmails() {
+
     }
 });
