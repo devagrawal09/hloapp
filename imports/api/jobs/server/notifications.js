@@ -10,7 +10,8 @@ const root = process.env.ROOT_URL;
 
 const emails = {
     newApplication: 'job applicant',
-    offerAccepted: 'offer accepted'
+    offerAccepted: 'offer accepted',
+    offerDeclined: 'offer declined',
 }
 
 const EmailNotifs = Object.keys( emails ).reduce( ( notifs, key )=> {
@@ -68,6 +69,31 @@ Jobs.notifications = {
         if( numbers && numbers.length )
             numbers.forEach( to=> sendSMS({
                 to, msg: `Caregiver ${ caregiver.name } accepts Job Ad ${ job.title } 護理員/${ caregiver.name } 接受了招聘廣告${ job.title }`
+            }));
+    },
+    offerDeclined({ caregiverId, jobId }) {
+        const caregiver = Caregivers.findOne( caregiverId );
+        const job = Jobs.findOne( jobId );
+        const customer = Meteor.users.findOne( job.postedBy );        
+        const emails = customer.getEmails();
+        const numbers = customer.numbers;
+        const Urls = {
+            dashboard: ` ${ root }dashboard `,
+        }
+        Notifications.insert({
+            user: customer._id,
+            type: 'job',
+            job: jobId
+        });
+        Email.send({
+            from: 'info@healthylovedones.com',
+            to: emails,
+            subject: `${ caregiver.name } has declined your offer for the Job ${ job.title }`,
+            html: EmailNotifs.offerDeclined({ customer, job, caregiver, Urls })            
+        });
+        if( numbers && numbers.length )
+            numbers.forEach( to=> sendSMS({
+                to, msg: `Caregiver ${ caregiver.name } declines Job Ad ${ job.title }`
             }));
     }
 }

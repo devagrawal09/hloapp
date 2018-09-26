@@ -6,9 +6,9 @@ import SimpleSchema from 'simpl-schema';
 import { paymentSchema } from '../../../api/payments/schema.js';
 
 import { Notifications } from '../../../api/notifications';
-import { Caregivers, acceptOffer } from '../../../api/caregivers';
+import { Caregivers, acceptOffer, declineOffer } from '../../../api/caregivers';
 import { hireApplicant, completeJob, review, viewJob } from '../../../api/jobs';
-import { Payments, newPayment, checkPayment, declinePayment } from '../../../api/payments';
+import { Payments, checkPayment } from '../../../api/payments';
 
 import showAlert from '../alert';
 
@@ -121,6 +121,16 @@ Template.jobCollapsible.events({
                 showAlert( err.reason, 'danger');
             } else {
                 showAlert('Sucessfully accepted offer for this job!');
+            }
+        })
+    },
+    'click .decline'( e, t ) {
+        declineOffer.call({ _id: t.data._id }, ( err, res )=> {
+            if( err ) {
+                console.error( err );
+                showAlert( err.reason, 'danger');
+            } else {
+                showAlert('Sucessfully declined offer for this job!');
             }
         })
     }

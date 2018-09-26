@@ -315,6 +315,54 @@ export { CaregiverImages };
         }
     });
 
+    export const declineOffer = new ValidatedMethod({   //decline offered job
+        name: 'jobs.decline',
+        validate: detailsSchema.pick( '_id' ).validator(),
+        run({ _id }) {
+
+            let job = _id;
+
+            userChecks.loggedIn( this.userId );
+            caregiverChecks.isCaregiver( this.userId );
+
+            //get current user's caregiver profile
+            let caregiver = Caregivers.findOne({
+                user: this.userId,
+                offers: job
+            });
+
+            if( !caregiver )
+                //caregiver hasn't been offered job
+                throw new Meteor.Error('jobs.decline.unauthorized',
+                'You have not been offered this job!');
+
+            //update the job document with the new applicant
+            let result = Jobs.update({
+                _id,
+                offers: caregiver._id
+            }, { $pull: {
+                offers: caregiver._id
+            }});
+
+            if( !result )
+                //invalid input
+                throw new Meteor.Error('jobs.decline.error',
+                'This job is either no longer open or does not exist!');
+
+            //update caregiver profile with applied job
+            Caregivers.update( caregiver._id, {
+                $pull: { offers: job }
+            });
+
+            if( !this.isSimulation )
+                Jobs.notifications.offerDeclined(
+                    { caregiverId: caregiver._id, jobId: _id }
+                );
+
+            return true;
+        }
+    });
+
 Caregivers.helpers({
     username() {
         return Meteor.users.findOne( this.user ).username;

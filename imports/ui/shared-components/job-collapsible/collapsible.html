@@ -196,7 +196,10 @@
                 {{/if}}
             {{/if}}
             {{#if isOfferedToCurrentUser}}
-            <button class="btn btn-primary btn-block accept">Accept Job Offer</button>
+            <div class="btn-group btn-group-justified">
+                <button class="btn btn-primary accept" style="width: 50%">Accept Job Offer</button>
+                <button class="btn btn-danger decline" style="width: 50%">Decline Job Offer</button>
+            </div>
             {{/if}}
             {{#if review}}
                 <h4>Review</h4>
