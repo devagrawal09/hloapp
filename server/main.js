@@ -1,4 +1,5 @@
 import '../imports/startup/server';
+import { Caregivers } from '../imports/api/caregivers';
 
 const updateBgAndEdu = ()=> {
     console.log('Starting background and education data update');
