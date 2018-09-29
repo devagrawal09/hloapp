@@ -35,7 +35,7 @@ Template.CaregiverProfile.helpers({
         return Caregivers.findOne( this.id ).user !== Meteor.userId();
     },
     caregiverBackgroundCheck() {
-        return !!Caregivers.findOne( this.id ).background;
+        return !!Caregivers.findOne( this.id ).background.length;
     },
     isBookmarked() {
         let id = Template.currentData().id();

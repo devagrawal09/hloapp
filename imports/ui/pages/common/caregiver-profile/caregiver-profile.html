@@ -216,7 +216,11 @@
                 </h3>
                 {{#if caregiver.education}}
                     <h5>Education</h5>
-                    <p>{{caregiver.education}}</p>
+                    <p>
+                        {{#each education in caregiver.education}}
+                            {{education}} <br>
+                        {{/each}}
+                    </p>
                 {{/if}}
                 <h5>Languages</h5>
                 <p>

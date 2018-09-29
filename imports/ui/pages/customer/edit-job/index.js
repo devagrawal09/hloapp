@@ -2,10 +2,8 @@ import { Template } from 'meteor/templating';
 import { AutoForm } from 'meteor/aldeed:autoform';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import humanize from 'string-humanize';
-
 import { detailsSchema } from '../../../../api/jobs/schema';
-import { Jobs, updateJob } from '../../../../api/jobs';
+import { Jobs } from '../../../../api/jobs';
 
 import showAlert from '../../../shared-components/alert';
 
@@ -25,7 +23,7 @@ Template.EditJob.helpers({
     },
     doc() {
         let id = Template.currentData().id();
-        return Jobs.findOne();
+        return Jobs.findOne( id );
     }
 });
 
@@ -35,7 +33,7 @@ AutoForm.hooks({
             const newDoc = detailsSchema.clean( doc );
             this.validationContext.validate( newDoc );
             if( this.validationContext.isValid() ) return newDoc;
-            const errorField =  this.validationContext.validationErrors()[0].name ;
+            const errorField =  this.validationContext.validationErrors()[0].name;
             const errorMsg = `${ errorField } is required!`;
             showAlert( errorMsg, 'danger');
             return false;

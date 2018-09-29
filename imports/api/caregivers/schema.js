@@ -61,16 +61,22 @@ export const experienceSchema = new SimpleSchema({
         label: 'Experience'
     },
     background: {
-        type: String,
-        label: 'Licenses and Credentials',
+        type: Array,
         optional: true,
-        defaultValue: ''
+        defaultValue: []
+    },
+    'background.$': {
+        type: String,
+        label: 'Licenses and Credentials'
     },
     education: {
-        type: String,
-        label: 'Education History',
+        type: Array,
         optional: true,
-        defaultValue: ''        
+        defaultValue: []
+    },
+    'education.$': {
+        type: String,
+        label: 'Education History'
     }
 });
 

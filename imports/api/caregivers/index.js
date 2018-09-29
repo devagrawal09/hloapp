@@ -56,10 +56,13 @@ export { CaregiverImages };
     export const updateCaregiverExp = new ValidatedMethod({
         name: 'caregiver.update.experiences',
         validate: experienceSchema.validator(),
-        run( doc ) {
+        run( d ) {
 
             userChecks.loggedIn( this.userId );
-            userChecks.isCurrent( this.userId, doc.user );
+            userChecks.isCurrent( this.userId, d.user );
+
+            const doc = experienceSchema.clean( d );
+            console.log({ doc });
 
             let result = Caregivers.update({
                 _id: doc._id,
