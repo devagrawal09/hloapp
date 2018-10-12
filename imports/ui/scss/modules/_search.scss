@@ -190,6 +190,24 @@
         }
     }
 
+    .msg, .fav {
+        z-index: 2;
+        position: absolute;
+        right: 2px;
+        width: 36px;
+        padding: 5px 10px;
+        border-radius: 50%
+    }
+    .fav {
+        top: 2px;
+        .fa-heart {
+            color: $red;
+        }
+    }
+    .msg {
+        top: 34px;
+    }
+
     .fa-star, .fa-star-half-o {
         color: $yellow;
     }

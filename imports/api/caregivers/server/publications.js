@@ -34,6 +34,7 @@ Meteor.publishComposite('caregivers.cards', function({ filter = {}, sort, limit 
         find() {
             return Caregivers.find( filter, { fields: {
                 name: 1,
+                user: 1,
                 gender: 1,
                 location: 1,
                 aboutText: 1,
@@ -48,6 +49,12 @@ Meteor.publishComposite('caregivers.cards', function({ filter = {}, sort, limit 
                     job: { $in: caregiver.jobHistory }
                 }, {
                     fields: { rating: 1, job: 1 }
+                });
+            }
+        }, {
+            find( caregiver ) {
+                return Meteor.users.find( caregiver.user, {
+                    fields: { username: 1 }
                 });
             }
         }]

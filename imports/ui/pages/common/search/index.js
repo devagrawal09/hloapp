@@ -5,6 +5,7 @@ import Datatypes from '../../../../api/data-types';
 
 import '../../../helpers';
 import '../../../shared-components/loading';
+import '../../../shared-components/compose-modal';
 import './filter-templates.js';
 import './search.html';
 
@@ -33,6 +34,7 @@ export const resetFilters = ()=> {
     $('.nav-pills ul li a.active').removeClass('active');
     $('#nameSearch').val('');
 }
+export const recipient = new ReactiveVar('');
 
 const Filter = new ReactiveVar({});
 const gridDisplay = new ReactiveVar( true );
@@ -123,6 +125,9 @@ Template.Search.helpers({
             max: 500
         });
         return '';
+    },
+    msgDoc() {
+        return { recipient: recipient.get() };
     },
     filterData
 });

@@ -6,8 +6,12 @@
             </a>
             <div class="card-dp">
                 <div style="background-image: url({{dp.link}});"></div>
-                <!-- <button class="btn btn-default btn-sm fav"><i class="fa fa-plus"></i></button>
-                <button class="btn btn-default btn-sm msg"><i class="fa fa-envelope"></i></button> -->
+                {{#if isBookmarked}}
+                <button class="btn btn-default btn-sm fav"><i class="fa fa-heart"></i></button>
+                {{else}}
+                <button class="btn btn-default btn-sm fav"><i class="fa fa-plus"></i></button>
+                {{/if}}
+                <button class="btn btn-default btn-sm msg"><i class="fa fa-envelope"></i></button>
             </div>
             <div class="price">${{hourlyRate}} HKD/hr</div>
             <div class="card-desc">

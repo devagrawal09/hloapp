@@ -18,4 +18,4 @@ const updateBgAndEdu = ()=> {
     console.log('Finished background and education data update');
 }
 
-updateBgAndEdu();
+// updateBgAndEdu();
