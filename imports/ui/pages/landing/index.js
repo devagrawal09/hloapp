@@ -1,3 +1,4 @@
+import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -14,10 +15,22 @@ import './slick/slick-theme.css';
 import './landing.html';
 
 const slickLoaded = new ReactiveVar( false );
+const texts = new ReactiveVar({});
 
 Template.Landing.onCreated(function () {
     this.subscribe('featured');
     this.subscribe('professional');
+    this.autorun( ()=> {
+        let lang = Session.get('lang');
+        if( lang === 'tc' )
+            import(`./tc.js`).then( i => {
+                texts.set( i.texts );
+            });
+        else
+            import(`./en.js`).then( i => {
+                texts.set( i.texts );
+            });
+    });
 });
 
 Template.Landing.onRendered(function () {
@@ -55,75 +68,9 @@ Template.Landing.onRendered(function () {
 });
 
 Template.Landing.helpers({
-    caregiverTypes: [
-        {
-            title: 'Home Nurse',
-            content: `
-                Experienced housewives and other seniors that truly understand
-                the meaning of Tender Loving Care.
-            `
-        }, {
-            title: 'Nursing Students',
-            content: `
-                University students studying to become a licensed nurse.
-                Very passionate to help other people and start using their technical skills.
-            `
-        }, {
-            title: 'Volunteer',
-            content: `
-                People with super big hearts that is willing to be of service at no charge.
-                Real Social Heroes.
-            `
-        }, {
-            title: 'Licensed Nurse',
-            content: `
-                Registered or Enroll Nurses. Very experienced with strong technical skills,
-                ideal for patients with long-term medical conditions.
-            `
-        }, {
-            title: 'Eldercare',
-            content: `
-                People with experience looking after seniors.
-                Many are other seniors who can empathize with your Loved Ones.
-            `
-        }, {
-            title: 'Special Needs',
-            content: `
-                Be it autism, mental or physically challenged.
-                Find Caregivers who have the experience, empathy, and compassion to help.
-            `
-        }, {
-            title: 'Vertical',
-            content: `
-                People with strong practical experience and domain knowledge.
-                Many are medical professionals and specialists/experts
-                in their fields.
-            `
-        }, {
-            title: 'TLC',
-            content: `
-                Experts at caring for people with colds and flus.
-            `
-        }, {
-            title: 'Everyday',
-            content: `
-                Sunday’s can be every day. Maybe your maid is on holiday or sick.
-                Sometimes it’s nice to have a trusted, professional,
-                and friendly neighbor to help out.
-            `
-        }, {
-            title: 'Lastminute',
-            content: `
-                Normally means same day service.
-            `
-        }, {
-            title: 'Sports Buddies',
-            content: `
-                Many sports requires a partner. It helps to motivate and inspire people
-                to take action and walk the talk.
-            `
-        }
-    ],
+    texts() {
+        return texts.get();
+    },
     featured() {
         return Jobs.find({
             status: 'open',

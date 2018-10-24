@@ -13,7 +13,6 @@ Template.caregiverCard.onCreated(function() {
 
 Template.caregiverCard.helpers({
     isBookmarked() {
-        console.log( this );
         let id = this._id;
         let bookmarks = Meteor.user().bookmarks;
         return _.indexOf( bookmarks, id ) !== -1;
@@ -26,7 +25,6 @@ Template.caregiverCard.events({
         bookmarkCaregiver.call({ id });
     },
     'click .msg'( e, t ) {
-        console.log( t.data );
         const username = Meteor.users.findOne( t.data.user ).username;
         recipient.set( username );
         $('#compose').modal();

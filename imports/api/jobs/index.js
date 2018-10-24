@@ -14,9 +14,11 @@ import { Notifications } from '../notifications';
 import userChecks from '../users/checks';
 import caregiverChecks from '../caregivers/checks';
 
+import { updateJobDetails, updateJobRequirements } from './methods';
+
 export const Jobs = new Mongo.Collection('jobs');
 export const Reviews = new Mongo.Collection('reviews');
-export { JobImages };
+export { JobImages, updateJobDetails, updateJobRequirements };
 
 //methods
 

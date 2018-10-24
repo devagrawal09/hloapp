@@ -16,15 +16,16 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Search
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            {{texts.search}}                            
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="{{pathFor 'caregivers.search'}}">Caregivers</a>
+                                <a href="{{pathFor 'caregivers.search'}}">{{texts.caregivers}}</a>
                             </li>
                             <li>
-                                <a href="{{pathFor 'jobs.search'}}">Jobs</a>
+                                <a href="{{pathFor 'jobs.search'}}">{{texts.jobs}}</a>
                             </li>
                         </ul>
                     </li>
@@ -69,7 +70,7 @@
                         </li>
                     {{else}}
                         <li>
-                            <a href="{{pathFor 'account'}}">Sign Up/Login</a>
+                            <a href="{{pathFor 'account'}}">{{texts.acc}}</a>
                         </li>
                     {{/if}}
                     <li>
@@ -77,15 +78,18 @@
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-globe" aria-hidden="true"></i> English
+                            <i class="fa fa-globe" aria-hidden="true"></i>
+                            {{#if isTc}}中文
+                            {{else}}English
+                            {{/if}}
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#">English</a>
+                                <a href="?lang=en">English</a>
                             </li>
                             <li>
-                                <a href="#">中文</a>
+                                <a href="?lang=tc">中文</a>
                             </li>
                         </ul>
                     </li>

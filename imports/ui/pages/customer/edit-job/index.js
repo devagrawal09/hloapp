@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { AutoForm } from 'meteor/aldeed:autoform';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import { detailsSchema } from '../../../../api/jobs/schema';
+import { detailsSchema, jobDetails, jobRequirements } from '../../../../api/jobs/schema';
 import { Jobs } from '../../../../api/jobs';
 
 import showAlert from '../../../shared-components/alert';
@@ -10,7 +10,7 @@ import showAlert from '../../../shared-components/alert';
 import '../job-form';
 import './edit-job.html';
 
-Template.EditJob.onCreated(function() {
+Template.EditJob.onCreated( function() {
     this.autorun(()=> {
         let id = Template.currentData().id();
         this.subscribe( 'ownJobById', id );
@@ -18,13 +18,12 @@ Template.EditJob.onCreated(function() {
 });
 
 Template.EditJob.helpers({
-    schema() {
-        return detailsSchema;
-    },
+    schema: detailsSchema,
     doc() {
         let id = Template.currentData().id();
         return Jobs.findOne( id );
-    }
+    },
+    jobDetails, jobRequirements
 });
 
 AutoForm.hooks({

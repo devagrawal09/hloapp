@@ -1,5 +1,6 @@
 //import libraries
     import { Meteor } from 'meteor/meteor';
+    import { Session } from 'meteor/session';
     import { Accounts } from 'meteor/accounts-base';
     import { analytics } from 'meteor/okgrow:analytics';
     import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -20,6 +21,15 @@
 
 //import loader
     import '../../ui/shared-components/loading';
+
+//trigger language
+    FlowRouter.triggers.enter([( con ) => {
+        if( con.queryParams.lang === 'tc' ) {
+            Session.set( 'lang', 'tc' );
+        } else {
+            Session.set( 'lang', 'en' );
+        }
+    }]);
 
 //login and logout hooks
 

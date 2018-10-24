@@ -12,6 +12,7 @@ reactive-var@1.0.11            # Reactive variable for tracker
 tracker@1.2.0                 # Meteor's client-side reactive programming library
 random@1.1.0
 http@1.4.1
+session
 
 standard-minifier-css@1.5.0   # CSS minifier run for production mode
 standard-minifier-js@2.4.0    # JS minifier run for production mode
@@ -44,5 +45,6 @@ reywood:publish-composite
 
 okgrow:analytics
 msavin:mongol
+msavin:jetsetter
 underscore@1.0.10
 ostrio:flow-router-title
