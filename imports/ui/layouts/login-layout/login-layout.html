@@ -8,11 +8,10 @@
         </div>
         <div class="col-sm-5 why-hlo">
             <div class="why-hlo-desc">
-                <h3>Why HealthyLovedOnes?</h3>
-                <p><i class="fa fa-heart" aria-hidden="true"></i> Receive Tender Loving Care from Caregivers</p>
-                <p><i class="fa fa-heart" aria-hidden="true"></i> Guarenteed payment</p>
-                <p><i class="fa fa-heart" aria-hidden="true"></i> Insurance covered</p>
-                <p><i class="fa fa-heart" aria-hidden="true"></i> Join a community of people with big hearts</p>
+                <h3>{{texts.head}}</h3>
+                {{#each item in texts.list}}
+                    <p><i class="fa fa-heart" aria-hidden="true"></i>{{item}}</p>
+                {{/each}}
             </div>
         </div>
     </div>

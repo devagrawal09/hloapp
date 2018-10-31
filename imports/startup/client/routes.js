@@ -23,11 +23,10 @@
     import '../../ui/shared-components/loading';
 
 //trigger language
+    Session.setDefault( 'lang', 'en' );
     FlowRouter.triggers.enter([( con ) => {
-        if( con.queryParams.lang === 'tc' ) {
-            Session.set( 'lang', 'tc' );
-        } else {
-            Session.set( 'lang', 'en' );
+        if( con.queryParams.lang ) {
+            Session.set( 'lang', con.queryParams.lang );
         }
     }]);
 

@@ -1,3 +1,4 @@
+// import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var'
 
@@ -13,6 +14,8 @@ if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('caregivers');
     Package['msavin:mongol'].Mongol.showCollection('jobs');
 }
+
+const texts = new ReactiveVar({});
 
 const filterData = {
     locations: Datatypes.Location.allowedValues,
@@ -73,6 +76,17 @@ const filterToQuery = ( filter = {}, searchType = '' )=> {
 }
 
 Template.Search.onCreated(function() {
+    /* this.autorun(()=> {
+        let lang = Session.get('lang');
+        if( lang === 'tc' )
+            import(`./tc.js`).then( i => {
+                texts.set( i.texts );
+            });
+        else
+            import(`./en.js`).then( i => {
+                texts.set( i.texts );
+            });
+    }); */
     this.autorun(()=> {
         let subs = subscription.get();
         let filter = filterToQuery( Filter.get(), subs );
@@ -91,6 +105,9 @@ Template.Search.onRendered(function() {
 });
 
 Template.Search.helpers({
+    texts() {
+        return texts.get();
+    },
     docs() {
         let coll = collection.get();
         let sort = Sort.get();

@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
 
 import humanize from 'string-humanize';
 
@@ -25,27 +26,31 @@ function stars( rating ) {
     return stars;
 };
 
-Template.registerHelper( 'getDate', ( date )=> {
+Template.registerHelper( 'isTc', ()=> {
+    return Session.equals('lang', 'tc');
+});
+
+Template.registerHelper( 'getDate', date=> {
     console.log(date);
     return date.toDateString();
 });
 
-Template.registerHelper( 'humanize', ( string )=> {
+Template.registerHelper( 'humanize', string=> {
     return humanize( string );
 });
 
-Template.registerHelper( 'hundChars', ( text )=> {
+Template.registerHelper( 'hundChars', text=> {
     return text.substr(0, 99) + '...';
 });
 
-Template.registerHelper( 'onefiftyChars', ( text )=> {
+Template.registerHelper( 'onefiftyChars', text=> {
     return text.substr(0, 149) + '...';
 });
 
-Template.registerHelper( 'plusOne', ( index )=> {
+Template.registerHelper( 'plusOne', index=> {
     return index + 1;
 });
 
-Template.registerHelper( 'stars', ( rating )=> {
+Template.registerHelper( 'stars', rating=> {
     return stars( rating );
-})
+});

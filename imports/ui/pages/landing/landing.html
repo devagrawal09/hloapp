@@ -114,7 +114,7 @@
         <!-- replace later -->
         <div class="carousel">
             {{#each type in texts.types.types}}
-            <div style="background-image: url('/img/care-types/{{type.title}}.jpg');">
+            <div style="background-image: url('/img/care-types/{{@index}}.jpg');">
                 <h3>{{type.title}}</h3>
                 <p>{{type.content}}</p>
             </div>

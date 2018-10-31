@@ -1,43 +1,53 @@
 <template name="jobForm">
-        <div class="container-small edit-profile">
-    
-            <ul class="nav nav-pills nav-justified form-steps">
-                <li class="active">
-                    <a data-toggle="pill" href="#details">Details</a>
-                </li>
-                <li>
-                    <a data-toggle="pill" href="#requirements">Requirements</a>
-                </li>
-                <li>
-                    <a data-toggle="pill" href="#photos">Photos</a>
-                </li>
-                <li>
-                    <a data-toggle="pill" href="#review">Review</a>
-                </li>
-            </ul>
-    
-            <h3 id="form-title">
-                {{formTitle}}
-                <span class="small pull-right">* - Required field</span>
-            </h3>
-    
-            {{#autoForm 
-                id=id
-                type="method"
-                meteormethod=method
-                schema=schema
-                doc=doc
-            }}
-                {{#if isEditForm id}}
-                    {{> afQuickField name="_id"}}
-                    {{> afQuickField name="postedBy"}}
-                {{/if}}
-                <div class="tab-content">
-                    {{> jobDetailsForm}}
-                    {{> jobRequirementsForms}}
-                    {{> jobPhotosForm}}
-                    {{> jobPostReview}}
-                </div>
-            {{/autoForm}}
-        </div>
-    </template>
+    <div class="container-small edit-profile">
+
+        <ul class="nav nav-pills nav-justified form-steps">
+            <li class="active">
+                <a data-toggle="pill" href="#details">Details</a>
+            </li>
+            <li>
+                <a data-toggle="pill" href="#requirements">Requirements</a>
+            </li>
+            <li>
+                <a data-toggle="pill" href="#photos">Photos</a>
+            </li>
+            <li>
+                <a data-toggle="pill" href="#review">Review</a>
+            </li>
+        </ul>
+
+        <h3 id="form-title">
+            {{formTitle}}
+            <span class="small pull-right">* - Required field</span>
+        </h3>
+
+        {{#autoForm
+            id=id type="method"
+            meteormethod=method
+            schema=schema doc=doc
+        }}
+            {{#if isEditForm id}}
+                {{> afQuickField name="_id"}}
+                {{> afQuickField name="postedBy"}}
+            {{/if}}
+
+            <div class="tab-content">
+
+                {{> jobDetailsForm}}
+                {{> jobRequirementsForms}}
+                {{> jobPhotosForm}}
+                {{> jobPostReview}}
+
+            </div>
+
+        {{/autoForm}}
+    </div>
+</template>
+
+<template name="jobFormNew">
+
+</template>
+
+<template name="jobFormEdit">
+
+</template>

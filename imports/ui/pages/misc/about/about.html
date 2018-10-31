@@ -3,8 +3,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-6">
-					<h1>About Us</h1>
-					<h5>The whole is greater than the sum of its parts - teamwork.</h5>
+					<h1>{{texts.head}}</h1>
+					<h5>{{texts.subHead}}</h5>
 				</div>
 				<div class="col-xs-6 header-image-col">
 					<img src="img/infopage/pluses.png" class="header-image">
@@ -14,26 +14,9 @@
 	</div>
 
 	<div class="container static">
-		<p> HealthyLovedOnes is a social enterprise with a non-profit charity component. We believe neighbors can help neighbors, we
-			want to empower people so that they can be part of the solution and change the world, one person at a time.</p>
-
-		<p> What pain/problem do we solve? Big picture/macro level - less stress and worry in your life. Your health and the health
-			of your Loved Ones is a big deal. If you have problems in this area believe me it comes with stress and worry. Your job
-			is to deal with it. Thus our tag line – Making life easier for you. </p>
-
-		<p> We’re not doctors or a hospital, we call them the first mile of healthcare. Homecare and Caregivers (family, friends, and
-			helpers) is what we call the last mile of healthcare. At HLO, we specialize in the last mile.</p>
-
-		<p>What happens at home is super important. Be it Eldercare, Childcare, Babycare, Special Needs Care, Rehab Care, Everyday
-			and Lastminute Care, having the right people to care for yourself or your Loved Ones is the key to quality of life. Is
-			quality of life important to you?</p>
-
-		<p>Who is the right person? It’s different for everyone just like love, but we believe it comes down to having the right attitude
-			and aptitude, we call this the TLC spirit. </p>
-
-		<p>Attitude means they are positive and happy. Aptitude means they have a big heart and wants to be of service and pay it
-			forward. We’re looking for real Social Heroes, we don’t discriminate and believe in second chances and new beginnings.
-		</p>
+		{{#each p in texts.ps}}
+			<p>{{p}}</p>
+		{{/each}}
 		<div class="row diagrams">
 			<div class="col-sm-6">
 				<img src="/img/ws/diagram-left.png" alt="HLO online distribution platform">
@@ -42,7 +25,7 @@
 				<img src="/img/ws/diagram-right.png" alt="HLO ecosystem">
 			</div>
 		</div>
-		<h2 class="dream-team">Our Dream Team</h2>
+		<h2 class="dream-team">{{texts.dtHead}}</h2>
 		<div class="slider-wrapper">
 			<div id="wowslider-container1">
 				<div class="ws_images">
@@ -76,9 +59,6 @@
 						</li>
 						<li>
 							<img src="/img/ws/connor_doyle.png" alt="CONNOR DOYLE" title="CONNOR DOYLE" id="wows1_9" />
-						</li>
-						<li>
-							<img src="/img/ws/anmol_dhawan.png" alt="ANMOL DHAWAN" title="ANMOL DHAWAN" id="wows1_10" />
 						</li>
 						<li>
 							<img src="/img/ws/dev_agrawal.png" alt="DEV AGRAWAL" title="DEV AGRAWAL" id="wows1_11" />
@@ -116,9 +96,6 @@
 						</a>
 						<a href="#" title="CONNOR DOYLE">
 							<img src="/img/ws/tooltips/connor_doyle.png" alt="" />
-						</a>
-						<a href="#" title="ANMOL DHAWAN">
-							<img src="/img/ws/tooltips/anmol_dhawan.png" alt="" />
 						</a>
 						<a href="#" title="DEV AGRAWAL">
 							<img src="/img/ws/tooltips/dev_agrawal.png" alt="" />
