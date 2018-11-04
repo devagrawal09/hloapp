@@ -1,4 +1,4 @@
-// import { Session } from 'meteor/session';
+import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var'
 
@@ -15,16 +15,19 @@ if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('jobs');
 }
 
-const texts = new ReactiveVar({});
+const setFilterDataEn = ()=> {
+    const data = {};
+    const fn = val=> ({ filter: val, text: val });
+    data.locations = Datatypes.Location.allowedValues.map( fn );
+    data.religions = Datatypes.Religion.allowedValues.map( fn );
+    data.languages = Datatypes.Languages.allowedValues.map( fn );
+    data.professional = Datatypes.ProfessionalService.allowedValues.map( fn );
+    data.personal = Datatypes.PersonalService.allowedValues.map( fn );
+    data.medical = Datatypes.MedicalCondition.allowedValues.map( fn );
+    filterData.set( data );
+}
 
-const filterData = {
-    locations: Datatypes.Location.allowedValues,
-    religions: Datatypes.Religion.allowedValues,
-    languages: Datatypes.Languages.allowedValues,
-    professional: Datatypes.ProfessionalService.allowedValues,
-    personal: Datatypes.PersonalService.allowedValues,
-    medical: Datatypes.MedicalCondition.allowedValues
-};
+export const texts = new ReactiveVar({});
 export const subscription = new ReactiveVar( '' );
 export const resultCount = new ReactiveVar( 20 );
 export const gridTemplate = new ReactiveVar( '' );
@@ -32,12 +35,12 @@ export const listTemplate = new ReactiveVar( '' );
 export const collection = new ReactiveVar();
 export const Sort = new ReactiveVar({});
 export const sortKeys = new ReactiveVar([]);
+export const recipient = new ReactiveVar('');
 export const resetFilters = ()=> {
     Filter.set({});
     $('.nav-pills ul li a.active').removeClass('active');
     $('#nameSearch').val('');
 }
-export const recipient = new ReactiveVar('');
 
 const Filter = new ReactiveVar({});
 const gridDisplay = new ReactiveVar( true );
@@ -76,7 +79,7 @@ const filterToQuery = ( filter = {}, searchType = '' )=> {
 }
 
 Template.Search.onCreated(function() {
-    /* this.autorun(()=> {
+    this.autorun(()=> {
         let lang = Session.get('lang');
         if( lang === 'tc' )
             import(`./tc.js`).then( i => {
@@ -85,8 +88,9 @@ Template.Search.onCreated(function() {
         else
             import(`./en.js`).then( i => {
                 texts.set( i.texts );
+                setFilterDataEn();
             });
-    }); */
+    });
     this.autorun(()=> {
         let subs = subscription.get();
         let filter = filterToQuery( Filter.get(), subs );
@@ -122,12 +126,11 @@ Template.Search.helpers({
     isGrid() {
         return gridDisplay.get();
     },
-    placeholder() {
+    placeholder( obj ) {
         let search = subscription.get();
-        if( search === 'jobs' ) {
-            return 'What job are you looking for?'
-        }
-        return 'Who are you looking for?';
+        if( search === 'jobs' )
+            return obj.job;
+        return obj.caregiver;
     },
     isJobSearch() {
         let search = subscription.get();
@@ -145,8 +148,7 @@ Template.Search.helpers({
     },
     msgDoc() {
         return { recipient: recipient.get() };
-    },
-    filterData
+    }
 });
 
 Template.Search.events({
@@ -184,7 +186,7 @@ Template.Search.events({
             return Filter.set(newFilter);
         }
         
-        newFilter.location = t.$('#location-filter li a.active').get().map( el=> el.innerText );
+        newFilter.location = t.$('#location-filter li a.active').get().map( el=> el.getAttribute('data-filter') );
         newFilter.otherDistrict = t.$('#location-filter input').val();
 
         Filter.set(newFilter);
@@ -201,13 +203,12 @@ Template.Search.events({
             return Filter.set(newFilter);
         }
 
-        newFilter.gender = t.$('#personal-filter li a.active.gender').get().map( el=> el.innerText );
-        newFilter.religion = t.$('#personal-filter li a.active.religion').get().map( el=> el.innerText );
-        newFilter.languages = t.$('#personal-filter li a.active.language').get().map( el=> el.innerText );        
+        newFilter.gender = t.$('#personal-filter li a.active.gender').get().map( el=> el.getAttribute('data-filter') );
+        newFilter.religion = t.$('#personal-filter li a.active.religion').get().map( el=> el.getAttribute('data-filter') );
+        newFilter.languages = t.$('#personal-filter li a.active.language').get().map( el=> el.getAttribute('data-filter') );        
         newFilter.otherReligion = t.$('#personal-filter #otherReligion').val();
         newFilter.otherLanguages = t.$('#personal-filter #otherLanguage').val();
-        
-        Filter.set(newFilter);
+        Filter.set( newFilter );
     },
     'click #technical-filter .btn'( e, t ) {
 
@@ -222,9 +223,9 @@ Template.Search.events({
             return Filter.set(newFilter);
         }
         
-        newFilter.professionalServices = t.$('#technical-filter li a.active.professional').get().map( el=> el.innerText );
-        newFilter.personalServices = t.$('#technical-filter li a.active.personal').get().map( el=> el.innerText );
-        newFilter.medicalConditions = t.$('#technical-filter li a.active.medical').get().map( el=> el.innerText );        
+        newFilter.professionalServices = t.$('#technical-filter li a.active.professional').get().map( el=> el.getAttribute('data-filter') );
+        newFilter.personalServices = t.$('#technical-filter li a.active.personal').get().map( el=> el.getAttribute('data-filter') );
+        newFilter.medicalConditions = t.$('#technical-filter li a.active.medical').get().map( el=> el.getAttribute('data-filter') );        
         newFilter.otherProfessionalService = t.$('#technical-filter #otherProfessional').val();        
         newFilter.otherPersonalService = t.$('#technical-filter #otherPersonal').val();
         newFilter.otherMedicalCondition = t.$('#technical-filter #otherMedical').val();
@@ -278,6 +279,9 @@ Template.sortButton.helpers({
         const order = Sort.get()[this.key];
         if( order === 1 ) return 'down';
         if( order === -1 ) return 'up';
+    },
+    text( key ) {
+        return texts.get().sortKeys[ key ];
     }
 });
 

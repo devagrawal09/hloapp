@@ -1,11 +1,13 @@
 <template name="LoggedOut">
     <div class="text-center">
-        <h2>Thanks for caring and logging out!</h2>
+        <h2>
+            {{texts.thanks}}
+        </h2>
         <p>
-            <a href="{{pathFor 'login'}}">Login</a><br>
-            <a href="{{pathFor 'signup'}}">Create a new account</a><br>
-            <a href="{{pathFor 'jobs'}}">Search for Jobs</a><br>
-            <a href="{{pathFor 'caregivers'}}">Search for Caregivers</a>            
+            <a href="{{pathFor 'login'}}">{{texts.login}}</a><br>
+            <a href="{{pathFor 'signup'}}">{{texts.signup}}</a><br>
+            <a href="{{pathFor 'jobs'}}">{{texts.jobs}}</a><br>
+            <a href="{{pathFor 'caregivers'}}">{{texts.caregivers}}</a>            
         </p>
         <a href="/"><img src="/img/logout-img.jpg"></a>
     </div>

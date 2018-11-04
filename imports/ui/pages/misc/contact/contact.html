@@ -3,8 +3,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-6">
-                    <h1>Contact Us</h1>
-                    <h5>TLC is about compassion, empathy, and dignity.</h5>
+                    <h1>{{texts.head}}</h1>
+                    <h5>{{texts.subHead}}</h5>
                 </div>
                 <div class="col-xs-6 header-image-col">
                     <img src="/img/infopage/pluses.png" class="header-image">
@@ -16,27 +16,27 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <h2>Leave a message</h2>
+                <h2>{{texts.lam}}</h2>
                 {{#autoForm
                     id="contact-us"
                     schema=schema
                 }}
-                    {{> afQuickField name="name"}}
-                    {{> afQuickField name="email"}}
+                    {{> afQuickField name="name" label=texts.name}}
+                    {{> afQuickField name="email" label=texts.email}}
                     {{> afQuickField name="text"
                         type="textarea"
-                        rows=5
-                        placeholder="Begin your message here..."
+                        rows=5 label=texts.msg
+                        placeholder=texts.placeholder
                     }}
-                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                    <button type="submit" class="btn btn-success btn-block">{{texts.btn}}</button>
                 {{/autoForm}}
             </div>
             <div class="col-md-5 col-md-offset-2 contact-details">
                 <p>
                     <i class="fa fa-map-marker"></i>
-                    Room 1804 Jubilee Centre,<br>
-                    18 Fenwick Street,<br>
-                    Wai Chai, Hong Kong
+                    {{#each line in texts.address}}
+                        {{line}}<br>
+                    {{/each}}
                 </p>
                 <p>
                     <i class="fa fa-envelope"></i>
@@ -47,9 +47,8 @@
                     +852-9460-6840
                 </p>
                 <p>
-                    Interested in partnering?<br>
-                    Send us your name, company name, phone contact and <br>
-                    partnership request.
+                    {{texts.prompt}}<br>
+                    {{{texts.send}}}
                 </p>
                 <p>
                     <i class="fa fa-envelope"></i>

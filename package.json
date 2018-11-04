@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor run -s dev.json",
+    "start:staging": "set MONGO_URL=mongodb://heroku_xg40nwxs:28gslbs38t7fb9q2rhs5vu1322@ds233769.mlab.com:33769/heroku_xg40nwxs && npm start",
     "start:prod": "meteor run --production -s dev.json",
     "start:visualizer": "meteor run --extra-packages bundle-visualizer --production -s dev.json"
   },

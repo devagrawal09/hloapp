@@ -13,7 +13,7 @@
                 {{/if}}
                 <button class="btn btn-default btn-sm msg"><i class="fa fa-envelope"></i></button>
             </div>
-            <div class="price">${{hourlyRate}} HKD/hr</div>
+            <div class="price">${{hourlyRate}} {{currency}}</div>
             <div class="card-desc">
 
                 <h4>{{name}}</h4>
@@ -24,7 +24,7 @@
                     ({{this.reviews.count}})
                 </p>
                 <p>
-                    <span class="label label-success">{{location}}</span>
+                    <span class="label label-success">{{getLocation}}</span>
                 </p>
                 <p class="card-about">{{hundChars aboutText}}</p>
             </div>
