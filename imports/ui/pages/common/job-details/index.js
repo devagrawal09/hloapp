@@ -1,7 +1,11 @@
+import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Jobs } from '../../../../api/jobs';
 import { applyForJob, acceptOffer } from '../../../../api/caregivers';
+
+import TCdata from '../../../../api/data-types/tc.js';
 
 import showAlert from '../../../shared-components/alert';
 import '../../../shared-components/admin-buttons';
@@ -13,6 +17,8 @@ if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('job-images');
 }
 
+const texts = new ReactiveVar({});
+
 Template.JobDetails.onCreated(function() {
     let id = this.data.id();
     this.autorun(()=> {
@@ -23,14 +29,37 @@ Template.JobDetails.onCreated(function() {
         this.subscribe( 'caregiver.employment' );
         console.log( 'subscribe here', id );
     });
+    this.autorun( ()=> {
+        let lang = Session.get('lang');
+        if( lang === 'tc' )
+            import(`./tc.js`).then( i => {
+                texts.set( i.texts );
+            });
+        else
+            import(`./en.js`).then( i => {
+                texts.set( i.texts );
+            });
+    });
 });
 
 Template.JobDetails.helpers({
+    texts() {
+        return texts.get();
+    },
     isAdmin() {
         return Meteor.user().username === 'admin';
     },
     job() {
-        return Jobs.findOne( this.id() );
+        let job = Jobs.findOne( this.id() );
+        if( Session.equals('lang', 'tc') ) {
+            if(job.location) job.location = TCdata.locations[ job.location ];
+            if(job.languages) job.languages = job.languages.map( lang=> TCdata.languages[ lang ] );
+            if(job.caregiverType) job.caregiverType = job.caregiverType.map( type=> TCdata.careTypes[ type ] );
+            if(job.professionalServices) job.professionalServices = job.professionalServices.map( service=> TCdata.professional[ service ] );
+            if(job.personalServices) job.personalServices = job.personalServices.map( service=> TCdata.personal[ service ] );
+            if(job.medicalConditions) job.medicalConditions = job.medicalConditions.map( mc=> TCdata.medical[ mc ] );
+        };
+        return job;
     },
     activeClass( index ) {
         if( index === 0 ) return 'active';

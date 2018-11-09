@@ -44,22 +44,21 @@ Template.CaregiverProfile.helpers({
     },
     isAdmin() {
         return Meteor.user().username === 'admin';
-    },
-    caregiver() {
-        let caregiver = Caregivers.findOne( this.id );
-        if( Session.equals('lang', 'tc') ) {
-            caregiver.location = TCdata.locations[ caregiver.location ];
-            caregiver.workLocation = caregiver.workLocation.map( loc=> TCdata.locations[ loc ] );
-            caregiver.religion = TCdata.religions[ caregiver.religion ];
-
-            caregiver.languages = caregiver.languages.map( lang=> TCdata.languages[ lang ] );
-            caregiver.caregiverType = caregiver.caregiverType.map( type=> TCdata.careTypes[ type ] );
-            caregiver.professionalServices = caregiver.professionalServices.map( service=> TCdata.professional[ service ] );
-            caregiver.personalServices = caregiver.personalServices.map( service=> TCdata.personal[ service ] );
-            caregiver.medicalConditions = caregiver.medicalConditions.map( mc=> TCdata.medical[ mc ] );
-        }
-        return caregiver;
-    },
+        },
+        caregiver() {
+            let caregiver = Caregivers.findOne( this.id );
+            if( Session.equals('lang', 'tc') ) {
+                caregiver.location = TCdata.locations[ caregiver.location ];
+                caregiver.workLocation = caregiver.workLocation.map( loc=> TCdata.locations[ loc ] );
+                if(caregiver.religion) caregiver.religion = TCdata.religions[ caregiver.religion ];
+                if(caregiver.languages) caregiver.languages = caregiver.languages.map( lang=> TCdata.languages[ lang ] );
+                if(caregiver.caregiverType) caregiver.caregiverType = caregiver.caregiverType.map( type=> TCdata.careTypes[ type ] );
+                if(caregiver.professionalServices) caregiver.professionalServices = caregiver.professionalServices.map( service=> TCdata.professional[ service ] );
+                if(caregiver.personalServices) caregiver.personalServices = caregiver.personalServices.map( service=> TCdata.personal[ service ] );
+                if(caregiver.medicalConditions) caregiver.medicalConditions = caregiver.medicalConditions.map( mc=> TCdata.medical[ mc ] );
+            }
+            return caregiver;
+        },
     activeClass( index ) {
         if( index === 0 ) return 'active';
     },
