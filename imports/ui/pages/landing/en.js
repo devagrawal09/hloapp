@@ -1,4 +1,5 @@
 export const texts = {
+    lang: 'en',
     jumbo: {
         head: 'Find a trusted Caregiver nearby in just a few clicks.',
         sideHead: 'Everyone deserves quality Homecare.',

@@ -6,7 +6,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title">Compose Message</h4>
+                    <h4 class="modal-title">{{texts.head}}</h4>
                 </div>
                 <div class="modal-body">
                     {{#autoForm
@@ -18,19 +18,21 @@
                     }}
 
                         {{> afQuickField name="recipient" 
-                            label="Recipient Username or Email"
-                            placeholder="Recipient"
+                            label=texts.rec.label
+                            placeholder=texts.rec.placeholder
                         }}
                         {{> afQuickField name="subject"
-                            placeholder="Subject"
+                            label=texts.sub
+                            placeholder=texts.sub
                         }}
                         {{> afQuickField name="msg" 
                             type="textarea" rows=5
-                            placeholder="Write your message here..."
+                            label=texts.msg.label
+                            placeholder=texts.msg.placeholder
                         }}
                         <div class="submit-buttons">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Send</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{{texts.btns.close}}</button>
+                            <button type="submit" class="btn btn-primary">{{texts.btns.send}}</button>
                         </div>
                     {{/autoForm}}
                 </div>

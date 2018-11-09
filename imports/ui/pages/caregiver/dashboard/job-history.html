@@ -6,24 +6,24 @@
         {{#if Template.subscriptionsReady}}
 
             {{#if employment.offers}}
-                <h1>Job Offers</h1>
+                <h1>{{texts.offers}}</h1>
                 {{#each job in jobOffers}}
                     {{> jobCollapsible (job)}}
                 {{/each}}
             {{/if}}
 
-            <h1>Job History</h1>
+            <h1>{{texts.history}}</h1>
 
             {{#if employment.currentJob}}
 
-                <h3>Current Job</h3>
+                <h3>{{texts.current}}</h3>
                 {{> jobCollapsible (currentJob)}}
 
             {{/if}}
 
             {{#if employment.appliedJobs}}
 
-                <h3>Applied Jobs</h3>
+                <h3>{{texts.applied}}</h3>
                 {{#each job in appliedJobs}}
                     {{> jobCollapsible (job)}}
                 {{/each}}
@@ -32,7 +32,7 @@
             
             {{#if employment.jobHistory}}
 
-                <h3>Completed Jobs</h3>
+                <h3>{{texts.completed}}</h3>
                 {{#each job in jobHistory}}
                     {{> jobCollapsible (job)}}
                 {{/each}}
@@ -42,10 +42,10 @@
             {{#if currentUser.bookmarks.length}}
                 <div class="row">
                     <div class="col-xs-6">
-                        <h3>Favorite Caregivers</h3>                    
+                        <h3>{{texts.fav.head}}</h3>                    
                     </div>
                     <div class="col-xs-6 button-col">
-                        <a class="btn btn-primary" href="/favorites">View All</a>
+                        <a class="btn btn-primary" href="/favorites">{{texts.fav.all}}</a>
                     </div>
                 </div>
                 <div class="row search-grid">
@@ -53,11 +53,11 @@
                         {{> caregiverCard (doc)}}
                     {{else}}
                         <div class="col-xs-12">
-                            <h5 class="text-center">No Favorite Caregivers!</h5>
+                            <h5 class="text-center">{{texts.fav.empty}}</h5>
                         </div>
                     {{/each}}
                 </div>
-                <h5><a href="/favorites">View All</a></h5>
+                <h5><a href="/favorites">{{texts.fav.all}}</a></h5>
             {{/if}}
 
         {{else}}

@@ -1,4 +1,5 @@
 export const texts = {
+    lang: 'tc',
     jumbo: {
         head: '點擊幾下即可在附近找到值得信賴的護理員。',
         sideHead: '每個人都值得擁有優質的家庭護理服務。',

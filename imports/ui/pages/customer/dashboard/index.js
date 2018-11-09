@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -12,6 +14,35 @@ import '../../../shared-components/job-collapsible';
 import '../../../shared-components/compose-modal';
 import '../../../shared-components/caregiver-card';
 import './posted-jobs.html';
+
+const texts = {
+    en: {
+        listed: 'Listed Jobs',
+        add: 'Add Job',
+        noList: 'No jobs currently listed.',
+        ongoing: 'Ongoing Jobs',
+        completed: 'Completed Jobs',
+        expired: 'Expired Jobs',
+        fav: {
+            head: 'Favorite Caregivers',
+            empty: 'No Favorite Caregivers!',
+            all: 'View All'
+        }
+    },
+    tc: {
+        listed: '已刊登的招聘',
+        add: '新增招聘',
+        noList: '目前沒有職位列出.',
+        ongoing: '進行中的工作',
+        completed: '已完成的工作',
+        expired: '過期的工作',
+        fav: {
+            head: '喜愛的護理員',
+            empty: '沒有最喜歡的看護人!',
+            all: '查看全部'
+        }
+    }
+}
 
 if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('jobs');
@@ -29,6 +60,12 @@ Template.PostedJobs.onCreated(function() {
 });
 
 Template.PostedJobs.helpers({
+    texts() {
+        let lang = Session.get('lang');
+        if( lang === 'tc' )
+            return texts.tc;
+        return texts.en;
+    },
     jobs() {
         return Jobs.find({ status: 'open' }, {
             sort: { postedOn: -1 }

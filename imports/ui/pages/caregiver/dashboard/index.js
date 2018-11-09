@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 
 import { Caregivers } from '../../../../api/caregivers';
@@ -7,6 +8,33 @@ import { Jobs } from '../../../../api/jobs';
 import './job-history.html';
 import '../../../shared-components/caregiver-card';
 import '../../../shared-components/job-collapsible';
+
+const texts = {
+    en: {
+        offers: 'Job Offers',
+        history: 'Job History',
+        current: 'Current Job',
+        applied: 'Applied Jobs',
+        completed: 'Completed Jobs',
+        fav: {
+            head: 'Favorite Caregivers',
+            empty: 'No Favorite Caregivers!',
+            all: 'View All'
+        }
+    },
+    tc: {
+        offers: '獲邀聘的工作',
+        history: '工作紀錄',
+        current: '目前的工作',
+        applied: '已申請的工作',
+        completed: '已完成的工作',
+        fav: {
+            head: '喜愛的護理員',
+            empty: '沒有最喜歡的看護人!',
+            all: '查看全部'
+        }
+    }
+}
 
 if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('caregivers');
@@ -34,6 +62,12 @@ Template.JobHistory.onCreated(function () {
 });
 
 Template.JobHistory.helpers({
+    texts() {
+        let lang = Session.get('lang');
+        if( lang === 'tc' )
+            return texts.tc;
+        return texts.en;
+    },
     employment() {
         return Template.instance().caregiver.fetch()[0];
     },

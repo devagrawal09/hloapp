@@ -1,4 +1,13 @@
 export default {
+    days: {
+        'Monday': 'Monday',
+        'Tuesday': 'Tuesday',
+        'Wednesday': 'Wednesday',
+        'Thursday': 'Thursday',
+        'Friday': 'Friday',
+        'Saturday': 'Saturday',
+        'Sunday': 'Sunday'
+    },
     locations: {
         'Central and Western': '中西區',
         'Eastern': '東區',
@@ -40,6 +49,19 @@ export default {
         'Putonghua': "普通話",
         'Spanish': "西班牙語",
         'Tagalog': "菲律賓語"
+    },
+    careTypes: {
+        "Eldercare": "長者護理",
+        "Expert": "專家",
+        "Home Nurse": "家庭護士",
+        "Licensed Nurse": "持牌護士",
+        "Nursing Students": "護理系學生",
+        "Special Needs": "特殊需要",
+        "Specialist": "專科護理員",
+        "Sports Buddies": "運動夥伴",
+        "TLC": "關愛護理",
+        "Volunteer": "志願者",
+        "Weekend": "週末"
     },
     professional: {
         'Addiction Counselor': "沉溺輔導員",

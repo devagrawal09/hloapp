@@ -52,12 +52,12 @@
             </div>
             <h4>
                 <span class="label label-success">
-                    ${{caregiver.hourlyRate}} HKD per hour
+                    ${{caregiver.hourlyRate}} {{texts.top.rate}}
                 </span>
             </h4>
             <h4>
                 <span class="label label-success">
-                    ${{caregiver.extraCharges}} HKD extra
+                    ${{caregiver.extraCharges}} {{texts.top.extra}}
                 </span>
             </h4>
             <h4>
@@ -76,11 +76,11 @@
                 {{> adminButtons caregiver=caregiver}}
             {{else}}
             {{#if isCustomer}}
-            <button class="btn btn-primary" data-toggle="modal" data-target="#hireCaregiver">Hire</button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#hireCaregiver">{{texts.btns.hire}}</button>
             {{/if}}
             {{#if notCurrentCaregiver}}
                 <button class="btn btn-default-clear" data-toggle="modal" data-target="#compose">
-                    <i class="fa fa-envelope"></i> Message
+                    <i class="fa fa-envelope"></i> {{texts.btns.msg}}
                 </button>
                 {{> composeMsg doc=msgDoc}}
             {{else}}
@@ -89,7 +89,7 @@
                 </a>
                 {{#unless caregiver.isProfileComplete}}
                     <button class="btn btn-success finalise">
-                        <i class="fa fa-save"></i> Finalise and Submit Profile
+                        <i class="fa fa-save"></i> {{texts.btns.submit}}
                     </button>
                 {{/unless}}
             {{/if}}
@@ -106,7 +106,7 @@
                     <i class="fa fa-pencil"></i>
                 </a>
                 {{/unless}}
-                <h3>About</h3>
+                <h3>{{texts.about.head}}</h3>
                 <h5>{{caregiver.aboutText}}</h5>
             </div>
             <div class="profile-section" id="work">
@@ -115,18 +115,18 @@
                     <i class="fa fa-pencil"></i>
                 </a>
                 {{/unless}}
-                <h3>Work Experience</h3>
-                <h5>{{caregiver.years}} years</h5>
+                <h3>{{texts.work.head}}</h3>
+                <h5>{{caregiver.years}} {{texts.work.yrs}}</h5>
                 {{#if caregiver.experiences.length}}
-                    <h3>Employment History</h3>
+                    <h3>{{texts.work.history}}</h3>
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Employer</th>
-                                <th>Job Description</th>
-                                <th>From</th>
-                                <th>To</th>
+                                <th>{{texts.work.employer}}</th>
+                                <th>{{texts.work.desc}}</th>
+                                <th>{{texts.work.from}}</th>
+                                <th>{{texts.work.to}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -149,12 +149,12 @@
                     <i class="fa fa-pencil"></i>
                 </a>
                 {{/unless}}
-                <h3>Availability</h3>
+                <h3>{{texts.av.head}}</h3>
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Day of Week</th>
-                            <th>Time</th>
+                            <th>{{texts.av.day}}</th>
+                            <th>{{texts.av.time}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -168,17 +168,17 @@
                 </table>
             </div>
             <div class="profile-section" id="reviews">
-                <h3>Reviews</h3>
+                <h3>{{texts.reviews.head}}</h3>
                 <h5 class="average-rating">
                     {{#each flag in stars caregiver.rating}}
                         <i class="fa fa-star{{flag}}" aria-hidden="true"></i>
                     {{/each}}
-                    ({{caregiver.reviews.count}} total)
+                    ({{caregiver.reviews.count}} {{texts.reviews.total}})
                 </h5>
                 {{#each re in caregiver.reviews}}
                     {{> review (re)}}
                 {{else}}
-                    <h5>No reviews yet.</h5>
+                    <h5>{{texts.reviews.empty}}</h5>
                 {{/each}}
             </div>
         </div>
@@ -192,11 +192,11 @@
             <div class="sidebar-section checks">
                 <h5 class="{{caregiver.ownsCar}}">
                     <i class="fa {{#if caregiver.ownsCar}}fa-check{{else}}fa-times{{/if}}" aria-hidden="true"></i>
-                    Car
+                    {{texts.checks.car}}
                 </h5>
                 <h5 class="{{caregiverBackgroundCheck}}">
                     <i class="fa {{#if caregiverBackgroundCheck}}fa-check{{else}}fa-times{{/if}}" aria-hidden="true"></i>
-                    Background Check
+                    {{texts.checks.bg}}
                 </h5>
                 {{#each service in caregiver.serviceType}}
                     <h5 class="true">
@@ -207,7 +207,7 @@
             </div>
             <div class="sidebar-section">
                 <h3>
-                    Personal
+                    {{texts.personal.head}}
                     {{#unless notCurrentCaregiver}}
                     <a href="/profile#details" class="btn btn-default-clear">
                         <i class="fa fa-pencil"></i>
@@ -215,18 +215,18 @@
                     {{/unless}}
                 </h3>
                 {{#if caregiver.education}}
-                    <h5>Education</h5>
+                    <h5>{{texts.personal.edu}}</h5>
                     <p>
                         {{#each education in caregiver.education}}
                             {{education}} <br>
                         {{/each}}
                     </p>
                 {{/if}}
-                <h5>Languages</h5>
+                <h5>{{texts.personal.lang}}</h5>
                 <p>
                     {{caregiver.languages}}{{#if caregiver.otherLanguages}},{{caregiver.otherLanguages}}{{/if}}
                 </p>
-                <h5>Religion</h5>
+                <h5>{{texts.personal.religion}}</h5>
                 <p>
                     {{#if caregiver.otherReligion}}
                         {{caregiver.otherReligion}}
@@ -234,27 +234,27 @@
                         {{caregiver.religion}}
                     {{/if}}
                 </p>
-                <h5>Hobbies</h5>
+                <h5>{{texts.personal.hobbies}}</h5>
                 <p>{{caregiver.hobbies}}</p>
                 <h3>
-                    Services
+                    {{texts.services.head}}
                     {{#unless notCurrentCaregiver}}
                     <a href="/profile#services" class="btn btn-default-clear">
                         <i class="fa fa-pencil"></i>
                     </a>
                     {{/unless}}
                 </h3>                
-                <h5>Types of Care</h5>
+                <h5>{{texts.services.types}}</h5>
                 <p>{{caregiver.caregiverType}}</p>
-                <h5>Professional Services</h5>
+                <h5>{{texts.services.professional}}</h5>
                 <p>
                     {{caregiver.professionalServices}}{{#if caregiver.otherProfessionalService}},{{caregiver.otherProfessionalService}}{{/if}}
                 </p>
-                <h5>Personal Services</h5>
+                <h5>{{texts.services.personal}}</h5>
                 <p>
                     {{caregiver.personalServices}}{{#if caregiver.otherPersonalService}},{{caregiver.otherPersonalService}}{{/if}}
                 </p>
-                <h5>Medical Conditions</h5>
+                <h5>{{texts.services.medical}}</h5>
                 <p>
                     {{caregiver.medicalConditions}}{{#if caregiver.otherMedicalCondition}},{{caregiver.otherMedicalCondition}}{{/if}}
                 </p>
