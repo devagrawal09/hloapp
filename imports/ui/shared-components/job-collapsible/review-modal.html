@@ -4,12 +4,12 @@
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Review Caregiver</h4>
+                    <h4 class="modal-title">{{texts.review.head}}</h4>
                 </div>
                 <div class="modal-body">
                     <form id="reviewForm">
                         <div class="form-group rating-stars">
-                            <label>Star Rating</label>
+                            <label>{{texts.review.star}}</label>
                             <br>
                             <fieldset class="rating">
                                 <input type="radio" id="{{_id}}-star5" name="rating" value=10 />
@@ -34,13 +34,14 @@
                                 <label class="half" for="{{_id}}-starhalf"></label>
                             </fieldset>
                         </div>
+                        <br>
                         <div class="form-group">
-                            <label for="content">Comments</label>
-                            <textarea class="form-control" rows="5" id="content" placeholder="Describe your experience!"></textarea>
+                            <label for="content">{{texts.review.comments}}</label>
+                            <textarea class="form-control" rows="5" id="content" placeholder="{{texts.review.placeholder}}"></textarea>
                         </div>
                         <div class="submit-buttons">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary submit">Submit</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{texts.cancel}}</button>
+                            <button type="submit" class="btn btn-primary submit">{{texts.submit}}</button>
                         </div>
                     </form>
                 </div>

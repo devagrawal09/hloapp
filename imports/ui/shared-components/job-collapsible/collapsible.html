@@ -31,7 +31,7 @@
             {{#if isOwnedByCurrentUser}}
                 {{#if isHired}}
                 {{#with _id=_id status=status review=review payment=payment hc=hiredCaregiver}}
-                    <h4>Hired Caregiver</h4>
+                    <h4>{{texts.hired}}</h4>
                     <div class="hired-caregiver">
                         <div class="row">
                             <div class="col-sm-4 col-md-3">
@@ -39,23 +39,23 @@
                             </div>
                             <div class="col-sm-8 col-md-9">
                                 <h4>{{hc.name}}</h4>
-                                <h5>${{hc.hourlyRate}} HKD per hour</h5>
+                                <h5>${{hc.hourlyRate}} {{texts.rate}}</h5>
                                 <button
                                     class="btn btn-default message"
                                     data-recipient="{{hc.username}}"
                                 >
-                                    Message
+                                    {{texts.btns.msg}}
                                 </button>
                                 {{#if isCompleted}}
                                     {{#if paymentDetails}}
                                         {{#if paymentStatus.isReceived}}
-                                            <button class="btn btn-success" disabled>Payment Completed</button>
+                                            <button class="btn btn-success" disabled>{{texts.btns.completed}}</button>
                                             {{> reviewSection}}
                                         {{else}} {{#if paymentStatus.isPaid}}
-                                            <button class="btn btn-success" disabled>Payment Completed</button>
+                                            <button class="btn btn-success" disabled>{{texts.btns.completed}}</button>
                                             {{> reviewSection}}
                                         {{else}} {{#if paymentStatus.isDeclined}}
-                                            <button class="btn btn-danger" disabled>Payment Declined</button>
+                                            <button class="btn btn-danger" disabled>{{texts.btns.declined}}</button>
                                             {{> reviewSection}}
                                         {{else}} {{#if paymentStatus.isSent}}
                                             <button
@@ -64,7 +64,7 @@
                                                 data-toggle="modal"
                                                 data-target="#payment-details-{{_id}}"
                                             >
-                                                Pay
+                                                {{texts.btns.pay}}
                                             </button>
                                             <button
                                                 type="button"
@@ -72,13 +72,13 @@
                                                 data-toggle="modal"
                                                 data-target="#decline-payment-{{_id}}"
                                             >
-                                                Decline Payment
+                                                {{texts.btns.decline}}
                                             </button>
                                             {{> paymentDetailsModal}}
                                             {{> declinePaymentModal}}
                                         {{/if}}{{/if}}{{/if}}{{/if}}
                                     {{else}}
-                                        <h4>Awaiting Payment Details from Caregiver</h4>
+                                        <h4>{{texts.awaiting}}</h4>
                                     {{/if}}
                                 {{else}}
                                 {{/if}}
@@ -93,25 +93,25 @@
                     <div class="text-center">
                     {{#if paymentDetails}} 
                         {{#if paymentStatus.isReceived}}
-                            <button class="btn btn-success" disabled>Payment Received</button>
+                            <button class="btn btn-success" disabled>{{texts.paySec.received}}</button>
                         {{else}} {{#if paymentStatus.isPaid}}
-                            <button class="btn btn-success" disabled>Payment Sent by Customer</button>
+                            <button class="btn btn-success" disabled>{{texts.paySec.sent}}</button>
                         {{else}} {{#if paymentStatus.isDeclined}}
-                            <button class="btn btn-danger" disabled>Payment Declined by Customer</button>
+                            <button class="btn btn-danger" disabled>{{texts.paySec.declined}}</button>
                             <p><strong>Reason:</strong> {{paymentDetails.reason}}</p>
                         {{else}} {{#if paymentStatus.isSent}}
                             <button class="btn btn-success" disabled>
-                                Payment Details Submitted
+                                {{texts.paySec.submitted}}
                             </button>
                         {{/if}} {{/if}} {{/if}} {{/if}}
                         <p>
-                            <strong>Hours worked :</strong> {{paymentDetails.hours}}
+                            <strong>{{texts.paySec.det.hours}} :</strong> {{paymentDetails.hours}}
                             <br>
-                            <strong>Hourly rate charged :</strong> HK ${{paymentDetails.hourlyRate}}
+                            <strong>{{texts.paySec.det.rate}} :</strong> HK ${{paymentDetails.hourlyRate}}
                             <br> {{#if paymentDetails.extraCharges}}
-                            <strong>Extra Charges :</strong> HK ${{paymentDetails.extraCharges}}
+                            <strong>{{texts.paySec.det.extra}} :</strong> HK ${{paymentDetails.extraCharges}}
                             <br> {{/if}}
-                            <strong>Total : HK ${{paymentDetails.total}}</strong>
+                            <strong>{{texts.paySec.det.total}} : HK ${{paymentDetails.total}}</strong>
                         </p>
                     {{else}}
                         <button
@@ -120,25 +120,25 @@
                             data-toggle="modal"
                             data-target="#payment-details-{{_id}}"
                         >
-                            Submit Payment Details
+                            {{texts.paySec.submit}}
                         </button>
                         {{> paymentDetailsModal}}
                     {{/if}}
                     </div>
                 {{/if}}
             {{/if}}
-            <h4>Job Description</h4>
+            <h4>{{texts.jobDesc}}</h4>
             <p>
                 {{jobDescription}} <br>
-                <a href="{{pathFor 'job.details' id=_id}}">Details page</a>
+                <a href="{{pathFor 'job.details' id=_id}}">{{texts.details}}</a>
             </p>
             <br/>
-            <h4>Work Times</h4>
+            <h4>{{texts.work}}</h4>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Day of Week</th>
-                        <th>Time</th>
+                        <th>{{texts.day}}</th>
+                        <th>{{texts.time}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -153,7 +153,7 @@
             <br/>
             {{#if isOwnedByCurrentUser}}
                 {{#if isOpen}}
-                    <h4>Caregiver Applicants</h4>
+                    <h4>{{texts.applicants}}</h4>
                     <table class="table table-hover applicants">
                         <tbody>
                             {{#each caregiver in this.appliedCaregivers}}
@@ -164,14 +164,14 @@
                                         </a>
                                     </td>
                                     <td class="applicant-buttons">
-                                        <a class="btn btn-primary hire" id="{{caregiver._id}}">Hire</a>
-                                        <button class="btn btn-default message" data-recipient="{{caregiver.username}}">Message</button>
+                                        <a class="btn btn-primary hire" id="{{caregiver._id}}">{{texts.btns.hire}}</a>
+                                        <button class="btn btn-default message" data-recipient="{{caregiver.username}}">{{texts.btns.msg}}</button>
                                     </td>
                                 </tr>
                             {{/each}}
                         </tbody>
                     </table>
-                    <h4>Offered Applicants</h4>
+                    <h4>{{texts.offered}}</h4>
                     <table class="table table-hover applicants">
                         <tbody>
                             {{#each caregiver in this.offeredCaregivers}}
@@ -182,27 +182,27 @@
                                         </a>
                                     </td>
                                     <td class="applicant-buttons">
-                                        <button class="btn btn-default message" data-recipient="{{caregiver.username}}">Message</button>
+                                        <button class="btn btn-default message" data-recipient="{{caregiver.username}}">{{texts.btns.msg}}</button>
                                     </td>
                                 </tr>
                             {{/each}}
                         </tbody>
                     </table>
-                    <button class="btn btn-danger btn-block complete">Expire Job</button>
+                    <button class="btn btn-danger btn-block complete">{{texts.btns.expire}}</button>
                 {{else}}
                 {{#unless isCompleted}}
-                    <button class="btn btn-primary btn-block complete">Complete Job</button>
+                    <button class="btn btn-primary btn-block complete">{{texts.btns.complete}}</button>
                 {{/unless}}
                 {{/if}}
             {{/if}}
             {{#if isOfferedToCurrentUser}}
             <div class="btn-group btn-group-justified">
-                <button class="btn btn-primary accept" style="width: 50%">Accept Job Offer</button>
-                <button class="btn btn-danger decline" style="width: 50%">Decline Job Offer</button>
+                <button class="btn btn-primary accept" style="width: 50%">{{texts.btns.acceptOffer}}</button>
+                <button class="btn btn-danger decline" style="width: 50%">{{texts.btns.declineOffer}}</button>
             </div>
             {{/if}}
             {{#if review}}
-                <h4>Review</h4>
+                <h4>{{texts.btns.review}}</h4>
                 {{> review (this.getReview)}}
             {{/if}}
         </div>
@@ -211,10 +211,10 @@
 
 <template name="reviewSection">
     {{#if review}}
-        <button class="btn btn-success" disabled>Review Submitted</button>
+        <button class="btn btn-success" disabled>{{texts.btns.reviewed}}</button>
     {{else}}    
         <button class="btn btn-primary" data-toggle="modal" data-target="#review-modal-{{_id}}">
-            Review
+            {{texts.btns.review}}
         </button>
         {{> reviewModal}}
     {{/if}}

@@ -3,7 +3,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Are you sure you want to decline payment?</h4>
+                    <h4 class="modal-title">{{texts.decline.head}}</h4>
                 </div>
                 <div class="modal-body">
                     {{#autoForm
@@ -15,12 +15,12 @@
                         {{> afQuickField name="id" type="hidden" value=_id}}
                         {{> afQuickField name="reason"
                             type="textarea" rows=4
-                            placeholder="Please tell us why you didn't like the service"
-                            label="Reason for decline of payment"
+                            placeholder=texts.decline.placeholder
+                            label=texts.decline.label
                         }}
                         <div class="submit-buttons">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{texts.cancel}}</button>
+                            <button type="submit" class="btn btn-primary">{{texts.submit}}</button>
                         </div>
                     {{/autoForm}}
                 </div>

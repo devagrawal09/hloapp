@@ -7,7 +7,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <h4 class="modal-title">
-                        {{#if isCaregiver}}Submit{{/if}} Payment Details
+                        {{#if isCaregiver}}{{texts.paySec.det.submit}}{{/if}} {{texts.paySec.det.head}}
                     </h4>
                 </div>
                 <div class="modal-body text-left">
@@ -21,46 +21,45 @@
                             {{> afQuickField name="job" type="hidden" value=_id}}
                             {{> afQuickField name="hours"
                                 placeholder="500"
-                                label="Hours worked"
+                                label=texts.paySec.det.hours
                             }}
                             {{> afQuickField name="hourlyRate"
                                 placeholder=charges.hourly
-                                label="Hourly rate charged (HKD)"
+                                label=texts.paySec.det.rate
                                 value=charges.hourly
                             }}
                             {{> afQuickField name="extraCharges"
                                 placeholder=charges.extra
-                                label="Extra Charges (if any) (HKD)"
+                                label=texts.paySec.det.extra
                                 value=charges.extra
                             }}
                             <div class="submit-buttons">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">{{texts.cancel}}</button>
+                                <button type="submit" class="btn btn-primary">{{texts.submit}}</button>
                             </div>
                         {{/autoForm}}
                     {{else}}
-                        <h5>Payment Details</h5>
+                        <h5>{{texts.paySec.det.head}}</h5>
                         <p>
-                            <strong>Hours worked :</strong> {{paymentDetails.hours}}
+                            <strong>{{texts.paySec.det.hours}} :</strong> {{paymentDetails.hours}}
                             <br>
-                            <strong>Hourly rate charged :</strong> HK ${{paymentDetails.hourlyRate}}
+                            <strong>{{texts.paySec.det.rate}} :</strong> HK ${{paymentDetails.hourlyRate}}
                             <br> 
                             {{#if paymentDetails.extraCharges}}
-                                <strong>Extra Charges :</strong> HK ${{paymentDetails.extraCharges}}
+                                <strong>{{texts.paySec.det.extra}} :</strong> HK ${{paymentDetails.extraCharges}}
                                 <br> 
                             {{/if}}
-                            <strong>Total : HK ${{paymentDetails.total}}</strong>
+                            <strong>{{texts.paySec.det.total}} : HK ${{paymentDetails.total}}</strong>
                         </p>
-                        <h5>Payment Options</h5>
+                        <h5>{{texts.paySec.options.head}}</h5>
                         <p>
-                            An Invoice link has been sent to you email address.
-                            Click on the link to initiate payment.
+                            {{texts.paySec.options.msg}}
                         </p>
                         <button class="btn btn-primary check">
                             {{#if checking}}
                                 <i class="fa fa-spinner fa-spin"></i>
                             {{else}}
-                                Already Paid?
+                                {{texts.paySec.options.paid}}
                             {{/if}}
                         </button>
                     {{/if}}

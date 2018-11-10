@@ -1,5 +1,7 @@
+import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { AutoForm } from 'meteor/aldeed:autoform';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import SimpleSchema from 'simpl-schema';
 
@@ -19,6 +21,8 @@ import './payment-details-modal.html';
 import './decline-modal.html';
 import './collapsible.html';
 
+const texts = new ReactiveVar({});
+
 Template.jobCollapsible.onCreated(function() {
     this.autorun(()=> {
         let data = Template.currentData();
@@ -30,6 +34,17 @@ Template.jobCollapsible.onCreated(function() {
             this.subscribe( 'caregiverById.images', data.hired );
         }
         this.subscribe( 'job.payment', data._id );
+        this.autorun( ()=> {
+            let lang = Session.get('lang');
+            if( lang === 'tc' )
+                import(`./tc.js`).then( i => {
+                    texts.set( i.texts );
+                });
+            else
+                import(`./en.js`).then( i => {
+                    texts.set( i.texts );
+                });
+        });
     });
 });
 
@@ -42,6 +57,9 @@ Template.jobCollapsible.onRendered(function() {
 });
 
 Template.jobCollapsible.helpers({
+    texts() {
+        return texts.get();
+    },
     rightImageSrc() {
         return this.dp().link();
     },
@@ -136,6 +154,18 @@ Template.jobCollapsible.events({
     }
 });
 
+Template.reviewSection.helpers({
+    texts() {
+        return texts.get();
+    }
+});
+
+Template.reviewModal.helpers({
+    texts() {
+        return texts.get();
+    }
+});
+
 Template.reviewModal.events({
     'submit #reviewForm'( e, t ) {
 
@@ -160,6 +190,9 @@ Template.reviewModal.events({
 });
 
 Template.declinePaymentModal.helpers({
+    texts() {
+        return texts.get();
+    },
     schema: new SimpleSchema({
         id: Datatypes.Id,
         reason: {
@@ -173,6 +206,9 @@ Template.paymentDetailsModal.onCreated(function() {
 });
 
 Template.paymentDetailsModal.helpers({
+    texts() {
+        return texts.get();
+    },
     schema: paymentSchema.pick('job', 'hours', 'hourlyRate', 'extraCharges'),
     isCaregiver() {
         return Meteor.user().profile.type === 'caregiver';
