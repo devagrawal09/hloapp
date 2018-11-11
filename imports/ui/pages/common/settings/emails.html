@@ -1,25 +1,25 @@
 <template name="emailSettings">
     <div class="container-small">
-        <h3 class="text-center">Manage your emails</h3>
+        <h3 class="text-center">{{texts.emails.head}}</h3>
         <table class="table table-hover">
             <thead><tr>
                 <th>#</th>
-                <th>Email</th>
-                <th>Verification</th>
-                <th>Actions</th>
+                <th>{{texts.emails.email}}</th>
+                <th>{{texts.emails.verification}}</th>
+                <th>{{texts.emails.actions}}</th>
             </tr></thead>
             <tbody>
                 {{#each email in currentUser.emails}}
-                    {{> emailRow index=@index email=email}}
+                    {{> emailRow index=@index email=email texts=texts}}
                 {{/each}}
                 {{#if newEmail}}
-                    {{> newEmailForm}}
+                    {{> newEmailForm texts=texts}}
                 {{/if}}
             </tbody>
         </table>
         {{#unless newEmail}}
         <button class="btn btn-primary new-email">
-            Add new Email
+            {{texts.emails.add}}
         </button>
         {{/unless}}
     </div>
@@ -31,9 +31,9 @@
         <td>{{email.address}}</td>
         <td>
             {{#if email.verified}}
-            <span class="text-success">Verified</span>
+            <span class="text-success">{{texts.emails.verified}}</span>
             {{else}}
-            <span class="text-danger">Not Verified</span>
+            <span class="text-danger">{{texts.emails.not}}</span>
             {{/if}}
         </td>
         <td>
@@ -41,13 +41,13 @@
             <button class="btn btn-primary verify" data-email="{{email.address}}">
                 {{#if verifying}}
                 <i class="fa fa-spinner fa-spin"></i>
-                {{else}} Verify {{/if}}
+                {{else}} {{texts.emails.verify}} {{/if}}
             </button>
             {{/unless}}
             <button class="btn btn-danger remove" data-email="{{email.address}}">
                 {{#if removing}}
                 <i class="fa fa-spinner fa-spin"></i>
-                {{else}} Remove {{/if}}
+                {{else}} {{texts.emails.remove}} {{/if}}
             </button>
         </td>
     </tr>
@@ -65,9 +65,9 @@
             <button type="submit" class="btn btn-success submit">
                 {{#if submitting}}
                 <i class="fa fa-spinner fa-spin"></i>
-                {{else}} Submit {{/if}}
+                {{else}} {{texts.emails.submit}} {{/if}}
             </button>
-            <button type="reset" class="btn btn-danger cancel">Cancel</button>
+            <button type="reset" class="btn btn-danger cancel">{{texts.emails.cancel}}</button>
         </td>
     </tr>
 </template>

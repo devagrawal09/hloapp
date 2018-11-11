@@ -1,24 +1,24 @@
 <template name="numberSettings">
     <div class="container-small">
-        <h3 class="text-center">Manage your mobile numbers</h3>
+        <h3 class="text-center">{{texts.numbers.head}}</h3>
         <table class="table table-hover">
             <thead><tr>
                 <th>#</th>
-                <th>Number</th>
-                <th>Actions</th>
+                <th>{{texts.numbers.number}}</th>
+                <th>{{texts.numbers.actions}}</th>
             </tr></thead>
             <tbody>
                 {{#each number in currentUser.numbers}}
-                    {{> numberRow index=@index number=number}}
+                    {{> numberRow index=@index number=number texts=texts}}
                 {{/each}}
                 {{#if newNumber}}
-                    {{> newNumberForm}}
+                    {{> newNumberForm texts=texts}}
                 {{/if}}
             </tbody>
         </table>
         {{#unless newNumber}}
         <button class="btn btn-primary new-number">
-            Add new Number
+            {{texts.numbers.add}}
         </button>
         {{/unless}}
     </div>
@@ -32,7 +32,7 @@
             <button class="btn btn-danger remove">
                 {{#if removing}}
                 <i class="fa fa-spinner fa-spin"></i>
-                {{else}} Remove {{/if}}
+                {{else}} {{texts.numbers.remove}} {{/if}}
             </button>
         </td>
     </tr>
@@ -45,7 +45,7 @@
             <form class="form-inline" id="newNumber">
                 {{#if otpSubmit}}
                     <label for="otp">
-                        Enter OTP sent to:
+                        {{texts.numbers.otp}}:
                         <strong>{{newMobile}}</strong>
                     </label>
                     <input 
@@ -70,9 +70,9 @@
             <button type="submit" class="btn btn-success submit">
                 {{#if submitting}}
                 <i class="fa fa-spinner fa-spin"></i>
-                {{else}} Submit {{/if}}
+                {{else}} {{texts.numbers.submit}} {{/if}}
             </button>
-            <button type="reset" class="btn btn-danger cancel">Cancel</button>
+            <button type="reset" class="btn btn-danger cancel">{{texts.numbers.cancel}}</button>
         </td>
     </tr>
 </template>

@@ -5,51 +5,53 @@
                 <a data-toggle="pill" href="#details">
                     <div class="heart-bg">
                         <i class="fa fa-heart"></i>
-                    </div>Details
+                    </div>{{texts.details}}
                 </a>
             </li>
             <li>
                 <a data-toggle="pill" href="#experience">
                     <div class="heart-bg">
                         <i class="fa fa-heart"></i>
-                    </div>Experience
+                    </div>{{texts.experience}}
                 </a>
             </li>
             <li>
                 <a data-toggle="pill" href="#services">
                     <div class="heart-bg">
                         <i class="fa fa-heart"></i>
-                    </div>Services
+                    </div>{{texts.services}}
                 </a>
             </li>
             <li>
                 <a data-toggle="pill" href="#photos">
                     <div class="heart-bg">
                         <i class="fa fa-heart"></i>
-                    </div>Photos
+                    </div>{{texts.photos}}
                 </a>
             </li>
             <li>
                 <a data-toggle="pill" href="#pricing">
                     <div class="heart-bg">
                         <i class="fa fa-heart"></i>
-                    </div>Pricing
+                    </div>{{texts.pricing}}
                 </a>
             </li>
             <li>
                 <a href="{{pathFor 'caregiver.profile' id=id}}">
                     <div class="heart-bg">
                         <i class="fa fa-heart"></i>
-                    </div>Review
+                    </div>{{texts.review}}
                 </a>
             </li>
         </ul>
         <div class="tab-content">
-            {{> caregiverDetailsForm}}
-            {{> caregiverExperienceForm}}
-            {{> caregiverServicesForm}}
-            {{> caregiverPhotosForm}}
-            {{> caregiverPricingForm}}
+            {{#with texts=texts}}
+                {{> caregiverDetailsForm}}
+                {{> caregiverExperienceForm}}
+                {{> caregiverServicesForm}}
+                {{> caregiverPhotosForm}}
+                {{> caregiverPricingForm}}
+            {{/with}}
         </div>
     </div>
 </template>

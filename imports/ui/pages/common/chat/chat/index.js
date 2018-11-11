@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 
 import { Conversations } from '../../../../../api/messages';
@@ -16,6 +17,11 @@ Template.Chat.onCreated( function() {
 });
 
 Template.Chat.helpers({ 
+    texts() {
+        if( Session.equals('lang', 'tc') )
+            return { compose: '撰寫' };
+        return { compose: 'Compose' };
+    },
     conversations() { 
         return Conversations.find({ participants: Meteor.userId() }, {
             sort: { last: -1 }

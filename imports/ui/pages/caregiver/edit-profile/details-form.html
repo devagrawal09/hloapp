@@ -9,14 +9,14 @@
         }}
             {{> afQuickField name="_id"}}
             {{> afQuickField name="user"}}
-            <p>All fields are required</p>
+            <p>{{texts.allReq}}</p>
             
             <div class="row">
                 <div class="col-sm-6 form-column">
                     {{> afQuickField name="firstName"}}
                     {{> afQuickField name="lastName"}}
-                    {{> afQuickField name="gender" 
-                        options="allowed" 
+                    {{> afQuickField name="gender"
+                        options="allowed"
                         type="select-radio-inline"
                     }}
                     {{> afQuickField name="dob"}}

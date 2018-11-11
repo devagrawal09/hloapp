@@ -1,30 +1,27 @@
 <template name="Settings">
     <div class="container">
-        <h1>Account Settings</h1>
+        <h1>{{texts.head}}</h1>
         <div class="row">
             <div class="col-sm-3">
                 <br>
                 <ul class="nav">
                     <li class="nav-item {{isActiveRoute 'settings.username'}}">
-                        <a href="{{pathFor 'settings.username'}}">Username</a>
+                        <a href="{{pathFor 'settings.username'}}">{{texts.sidebar.username}}</a>
                     </li>
                     {{#if currentUser.services.password}}
                         <li class="nav-item {{isActiveRoute 'settings.passwords'}}">
-                            <a href="{{pathFor 'settings.passwords'}}">Change Password</a>
+                            <a href="{{pathFor 'settings.passwords'}}">{{texts.sidebar.pwd}}</a>
                         </li>
                     {{/if}}
                     <li class="nav-item {{isActiveRoute 'settings.emails'}}">
-                        <a href="{{pathFor 'settings.emails'}}">Manage Emails</a>
+                        <a href="{{pathFor 'settings.emails'}}">{{texts.sidebar.emails}}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{pathFor 'settings.numbers'}}">Manage Mobile Numbers</a>
+                        <a href="{{pathFor 'settings.numbers'}}">{{texts.sidebar.numbers}}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{pathFor 'profile.edit'}}">Edit Profile</a>
+                        <a href="{{pathFor 'profile.edit'}}">{{texts.sidebar.edit}}</a>
                     </li>
-                    <!-- <li class="nav-item {{isActiveRoute 'settings.payment'}}">
-                        <a href="{{pathFor 'settings.payment'}}">Payment Details</a>
-                    </li> -->
                 </ul>
             </div>
             <div class="col-sm-9">

@@ -1,7 +1,8 @@
+import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { Accounts } from 'meteor/accounts-base';
-import { ReactiveVar } from 'meteor/reactive-var';
 import { AutoForm } from 'meteor/aldeed:autoform';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import {
      sendVerificationEmail,
@@ -9,7 +10,7 @@ import {
      newMobile, 
      verifyMobile,
      removeMobile 
-    } from '../../../../api/users';
+} from '../../../../api/users';
 
 import SimpleSchema from 'simpl-schema';
 import showAlert from '../../../shared-components/alert';
@@ -21,12 +22,37 @@ import './password.html';
 import './payment.html';
 import './settings.html';
 
+const texts = new ReactiveVar({});
+
+Template.Settings.onCreated(function() {
+    this.autorun( ()=> {
+        let lang = Session.get('lang');
+        if( lang === 'tc' )
+            import(`./tc.js`).then( i => {
+                texts.set( i.texts );
+            });
+        else
+            import(`./en.js`).then( i => {
+                texts.set( i.texts );
+            });
+    });
+});
+
+Template.Settings.helpers({
+    texts() {
+        return texts.get();
+    }
+});
+
 //username form
 
     const editMode = new ReactiveVar(false);
     const usernameSubmitting = new ReactiveVar(false);
 
     Template.usernameSettings.helpers({
+        texts() {
+            return texts.get();
+        },
         schema: new SimpleSchema({ username: String }),
         editMode() {
             return editMode.get();
@@ -65,6 +91,9 @@ import './settings.html';
     const newEmail = new ReactiveVar(0);
 
     Template.emailSettings.helpers({
+        texts() {
+            return texts.get();
+        },
         newEmail() { return newEmail.get(); }
     });
 
@@ -168,6 +197,9 @@ import './settings.html';
     const newNumber = new ReactiveVar(0);
 
     Template.numberSettings.helpers({
+        texts() {
+            return texts.get();
+        },
         newNumber() { return newNumber.get(); }
     });
 
@@ -277,10 +309,13 @@ import './settings.html';
 
 //change password form
     Template.passwordSettings.helpers({
+        texts() {
+            return texts.get();
+        },
         schema: new SimpleSchema({
-            old: { type: String, label: 'Old Password' },
-            new: { type: String, label: 'New Password' },
-            confirm: { type: String, label: 'New Password (again)' }
+            old: String,
+            new: String,
+            confirm: String
         })
     });
 
