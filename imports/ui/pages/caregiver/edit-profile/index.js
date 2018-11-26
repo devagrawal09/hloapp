@@ -1,34 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Caregivers } from '../../../../api/caregivers';
 
 import './forms.js';
 import './edit-profile.html';
 
-const texts = {
-    en: {
-        details: 'Details',
-        experience: 'Experience',
-        services: 'Services',
-        photos: 'Photos',
-        pricing: 'Pricing',
-        review: 'Review',
-        allReq: 'All fields are required',
-        starReq: 'Required field'
-    },
-    tc: {
-        details: '詳細資料',
-        experience: '經驗',
-        services: '服務',
-        photos: '照片',
-        pricing: '照片',
-        review: '預覽',
-        allReq: '所有項目均必須填寫',
-        starReq: '必須填寫'
-    }
-}
+const texts = new ReactiveVar({});
 
 Template.EditProfileCaregiver.onCreated(function () {
     let t = this;
@@ -41,6 +21,17 @@ Template.EditProfileCaregiver.onCreated(function () {
         t.$('.form-steps').get()[0].scrollIntoView(true);
     }
     t.subscribe('caregiver.current');
+    this.autorun( ()=> {
+        let lang = Session.get('lang');
+        if( lang === 'tc' )
+            import(`./tc.js`).then( i => {
+                texts.set( i.texts );
+            });
+        else
+            import(`./en.js`).then( i => {
+                texts.set( i.texts );
+            });
+    });
 });
 
 Template.EditProfileCaregiver.onRendered(function() {
@@ -53,9 +44,7 @@ Template.EditProfileCaregiver.onRendered(function() {
 
 Template.EditProfileCaregiver.helpers({
     texts() {
-        if( Session.equals('lang', 'tc') )
-            return texts.tc;
-        return texts.en;
+        return texts.get();
     },
     id() {
         return Caregivers.findOne({ user: Meteor.userId() })._id;

@@ -11,20 +11,23 @@
             {{> afQuickField name="user"}}
             <p>* - {{texts.starReq}}</p>
             
-            {{> afQuickField name="years"}}
+            {{> afQuickField name="years" label=texts.exp.yrs}}
 
             <div class="row">
                 <div class="col-sm-6">
-                    {{> afQuickField name="background"}}
+                    {{> afQuickField name="background" label="something"}}
                 </div>
                 <div class="col-sm-6">
-                    {{> afQuickField name="education"}}
+                    {{> afQuickField name="education" label=texts.exp.edu}}
                 </div>
             </div>
 
-            {{> afQuickField name="experiences" template="bootstrap3-horizontal"}}
+            {{> afQuickField name="experiences"
+                template="bootstrap3-horizontal" 
+                label=texts.exp.xps
+            }}
 
-            {{> submitButtons}}
+            {{> submitButtons texts=texts}}
         {{/autoForm}}
     </div>
 </template>

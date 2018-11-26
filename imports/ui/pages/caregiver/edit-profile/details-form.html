@@ -13,59 +13,71 @@
             
             <div class="row">
                 <div class="col-sm-6 form-column">
-                    {{> afQuickField name="firstName"}}
-                    {{> afQuickField name="lastName"}}
+                    {{> afQuickField name="firstName" label=texts.details.first}}
+                    {{> afQuickField name="lastName" label=texts.details.last}}
                     {{> afQuickField name="gender"
-                        options="allowed"
                         type="select-radio-inline"
+                        options=options.gender
+                        label=texts.details.gen
                     }}
-                    {{> afQuickField name="dob"}}
+                    {{> afQuickField name="dob" label=texts.details.dob}}
                     {{> afQuickField name="workLocation"
-                        options="allowed" type="select-multiple"
-                        label="Work Location (Ctrl-click to select multiple)"
+                        options=options.locations type="select-multiple"
+                        label=texts.details.work
                     }}
                     {{> afQuickField name="otherWorkLocations"
-                        placeholder="Others, please specify"
+                        placeholder=texts.details.other
                     }}
                 </div>
                 <div class="col-sm-6 form-column">
-                    {{> afQuickField name="address"}}
-                    {{> afQuickField name="location" options="allowed"}}
+                    {{> afQuickField name="address" label=texts.details.add}}
+                    {{> afQuickField name="location"
+                        options=options.locations
+                        label=texts.details.dis
+                    }}
 
                     {{#if afFieldValueIs name="location" value="Other"}} 
-                        {{> afQuickField name="otherDistrict" placeholder="Other, please specify"}}
+                        {{> afQuickField name="otherDistrict" placeholder=texts.details.other}}
                     {{/if}}
 
-                    {{> afQuickField name="country" options="allowed"}}
-                    {{> afQuickField name="religion" options="allowed"}}
+                    {{> afQuickField name="country"
+                        options=options.countries
+                        label=texts.details.country
+                    }}
+                    {{> afQuickField name="religion"
+                        options=options.religions
+                        label=texts.details.rel
+                    }}
 
                     {{#if afFieldValueIs name="religion" value="Other"}} 
-                        {{> afQuickField name="otherReligion" placeholder="Other, please specify"}}
+                        {{> afQuickField name="otherReligion" placeholder=texts.details.other}}
                     {{/if}}
                 </div>
             </div>
             {{> afQuickField name="languages" 
-                options="allowed"
+                options=options.languages
                 type="select-checkbox-columns"
+                label=texts.details.lang
             }}
             {{> afQuickField name="otherLanguages"
-                placeholder="Others, please specify"
-                label="Other languages"
+                placeholder=texts.details.other
+                label=texts.details.ol
             }}
             {{> afQuickField 
                 name="hobbies" 
-                type="textarea" 
+                type="textarea"
                 rows=3
-                placeholder="Biking, painting..."
+                label=texts.details.hob
+                placeholder=texts.details.hp
             }}
             {{> afQuickField 
                 name="aboutText" 
                 type="textarea" 
                 rows=5
-                label="About You"
-                placeholder="I am a 30 year old nursing student..."
+                label=texts.details.about
+                placeholder=texts.details.ap
             }}
-            {{> submitButtons skipBack=true}}
+            {{> submitButtons skipBack=true texts=texts}}
         {{/autoForm}}
     </div>
 </template>

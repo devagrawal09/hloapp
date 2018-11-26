@@ -2,9 +2,9 @@
     <div id="photos" class="tab-pane fade">
         <div class="row">
             <div class="col-xs-3 form-group">
-                Upload Photo
+                {{texts.photos.upload}}
                 {{#with photoUpload}}
-                    Uploading <b>{{file.name}}</b>:
+                    {{texts.photos.uploading}} <b>{{file.name}}</b>:
                     <span id="progress">{{progress.get}}%</span>
                 {{else}}
                     <input type="file" class="inputfile" name="photo" id="photo">
@@ -17,22 +17,20 @@
                 {{/with}}
             </div>
             <div class="col-xs-9">
-                Uploaded Photos
+                {{texts.photos.uploaded}}
                 <div class="photos">
                     {{#each photo in photos.each}}
                         <img src="{{photo.link}}" alt="{{photo.name}}" id="{{photo._id}}">
                     {{/each}}
                 </div>
-                <a class="btn btn-danger delete disabled">Delete</a>
+                <a class="btn btn-danger delete disabled">{{texts.photos.del}}</a>
                 <a class="btn btn-primary save-as-dp disabled">
-                    Set Profile picture
+                    {{texts.photos.set}}
                 </a>
             </div>
         </div>
         <br>
-        <p>
-            All uploaded photos will be displayed as cover photos on your public profile.
-        </p>
-        {{> submitButtons skipSubmit=true}}
+        <p>{{texts.photos.end}}</p>
+        {{> submitButtons skipSubmit=true texts=texts}}
     </div>    
 </template>

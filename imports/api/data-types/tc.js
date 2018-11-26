@@ -1,4 +1,8 @@
 export default {
+    gender: {
+        'Male': '男',
+        'Female': '女'
+    },
     days: {
         'Monday': 'Monday',
         'Tuesday': 'Tuesday',
@@ -29,6 +33,13 @@ export default {
         'Yau Tsim Mong': '油尖旺',
         'Yuen Long': '元朗'
     },
+    countries: {
+        'Hong Kong': '香港', 
+        'China': '中國', 
+        'Singapore': '新加坡',
+        'Malaysia': '馬來西亞', 
+        'India': '印度'
+    },
     religions: {
         'Buddhist': "佛教",
         'Catholic': "天主教",
@@ -49,6 +60,10 @@ export default {
         'Putonghua': "普通話",
         'Spanish': "西班牙語",
         'Tagalog': "菲律賓語"
+    },
+    serviceType: {
+        'Live-in': '留宿',
+        'Live-out': '不留宿'
     },
     careTypes: {
         "Eldercare": "長者護理",

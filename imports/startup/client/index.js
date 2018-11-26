@@ -1,3 +1,7 @@
-import '../../config/client';
-import '../../config';
-import './routes.js';
+if( Meteor.isCordova ) {
+    require('../../mobile');
+} else {
+    require('../../config/client');
+    require('../../config');
+    require('./routes.js');
+}

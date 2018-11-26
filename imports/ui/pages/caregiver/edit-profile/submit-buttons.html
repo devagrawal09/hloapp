@@ -1,19 +1,19 @@
 <template name="submitButtons">
     <div class="submit-buttons">
         {{#unless skipBack}}
-            <a href="#form-title" class="btn btn-default back pull-left">Back</a>
+            <a href="#form-title" class="btn btn-default back pull-left">{{texts.back}}</a>
         {{/unless}}
         {{#if skipSubmit}}
-            <button class="btn btn-primary next">Next</button>
+            <button class="btn btn-primary next">{{texts.next}}</button>
         {{else}}
             {{#if saveOnly}}
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary">{{texts.save}}</button>
             {{else}}
-                <button type="submit" class="btn btn-primary">Save and Next</button>
+                <button type="submit" class="btn btn-primary">{{texts.snn}}</button>
             {{/if}}
         {{/if}}
         {{#if review}}
-            <a href="{{pathFor 'caregiver.profile' id=id}}" class="btn btn-primary">Review</a>
+            <a href="{{pathFor 'caregiver.profile' id=id}}" class="btn btn-primary">{{texts.review}}</a>
         {{/if}}
     </div>
 </template>

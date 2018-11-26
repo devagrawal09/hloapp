@@ -15,6 +15,8 @@ import {
     deletePhoto
 } from '../../../../api/caregivers';
 
+import TcData from '../../../../api/data-types/tc';
+
 import showAlert from '../../../shared-components/alert';
 
 import '../../../shared-components/checkbox-columns';
@@ -25,6 +27,30 @@ import './photos-form.html';
 import './pricing-form.html';
 import './submit-buttons.html';
 
+const options = new ReactiveVar({});
+
+export const setOptions = ( lang = 'en' )=> {
+    if( lang === 'tc' ) {
+
+        options.set( Object.assign( {}, TcData ) );
+        return;
+    }
+
+    const opts = Object.keys( TcData ).reduce( ( obj, key )=> {
+        obj[key] = Object.keys( TcData[key] );
+        return obj;
+    }, {});
+
+    options.set( opts );
+};
+
+const enOpts = ()=> {
+    return Object.keys( TcData ).reduce( ( obj, key )=> {
+        obj[key] = 'allowed';
+        return obj;
+    }, {});
+}
+
 //details form
     Template.caregiverDetailsForm.helpers({
         schema: detailsSchema,
@@ -32,6 +58,11 @@ import './submit-buttons.html';
             return Caregivers.findOne({
                 user: Meteor.userId()
             });
+        },
+        options() {
+            if( Session.equals('lang', 'tc') )
+                return TcData;
+            return enOpts();
         }
     });
 
@@ -52,6 +83,11 @@ import './submit-buttons.html';
             return Caregivers.findOne({
                 user: Meteor.userId()
             });
+        },
+        options() {
+            if( Session.equals('lang', 'tc') )
+                return TcData;
+            return enOpts();
         }
     });
 
@@ -161,10 +197,19 @@ import './submit-buttons.html';
 //pricing form
     Template.caregiverPricingForm.helpers({
         schema: pricingSchema,
-        options: {
-            Free: 'Free plan - $0/mo, 15% commission',
-            Entrepreneur: 'Entrepreneur Plan - 88$/mo, 10% commission',
-            Partner: 'Partner Plan - 888$/mo, 10% commission'
+        options() {
+            if( Session.equals('lang', 'tc') )
+                return {
+                    Free: '免費計劃－港幣＄0 /月，15％佣金',
+                    Entrepreneur: '企業家計劃－港幣＄88 /月，10％佣金',
+                    Partner: '合作夥伴計劃－港幣＄888/月，10％佣金'
+                };
+
+            return {
+                Free: 'Free plan - $0/mo, 15% commission',
+                Entrepreneur: 'Entrepreneur Plan - 88$/mo, 10% commission',
+                Partner: 'Partner Plan - 888$/mo, 10% commission'
+            };
         },
         doc() {
             return Caregivers.findOne({
