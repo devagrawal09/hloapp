@@ -1,6 +1,13 @@
 import SimpleSchema from 'simpl-schema';
 
+import TcData from './tc.js';
+
 SimpleSchema.extendOptions(['autoform']);
+
+const days = [
+    'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+    'Saturday', 'Sunday'
+]
 
 export default Datatypes = {
     Id: {
@@ -21,10 +28,19 @@ export default Datatypes = {
     },
     Day: {
         type: String,
-        allowedValues: [
-            'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
-            'Saturday', 'Sunday'
-        ]
+        allowedValues: days,
+        label() {
+            if( Meteor.isClient && Session.equals('lang', 'tc') )
+                return '日子*';
+            return 'Day';
+        },
+        autoform: {
+            options() {
+                if( Meteor.isClient && Session.equals('lang', 'tc') )
+                    return Object.assign({}, TcData.days );
+                return 'allowed';
+            }
+        }
     },
     Date: {
         type: String,
@@ -129,6 +145,14 @@ export default Datatypes = {
 
 Datatypes.WorkTime = new SimpleSchema({
     day: Datatypes.Day,
-    start: Datatypes.Time,
-    end: Datatypes.Time
+    start: Object.assign({ label() {
+        if( Meteor.isClient && Session.equals('lang', 'tc') )
+            return '開始';
+        return 'Start';
+    }}, Datatypes.Time),
+    end: Object.assign({ label() {
+        if( Meteor.isClient && Session.equals('lang', 'tc') )
+            return '結束';
+        return 'End';
+    }}, Datatypes.Time)
 });

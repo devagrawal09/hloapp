@@ -1,17 +1,35 @@
+import { Meteor } from 'meteor/meteor';
+
 import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
 
 const Experience = new SimpleSchema({
     employer: {
         type: String,
-        label: 'Name of Employer'
+        label() {
+            if( Meteor.isClient && Session.equals('lang', 'tc') )
+                return '雇主名稱';
+            return 'Name of Employer';
+        }
     },
     desc: {
         type: String,
-        label: 'Job Description*'
+        label() {
+            if( Meteor.isClient && Session.equals('lang', 'tc') )
+                return '職位描述*';
+            return 'Job Description*';
+        }
     },
-    from: Datatypes.Date,
-    to: Datatypes.Date
+    from: Object.assign({ label() {
+        if( Meteor.isClient && Session.equals('lang', 'tc') )
+            return '由';
+        return 'From';
+    }}, Datatypes.Date ),
+    to: Object.assign({ label() {
+        if( Meteor.isClient && Session.equals('lang', 'tc') )
+            return '到';
+        return 'To';
+    }}, Datatypes.Date )
 });
 
 export const detailsSchema = new SimpleSchema({
@@ -54,16 +72,30 @@ export const experienceSchema = new SimpleSchema({
     },
     experiences: {
         type: Array,
-        optional: true
+        optional: true,
+        label() {
+            if( Meteor.isClient && Session.equals('lang', 'tc') )
+                return '經驗';
+            return 'Experiences';
+        }
     },
     'experiences.$': {
         type: Experience,
-        label: 'Experience'
+        label() {
+            if( Meteor.isClient && Session.equals('lang', 'tc') )
+                return '經驗';
+            return 'Experience';
+        }
     },
     background: {
         type: Array,
         optional: true,
-        defaultValue: []
+        defaultValue: [],
+        label() {
+            if( Meteor.isClient && Session.equals('lang', 'tc') )
+                return '執照和證書';
+            return 'Licenses and Credentials';
+        }
     },
     'background.$': {
         type: String,
@@ -72,7 +104,12 @@ export const experienceSchema = new SimpleSchema({
     education: {
         type: Array,
         optional: true,
-        defaultValue: []
+        defaultValue: [],
+        label() {
+            if( Meteor.isClient && Session.equals('lang', 'tc') )
+                return '學歷';
+            return 'Education History';
+        }
     },
     'education.$': {
         type: String,
@@ -101,11 +138,19 @@ export const servicesSchema = new SimpleSchema({
     },
     ownsCar: {
         type: Boolean,
-        label: 'Do you own a car?'
+        label() {
+            if( Meteor.isClient && Session.equals('lang', 'tc') )
+                return '你有車嗎？';
+            return 'Do you own a car?';
+        }
     },
     availability: {
         type: Array,
-        label: "Work Availability*"
+        label() {
+            if( Meteor.isClient && Session.equals('lang', 'tc') )
+                return '可工作時間*';
+            return 'Work Availability*';
+        }
     },
     'availability.$': {
         type: Datatypes.WorkTime,
