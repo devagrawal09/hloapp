@@ -1,6 +1,10 @@
+import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { JobImages, setDp, deletePhoto } from '../../../../api/jobs';
+
+import TcData from '../../../../api/data-types/tc';
 
 import showAlert from '../../../shared-components/alert';
 
@@ -13,6 +17,15 @@ import './job-form.html';
 
 import '../../common/job-details';
 
+const texts = new ReactiveVar({});
+
+const enOpts = ()=> {
+    return Object.keys( TcData ).reduce( ( obj, key )=> {
+        obj[key] = 'allowed';
+        return obj;
+    }, {});
+}
+
 Template.jobForm.onCreated(function() {
     
     let job = 'new';
@@ -20,6 +33,18 @@ Template.jobForm.onCreated(function() {
     if( doc ) job = doc._id;
 
     this.subscribe( 'jobs.images', job );
+
+    this.autorun( ()=> {
+        let lang = Session.get('lang');
+        if( lang === 'tc' )
+            import(`./tc.js`).then( i => {
+                texts.set( i.texts );
+            });
+        else
+            import(`./en.js`).then( i => {
+                texts.set( i.texts );
+            });
+    });
 });
 
 Template.jobForm.onRendered(function() {
@@ -33,6 +58,14 @@ Template.jobForm.onRendered(function() {
 Template.jobForm.helpers({
     isEditForm( id ) {
         return id === 'editJob';
+    },
+    texts() {
+        return texts.get();
+    },
+    options() {
+        if( Session.equals('lang', 'tc') )
+            return TcData;
+        return enOpts();
     }
 });
 

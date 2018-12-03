@@ -29,21 +29,6 @@ import './submit-buttons.html';
 
 const options = new ReactiveVar({});
 
-export const setOptions = ( lang = 'en' )=> {
-    if( lang === 'tc' ) {
-
-        options.set( Object.assign( {}, TcData ) );
-        return;
-    }
-
-    const opts = Object.keys( TcData ).reduce( ( obj, key )=> {
-        obj[key] = Object.keys( TcData[key] );
-        return obj;
-    }, {});
-
-    options.set( opts );
-};
-
 const enOpts = ()=> {
     return Object.keys( TcData ).reduce( ( obj, key )=> {
         obj[key] = 'allowed';

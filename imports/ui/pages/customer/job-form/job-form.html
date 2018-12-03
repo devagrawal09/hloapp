@@ -3,22 +3,22 @@
 
         <ul class="nav nav-pills nav-justified form-steps">
             <li class="active">
-                <a data-toggle="pill" href="#details">Details</a>
+                <a data-toggle="pill" href="#details">{{texts.det.head}}</a>
             </li>
             <li>
-                <a data-toggle="pill" href="#requirements">Requirements</a>
+                <a data-toggle="pill" href="#requirements">{{texts.req.head}}</a>
             </li>
             <li>
-                <a data-toggle="pill" href="#photos">Photos</a>
+                <a data-toggle="pill" href="#photos">{{texts.pho.head}}</a>
             </li>
             <li>
-                <a data-toggle="pill" href="#review">Review</a>
+                <a data-toggle="pill" href="#review">{{texts.rev.head}}</a>
             </li>
         </ul>
 
         <h3 id="form-title">
             {{formTitle}}
-            <span class="small pull-right">* - Required field</span>
+            <span class="small pull-right">* - {{texts.required}}</span>
         </h3>
 
         {{#autoForm
@@ -32,12 +32,12 @@
             {{/if}}
 
             <div class="tab-content">
-
-                {{> jobDetailsForm}}
-                {{> jobRequirementsForms}}
-                {{> jobPhotosForm}}
-                {{> jobPostReview}}
-
+                {{#with texts=texts options=options}}
+                    {{> jobDetailsForm}}
+                    {{> jobRequirementsForms}}
+                    {{> jobPhotosForm}}
+                    {{> jobPostReview}}
+                {{/with}}
             </div>
 
         {{/autoForm}}

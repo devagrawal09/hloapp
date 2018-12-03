@@ -56,6 +56,7 @@ Template.CaregiverProfile.helpers({
                 if(caregiver.professionalServices) caregiver.professionalServices = caregiver.professionalServices.map( service=> TCdata.professional[ service ] );
                 if(caregiver.personalServices) caregiver.personalServices = caregiver.personalServices.map( service=> TCdata.personal[ service ] );
                 if(caregiver.medicalConditions) caregiver.medicalConditions = caregiver.medicalConditions.map( mc=> TCdata.medical[ mc ] );
+                if(caregiver.availability.length) caregiver.availability = caregiver.availability.map( av=> ({ day: TCdata.days[av.day] }) );
             }
             return caregiver;
         },

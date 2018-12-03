@@ -2,7 +2,7 @@
     <div id="photos" class="tab-pane fade">
         <div class="row">
             <div class="col-xs-3 form-group">
-                Upload photo {{#with photoUpload}} Uploading
+                {{texts.pho.up}} {{#with photoUpload}} Uploading
                 <b>{{file.name}}</b>:
                 <span id="progress">{{progress.get}}%</span>
                 {{else}}
@@ -18,23 +18,23 @@
                 {{/with}}
             </div>
             <div class="col-xs-9">
-                Uploaded pictures
+                {{texts.pho.uploaded}}
                 <div class="photos">
                     {{#each photo in photos.each}}
                     <img src="{{photo.link}}" class="{{#if photo.profile}}profile{{/if}}" alt="{{photo.name}}" id="{{photo._id}}">
                     {{/each}}
                 </div>
-                <a class="btn btn-danger delete disabled">Delete</a>
+                <a class="btn btn-danger delete disabled">{{texts.pho.del}}</a>
                 <a class="btn btn-primary save-as-dp disabled">
-                    Set Profile picture
+                    {{texts.pho.set}}
                 </a>
             </div>
         </div>
         <br>
         <p>
-            All uploaded photos will be displayed as cover photos on the job details page.
+            {{texts.pho.msg}}
         </p>
-        <a href="" class="btn btn-default back">Back</a>
-        <a href="" class="btn btn-primary next pull-right">Next</a>
+        <a href="" class="btn btn-default back">{{texts.back}}</a>
+        <a href="" class="btn btn-primary next pull-right">{{texts.next}}</a>
     </div>
 </template>

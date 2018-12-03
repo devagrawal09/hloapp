@@ -149,5 +149,9 @@ export default {
         "Stroke": "中風",
         "Tracheotomy/Ventilation": "氣管造口",
         "Vision and Eye Disorders": "視覺受捐及眼科疾病"
+    },
+    duration: {
+        'Short term': '短期',
+        'Long term': '長期'
     }
 }

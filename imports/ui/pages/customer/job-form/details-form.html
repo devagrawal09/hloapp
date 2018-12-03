@@ -1,56 +1,58 @@
 <template name="jobDetailsForm">
     <div id="details" class="tab-pane fade in active">
         {{> afQuickField name="duration"
-            options="allowed" label="Duration*"
+            options=options.duration label=texts.det.dur
         }}
-        <h4>Patient Details</h4>
+        <h4>{{texts.det.patient}}</h4>
         <div class="row">
             <div class="col-sm-6">
                 {{> afQuickField name="title"
-                    placeholder="Day-time Home Nurse" label="Job Title*"
+                    placeholder="Day-time Home Nurse" label=texts.det.title
                 }}
                 {{> afQuickField name="name"
-                    placeholder="John Doe" label="Name*"
+                    placeholder="John Doe" label=texts.det.name
                 }}
                 {{> afQuickField name="gender"
-                    options="allowed" type="select-radio-inline" label="Gender*"
+                    options=options.gender type="select-radio-inline" label=texts.det.gen
                 }}
-                {{> afQuickField name="dob" label="Date of Birth*"}}
-                {{> afQuickField name="hkid"}}
+                {{> afQuickField name="dob" label=texts.det.dob}}
+                {{> afQuickField name="hkid" label=texts.det.hkid}}
                 {{> afQuickField name="phone"
-                    placeholder="123-456789" label="Phone*"
+                    placeholder="123-456789" label=texts.det.phone
                 }}
                 {{> afQuickField name="email"
+                    label=texts.det.email
                     placeholder="john.doe@example.com"
                 }}
             </div>
             <div class="col-sm-6">
                 {{> afQuickField name="address"
                     type="textarea" rows=4
-                    placeholder="14A Evergreen Villa" label="Address*"
+                    placeholder=texts.det.ap label=texts.det.add
                 }}
                 {{> afQuickField name="location"
-                    options="allowed" label="District*"
+                    options=options.locations label=texts.det.dis
                 }}
                 {{#if afFieldValueIs name="location" value="Other"}}
                     {{> afQuickField name="otherDistrict" placeholder="Please specify"}}
                 {{/if}}
                 {{> afQuickField name="country"
-                    options="allowed" label="Country*"
+                    options=options.countries label=texts.det.count
                 }}
                 {{> afQuickField name="hobbies"
-                    type="textarea" rows="3" placeholder="Biking, running..."
+                    label=texts.det.hobb
+                    type="textarea" rows="3" placeholder=texts.det.hp
                 }}
             </div>
         </div>
         {{> afQuickField name="languages"
-            options="allowed"
+            options=options.languages label=texts.det.lang
             type="select-checkbox-columns"
         }}
-        {{> afQuickField name="description"
-            type="textarea" rows=5 label="Describe your loved one*"
-            placeholder="An elderly cheerful woman with a good taste in music."
+        {{> afQuickField name="description" label=texts.det.desc
+            type="textarea" rows=5 label=texts.det.desc
+            placeholder=texts.det.dp
         }}
-        <a href="" class="btn btn-primary next pull-right">Next</a><br>
+        <a href="" class="btn btn-primary next pull-right">{{texts.next}}</a><br>
     </div>
 </template>

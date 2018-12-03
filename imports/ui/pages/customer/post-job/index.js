@@ -19,6 +19,11 @@ Template.PostJob.onCreated(function() {
 Template.PostJob.helpers({
     schema() {
         return detailsSchema.omit( '_id', 'postedBy' );
+    },
+    title() {
+        if( Session.equals('lang', 'tc') )
+            return '發佈招聘';
+        return 'Post a Job';
     }
 });
 

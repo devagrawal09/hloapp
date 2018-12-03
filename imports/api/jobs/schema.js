@@ -94,7 +94,11 @@ export const jobRequirements = new SimpleSchema({
     endDate: Datatypes.Date,
     days: {
         type: Array,
-        label: "Work days*"
+        label() {
+            if( Meteor.isClient && Session.equals('lang', 'tc') )
+                return '工作日*';
+            return 'Work days*';
+        }
     },
     'days.$': {
         type: Datatypes.WorkTime,
