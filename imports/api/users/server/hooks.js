@@ -51,6 +51,8 @@ Accounts.onCreateUser(function( options, user ) {       //create new caregivers
             email_address: user.emails[0].address,
             status: 'subscribed'
         }
+    }, ( err )=> {
+        if( err ) console.error( err );
     });
 
     // Meteor.users.notifications.welcome( user );
