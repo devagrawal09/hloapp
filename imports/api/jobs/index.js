@@ -132,7 +132,7 @@ export { JobImages, updateJobDetails, updateJobRequirements };
 
             if( !result ) {
                 throw new Meteor.Error('jobs.update.unauthorized',
-                'Invalid Input. Please try again');
+                'Invalid Input. Please try a   gain');
             }
         }
     });
@@ -407,7 +407,48 @@ export { JobImages, updateJobDetails, updateJobRequirements };
                 user: this.userId
             });
         }
-    });
+});
+
+export const repostJob = new ValidatedMethod({         //repost a old job 
+    name: 'jobs.repost',
+    validate: detailsSchema.pick('_id', 'postedBy').validator(),
+    run: function({ _id, postedBy }) {
+
+        userChecks.loggedIn(this.userId);
+        userChecks.isVerified(this.userId);
+        userChecks.isCustomer(this.userId);
+
+        let job = Jobs.findOne({
+            _id, postedBy
+        });
+
+        if (!job) throw new Meteor.Error('jobs.repost.error', 'This job is not posted by you');
+
+        job.postedBy = this.userId;     //posted by the current user
+        job.postedOn = new Date();      //posted right now
+        job.status = 'open';            //jobs open by default
+        job.offers = [];                //initialize offers array
+        job.applicants = [];            //and applicants array
+        delete job._id;
+
+        const id = Jobs.insert(job);  //post the job
+
+        /*JobImages.update({              //set uploaded photos to new job
+            meta: {
+                job: 'new',
+                user: this.userId
+            }
+        }, { $set: { meta: { job: id } } }, { multi: true });*/
+
+        if (this.isSimulation) analytics.track('Reposted Job', {
+            title: job.title,
+            duration: job.duration,
+            location: job.location
+        });
+
+        return true;
+    }
+});
 
 //helpers
 

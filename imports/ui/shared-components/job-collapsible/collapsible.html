@@ -190,9 +190,11 @@
                     </table>
                     <button class="btn btn-danger btn-block complete">{{texts.btns.expire}}</button>
                 {{else}}
-                {{#unless isCompleted}}
+                {{#if isCompleted}}
+                    <button class="btn btn-primary btn-block repost">{{texts.btns.repost}}</button>
+                {{else}}
                     <button class="btn btn-primary btn-block complete">{{texts.btns.complete}}</button>
-                {{/unless}}
+                {{/if}}
                 {{/if}}
             {{/if}}
             {{#if isOfferedToCurrentUser}}

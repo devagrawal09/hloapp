@@ -20,6 +20,7 @@ export const texts = {
         msg: 'Message',
         complete: 'Complete Job',
         expire: 'Expire Job',
+        repost: 'Repost Job',
         acceptOffer: 'Accept Job Offer',
         declineOffer: 'Decline Job Offer'
     },

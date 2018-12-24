@@ -9,7 +9,7 @@ import { paymentSchema } from '../../../api/payments/schema.js';
 
 import { Notifications } from '../../../api/notifications';
 import { Caregivers, acceptOffer, declineOffer } from '../../../api/caregivers';
-import { hireApplicant, completeJob, review, viewJob } from '../../../api/jobs';
+import { hireApplicant, completeJob, review, viewJob, repostJob } from '../../../api/jobs';
 import { Payments, checkPayment } from '../../../api/payments';
 
 import showAlert from '../alert';
@@ -108,47 +108,59 @@ Template.jobCollapsible.helpers({
     }
 });
 
-Template.jobCollapsible.events({ 
-    'click .hire'( e, t ) { 
+Template.jobCollapsible.events({
+    'click .hire'(e, t) {
         hireApplicant.call({
             job: t.data._id,
             applicant: t.$(e.target).attr('id')
-        }, ( err, res )=> {
-            if( err ) {
-                console.error( err );
-                showAlert( err.reason, 'danger');
+        }, (err, res) => {
+            if (err) {
+                console.error(err);
+                showAlert(err.reason, 'danger');
             } else {
                 showAlert('Sucessfully hired this caregiver!');
             }
         });
     },
-    'click .complete'( e, t ) {
-        completeJob.call({ _id: t.data._id }, ( err, res )=> {
-            if( err ) {
-                console.error( err );
-                showAlert( err.reason, 'danger');
+    'click .complete'(e, t) {
+        completeJob.call({ _id: t.data._id }, (err, res) => {
+            if (err) {
+                console.error(err);
+                showAlert(err.reason, 'danger');
             } else {
                 showAlert(`Sucessfully ${res} this job!`);
             }
         });
     },
-    'click .accept'( e, t ) {
-        acceptOffer.call({ _id: t.data._id }, ( err, res )=> {
-            if( err ) {
-                console.error( err );
-                showAlert( err.reason, 'danger');
+    'click .accept'(e, t) {
+        acceptOffer.call({ _id: t.data._id }, (err, res) => {
+            if (err) {
+                console.error(err);
+                showAlert(err.reason, 'danger');
             } else {
                 showAlert('Sucessfully accepted offer for this job!');
             }
         })
     },
-    'click .decline'( e, t ) {
-        declineOffer.call({ _id: t.data._id }, ( err, res )=> {
-            if( err ) {
-                console.error( err );
-                showAlert( err.reason, 'danger');
+    'click .decline'(e, t) {
+        declineOffer.call({ _id: t.data._id }, (err, res) => {
+            if (err) {
+                console.error(err);
+                showAlert(err.reason, 'danger');
             } else {
                 showAlert('Sucessfully declined offer for this job!');
+            }
+        })
+    },
+    'click .repost'(e, t) {
+        repostJob.call({
+            _id: t.data._id, postedBy: Meteor.userId()
+        }, (err, res) => {
+            if (err) {
+                console.error(err);
+                showAlert(err.reason, 'danger');
+            } else {
+                showAlert('Sucessfully Reposted.');
             }
         })
     }
