@@ -407,48 +407,55 @@ export { JobImages, updateJobDetails, updateJobRequirements };
                 user: this.userId
             });
         }
-});
+    });
 
-export const repostJob = new ValidatedMethod({         //repost a old job 
-    name: 'jobs.repost',
-    validate: detailsSchema.pick('_id', 'postedBy').validator(),
-    run: function({ _id, postedBy }) {
+    export const repostJob = new ValidatedMethod({         //repost a old job 
+        name: 'jobs.repost',
+        validate: detailsSchema.pick('_id', 'postedBy').validator(),
+        run: function({ _id, postedBy }) {
 
-        userChecks.loggedIn(this.userId);
-        userChecks.isVerified(this.userId);
-        userChecks.isCustomer(this.userId);
+            userChecks.loggedIn(this.userId);
+            userChecks.isVerified(this.userId);
+            userChecks.isCustomer(this.userId);
 
-        let job = Jobs.findOne({
-            _id, postedBy
-        });
+            let job = Jobs.findOne({
+                _id, postedBy
+            });
 
-        if (!job) throw new Meteor.Error('jobs.repost.error', 'This job is not posted by you');
+            if ( !job ) 
+                throw new Meteor.Error('jobs.repost.error',
+                'This job is not posted by you');
 
-        job.postedBy = this.userId;     //posted by the current user
-        job.postedOn = new Date();      //posted right now
-        job.status = 'open';            //jobs open by default
-        job.offers = [];                //initialize offers array
-        job.applicants = [];            //and applicants array
-        delete job._id;
+            job.postedBy = this.userId;     //posted by the current user
+            job.postedOn = new Date();      //posted right now
+            job.status = 'open';            //jobs open by default
+            job.offers = [];                //initialize offers array
+            job.applicants = [];            //and applicants array
+            delete job._id;
+            delete job.hired;
+            delete job.review;
 
-        const id = Jobs.insert(job);  //post the job
+            const id = Jobs.insert(job);  //post the job
 
-        /*JobImages.update({              //set uploaded photos to new job
-            meta: {
-                job: 'new',
-                user: this.userId
-            }
-        }, { $set: { meta: { job: id } } }, { multi: true });*/
+            let jobImages = JobImages.find({  //find old job's photos
+                meta: { job: _id }
+            }).fetch();
 
-        if (this.isSimulation) analytics.track('Reposted Job', {
-            title: job.title,
-            duration: job.duration,
-            location: job.location
-        });
+            jobImages = jobImages.forEach(( obj )=> {   //for each uploaded photo
+                obj.meta.job = id;              //set meta to new job id
+                delete obj._id;                 //delete old database id
+                JobImages.insert( obj );        //insert new object into collection
+            });
 
-        return true;
-    }
-});
+            if ( this.isSimulation ) analytics.track('Reposted Job', {
+                title: job.title,
+                duration: job.duration,
+                location: job.location
+            });
+
+            return true;
+        }
+    });
 
 //helpers
 

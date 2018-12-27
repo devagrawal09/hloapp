@@ -34,17 +34,17 @@ Template.jobCollapsible.onCreated(function() {
             this.subscribe( 'caregiverById.images', data.hired );
         }
         this.subscribe( 'job.payment', data._id );
-        this.autorun( ()=> {
-            let lang = Session.get('lang');
-            if( lang === 'tc' )
-                import(`./tc.js`).then( i => {
-                    texts.set( i.texts );
-                });
-            else
-                import(`./en.js`).then( i => {
-                    texts.set( i.texts );
-                });
-        });
+    });
+    this.autorun(()=> {
+        let lang = Session.get('lang');
+        if( lang === 'tc' )
+            import(`./tc.js`).then( i => {
+                texts.set( i.texts );
+            });
+        else
+            import(`./en.js`).then( i => {
+                texts.set( i.texts );
+            });
     });
 });
 
