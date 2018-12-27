@@ -2,6 +2,7 @@ import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { AutoForm } from 'meteor/aldeed:autoform';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import SimpleSchema from 'simpl-schema';
 
@@ -49,11 +50,7 @@ Template.jobCollapsible.onCreated(function() {
 });
 
 Template.jobCollapsible.onRendered(function() {
-    const _id = this.data._id;
-    $(`#${ _id }`).on('shown.bs.collapse', ()=> {
-        viewJob.call({ _id });
-    });
-    checkPayment.call({ job: _id });
+    
 });
 
 Template.jobCollapsible.helpers({
@@ -153,16 +150,17 @@ Template.jobCollapsible.events({
         })
     },
     'click .repost'(e, t) {
-        repostJob.call({
-            _id: t.data._id, postedBy: Meteor.userId()
-        }, (err, res) => {
-            if (err) {
-                console.error(err);
-                showAlert(err.reason, 'danger');
+        console.log({ t });
+        repostJob.call({ _id: t.data._id }, ( err, res )=> {
+            if ( err ) {
+                console.error( err );
+                showAlert( err.reason, 'danger');
             } else {
-                showAlert('Sucessfully Reposted.');
+                FlowRouter.go(`/edit/${res}`);
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
+                showAlert('Sucessfully Reposted! You can edit the new Job details here.');
             }
-        })
+        });
     }
 });
 

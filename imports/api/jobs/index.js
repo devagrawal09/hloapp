@@ -411,15 +411,15 @@ export { JobImages, updateJobDetails, updateJobRequirements };
 
     export const repostJob = new ValidatedMethod({         //repost a old job 
         name: 'jobs.repost',
-        validate: detailsSchema.pick('_id', 'postedBy').validator(),
-        run: function({ _id, postedBy }) {
+        validate: detailsSchema.pick('_id').validator(),
+        run({ _id }) {
 
             userChecks.loggedIn(this.userId);
             userChecks.isVerified(this.userId);
             userChecks.isCustomer(this.userId);
 
             let job = Jobs.findOne({
-                _id, postedBy
+                _id, postedBy: this.userId
             });
 
             if ( !job ) 
@@ -435,9 +435,9 @@ export { JobImages, updateJobDetails, updateJobRequirements };
             delete job.hired;
             delete job.review;
 
-            const id = Jobs.insert(job);  //post the job
+            const id = Jobs.insert( job );  //post the job
 
-            let jobImages = JobImages.find({  //find old job's photos
+            /* let jobImages = JobImages.find({  //find old job's photos
                 meta: { job: _id }
             }).fetch();
 
@@ -445,7 +445,7 @@ export { JobImages, updateJobDetails, updateJobRequirements };
                 obj.meta.job = id;              //set meta to new job id
                 delete obj._id;                 //delete old database id
                 JobImages.insert( obj );        //insert new object into collection
-            });
+            }); */
 
             if ( this.isSimulation ) analytics.track('Reposted Job', {
                 title: job.title,
@@ -453,7 +453,7 @@ export { JobImages, updateJobDetails, updateJobRequirements };
                 location: job.location
             });
 
-            return true;
+            return id;
         }
     });
 
