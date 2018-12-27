@@ -24,6 +24,13 @@
     },
     "public": {
         "env": "development",
-        "analyticsSettings": {}
+        "analyticsSettings": {},
+        "paypal": {
+            "mode": "sandbox",
+            "client": {
+                "sandbox": "AQM0MlumXoSyWHgKeQR0cGIiWLAJ28sItc7asHQYoyQYN6zyxRIasdv2CRyoOaAlKDtgGVdkjDbVHzIH",
+                "production": ""
+            }
+        }
     }
 }

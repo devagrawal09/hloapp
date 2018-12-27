@@ -10,8 +10,8 @@ import { paymentSchema } from '../../../api/payments/schema.js';
 
 import { Notifications } from '../../../api/notifications';
 import { Caregivers, acceptOffer, declineOffer } from '../../../api/caregivers';
-import { hireApplicant, completeJob, review, viewJob, repostJob } from '../../../api/jobs';
-import { Payments, checkPayment } from '../../../api/payments';
+import { hireApplicant, completeJpaywJob, repostJob } from '../../../api/jobs';
+import { Payments, checkPayment, pay } from '../../../api/payments';
 
 import showAlert from '../alert';
 
@@ -47,10 +47,6 @@ Template.jobCollapsible.onCreated(function() {
                 texts.set( i.texts );
             });
     });
-});
-
-Template.jobCollapsible.onRendered(function() {
-    
 });
 
 Template.jobCollapsible.helpers({
@@ -213,6 +209,57 @@ Template.declinePaymentModal.helpers({
 
 Template.paymentDetailsModal.onCreated(function() {
     this.checking = new ReactiveVar( false );
+});
+
+Template.paymentDetailsModal.onRendered(function() {
+    this.autorun(()=> {
+        if( Template.PostedJobs.paypalScriptLoaded.get() ) {
+            const jobId = this.data._id;
+            const paymentDetails = Payments.findOne({ job: jobId });
+            console.log({ paymentDetails });
+            paypal.Button.render({
+                // Configure environment
+                env: Meteor.settings.public.paypal.mode,
+                client: Meteor.settings.public.paypal.client,
+                // Customize button (optional)
+                locale: 'en_US',
+                style: {
+                    size: 'small',
+                    color: 'gold',
+                    shape: 'pill',
+                },
+            
+                // Enable Pay Now checkout flow (optional)
+                commit: true,
+            
+                // Set up a payment
+                payment(data, actions) {
+                    return actions.payment.create({
+                        transactions: [{
+                            amount: {
+                                total: paymentDetails.total(),
+                                currency: 'HKD'
+                            }
+                        }]
+                    });
+                },
+                // Execute the payment
+                onAuthorize(data, actions) {
+                    return actions.payment.execute().then(()=> {
+                        // Show a confirmation message to the buyer
+                        pay.call({ job: jobId }, ( err, res )=> {
+                            if( err ) showAlert( err.reason, 'danger');
+                            else showAlert('Payment successfully made!');
+                            $('.modal-backdrop').remove();
+                        });
+                    }).catch(( err )=> {
+                        console.error( err );
+                        showAlert('Payment could not be executed. Please try again!');
+                    });
+                }
+            }, `#paypal-button-${jobId}`);
+        }
+    });
 });
 
 Template.paymentDetailsModal.helpers({

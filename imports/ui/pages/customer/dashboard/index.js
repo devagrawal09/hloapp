@@ -15,6 +15,7 @@ import '../../../shared-components/compose-modal';
 import '../../../shared-components/caregiver-card';
 import './posted-jobs.html';
 
+const paypalScriptLoaded = new ReactiveVar( false );
 const texts = {
     en: {
         listed: 'Listed Jobs',
@@ -50,6 +51,8 @@ if( Meteor.settings.public.env === 'development' ) {
     Package['msavin:mongol'].Mongol.showCollection('payments');
 }
 
+Template.PostedJobs.paypalScriptLoaded = paypalScriptLoaded;
+
 Template.PostedJobs.onCreated(function() {
     this.subscribe( 'myJobs' );
     this.msgRecipient = new ReactiveVar('');
@@ -57,6 +60,15 @@ Template.PostedJobs.onCreated(function() {
         let bookmarks = Meteor.user().bookmarks;        
         this.subscribe('caregiversById', bookmarks );
     });
+});
+
+Template.PostedJobs.onRendered(function() {
+    const checkoutjs = document.createElement('script');
+    checkoutjs.src = 'https://www.paypalobjects.com/api/checkout.js';
+    checkoutjs.onload = ()=> {
+        paypalScriptLoaded.set( true );
+    }
+    document.body.appendChild( checkoutjs );
 });
 
 Template.PostedJobs.helpers({

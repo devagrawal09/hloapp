@@ -52,16 +52,7 @@
                             <strong>{{texts.paySec.det.total}} : HK ${{paymentDetails.total}}</strong>
                         </p>
                         <h5>{{texts.paySec.options.head}}</h5>
-                        <p>
-                            {{texts.paySec.options.msg}}
-                        </p>
-                        <button class="btn btn-primary check">
-                            {{#if checking}}
-                                <i class="fa fa-spinner fa-spin"></i>
-                            {{else}}
-                                {{texts.paySec.options.paid}}
-                            {{/if}}
-                        </button>
+                        <span id="paypal-button-{{_id}}"></span>
                     {{/if}}
                 </div>
             </div>
