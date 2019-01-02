@@ -1,4 +1,5 @@
 import { Accounts } from 'meteor/accounts-base';
+import { HTTP } from 'meteor/http';
 
 import { Caregivers } from '../../caregivers';
 
@@ -15,6 +16,8 @@ Accounts.onCreateUser(function( options, user ) {       //create new caregivers
         email = options.profile.emailAddress;
     }
 
+    let listId = 'f734bf5e74';
+
     if( options.profile.type === 'caregiver') {
         Caregivers.insert({
             user: user._id,
@@ -24,6 +27,7 @@ Accounts.onCreateUser(function( options, user ) {       //create new caregivers
             isProfileComplete: false,
             jobHistory: []
         });
+        listId = 'e8ae8ca376';
     };
 
     user.firstName = first;
@@ -41,6 +45,16 @@ Accounts.onCreateUser(function( options, user ) {       //create new caregivers
     if( !user.username ) {
         user.username = user.emails[0].address.split('@')[0];
     }
+
+    HTTP.post(`https://us13.api.mailchimp.com/3.0/lists/${listId}/members`, {
+        auth: 'hlo:f01420e7b8912b1b6115b77c7b17ed4c-us13',
+        data: {
+            email_address: user.emails[0].address,
+            status: 'subscribed'
+        }
+    }, ( err )=> {
+        if( err ) console.error( err );
+    });
 
     // Meteor.users.notifications.welcome( user );
 
