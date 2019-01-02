@@ -31,6 +31,7 @@ Accounts.onCreateUser(function( options, user ) {       //create new caregivers
     user.fullName = `${first} ${last}`;
     user.profile = options.profile;
     user.numbers = [];
+    user.createdOn = new Date();
 
     if( !user.emails ) {
         if( email ) user.emails = [{ address: email, verified: true }];
