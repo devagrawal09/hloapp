@@ -44,6 +44,7 @@ AccountsTemplates.addFields([
       type: 'email',
       required: true,
       displayName: 'email',
+      placeholder: 'email',
       re: /.+@(.+){2,}\.(.+){2,}/,
       errStr: 'Invalid email',
   },
@@ -51,6 +52,7 @@ AccountsTemplates.addFields([
       _id: 'username',
       type: 'text',
       displayName: 'username',
+      placeholder: 'username',
       required: true,
       minLength: 5,
   },
@@ -59,23 +61,19 @@ AccountsTemplates.addFields([
 AccountsTemplates.addField({
     _id: 'firstName',
     type: 'text',
-    required: true,
-    displayName: 'First name',
-    placeholder: 'First name'
+    required: true
 });
 AccountsTemplates.addField({
     _id: 'lastName',
     type: 'text',
-    required: true,
-    displayName: 'Last name',
-    placeholder: 'Last name'
+    required: true
 });
 
 if( Meteor.isServer ) {
 
     const verifyEmailTemplate = _.template( Assets.getText('emails/email verification.html') );
 
-    Accounts.emailTemplates.from = 'no-reply@hloapp.herokuapp.com';
+    Accounts.emailTemplates.from = 'no-reply@healthylovedones.com';
     Accounts.emailTemplates.siteName = 'HealthyLovedOnes';
 
     Accounts.emailTemplates.verifyEmail = {

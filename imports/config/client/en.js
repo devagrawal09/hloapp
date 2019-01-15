@@ -1,0 +1,21 @@
+export const texts = {
+    'signIn': 'Login',
+    'usernameOrEmail': 'Username or Email',
+    'password': 'Password',
+    'dontHaveAnAccount': `Don't have an account?`,
+    'signUp': 'Register',
+    'createAccount': 'Create an Account',
+    'signUp with Facebook': 'Register with Facebook',
+    'signUp with Linkedin': 'Register with LinkedIn',
+    'email': 'Email',
+    'username': 'Username',
+    'passwordAgain': 'Repeat Password',
+    'FirstName': 'First name',
+    'LastName': 'Last name',
+    'clickAgree': 'By clicking Register, you agree to our',
+    'privacyPolicy': 'Privacy Policy',
+    'and': 'and',
+    'terms': 'Terms of Use',
+    'ifYouAlreadyHaveAnAccount': 'If you already have an account',
+    'signin': 'Login'
+}

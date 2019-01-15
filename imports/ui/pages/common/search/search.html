@@ -213,6 +213,9 @@
         {{/if}}
     </div>
     {{> composeMsg doc=msgDoc}}
+    {{#unless isJobSearch}}
+        {{> autofilter}}
+    {{/unless}}
 </template>
 
 <template name="sortButtons">

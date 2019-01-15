@@ -1,6 +1,6 @@
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var'
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import Datatypes from '../../../../api/data-types';
 

@@ -1,0 +1,170 @@
+<template name="autofilter">
+    <button class="btn btn-primary af-toggle">
+        Need held to find what you are looking for?
+    </button>
+
+    <div class="modal fade" id="autofilter">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Give us something to work on</h4>
+                </div> -->
+                <div class="modal-body">
+                    <div class="wizard">
+                        <div class="wizard-inner">
+                            <div class="connecting-line"></div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#duration" data-toggle="tab" aria-controls="step1" role="tab" title="Duration">
+                                        <span class="round-tab">
+                                            <i class="fa fa-clock" style="
+                                                position: relative;
+                                                top: -2px;
+                                            "></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li role="presentation" class="disabled">
+                                    <a href="#location" data-toggle="tab" aria-controls="step2" role="tab" title="Location">
+                                        <span class="round-tab">
+                                            <i class="fa fa-map-marker-alt" style="
+                                                position: relative;
+                                                top: -2px;
+                                            "></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li role="presentation" class="disabled">
+                                    <a href="#care" data-toggle="tab" aria-controls="step3" role="tab" title="Types of care">
+                                        <span class="round-tab">
+                                            <i class="fa fa-cart-plus" style="
+                                                position: relative;
+                                                top: -3px;
+                                            "></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li role="presentation" class="disabled">
+                                    <a href="#professional" data-toggle="tab" aria-controls="step3" role="tab" title="Professional services">
+                                        <span class="round-tab">
+                                            <i class="fa fa-business-time" style="
+                                                position: relative;
+                                                top: -3px;
+                                            "></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li role="presentation" class="disabled">
+                                    <a href="#personal" data-toggle="tab" aria-controls="complete" role="tab" title="Personal requirements">
+                                        <span class="round-tab">
+                                            <i class="fa fa-hands-helping" style="
+                                                position: relative;
+                                                top: -2px;
+                                            "></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li role="presentation" class="disabled">
+                                    <a href="#medical" data-toggle="tab" aria-controls="step3" role="tab" title="Medical Expertise">
+                                        <span class="round-tab">
+                                            <i class="fa fa-file-medical" style="
+                                                position: relative;
+                                                top: -3px;
+                                            "></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li role="presentation" class="disabled">
+                                    <a href="#pay" data-toggle="tab" aria-controls="complete" role="tab" title="Budget">
+                                        <span class="round-tab">
+                                            <i class="fa fa-wallet" style="
+                                                position: relative;
+                                                top: -2px;
+                                            "></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {{#autoForm id="autoFilter" schema=autoSchema}}
+                            <div class="tab-content">
+                                <div class="tab-pane active" role="tabpanel" id="duration">
+                                    <h3>What kind of duration do you want the caregiver for?</h3>
+                                    {{> afQuickField
+                                        name="duration"
+                                        options="allowed"
+                                        type="select-radio-inline"
+                                    }}
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="btn btn-primary next-step">Next</button></li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="location">
+                                    <h3>At what location do you need the caregiver?</h3>
+                                    {{> afQuickField
+                                        name="location"
+                                        options="allowed"
+                                        type="select-multiple"
+                                        label="Ctrl-click to select multiple"
+                                        size="10"
+                                    }}
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                        <li><button type="button" class="btn btn-primary next-step">Next</button></li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="care">
+                                    <h3>What types of care are you looking for?</h3>
+                                    {{> afQuickField
+                                        name="careType"
+                                        options="allowed"
+                                        type="select-radio"
+                                        label=false
+                                    }}
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                        <li><button type="button" class="btn btn-primary next-step">Next</button></li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="professional">
+                                    <h3>Step 3</h3>
+                                    <p>This is step 3</p>
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                        <li><button type="button" class="btn btn-default next-step">Skip</button></li>
+                                        <li><button type="button" class="btn btn-primary btn-info-full next-step">Save
+                                                and continue</button></li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="personal">
+                                    <h3>Complete</h3>
+                                    <p>You have successfully completed all steps.</p>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="meddical">
+                                    <h3>Step 2</h3>
+                                    <p>This is step 2</p>
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                        <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="pay">
+                                    <h3>Complete</h3>
+                                    <p>You have successfully completed all steps.</p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        {{/autoForm}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>

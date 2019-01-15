@@ -9,6 +9,10 @@
 @import 'base/_mixins.scss';
 @import 'base/_base.scss';
 
+/* Fontawesome icons */
+@import 'fontawesome/fontawesome.scss';
+@import 'fontawesome/solid.scss';
+
 /* MODULES - jumbotron, buttons, pricings... */
 /* global */
 @import 'modules/_global.scss';
@@ -44,6 +48,7 @@
 
 /* search */
 @import 'modules/_search.scss';
+@import 'modules/autofilter.scss';
 
 /* login */
 @import 'modules/_login.scss';

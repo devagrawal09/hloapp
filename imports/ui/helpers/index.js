@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
+import { T9n } from 'meteor-accounts-t9n';
+
 import humanize from 'string-humanize';
 
 const fullFlag = '', emptyFlag = '-o', halfFlag = '-half-o';
@@ -54,3 +56,5 @@ Template.registerHelper( 'plusOne', index=> {
 Template.registerHelper( 'stars', rating=> {
     return stars( rating );
 });
+
+Template.registerHelper( 't9n', ( x, params )=> T9n.get(x, true, params.hash) );

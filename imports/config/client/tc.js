@@ -1,0 +1,20 @@
+export const texts = {
+    'signIn': '登錄',
+    'usernameOrEmail': '用戶名稱或電郵地址',
+    'password': '密碼',
+    'dontHaveAnAccount': `未有賬號?`,
+    'signUp': '立即註冊',
+    'createAccount': '創建新賬戶',
+    'Customer': '顧客',
+    'email': '電郵地址',
+    'username': '用戶名稱',
+    'passwordAgain': '密碼（再次輸入）',
+    'FirstName': '名字',
+    'LastName': '姓氏',
+    'clickAgree': '點擊註冊，即表示您同意我們的意見',
+    'privacyPolicy': '隱私政策',
+    'and': '和',
+    'terms': '使用條款',
+    'ifYouAlreadyHaveAnAccount': '如果您已有帳戶',
+    'signin': '登錄'
+}
