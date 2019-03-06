@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { AutoForm } from 'meteor/aldeed:autoform';
 
 import SimpleSchema from 'simpl-schema';
 
@@ -11,7 +12,7 @@ import './slider/css/slider.css';
 import './slider/js/bootstrap-slider.js';
 import './autofilter.html';
 import { 
-    subscription, gridTemplate, listTemplate,
+    subscription, gridTemplate, listTemplate, Filter,
     collection, sortKeys, Sort, resetFilters, resultCount
 } from '.';
 
@@ -20,12 +21,17 @@ const autoSchema = new SimpleSchema({
         type: String,
         allowedValues: ['Short term', 'Long term']
     },
-    location: Datatypes.Location,
-    careType: Datatypes.CaregiverType,
-    prof: Datatypes.ProfessionalService,
-    personal: Datatypes.PersonalService,
-    medical: Datatypes.MedicalCondition,
-    budget: Number
+    location: Array,
+    'location.$': Datatypes.Location,
+    caregiverType: Array,
+    'caregiverType.$': Datatypes.CaregiverType,
+    professionalServices: Array,
+    'professionalServices.$': Datatypes.ProfessionalService,
+    personalServices: Array,
+    'personalServices.$': Datatypes.PersonalService,
+    medicalConditions: Array,
+    'medicalConditions.$': Datatypes.MedicalCondition,
+    hourlyRate: Number
 });
 
 export function searchForCaregivers() {
@@ -74,6 +80,11 @@ Template.autofilter.onRendered(function() {
     function prevTab(elem) {
         $(elem).prev().find('a[data-toggle="tab"]').click();
     }
+
+    this.$('#autoslider').slider({
+        min: 0,
+        max: 500
+    });
 });
 
 Template.autofilter.helpers({
@@ -83,5 +94,15 @@ Template.autofilter.helpers({
 Template.autofilter.events({
     'click .af-toggle'() {
         $('#autofilter').modal();
+    },
+    'click .submit'( e, t ) {
+        const filter = AutoForm.getFormValues('autoFilter', '', autoSchema, false );
+        filter.hourlyRate = t.$('#autoslider').val();
+        console.log({ filter });
+        Filter.set( filter );
+        resultCount.set( 5 );
+    },
+    'click .reset'() {
+        AutoForm.resetForm('autoFilter');
     }
 });

@@ -15,7 +15,7 @@
                         <div class="wizard-inner">
                             <div class="connecting-line"></div>
                             <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" class="active">
+                                <!-- <li role="presentation" class="active">
                                     <a href="#duration" data-toggle="tab" aria-controls="step1" role="tab" title="Duration">
                                         <span class="round-tab">
                                             <i class="fa fa-clock" style="
@@ -24,9 +24,9 @@
                                             "></i>
                                         </span>
                                     </a>
-                                </li>
-                                <li role="presentation" class="disabled">
-                                    <a href="#location" data-toggle="tab" aria-controls="step2" role="tab" title="Location">
+                                </li> -->
+                                <li role="presentation" class="active">
+                                    <a href="#location" data-toggle="tab" aria-controls="step1" role="tab" title="Location">
                                         <span class="round-tab">
                                             <i class="fa fa-map-marker-alt" style="
                                                 position: relative;
@@ -36,7 +36,7 @@
                                     </a>
                                 </li>
                                 <li role="presentation" class="disabled">
-                                    <a href="#care" data-toggle="tab" aria-controls="step3" role="tab" title="Types of care">
+                                    <a href="#care" data-toggle="tab" aria-controls="step2" role="tab" title="Types of care">
                                         <span class="round-tab">
                                             <i class="fa fa-cart-plus" style="
                                                 position: relative;
@@ -56,7 +56,7 @@
                                     </a>
                                 </li>
                                 <li role="presentation" class="disabled">
-                                    <a href="#personal" data-toggle="tab" aria-controls="complete" role="tab" title="Personal requirements">
+                                    <a href="#personal" data-toggle="tab" aria-controls="step4" role="tab" title="Personal requirements">
                                         <span class="round-tab">
                                             <i class="fa fa-hands-helping" style="
                                                 position: relative;
@@ -66,7 +66,7 @@
                                     </a>
                                 </li>
                                 <li role="presentation" class="disabled">
-                                    <a href="#medical" data-toggle="tab" aria-controls="step3" role="tab" title="Medical Expertise">
+                                    <a href="#medical" data-toggle="tab" aria-controls="step5" role="tab" title="Medical Expertise">
                                         <span class="round-tab">
                                             <i class="fa fa-file-medical" style="
                                                 position: relative;
@@ -76,7 +76,7 @@
                                     </a>
                                 </li>
                                 <li role="presentation" class="disabled">
-                                    <a href="#pay" data-toggle="tab" aria-controls="complete" role="tab" title="Budget">
+                                    <a href="#pay" data-toggle="tab" aria-controls="step6" role="tab" title="Budget">
                                         <span class="round-tab">
                                             <i class="fa fa-wallet" style="
                                                 position: relative;
@@ -90,7 +90,7 @@
 
                         {{#autoForm id="autoFilter" schema=autoSchema}}
                             <div class="tab-content">
-                                <div class="tab-pane active" role="tabpanel" id="duration">
+                                <!-- <div class="tab-pane active" role="tabpanel" id="duration">
                                     <h3>What kind of duration do you want the caregiver for?</h3>
                                     {{> afQuickField
                                         name="duration"
@@ -100,8 +100,8 @@
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="btn btn-primary next-step">Next</button></li>
                                     </ul>
-                                </div>
-                                <div class="tab-pane" role="tabpanel" id="location">
+                                </div> -->
+                                <div class="tab-pane active" role="tabpanel" id="location">
                                     <h3>At what location do you need the caregiver?</h3>
                                     {{> afQuickField
                                         name="location"
@@ -111,16 +111,15 @@
                                         size="10"
                                     }}
                                     <ul class="list-inline pull-right">
-                                        <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
                                         <li><button type="button" class="btn btn-primary next-step">Next</button></li>
                                     </ul>
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="care">
                                     <h3>What types of care are you looking for?</h3>
                                     {{> afQuickField
-                                        name="careType"
+                                        name="caregiverType"
                                         options="allowed"
-                                        type="select-radio"
+                                        type="select-checkbox"
                                         label=false
                                     }}
                                     <ul class="list-inline pull-right">
@@ -129,30 +128,50 @@
                                     </ul>
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="professional">
-                                    <h3>Step 3</h3>
-                                    <p>This is step 3</p>
+                                    <h3>What professional services do you require?</h3>
+                                    {{> afQuickField
+                                        name="professionalServices"
+                                        options="allowed"
+                                        type="select-checkbox"
+                                        label=false
+                                    }}
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
-                                        <li><button type="button" class="btn btn-default next-step">Skip</button></li>
-                                        <li><button type="button" class="btn btn-primary btn-info-full next-step">Save
-                                                and continue</button></li>
+                                        <li><button type="button" class="btn btn-primary next-step">Next</button></li>
                                     </ul>
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="personal">
-                                    <h3>Complete</h3>
-                                    <p>You have successfully completed all steps.</p>
-                                </div>
-                                <div class="tab-pane" role="tabpanel" id="meddical">
-                                    <h3>Step 2</h3>
-                                    <p>This is step 2</p>
+                                    <h3>What personal services are needed?</h3>
+                                    {{> afQuickField
+                                        name="personalServices"
+                                        options="allowed"
+                                        type="select-checkbox"
+                                        label=false
+                                    }}
                                     <ul class="list-inline pull-right">
                                         <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
-                                        <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
+                                        <li><button type="button" class="btn btn-primary next-step">Next</button></li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="medical">
+                                    <h3>What medical conditions?</h3>
+                                    {{> afQuickField
+                                        name="medicalConditions"
+                                        options="allowed"
+                                        type="select-checkbox"
+                                        label=false
+                                    }}
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                        <li><button type="button" class="btn btn-primary next-step">Next</button></li>
                                     </ul>
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="pay">
-                                    <h3>Complete</h3>
-                                    <p>You have successfully completed all steps.</p>
+                                    <h3>What is your hourly budget?</h3>
+                                    <input type="text" id="autoslider" value="500">
+                                    <ul class="list-inline pull-right">
+                                        <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                    </ul>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -161,7 +180,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-danger reset" data-dismiss="modal">Reset</button>
+                    <button type="button" class="btn btn-primary submit" data-dismiss="modal">Submit</button>
                 </div>
             </div>
         </div>

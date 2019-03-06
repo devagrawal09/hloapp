@@ -36,13 +36,13 @@ export const collection = new ReactiveVar();
 export const Sort = new ReactiveVar({});
 export const sortKeys = new ReactiveVar([]);
 export const recipient = new ReactiveVar('');
+export const Filter = new ReactiveVar({});
 export const resetFilters = ()=> {
     Filter.set({});
     $('.nav-pills ul li a.active').removeClass('active');
     $('#nameSearch').val('');
 }
 
-const Filter = new ReactiveVar({});
 const gridDisplay = new ReactiveVar( true );
 const filterToQuery = ( filter = {}, searchType = '' )=> {
     return Object.keys( filter ).reduce(( query, key )=> { //create query
