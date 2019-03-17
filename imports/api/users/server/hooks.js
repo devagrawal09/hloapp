@@ -1,9 +1,7 @@
 import { Accounts } from 'meteor/accounts-base';
 import { HTTP } from 'meteor/http';
 
-import { Caregivers } from '../../caregivers';
-
-Accounts.onCreateUser(function( options, user ) {       //create new caregivers
+Accounts.onCreateUser( function( options, user ) {      //create new caregivers
     
     let first = last = email = '';
     if( user.services.facebook ) {
@@ -16,19 +14,9 @@ Accounts.onCreateUser(function( options, user ) {       //create new caregivers
         email = options.profile.emailAddress;
     }
 
-    let listId = 'f734bf5e74';
+    options.profile.isCaregiver = false;
 
-    if( options.profile.type === 'caregiver') {
-        Caregivers.insert({
-            user: user._id,
-            firstName: first,
-            lastName: last,
-            name: `${first} ${last}`,
-            isProfileComplete: false,
-            jobHistory: []
-        });
-        listId = 'e8ae8ca376';
-    };
+    let listId = Meteor.settings.mailchimp.customers_list;
 
     user.firstName = first;
     user.lastName = last;
@@ -56,7 +44,7 @@ Accounts.onCreateUser(function( options, user ) {       //create new caregivers
         if( err ) console.error( err );
     });
 
-    // Meteor.users.notifications.welcome( user );
+    Meteor.users.notifications.welcome( user );
 
     return user;
 });

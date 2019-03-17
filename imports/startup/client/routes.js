@@ -45,11 +45,7 @@
 
 //route groups
     const PrivateRouter = FlowRouter.group({
-        triggersEnter: [AccountsTemplates.ensureSignedIn, function() {
-            Meteor.call('user.getType', ( err, res )=> {
-                if ( !res ) FlowRouter.go('pick-type');
-            })
-        }]
+        triggersEnter: [AccountsTemplates.ensureSignedIn]
     });
 
     const PublicOnlyRouter = FlowRouter.group({

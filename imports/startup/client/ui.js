@@ -6,12 +6,12 @@ import showAlert from '../../ui/shared-components/alert';
 
 export default {
     commonRoutesAction({ caregiver, customer }) {
-        Meteor.call('user.getType', ( err, res )=> {
-            if ( res === 'caregiver' ) {
+        Meteor.call('user.isCaregiver', ( err, res )=> {
+            if ( res ) {
                 caregiver.import().then(()=> {
                     BlazeLayout.render( 'AppLayout', caregiver.render );
                 });
-            } else if ( res === 'customer' ) {
+            } else {
                 customer.import().then(()=> {
                     BlazeLayout.render( 'AppLayout', customer.render );
                 });

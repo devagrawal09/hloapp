@@ -22,6 +22,10 @@
         "bucket": "hlocaregiverandjobimages",
         "region": "us-east-1"
     },
+    "mailchimp": {
+        "caregivers_list": "e8ae8ca376",
+        "customers_list": "f734bf5e74"
+    },
     "public": {
         "env": "development",
         "analyticsSettings": {},

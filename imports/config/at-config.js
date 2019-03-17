@@ -25,19 +25,6 @@ Meteor.users.deny({
 const pwd = AccountsTemplates.removeField('password');
 AccountsTemplates.removeField('email');
 
-AccountsTemplates.addField({
-    _id: 'type',
-    type: 'radio',
-    required: true,
-    displayName: '',
-    select: [{
-        text: 'Customer',
-        value: 'customer'
-    }, {
-        text: 'Caregiver',
-        value: 'caregiver'
-    }]
-});
 AccountsTemplates.addFields([
   {
       _id: 'email',

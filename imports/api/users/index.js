@@ -5,11 +5,19 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import SimpleSchema from 'simpl-schema';
 import Datatypes from '../data-types';
+import userChecks from './checks';
 
 import { Caregivers } from '../caregivers';
 import { sendSMS } from '../sms';
+import { UserImages } from './images';
+
+export { UserImages };
 
 const TimerHandlers = {};
+
+const photoSchema = new SimpleSchema({
+    _id: Datatypes.Id
+});
 
 export const userProfileSchema = new SimpleSchema({
     firstName: String,
@@ -59,7 +67,7 @@ export const updateUserProfile = new ValidatedMethod({
     }
 });
 
-export const bookmarkCaregiver = new ValidatedMethod({          //toggle caregiver bookmark
+export const bookmarkCaregiver = new ValidatedMethod({      //toggle caregiver bookmark
     name: 'user.bookmark',
     validate: new SimpleSchema({
         id: Datatypes.Id
@@ -193,7 +201,7 @@ export const sendVerificationEmail = new ValidatedMethod({      //send verificat
     }
 });
 
-export const newMobile = new ValidatedMethod({                  //initiate adding a mobile
+export const newMobile = new ValidatedMethod({              //initiate adding a mobile
     name: 'user.number.new',
     validate: new SimpleSchema({
         number: String
@@ -334,50 +342,85 @@ export const removeMobile = new ValidatedMethod({
     }
 });
 
-export const pickType = new ValidatedMethod({           //let undecided user pick type
-    name: 'user.type',
-    validate: new SimpleSchema({
-        type: {
-            type: String,
-            allowedValues: ['customer', 'caregiver']
-        }
-    }).validator(),
-    run({ type }) {
+export const optInCaregiver = new ValidatedMethod({     //let users opt in as caregiver
+    name: 'user.caregiver',
+    validate() {},
+    run() {
 
         const user = Meteor.users.findOne( this.userId );
-        
-        if( (!user.services.facebook && !user.services.linkedin) || user.profile.type ) {    //only for users logged in through fb
-            throw new Meteor.Error('user.type.unauthorized', 
-            'You are not authorized for this function');
-        }
 
-        let profile = user.profile;
-        profile.type = type;
+        //add check to see if already a caregiver
+        if( user.profile.isCaregiver )
+            throw new Meteor.Error('user.caregiver.error', 
+            'You have already opted in as a caregiver!');
 
         Meteor.users.update( this.userId, {
-            $set: { profile }
+            $set: { isCaregiver: true }
         });
 
-        if( type === 'caregiver') {
+        let first = user.firstName, last = user.lastName;
 
-            let first = user.firstName, last = user.lastName;
-            Caregivers.insert({
-                user: this.userId,
-                firstName: first,
-                lastName: last,
-                name: `${first} ${last}`,
-                isProfileComplete: false,
-                jobHistory: []
-            });
-        };
+        Caregivers.insert({
+            user: this.userId,
+            firstName: first,
+            lastName: last,
+            name: `${first} ${last}`,
+            isProfileComplete: false,
+            jobHistory: []
+        });
 
         return true;
     }
 });
 
+export const updateProfilePhoto = new ValidatedMethod({ //update profile image
+    name: 'user.images.set',
+    validate: photoSchema.validator(),
+    run({ _id }) {
+
+        userChecks.loggedIn( this.userId );
+
+        let photo = UserImages.findOne({ _id });
+
+        if( !photo ) {
+            throw new Meteor.Error('user.images.invalid', 
+            'Invalid input! Please try again');
+        }
+
+        userChecks.isCurrent( this.userId, photo.meta.user );
+
+        Meteor.users.update( this.userId, { $set: {
+            profilePhoto: _id
+        }});
+
+        return true;
+    }
+});
+
+export const deletePhoto = new ValidatedMethod({    //remove photo from array
+    name: 'user.images.remove',
+    validate: photoSchema.validator(),
+    run( q ) {
+
+        userChecks.loggedIn( this.userId );
+
+        let photo = UserImages.findOne( q );
+
+        if( !photo ) {
+            throw new Meteor.Error('user.images.invalid', 
+            'Invalid input! Please try again');
+        }
+
+        userChecks.isCurrent( this.userId, photo.meta.user );
+
+        photo.remove();
+    }
+});
+
 Meteor.methods({
-    'user.getType'() {
-        if( !this.isSimulation ) return Meteor.users.findOne( this.userId ).profile.type;
+    'user.isCaregiver'() {
+        if( !this.isSimulation )
+            return Meteor.users.findOne( this.userId ).profile.isCaregiver;
     }
 });
 
@@ -391,11 +434,7 @@ Meteor.users.helpers({
         if( this.profile.type === 'caregiver' ) {
             return Caregivers.findOne({ user: this._id }).dp();
         }
-        let gender = this.gender;
-        return {
-            link: `/img/avatar-${gender}.png`,
-            name: `Customer profile photo`
-        }
+        return this.profilePhoto;
     },
     getEmails() {
         return this.emails.map( email=> email.address );

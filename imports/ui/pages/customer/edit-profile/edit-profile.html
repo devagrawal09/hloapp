@@ -7,28 +7,83 @@
             schema=profileSchema
             doc=profileDoc
         }}
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="form-title">Customer Information</h3>
+            </div>
+            <div class="col-sm-6 form-column">
+                {{> afQuickField name="firstName"}}
+                {{> afQuickField name="lastName"}}
+                {{> afQuickField name="gender" options="allowed" type="select-radio-inline"}}
+                {{> afQuickField name="phone"}}
+            </div>
+            <div class="col-sm-6 form-column">
+                {{> afQuickField name="address" type="textarea" rows=3}}
+                {{> afQuickField name="district" options="allowed"}}
+                {{#if afFieldValueIs name="district" value="Other"}}
+                    {{> afQuickField name="otherDistrict"}}
+                {{/if}}
+                {{> afQuickField name="country" options="allowed"}}
+            </div>
+        </div>
+
+        <div id="photos" class="edit-profile">
             <div class="row">
-                <div class="col-xs-12">
-                    <h3 class="form-title">Customer Information</h3>
+                <div class="col-xs-3 form-group">
+                    Upload photos
+                    {{#with photoUpload}}
+                        Uploading <b>{{file.name}}</b>:
+                        <span id="progress">{{progress.get}}%</span>
+                    {{else}}
+                        <input type="file" class="inputfile" name="photo" id="photo">
+                        <label for="photo">
+                            <div class="photo-input">
+                                <span class="upload"><i class="fa fa-upload"></i></span>
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </label>
+                    {{/with}}
                 </div>
-                <div class="col-sm-6 form-column">
-                    {{> afQuickField name="firstName"}}
-                    {{> afQuickField name="lastName"}}
-                    {{> afQuickField name="gender" options="allowed" type="select-radio-inline"}}
-                    {{> afQuickField name="phone"}}
-                </div>
-                <div class="col-sm-6 form-column">
-                    {{> afQuickField name="address" type="textarea" rows=3}}
-                    {{> afQuickField name="district" options="allowed"}}
-                    {{#if afFieldValueIs name="district" value="Other"}}
-                        {{> afQuickField name="otherDistrict"}}
-                    {{/if}}
-                    {{> afQuickField name="country" options="allowed"}}
+                <div class="col-xs-9">
+                    Uploaded
+                    <div class="photos">
+                        {{#each photo in photos.each}}
+                            <img src="{{photo.link}}" alt="{{photo.name}}" id="{{photo._id}}">
+                        {{/each}}
+                    </div>
+                    <a class="btn btn-danger delete disabled">Delete</a>
+                    <a class="btn btn-primary save-as-dp disabled">
+                        Set Profile Picture
+                    </a>
                 </div>
             </div>
-            <div class="submit-buttons">
-                <button type="submit" class="btn btn-primary form-btn">Save</button>
-            </div>
+            <br>
+            <p>{{texts.photos.end}}</p>
+        </div>
+        
+        <div class="submit-buttons">
+            <button type="submit" class="btn btn-success form-btn">Save</button>
+        </div>
+
         {{/autoForm}}
+        <br>
+        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#opt">
+            Opt in as caregiver
+        </button>
+
+        <div class="modal fade" id="opt" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content text-left">
+                    <div class="modal-body">
+                        <h4>Are you sure you want to opt in as a caregiver with HLO?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-success opt-in" data-dismiss="modal">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
